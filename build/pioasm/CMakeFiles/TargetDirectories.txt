@@ -1,0 +1,3 @@
+/home/rob/pico-WSPRer/build/pioasm/CMakeFiles/rebuild_cache.dir
+/home/rob/pico-WSPRer/build/pioasm/CMakeFiles/edit_cache.dir
+/home/rob/pico-WSPRer/build/pioasm/CMakeFiles/pioasm.dir
