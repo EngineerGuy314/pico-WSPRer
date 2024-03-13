@@ -1,0 +1,23 @@
+# pico balloon WSPR tracker
+
+This code is forked from Roman Piksaykin's excellent work at https://github.com/RPiks/pico-WSPR-tx  
+
+I fixed a couple bugs and added some extra functionality. This version calculates the altitude and full 6 character maidenhead grid based on the GPS data and transmits it along with the callsign. It uses the wspr "Type 3" message format to send the full 6 character grid, and encodes the altitude into the power field (like a Zachtek).
+
+This allows a Raspberry Pi Pico to function as a pico-balloon WSPR tracker, with the only other required hardware being a cheap GPS module such as ATGM336H.
+
+Because the Pico needs to be overclocked, the total power draw of the Pico and GPS module will be around 100mA at 4 volts.
+
+# Quick-start
+1. Install Raspberry Pi Pico SDK. Configure environment variables. Test whether it is built successfully.
+2. git clone https://github.com/EngineerGuy314/pico-WSPR 
+4. cd pico-WSPR
+5. modify main.c with your personal callsign on line 73. You can include a single digit suffix
+6. ./build.sh
+7. Check whether output file ./build/pico-WSPR-tx.uf2 appears.
+8. Load the .uf2 file (2) into the Pico.
+9. The operating HF band is 20 meter. different bands can be tried by changing the frequency on line 72 in main.c
+10. WSPR type-1 messages will be sent every ten minutes (hh:00, hh:10, ...) and the type-3 message will be sent immediately after
+11. if the pico is plugged into a computer via USB while running it will appear as a COM port and diagnostic messages can be viewed at 115200 baud.
+12. please excuse my crude programming style :-)
+
