@@ -70,7 +70,7 @@
 #define CONFIG_GPS_RELY_ON_PAST_SOLUTION NO
 #define CONFIG_SCHEDULE_SKIP_SLOT_COUNT 5  //a zero *should* xmit each slot. 5 does every 10 mins
 #define CONFIG_WSPR_DIAL_FREQUENCY 14097100UL //the real "dial" freq for 20m wspr is 14.0956 Mhz. But you must add 1500Hz because of reasons
-#define CONFIG_CALLSIGN "WD4IGX/3"   //if doing a slash, doesnt xmit 4 char grid (only 6 char on 2nd one)- that is normal! wsprnet fills it in anyway
+#define CONFIG_CALLSIGN "your-callsign/3"   //if doing a slash, doesnt xmit 4 char grid (only 6 char on 2nd one)- that is normal! wsprnet fills it in anyway
 #define CONFIG_LOCATOR4 "AA00"       //gets overwritten by gps data anyway
 
 WSPRbeaconContext *pWSPR;
