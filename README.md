@@ -6,7 +6,7 @@ I fixed a couple bugs and added some extra functionality. This version calculate
 
 This allows a Raspberry Pi Pico to function as a pico-balloon WSPR tracker, with the only other required hardware being a cheap GPS module such as ATGM336H.
 
-Because the Pico needs to be overclocked, the total power draw of the Pico and GPS module will be around 100mA at 4 volts.
+With the original code the Pico was being overclocked to 270Mhz, so the total power draw of the Pico and GPS module was around 100mA at 4 volts. But this version I have the speed down to 135Mhz, which is fine for transmitting on 20M (14Mhz). At this speed the pico/GPS combo draws less than 80mA at 4v.
 
 # Quick-start
 1. Install Raspberry Pi Pico SDK. Configure environment variables. Test whether it is built successfully.
