@@ -10,11 +10,11 @@ With the original code the Pico was being overclocked to 270Mhz, so the total po
 
 # Quick-start
 1. Install Raspberry Pi Pico SDK. Configure environment variables. Test whether it is built successfully.
-2. git clone https://github.com/EngineerGuy314/pico-WSPR 
-4. cd pico-WSPR
+2. git clone https://github.com/EngineerGuy314/pico-WSPRer 
+4. cd pico-WSPRer
 5. modify main.c with your personal callsign on line 73. You can include a single digit suffix
 6. ./build.sh
-7. Check whether output file ./build/pico-WSPR-tx.uf2 appears.
+7. Check whether output file ./build/pico-WSPRer.uf2 appears.
 8. Load the .uf2 file (2) into the Pico.
 9. The operating HF band is 20 meter. different bands can be tried by changing the frequency on line 72 in main.c
 10. WSPR type-1 messages will be sent every ten minutes (hh:00, hh:10, ...) and the type-3 message will be sent immediately after
