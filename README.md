@@ -6,15 +6,15 @@ I fixed a couple bugs and added some extra functionality. This version calculate
 
 This allows a Raspberry Pi Pico to function as a pico-balloon WSPR tracker, with the only other required hardware being a cheap GPS module such as ATGM336H.
 
-Because the Pico needs to be overclocked, the total power draw of the Pico and GPS module will be around 100mA at 4 volts.
+With the original code the Pico was being overclocked to 270Mhz, so the total power draw of the Pico and GPS module was around 100mA at 4 volts. But this version I have the speed down to 135Mhz, which is fine for transmitting on 20M (14Mhz). At this speed the pico/GPS combo draws less than 80mA at 4v.
 
 # Quick-start
 1. Install Raspberry Pi Pico SDK. Configure environment variables. Test whether it is built successfully.
-2. git clone https://github.com/EngineerGuy314/pico-WSPR 
-4. cd pico-WSPR
+2. git clone https://github.com/EngineerGuy314/pico-WSPRer 
+4. cd pico-WSPRer
 5. modify main.c with your personal callsign on line 73. You can include a single digit suffix
 6. ./build.sh
-7. Check whether output file ./build/pico-WSPR-tx.uf2 appears.
+7. Check whether output file ./build/pico-WSPRer.uf2 appears.
 8. Load the .uf2 file (2) into the Pico.
 9. The operating HF band is 20 meter. different bands can be tried by changing the frequency on line 72 in main.c
 10. WSPR type-1 messages will be sent every ten minutes (hh:00, hh:10, ...) and the type-3 message will be sent immediately after
