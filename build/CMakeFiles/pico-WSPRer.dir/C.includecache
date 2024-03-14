@@ -30,20 +30,6 @@ TxChannel.h
 logutils.h
 -
 
-../WSPRbeacon/thirdparty/WSPRutility.h
-stdint.h
--
-string.h
--
-ctype.h
--
-nhash.h
-../WSPRbeacon/thirdparty/nhash.h
-
-../WSPRbeacon/thirdparty/maidenhead.h
-
-../WSPRbeacon/thirdparty/nhash.h
-
 ../defines.h
 
 ../hf-oscillator/debug/logutils.h
@@ -103,54 +89,6 @@ defines.h
 ../hf-oscillator/gpstime/GPStime.h
 
 ../protos.h
-
-/home/rob/pico-WSPRer/TxChannel/TxChannel.c
-TxChannel.h
-/home/rob/pico-WSPRer/TxChannel/TxChannel.h
-
-/home/rob/pico-WSPRer/TxChannel/TxChannel.h
-stdint.h
--
-stdlib.h
--
-hardware/clocks.h
-/home/rob/pico-WSPRer/TxChannel/hardware/clocks.h
-pico/stdlib.h
-/home/rob/pico-WSPRer/TxChannel/pico/stdlib.h
-../hf-oscillator/lib/assert.h
-/home/rob/pico-WSPRer/hf-oscillator/lib/assert.h
-piodco.h
--
-
-/home/rob/pico-WSPRer/WSPRbeacon/WSPRbeacon.c
-WSPRbeacon.h
-/home/rob/pico-WSPRer/WSPRbeacon/WSPRbeacon.h
-WSPRutility.h
--
-maidenhead.h
--
-
-/home/rob/pico-WSPRer/WSPRbeacon/WSPRbeacon.h
-stdint.h
--
-string.h
--
-TxChannel.h
--
-logutils.h
--
-
-/home/rob/pico-WSPRer/core1.c
-stdint.h
--
-hf-oscillator/lib/assert.h
-/home/rob/pico-WSPRer/hf-oscillator/lib/assert.h
-piodco.h
--
-defines.h
--
-WSPRbeacon.h
--
 
 /home/rob/pico-WSPRer/hf-oscillator/defines.h
 

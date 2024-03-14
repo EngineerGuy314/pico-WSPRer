@@ -64,6 +64,8 @@ typedef struct
     uint8_t _u8_tx_GPS_past_time;       /* Override _u8_tx_GPS_mandatory if there 
                                            was solution in the past. */
     uint8_t _u8_tx_heating_pause_min;   /* No tx during this interval from start. */
+    uint8_t force_xmit_for_testing;
+    uint8_t led_mode;
 
 } WSPRbeaconSchedule;
 

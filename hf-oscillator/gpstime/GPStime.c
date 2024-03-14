@@ -199,7 +199,7 @@ void RAM (GPStimeUartRxIsr)()
 		uart_inst_t *puart_id = spGPStimeContext->_uart_id ? uart1 : uart0;
         while (uart_is_readable(puart_id))
         {
-            gpio_put(PICO_DEFAULT_LED_PIN, 1);
+            //gpio_put(PICO_DEFAULT_LED_PIN, 1);
             uint8_t chr = uart_getc(puart_id);
             spGPStimeContext->_pbytebuff[spGPStimeContext->_u8_ixw++] = chr;
             if ('\n' == chr)

@@ -90,13 +90,12 @@
 
 #define kHz 1000UL                                                /* Freq. */
 #define MHz 1000000UL
-#define PLL_SYS_MHZ 100UL//270UL
-                                                             /* WSPR defs. */
+#define PLL_SYS_MHZ 135UL   // This determines overclocking. Roman originally had 270UL. lower speed=lower power consumption. but doesnt like below 135Mhz (for 14Mhz output anyway)      
+                                                       /* WSPR defs. */
 #define WSPR_FREQ_STEP_MILHZ    2930UL     /* FSK freq.bin (*2 this time). */
 #define WSPR_MAX_GPS_DISCONNECT_TM  \
         (6 * HOUR)                      /* How long is active without GPS. */
 
-#define GPS_PPS_PIN 2                                /* GPS time mark PIN. */
-#define RFOUT_PIN 6                                      /* RF output PIN. */
+
 
 #endif

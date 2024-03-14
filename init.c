@@ -60,8 +60,6 @@
 /// @brief Initializes Pi pico low level hardware.
 void InitPicoHW(void)
 {
-    gpio_init(PICO_DEFAULT_LED_PIN);
-    gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
 
     const uint32_t clkhz = PLL_SYS_MHZ * 1000000L;
     set_sys_clock_khz(clkhz / kHz, true);

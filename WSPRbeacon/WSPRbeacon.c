@@ -153,7 +153,7 @@ int WSPRbeaconSendPacket(const WSPRbeaconContext *pctx)
 /// @return 0 if OK, -1 if NO GPS received available
 int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called every second from Main.c
 {
-	assert_(pctx);
+	assert_(pctx);                 	
 
     const uint64_t u64tmnow = GetUptime64();
     const uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;
@@ -163,18 +163,26 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
     const uint64_t u64_GPS_last_age_sec 
         = (u64tmnow - pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u64_sysclk_nmea_last) / 1000000ULL;
 
-    if(!is_GPS_available)
+ if (pctx->_txSched.force_xmit_for_testing) {             // && is_GPS_active 
+						StampPrintf("> FORCING XMISSION!   <"); pctx->_txSched.led_mode = 2;
+						PioDCOStart(pctx->_pTX->_p_oscillator);
+						WSPRbeaconCreatePacket(pctx,0);
+						sleep_ms(100);
+						WSPRbeaconSendPacket(pctx);
+ }
+ 
+     if(!is_GPS_available)
     {
-        StampPrintf("WSPR> Waiting for GPS receiver...");
+        StampPrintf(" Waiting for GPS receiver...");pctx->_txSched.led_mode = 0;  //waiting for GPS
         return -1;
     }
  
-	if(is_GPS_active || (pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_utime_nmea_last &&
-                         is_GPS_override && u64_GPS_last_age_sec < WSPR_MAX_GPS_DISCONNECT_TM))
+ 
+	if((is_GPS_active || (pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_utime_nmea_last &&
+                         is_GPS_override && u64_GPS_last_age_sec < WSPR_MAX_GPS_DISCONNECT_TM)) && (pctx->_txSched.force_xmit_for_testing==0))
     {
-        
-		if(!is_GPS_active) StampPrintf("INTERESTING, Gps was available, but wasnt active yet we are still here? Maybe to finish an xmission if GPS was interrupted?"); 
-					  else StampPrintf("gps is Avail AND ACTIVE");					  
+		if(!is_GPS_active) StampPrintf("Gps was available, but wasnt active yet. led-mode XMIT %d %d ",pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);
+					  else StampPrintf("gps is ACTIVE amd AVAILABLE. ledmode XMIT %d %d",pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);				  
 		
 		const uint32_t u32_unixtime_now 
             = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_utime_nmea_last + u64_GPS_last_age_sec;        
@@ -186,17 +194,19 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 		static int itx_trigger = 0;
         static int itx_trigger2 = 0;		
 		
-				if(islot_modulo == ZERO )  //top of the ten minute period, or the 2nd 
+				if(islot_modulo == ZERO )  //top of the ten minute period
 				{
 					if(!itx_trigger)   //oneshot right at beginning of slot
 					{
-						PioDCOStop(pctx->_pTX->_p_oscillator); //make sure to kill the previous message
+						//PioDCOStop(pctx->_pTX->_p_oscillator); printf("Pio-Stop called by modulo 0\n");//make sure to kill the previous message, just in case
 						itx_trigger = 1;
-						if(verbose) StampPrintf(">     Start TX.   <");
-						PioDCOStart(pctx->_pTX->_p_oscillator);
+						if(verbose) StampPrintf(">           Start TX.            <");
+						PioDCOStart(pctx->_pTX->_p_oscillator); printf("Pio START called by modulo 0\n");
+						
 						WSPRbeaconCreatePacket(pctx,islot_modulo);
 						sleep_ms(100);
-						WSPRbeaconSendPacket(pctx);
+						WSPRbeaconSendPacket(pctx); 
+						pctx->_txSched.led_mode = 2;  //xmitting
 					}
 				}
 				
@@ -204,27 +214,30 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 				{
 					if(!itx_trigger2)   //oneshot right at beginning of slot 
 					{                                  
-						PioDCOStop(pctx->_pTX->_p_oscillator); //make sure to kill the previous message
+						//PioDCOStop(pctx->_pTX->_p_oscillator); printf("Pio-Stop called by modulo 1 \n");//make sure to kill the previous message
 						itx_trigger2 = 1;
-						if(verbose) StampPrintf(">>>>>> Start SECOND TX.   <<<<<<<<<<<");
-						PioDCOStart(pctx->_pTX->_p_oscillator);
+						if(verbose) StampPrintf(">>>>>>                 Start SECOND TX.   <<<<<<<<<<<");
+						PioDCOStart(pctx->_pTX->_p_oscillator);   printf("Pio START called by modulo 1 \n");
 						WSPRbeaconCreatePacket(pctx,islot_modulo);
 						sleep_ms(100);
 						WSPRbeaconSendPacket(pctx);
+						pctx->_txSched.led_mode = 2;  //xmitting
 					}
 				}
 				
 				else //its not the zero or the 2 minute slot
 				{
-					itx_trigger = 0;	itx_trigger2 = 0;   //reset oneshots
-					if(verbose) StampPrintf("..   WAITING  for right time slot to start xmit...");
-					PioDCOStop(pctx->_pTX->_p_oscillator);
+					itx_trigger = 0;	itx_trigger2 = 0;   //reset oneshots					
+					pctx->_txSched.led_mode = 1;  //not xmitting, waiting for SLOT
+					if(verbose) StampPrintf("..   WAITING  for right time slot to start xmit..modulo and led-mode and XMIT %d %d %d\n",islot_modulo,pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);
+					PioDCOStop(pctx->_pTX->_p_oscillator); printf("Pio *STOP*  called by else. modulo: %d\n",islot_modulo);
 				}
 
     }
 	else
 	{
-	   StampPrintf("GPS was available, but not active");  //hmm, if this happens during a xmission, the oneshots wont clear and oscillatror will remain active. not a big deal i guess, it will self recover eventually
+	   StampPrintf("GPS was available, but not active. led mode 0, XMIT status: %d",pctx->_pTX->_p_oscillator->_is_enabled);  //hmm, if this happens during a xmission, the oneshots wont clear and oscillatror will remain active and rf output will be CW. not a big deal i guess, it will self recover eventually
+		pctx->_txSched.led_mode = 0;
 	}
 
     return 0;
@@ -232,7 +245,7 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 
 /// @brief Dumps the beacon context to stdio.
 /// @param pctx Ptr to Context.
-void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx)  //called every 60 secs from main.c
+void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx)  //called ~ every 20 secs from main.c
 {
     assert_(pctx);
     assert_(pctx->_pTX);
@@ -242,13 +255,13 @@ void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx)  //called every 60 sec
         = (u64tmnow - pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u64_sysclk_nmea_last) / 1000000ULL;
 
     StampPrintf("__________________");
-    StampPrintf("=TxChannelContext=");
+   /* StampPrintf("=TxChannelContext=");
     StampPrintf("ftc:%llu", pctx->_pTX->_tm_future_call);
     StampPrintf("ixi:%u", pctx->_pTX->_ix_input);
     StampPrintf("dfq:%lu", pctx->_pTX->_u32_dialfreqhz);
-    StampPrintf("gpo:%u", pctx->_pTX->_i_tx_gpio);
+    StampPrintf("gpo:%u", pctx->_pTX->_i_tx_gpio);   */
     GPStimeContext *pGPS = pctx->_pTX->_p_oscillator->_pGPStime;
-    const uint32_t u32_unixtime_now = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_utime_nmea_last + u64_GPS_last_age_sec;
+    /*const uint32_t u32_unixtime_now = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_utime_nmea_last + u64_GPS_last_age_sec;
     assert_(pGPS);
     StampPrintf("=GPStimeContext=");
     StampPrintf("err:%ld", pGPS->_i32_error_count);
@@ -258,10 +271,11 @@ void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx)  //called every 60 sec
     StampPrintf("snl:%llu", pGPS->_time_data._u64_sysclk_nmea_last);
     StampPrintf("age:%llu", u64_GPS_last_age_sec);
     StampPrintf("utm:%lu", u32_unixtime_now);
-    StampPrintf("rmc:%lu", pGPS->_time_data._u32_nmea_gprmc_count);
+    StampPrintf("rmc:%lu", pGPS->_time_data._u32_nmea_gprmc_count); */
     StampPrintf("pps:%llu", pGPS->_time_data._u64_sysclk_pps_last);
     StampPrintf("ppb:%lld", pGPS->_time_data._i32_freq_shift_ppb);
-	
+
+	StampPrintf("LED Mode: %d",pctx->_txSched.led_mode);
 	StampPrintf("Grid: %s",(char *)WSPRbeaconGetLastQTHLocator(pctx));
 	StampPrintf("lat: %lli",pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lat_100k);
 	StampPrintf("lon: %lli",pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lon_100k);
@@ -279,12 +293,8 @@ char *WSPRbeaconGetLastQTHLocator(const WSPRbeaconContext *pctx)
     assert_(pctx->_pTX->_p_oscillator);
     assert_(pctx->_pTX->_p_oscillator->_pGPStime);
     
-    const double lat = 1e-7 * (double)pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lat_100k;
-    const double lon = 1e-7 * (double)pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lon_100k;
-
-	//StampPrintf("processed lon: %f",lon);
-	//StampPrintf("processed lat: %f",lat);
-
+    const double lat = 1e-7 * (double)pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lat_100k;  //Roman's original code used 1e-5 instead (bug)
+    const double lon = 1e-7 * (double)pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lon_100k;  //Roman's original code used 1e-5 instead (bug)
     return get_mh(lat, lon, 6);
 }
 

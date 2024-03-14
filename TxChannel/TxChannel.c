@@ -74,7 +74,7 @@ EXIT:
 
     /* LED debug signal */
     static int tick = 0;
-    gpio_put(PICO_DEFAULT_LED_PIN, ++tick & 1);
+    //gpio_put(PICO_DEFAULT_LED_PIN, ++tick & 1);  //blinks every second. not sure how though
 }
 
 /// @brief Initializes a TxChannel context. Starts ISR.
