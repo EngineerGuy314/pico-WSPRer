@@ -23,3 +23,4 @@ There is an issue with the RP2040 locking up if its input voltage is raised too 
 11. if the pico is plugged into a computer via USB while running it will appear as a COM port and diagnostic messages can be viewed at 115200 baud.
 12. please excuse my crude programming style :-)
 
+![pico_WSPRer](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/bfaad70b-ae55-4695-b1ce-e6d6bb5c9d0f)
