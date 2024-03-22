@@ -16,14 +16,13 @@ New revision utilizes a transistor to power down the GPS unit during transmissio
 1. Install Raspberry Pi Pico SDK. Configure environment variables. Test whether it is built successfully.
 2. git clone https://github.com/EngineerGuy314/pico-WSPRer 
 4. cd pico-WSPRer
-5. modify main.c with your personal callsign on line 73. You can include a single digit suffix
+5. modify main.c with your personal callsign on line 81. You can include a single digit suffix after the slash
 6. ./build.sh
 7. Check whether output file ./build/pico-WSPRer.uf2 appears.
 8. Load the .uf2 file (2) into the Pico.
-9. The operating HF band is 20 meter. different bands can be tried by changing the frequency on line 72 in main.c
+9. The operating HF band is 20 meter. different bands can be tried by changing the frequency on line 80 in main.c
 10. WSPR type-1 messages will be sent every ten minutes (hh:00, hh:10, ...) and the type-3 message will be sent immediately after
 11. if the pico is plugged into a computer via USB while running it will appear as a COM port and diagnostic messages can be viewed at 115200 baud.
-12. please excuse my crude programming style :-)
 
 ![pico_WSPRer](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/bfaad70b-ae55-4695-b1ce-e6d6bb5c9d0f)
 
