@@ -66,6 +66,7 @@ typedef struct
     uint8_t _u8_tx_heating_pause_min;   /* No tx during this interval from start. */
     uint8_t force_xmit_for_testing;
     uint8_t led_mode;
+    uint8_t GPS_is_OFF_running_blind;
 
 } WSPRbeaconSchedule;
 

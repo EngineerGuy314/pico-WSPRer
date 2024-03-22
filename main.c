@@ -56,8 +56,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-
 #include "pico/multicore.h"
 #include "hf-oscillator/lib/assert.h"
 #include "hf-oscillator/defines.h"
@@ -71,13 +69,16 @@
 #define CONFIG_GPS_SOLUTION_IS_MANDATORY YES
 #define CONFIG_GPS_RELY_ON_PAST_SOLUTION NO
 #define CONFIG_SCHEDULE_SKIP_SLOT_COUNT 5  
-
 #define CONFIG_LOCATOR4 "AA00"       	       //gets overwritten by gps data anyway
-#define GPS_PPS_PIN 2            /* GPS time mark PIN. (labbeled PPS on GPS module)*/ //its not actually PIN 2, its GPIO 2, which is physical pin 4 on pico
-#define RFOUT_PIN 6              /* RF output PIN. */                                 //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico
+
+#define GPS_PPS_PIN 2           /* GPS time mark PIN. (labbeled PPS on GPS module)*/ //its not actually PIN 2, its GPIO 2, which is physical pin 4 on pico
+#define RFOUT_PIN 6             /* RF output PIN. */                                 //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico
+//#define GPS_ENABLE_PIN 3      /* GPS_ENABLE - high to enable GPS (needs a MOSFET ie 2N7000 on low side drive */    //its not actually PIN 3, its GPIO 3, which is physical pin 5 on pico
+//        GPS Enable pin declaration moved to defines.h because of reasons
+
 
 #define CONFIG_WSPR_DIAL_FREQUENCY 14097100UL  //the real "dial" freq for 20m wspr is 14.0956 Mhz. But you must add 1500Hz to put signal in middle of WSPR window
-#define CONFIG_CALLSIGN "Your-Callsign/6"      //if doing a slash and suffix, it doesn't transmit any locator in the first message, but will do the full 6 char on 2nd one.- that is normal, wsprnet fills it in anyway
+#define CONFIG_CALLSIGN "YourCallSign/7"      //if doing a slash and suffix, it doesn't transmit any locator in the first message, but will do the full 6 char on 2nd one.- that is normal, wsprnet fills it in anyway
 
 WSPRbeaconContext *pWSPR;
 
@@ -87,16 +88,15 @@ int main()
 
 	StampPrintf("\n");
 	
-	for (int i=0;i < 25;i++)     
+	for (int i=0;i < 20;i++)     
 	{
         gpio_put(PICO_DEFAULT_LED_PIN, 1);
         sleep_ms(100);
         gpio_put(PICO_DEFAULT_LED_PIN, 0);
 		sleep_ms(100);
 	}
-	
-    StampPrintf("pico-WSPRer v1");      //messages are sent to USB serial port, 115200 baud
 
+    StampPrintf("pico-WSPRer v1");      //messages are sent to USB serial port, 115200 baud
     InitPicoHW();
     PioDco DCO = {0};
 	StampPrintf("WSPR beacon init...");
@@ -118,15 +118,19 @@ int main()
     pWB->_txSched._u8_tx_slot_skip      = CONFIG_SCHEDULE_SKIP_SLOT_COUNT;
     pWB->_txSched.force_xmit_for_testing = d_force_xmit_for_testing;
 	pWB->_txSched.led_mode = 0;  //waiting for GPS
+	pWB->_txSched.GPS_is_OFF_running_blind = 0;  // GPS off mode will only be activated during xmissions
 
     multicore_launch_core1(Core1Entry);
     StampPrintf("RF oscillator started.");
+
+	gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output output
+    gpio_put(GPS_ENABLE_PIN, 1); 									   // to power up GPS unit
 
     DCO._pGPStime = GPStimeInit(0, 9600, GPS_PPS_PIN); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
     assert_(DCO._pGPStime);
 
     int tick = 0;
-    for(;;)   //loop every second
+    for(;;)   //loop every ~ second
     {
         //GET MAIDENHEAD       - this code in original fork wasnt working due to error in WSPRbeacon.c
         if(WSPRbeaconIsGPSsolutionActive(pWB))
@@ -145,6 +149,9 @@ int main()
         if(0 == ++tick % 20)                //every ~20 secs dumps context
             WSPRbeaconDumpContext(pWB);
 #endif
+
+		//orig code had a 900mS pause here 
+		
 		gpio_put(PICO_DEFAULT_LED_PIN, 1); //LED on. how long it stays on depends on "mode"0,1,2 ~= no gps, waiting for slot, xmitting
 		if (pWB->_txSched.led_mode==0)
 		{
@@ -165,7 +172,11 @@ int main()
 		sleep_ms(50);
 		}
 
-
-		
     }
 }
+
+/*
+measurements from test with 6X c-Si cells:
+idle/aquisition: 75mA @3.4v  (possible spike to 91ma recorded?)
+xmit:            50mA @3.4v
+*/

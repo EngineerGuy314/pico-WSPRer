@@ -53,6 +53,8 @@
 #include <WSPRutility.h>
 #include <maidenhead.h>
 
+
+static absolute_time_t start_time;
 /// @brief Initializes a new WSPR beacon context.
 /// @param pcallsign HAM radio callsign, 12 chr max.
 /// @param pgridsquare Maidenhead locator, 7 chr max.
@@ -137,9 +139,7 @@ int WSPRbeaconSendPacket(const WSPRbeaconContext *pctx)
     assert_(pctx);
     assert_(pctx->_pTX);
     assert_(pctx->_pTX->_u32_dialfreqhz > 500 * kHz);
-
     TxChannelClear(pctx->_pTX);
-
     memcpy(pctx->_pTX->_pbyte_buffer, pctx->_pu8_outbuf, WSPR_SYMBOL_COUNT);  //162
     pctx->_pTX->_ix_input = WSPR_SYMBOL_COUNT;
 
@@ -163,6 +163,8 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
     const uint64_t u64_GPS_last_age_sec 
         = (u64tmnow - pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u64_sysclk_nmea_last) / 1000000ULL;
 
+
+
  if (pctx->_txSched.force_xmit_for_testing) {             // && is_GPS_active 
 						StampPrintf("> FORCING XMISSION!   <"); pctx->_txSched.led_mode = 2;
 						PioDCOStart(pctx->_pTX->_p_oscillator);
@@ -171,17 +173,19 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 						WSPRbeaconSendPacket(pctx);
  }
  
-     if(!is_GPS_available)
+     if(!is_GPS_available && pctx->_txSched.GPS_is_OFF_running_blind==0)
     {
         StampPrintf(" Waiting for GPS receiver...");pctx->_txSched.led_mode = 0;  //waiting for GPS
         return -1;
     }
  
  
-	if((is_GPS_active || (pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_utime_nmea_last &&
-                         is_GPS_override && u64_GPS_last_age_sec < WSPR_MAX_GPS_DISCONNECT_TM)) && (pctx->_txSched.force_xmit_for_testing==0))
+	if((pctx->_txSched.GPS_is_OFF_running_blind>0)
+		||  ((is_GPS_active || (pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_utime_nmea_last && is_GPS_override && u64_GPS_last_age_sec < WSPR_MAX_GPS_DISCONNECT_TM)) 
+	     && (pctx->_txSched.force_xmit_for_testing==0))		 
+       )
     {
-		if(!is_GPS_active) StampPrintf("Gps was available, but wasnt active yet. led-mode XMIT %d %d ",pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);
+		if(!is_GPS_active && pctx->_txSched.GPS_is_OFF_running_blind==0) StampPrintf("Gps was available, but wasnt active yet. led-mode XMIT %d %d ",pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);
 					  else StampPrintf("gps is ACTIVE amd AVAILABLE. ledmode XMIT %d %d",pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);				  
 		
 		const uint32_t u32_unixtime_now 
@@ -193,11 +197,23 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 
 		static int itx_trigger = 0;
         static int itx_trigger2 = 0;		
+	
+		///if running_blind  on, set modulo 0, then fter 2 mins force modulo to 1, after 2 more minutes make it 99 (which will restart normal operation)]   ULL	
+		if(pctx->_txSched.GPS_is_OFF_running_blind>0)
+		{
+			islot_modulo =99;
+			if (absolute_time_diff_us( start_time, get_absolute_time()) < 240000000ULL) islot_modulo =1;
+			if (absolute_time_diff_us( start_time, get_absolute_time()) < 120000000ULL) islot_modulo =0;			
+		}
 		
 				if(islot_modulo == ZERO )  //top of the ten minute period
 				{
 					if(!itx_trigger)   //oneshot right at beginning of slot
 					{
+						gpio_put(GPS_ENABLE_PIN, 0); // Kill GPS to Save Power
+						start_time = get_absolute_time();
+						pctx->_txSched.GPS_is_OFF_running_blind=1;   //for the next 4 minutes no GPS time updates are coming
+						
 						//PioDCOStop(pctx->_pTX->_p_oscillator); printf("Pio-Stop called by modulo 0\n");//make sure to kill the previous message, just in case
 						itx_trigger = 1;
 						if(verbose) StampPrintf(">           Start TX.            <");
@@ -207,6 +223,7 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 						sleep_ms(100);
 						WSPRbeaconSendPacket(pctx); 
 						pctx->_txSched.led_mode = 2;  //xmitting
+						
 					}
 				}
 				
@@ -214,7 +231,7 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 				{
 					if(!itx_trigger2)   //oneshot right at beginning of slot 
 					{                                  
-						//PioDCOStop(pctx->_pTX->_p_oscillator); printf("Pio-Stop called by modulo 1 \n");//make sure to kill the previous message
+						PioDCOStop(pctx->_pTX->_p_oscillator); printf("Pio-Stop called by modulo 1 \n");//make sure to kill the previous message
 						itx_trigger2 = 1;
 						if(verbose) StampPrintf(">>>>>>                 Start SECOND TX.   <<<<<<<<<<<");
 						PioDCOStart(pctx->_pTX->_p_oscillator);   printf("Pio START called by modulo 1 \n");
@@ -231,6 +248,8 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 					pctx->_txSched.led_mode = 1;  //not xmitting, waiting for SLOT
 					if(verbose) StampPrintf("..   WAITING  for right time slot to start xmit..modulo and led-mode and XMIT %d %d %d\n",islot_modulo,pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);
 					PioDCOStop(pctx->_pTX->_p_oscillator); printf("Pio *STOP*  called by else. modulo: %d\n",islot_modulo);
+					gpio_put(GPS_ENABLE_PIN, 1); // re-enable GPS 
+					pctx->_txSched.GPS_is_OFF_running_blind=0; // back to normal
 				}
 
     }

@@ -91,6 +91,9 @@
 #define kHz 1000UL                                                /* Freq. */
 #define MHz 1000000UL
 #define PLL_SYS_MHZ 135UL   // This determines overclocking. Roman originally had 270UL. lower speed=lower power consumption. but doesnt like below 135Mhz (for 14Mhz output anyway)      
+#define GPS_ENABLE_PIN 3 /* GPS_ENABLE - high to enable GPS (needs a MOSFET ie 2N7000 on low side drive */    //its not actually PIN 3, its GPIO 3, which is physical pin 5 on pico
+
+
                                                        /* WSPR defs. */
 #define WSPR_FREQ_STEP_MILHZ    2930UL     /* FSK freq.bin (*2 this time). */
 #define WSPR_MAX_GPS_DISCONNECT_TM  \
