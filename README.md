@@ -6,7 +6,7 @@ I fixed a couple bugs and added some extra functionality. This version calculate
 
 This allows a Raspberry Pi Pico to function as a pico-balloon WSPR tracker, with the only other required hardware being a cheap GPS module such as ATGM336H.
 
-With the original code the Pico was being overclocked to 270Mhz, so the total power draw of the Pico and GPS module was around 100mA at 4 volts. But this version I have the speed down to 135Mhz, which is fine for transmitting on 20M (14Mhz). At this speed the pico/GPS combo draws less than 80mA at 4v.
+With the original code the Pico was being overclocked to 270Mhz, so the total power draw of the Pico and GPS module was around 100mA at 4 volts. But this version I have the speed down to 135Mhz, which is fine for transmitting on 20M (14Mhz).
 
 There is an issue with the RP2040 locking up if its input voltage is raised too gradually. To combat this I put a voltage dividor of two 2k resistors across ground and the input voltage. The output if this voltage divider is tied to the RUN input on Pi Pico. Preliminary testing indicates this to be sufficient.
 
