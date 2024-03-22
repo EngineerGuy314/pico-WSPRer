@@ -10,7 +10,7 @@ With the original code the Pico was being overclocked to 270Mhz, so the total po
 
 There is an issue with the RP2040 locking up if its input voltage is raised too gradually. To combat this I put a voltage dividor of two 2k resistors across ground and the input voltage. The output if this voltage divider is tied to the RUN input on Pi Pico. Preliminary testing indicates this to be sufficient.
 
-New revision utilizes a transistor to power down the GPS unit during transmission. In this configuration a 6 cell Solar Array that can provide 80mA at 3.4v will be sufficient.
+New revision utilizes a transistor to power down the GPS unit during transmission. See schematic below. In this configuration a 6 cell Solar Array that can provide 80mA at 3.4v will be sufficient.
 
 # Quick-start
 1. Install Raspberry Pi Pico SDK. Configure environment variables. Test whether it is built successfully.
@@ -26,3 +26,4 @@ New revision utilizes a transistor to power down the GPS unit during transmissio
 12. please excuse my crude programming style :-)
 
 ![pico_WSPRer](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/bfaad70b-ae55-4695-b1ce-e6d6bb5c9d0f)
+![pico_WSPRer_schema](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/2cfb4c31-bf90-47ff-aeb8-16b3d3cedc60)
