@@ -26,4 +26,4 @@ New revision utilizes a transistor to power down the GPS unit during transmissio
 
 ![pico_WSPRer](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/bfaad70b-ae55-4695-b1ce-e6d6bb5c9d0f)
 
-![pico_WSPRer_schema](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/486f8ca9-fba3-4b02-bfbf-b3e85728bc48)
+![pico_WSPRer_schema2](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/c00e2d62-5c96-4b70-91d3-70afd501c04f)
