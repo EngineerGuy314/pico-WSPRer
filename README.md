@@ -24,6 +24,8 @@ New revision utilizes a transistor to power down the GPS unit during transmissio
 10. WSPR type-1 messages will be sent every ten minutes (hh:00, hh:10, ...) and the type-3 message will be sent immediately after
 11. if the pico is plugged into a computer via USB while running it will appear as a COM port and diagnostic messages can be viewed at 115200 baud.
 ![pico_WSPRer_schema3](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/3f5834ce-b7f6-4771-9a32-b0801d9130fa)
+![v2 before succesful flight kc3lbr-7](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/6a0a48e6-81e2-477d-8a83-dc0bd025c36f)
+Mounted beneath solar array, before first succesful flight.
 ![pico_WSPRer](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/bfaad70b-ae55-4695-b1ce-e6d6bb5c9d0f)
 V1 prototype
 
