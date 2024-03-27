@@ -1,5 +1,7 @@
 # pico balloon WSPR tracker
 
+(note: see the V3 branch for new version that will implement U4B protocol)
+
 This code is forked from Roman Piksaykin's excellent work at https://github.com/RPiks/pico-WSPR-tx  
 
 I fixed a couple bugs and added some extra functionality. This version calculates the altitude and full 6 character maidenhead grid based on the GPS data and transmits it along with the callsign. It uses the wspr "Type 3" message format to send the full 6 character grid, and encodes the altitude into the power field (like a Zachtek).
