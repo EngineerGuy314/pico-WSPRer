@@ -1,4 +1,5 @@
 # pico balloon WSPR tracker
+(v3)
 
 This code is forked from Roman Piksaykin's excellent work at https://github.com/RPiks/pico-WSPR-tx  
 
