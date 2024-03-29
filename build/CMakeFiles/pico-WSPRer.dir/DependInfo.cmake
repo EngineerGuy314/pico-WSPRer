@@ -128,6 +128,7 @@ set(CMAKE_ASM_TARGET_INCLUDE_PATH
   "/home/rob/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/include"
   "/home/rob/pico-sdk/src/rp2_common/pico_multicore/include"
   "/home/rob/pico-sdk/src/rp2_common/hardware_pio/include"
+  "/home/rob/pico-sdk/src/rp2_common/hardware_adc/include"
   )
 set(CMAKE_DEPENDS_CHECK_C
   "/home/rob/pico-WSPRer/TxChannel/TxChannel.c" "/home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer.dir/TxChannel/TxChannel.c.obj"
@@ -167,6 +168,7 @@ set(CMAKE_DEPENDS_CHECK_C
   "/home/rob/pico-sdk/src/common/pico_util/datetime.c" "/home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/datetime.c.obj"
   "/home/rob/pico-sdk/src/common/pico_util/pheap.c" "/home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj"
   "/home/rob/pico-sdk/src/common/pico_util/queue.c" "/home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/queue.c.obj"
+  "/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c" "/home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.obj"
   "/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c" "/home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj"
   "/home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.c" "/home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj"
   "/home/rob/pico-sdk/src/rp2_common/hardware_flash/flash.c" "/home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_flash/flash.c.obj"
@@ -312,6 +314,7 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
   "/home/rob/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/include"
   "/home/rob/pico-sdk/src/rp2_common/pico_multicore/include"
   "/home/rob/pico-sdk/src/rp2_common/hardware_pio/include"
+  "/home/rob/pico-sdk/src/rp2_common/hardware_adc/include"
   )
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp" "/home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj"
@@ -426,6 +429,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/home/rob/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/include"
   "/home/rob/pico-sdk/src/rp2_common/pico_multicore/include"
   "/home/rob/pico-sdk/src/rp2_common/hardware_pio/include"
+  "/home/rob/pico-sdk/src/rp2_common/hardware_adc/include"
   )
 
 # Targets to which this target links.

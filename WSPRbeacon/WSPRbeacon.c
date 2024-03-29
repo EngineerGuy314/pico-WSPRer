@@ -210,7 +210,8 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 				{
 					if(!itx_trigger)   //oneshot right at beginning of slot
 					{
-						gpio_put(GPS_ENABLE_PIN, 0); // Kill GPS to Save Power
+						
+						gpio_put( pctx->_txSched.output_number_toEnable_GPS,0); // Kill GPS to Save Power
 						start_time = get_absolute_time();
 						pctx->_txSched.GPS_is_OFF_running_blind=1;   //for the next 4 minutes no GPS time updates are coming
 						
@@ -248,7 +249,7 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 					pctx->_txSched.led_mode = 1;  //not xmitting, waiting for SLOT
 					if(verbose) StampPrintf("..   WAITING  for right time slot to start xmit..modulo and led-mode and XMIT %d %d %d\n",islot_modulo,pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);
 					PioDCOStop(pctx->_pTX->_p_oscillator); printf("Pio *STOP*  called by else. modulo: %d\n",islot_modulo);
-					gpio_put(GPS_ENABLE_PIN, 1); // re-enable GPS 
+					gpio_put( pctx->_txSched.output_number_toEnable_GPS,1);  // re-enable GPS 
 					pctx->_txSched.GPS_is_OFF_running_blind=0; // back to normal
 				}
 

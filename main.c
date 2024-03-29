@@ -64,31 +64,47 @@
 #include <WSPRbeacon.h>
 #include <logutils.h>
 #include <protos.h>
+#include "pico/stdlib.h"
+#include "hardware/gpio.h"
+#include "hardware/adc.h"   //dont forget to add hardware_adc to the target-link-libraries in CMakeLists.txt
 
 #define d_force_xmit_for_testing NO
 #define CONFIG_GPS_SOLUTION_IS_MANDATORY YES
 #define CONFIG_GPS_RELY_ON_PAST_SOLUTION NO
-#define CONFIG_SCHEDULE_SKIP_SLOT_COUNT 5  
+#define CONFIG_SCHEDULE_SKIP_SLOT_COUNT 5  //not used anymore (for now?)
 #define CONFIG_LOCATOR4 "AA00"       	       //gets overwritten by gps data anyway
 
 #define GPS_PPS_PIN 2           /* GPS time mark PIN. (labbeled PPS on GPS module)*/ //its not actually PIN 2, its GPIO 2, which is physical pin 4 on pico
 #define RFOUT_PIN 6             /* RF output PIN. */                                 //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico
-//#define GPS_ENABLE_PIN 3      /* GPS_ENABLE - high to enable GPS (needs a MOSFET ie 2N7000 on low side drive */    //its not actually PIN 3, its GPIO 3, which is physical pin 5 on pico
-//        GPS Enable pin declaration moved to defines.h because of reasons
-
+#define GPS_ENABLE_PIN 3      /* GPS_ENABLE pin - high to enable GPS (needs a MOSFET ie 2N7000 on low side drive */    //its not actually PIN 3, its GPIO 3, which is physical pin 5 on pico
 
 #define CONFIG_WSPR_DIAL_FREQUENCY 14097100UL  //the real "dial" freq for 20m wspr is 14.0956 Mhz. But you must add 1500Hz to put signal in middle of WSPR window
-#define CONFIG_CALLSIGN "YourCallSign/7"      //if doing a slash and suffix, it doesn't transmit any locator in the first message, but will do the full 6 char on 2nd one.- that is normal, wsprnet fills it in anyway
+#define CONFIG_CALLSIGN "KC3IBR"      //change to your callsign (i dont think it will take suffix or prefixes though)
+
+#define CONFIG_id13 "Q9" //two character alphanumeric channel specifier. will be the 1st and 3rd char of callsign in second xmission
+#define CONFIG_slot 0    //0, 2, 4, 6 or 8. defines which minute the first of the two xmissions begins on
 
 WSPRbeaconContext *pWSPR;
 
 int main()
 {
-    gpio_init(PICO_DEFAULT_LED_PIN); gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT); //initialize LED output
+    gpio_init(PICO_DEFAULT_LED_PIN); 
+	gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT); //initialize LED output
+
+    /* the next 6 lines of crap are needed to allow ADC3 to read VSYS */
+	gpio_init(25);  //needed to allow ADC3 to read Vsys
+	gpio_set_dir(25, GPIO_OUT); 
+    gpio_put(25, 1);	
+    gpio_init(29);  //needed to allow ADC3 to read Vsys
+	gpio_set_dir(29, GPIO_IN); 
+	gpio_set_pulls(29,0,0);
+	
+    adc_init();
+    adc_set_temp_sensor_enabled(true);
 
 	StampPrintf("\n");
 	
-	for (int i=0;i < 20;i++)     
+	for (int i=0;i < 20;i++)     //do some blinkey on startup
 	{
         gpio_put(PICO_DEFAULT_LED_PIN, 1);
         sleep_ms(100);
@@ -96,7 +112,7 @@ int main()
 		sleep_ms(100);
 	}
 
-    StampPrintf("pico-WSPRer v1");      //messages are sent to USB serial port, 115200 baud
+    StampPrintf("pico-WSPRer v3");      //messages are sent to USB serial port, 115200 baud
     InitPicoHW();
     PioDco DCO = {0};
 	StampPrintf("WSPR beacon init...");
@@ -104,10 +120,10 @@ int main()
     WSPRbeaconContext *pWB = WSPRbeaconInit(
         CONFIG_CALLSIGN,/* the Callsign. */
         CONFIG_LOCATOR4,/* the default QTH locator if GPS isn't used. */
-        12,             /* Tx power, dbm. */
+        12,             /* Tx power, dbm. */  //maybe, who knows...
         &DCO,           /* the PioDCO object. */
         CONFIG_WSPR_DIAL_FREQUENCY,
-        55UL,           /* the carrier freq. shift relative to dial freq. */
+        0,           /* the carrier freq. shift relative to dial freq. */ //originaly was 55UL, which is why i was being read about 55Hz high, duh. right now, all offsets are taken care of in CONFIG_WSPR_DIAL_FREQUENCY
         RFOUT_PIN       /* RF output GPIO pin. */
         );
     assert_(pWB);
@@ -119,6 +135,9 @@ int main()
     pWB->_txSched.force_xmit_for_testing = d_force_xmit_for_testing;
 	pWB->_txSched.led_mode = 0;  //waiting for GPS
 	pWB->_txSched.GPS_is_OFF_running_blind = 0;  // GPS off mode will only be activated during xmissions
+	pWB->_txSched.output_number_toEnable_GPS = GPS_ENABLE_PIN;
+	pWB->_txSched.slot = CONFIG_slot;
+	strcpy(pWB->_txSched.id13,CONFIG_id13);
 
     multicore_launch_core1(Core1Entry);
     StampPrintf("RF oscillator started.");
@@ -151,7 +170,20 @@ int main()
 #endif
 
 		//orig code had a 900mS pause here 
-		
+
+	    
+    const float conversionFactor = 3.3f / (1 << 12);          //read temperature
+    adc_select_input(4);	
+	float adc = (float)adc_read() * conversionFactor;
+	float tempC = 27.0f - (adc - 0.706f) / 0.001721f;
+	pWB->_txSched.temp_in_Celsius=tempC;
+	//printf("as i: %i\n", pWB->_txSched.temp_in_Celsius);
+
+	adc_select_input(3); //PICO_FIRST_ADC_PIN=26             // read voltage
+	float volts = 3*(float)adc_read() * conversionFactor;  //times 3 because thats what it said to do on the internet
+	pWB->_txSched.voltage=volts;
+	//printf(" voltss: %f\n", volts);
+				
 		gpio_put(PICO_DEFAULT_LED_PIN, 1); //LED on. how long it stays on depends on "mode"0,1,2 ~= no gps, waiting for slot, xmitting
 		if (pWB->_txSched.led_mode==0)
 		{

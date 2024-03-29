@@ -1232,6 +1232,33 @@ home/rob/pico-sdk/src/common/pico_util/queue.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/queue.c.s
 .PHONY : home/rob/pico-sdk/src/common/pico_util/queue.c.s
 
+home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.obj: home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.obj
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.obj
+
+# target to build an object file
+home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.obj
+
+home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.i: home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.i
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.i
+
+# target to preprocess a source file
+home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.i
+
+home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.s: home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.s
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.s
+
+# target to generate assembly for a file
+home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.s
+
 home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.obj: home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
 
 .PHONY : home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.obj
@@ -2403,6 +2430,9 @@ help:
 	@echo "... home/rob/pico-sdk/src/common/pico_util/queue.obj"
 	@echo "... home/rob/pico-sdk/src/common/pico_util/queue.i"
 	@echo "... home/rob/pico-sdk/src/common/pico_util/queue.s"
+	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.i"
+	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.s"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.s"

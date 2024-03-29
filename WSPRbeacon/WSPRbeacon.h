@@ -64,9 +64,16 @@ typedef struct
     uint8_t _u8_tx_GPS_past_time;       /* Override _u8_tx_GPS_mandatory if there 
                                            was solution in the past. */
     uint8_t _u8_tx_heating_pause_min;   /* No tx during this interval from start. */
-    uint8_t force_xmit_for_testing;
+ 
+     /* Inside of WSPRbeaconSchedule, which is in WSPRbeaconContext as _txSched, is where I hide goodies that i need global access to. there is surely a better way, but idk */
+	uint8_t force_xmit_for_testing;
     uint8_t led_mode;
     uint8_t GPS_is_OFF_running_blind;
+    uint8_t slot;
+    char id13[3];
+    int8_t output_number_toEnable_GPS;
+    int8_t temp_in_Celsius;
+    double voltage;
 
 } WSPRbeaconSchedule;
 

@@ -1,5 +1,6 @@
 # pico balloon WSPR tracker
-(v3)
+
+(This is the V3 branch , NOT CURRENTLY FUNCTIONAL.  its a development branch to migrate to the U4B/traquito protocol)
 
 This code is forked from Roman Piksaykin's excellent work at https://github.com/RPiks/pico-WSPR-tx  
 
