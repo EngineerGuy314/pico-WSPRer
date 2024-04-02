@@ -1,6 +1,6 @@
 # pico balloon WSPR tracker
 
-(This is the V3 branch , NOT CURRENTLY FUNCTIONAL.  its a development branch to migrate to the U4B/traquito protocol)
+(This is the V3 branch , it implements the U4B/Traquito protocol, including sending voltage and temperature).
 
 This code is forked from Roman Piksaykin's excellent work at https://github.com/RPiks/pico-WSPR-tx  
 
