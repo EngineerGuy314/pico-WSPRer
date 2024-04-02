@@ -1,3 +1,4 @@
+
 //v3./////////////////////////////////////////////////////////////////////////////
 //
 //  Roman Piksaykin [piksaykin@gmail.com], R2BDY
@@ -72,17 +73,19 @@
 #define CONFIG_GPS_SOLUTION_IS_MANDATORY YES
 #define CONFIG_GPS_RELY_ON_PAST_SOLUTION NO
 #define CONFIG_SCHEDULE_SKIP_SLOT_COUNT 5  //not used anymore (for now?)
-#define CONFIG_LOCATOR4 "AA00"       	       //gets overwritten by gps data anyway
+#define CONFIG_LOCATOR4 "AA22ab"       	       //gets overwritten by gps data anyway
 
 #define GPS_PPS_PIN 2           /* GPS time mark PIN. (labbeled PPS on GPS module)*/ //its not actually PIN 2, its GPIO 2, which is physical pin 4 on pico
 #define RFOUT_PIN 6             /* RF output PIN. */                                 //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico
 #define GPS_ENABLE_PIN 3      /* GPS_ENABLE pin - high to enable GPS (needs a MOSFET ie 2N7000 on low side drive */    //its not actually PIN 3, its GPIO 3, which is physical pin 5 on pico
 
-#define CONFIG_WSPR_DIAL_FREQUENCY 14097100UL  //the real "dial" freq for 20m wspr is 14.0956 Mhz. But you must add 1500Hz to put signal in middle of WSPR window
-#define CONFIG_CALLSIGN "KC3IBR"      //change to your callsign (i dont think it will take suffix or prefixes though)
+#define CONFIG_WSPR_DIAL_FREQUENCY 14097100UL  //the real "dial" freq for 20m wspr is 14.0956 Mhz. But you must add 1500Hz to put signal in middle of WSPR window. Can also add/sub an offset for different "lanes"
+
+#define CONFIG_CALLSIGN "your-callsign"      //your callsign (i dont think it will take suffix or prefixes)
+				!! must change ^
 
 #define CONFIG_id13 "Q9" //two character alphanumeric channel specifier. will be the 1st and 3rd char of callsign in second xmission
-#define CONFIG_slot 0    //0, 2, 4, 6 or 8. defines which minute the first of the two xmissions begins on
+#define CONFIG_slot 0    //0, 2, 4, 6 or 8. defines which minute the first of the two xmissions begins on (for now, only uses slot 0)
 
 WSPRbeaconContext *pWSPR;
 
@@ -157,8 +160,8 @@ int main()
             const char *pgps_qth = WSPRbeaconGetLastQTHLocator(pWB);
             if(pgps_qth)
             {
-                strncpy(pWB->_pu8_locator, pgps_qth, 6);     //does full 6 char maidenhead 
-                pWB->_pu8_locator[7] = 0x00;                 //null terminates
+                strncpy(pWB->_pu8_locator, pgps_qth, 6);     //does full 6 char maidenhead 				
+		        pWB->_pu8_locator[7] = 0x00;                 //null terminates  (needed?)
             }
         }
         
@@ -181,6 +184,7 @@ int main()
 
 	adc_select_input(3); //PICO_FIRST_ADC_PIN=26             // read voltage
 	float volts = 3*(float)adc_read() * conversionFactor;  //times 3 because thats what it said to do on the internet
+	
 	pWB->_txSched.voltage=volts;
 	//printf(" voltss: %f\n", volts);
 				

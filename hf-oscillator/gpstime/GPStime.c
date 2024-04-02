@@ -212,7 +212,7 @@ void RAM (GPStimeUartRxIsr)()
 		
 	   if(spGPStimeContext->_is_sentence_ready)
         {
-			spGPStimeContext->_u8_ixw = 0;      //printf("\n dump RAW FIFO: %s\n\n",(char *)spGPStimeContext->_pbytebuff);           
+			spGPStimeContext->_u8_ixw = 0;     // printf("\n dump RAW FIFO: %s\n\n",(char *)spGPStimeContext->_pbytebuff);           
             spGPStimeContext->_is_sentence_ready =0;
 			spGPStimeContext->_i32_error_count -= GPStimeProcNMEAsentence(spGPStimeContext);
 			extract_altitude(spGPStimeContext);
@@ -228,12 +228,12 @@ void RAM (GPStimeUartRxIsr)()
 /// @return -4 Error: no final '*' char ere checksum value.
 /// @attention Checksum validation is not implemented so far. !FIXME!
 int GPStimeProcNMEAsentence(GPStimeContext *pg)
-{
+{                                                             //"$GNRMC, for new modules!
     assert_(pg);
     uint8_t *prmc = (uint8_t *)strnstr((char *)pg->_pbytebuff, "$GNRMC,", sizeof(pg->_pbytebuff));
     if(prmc)
     {
-        ++pg->_time_data._u32_nmea_gprmc_count;   //printf("Found prmc len: %d  full buff: %s\n",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);// printf("prmc found: %s\n",(char *)prmc);
+        ++pg->_time_data._u32_nmea_gprmc_count;   printf("Found GNRMC len: %d  full buff: %s",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);// printf("prmc found: %s\n",(char *)prmc);
 
         uint64_t tm_fix = GetUptime64();
         uint8_t u8ixcollector[16] = {0};   //collects locations of commas
@@ -256,7 +256,7 @@ int GPStimeProcNMEAsentence(GPStimeContext *pg)
         pg->_time_data._u8_is_solution_active = 'A' == prmc[u8ixcollector[1]];  // printf("char is: %c\n",(char *)prmc[u8ixcollector[1]]);
 
         if(pg->_time_data._u8_is_solution_active)
-        {
+        {											 
             pg->_time_data._i64_lat_100k = (int64_t)(.5f + 1e5 * atof((const char *)prmc + u8ixcollector[2])); // printf("VALID, lat is: %lld\n",pg->_time_data._i64_lat_100k);
             if('N' == prmc[u8ixcollector[3]]) { }
             else if('S' == prmc[u8ixcollector[3]])
@@ -267,7 +267,7 @@ int GPStimeProcNMEAsentence(GPStimeContext *pg)
             {
                 return -2;
             }
-
+												   
             pg->_time_data._i64_lon_100k = (int64_t)(.5f + 1e5 * atof((const char *)prmc + u8ixcollector[4]));
             if('E' == prmc[u8ixcollector[5]]) { }
             else if('W' == prmc[u8ixcollector[5]])
@@ -299,7 +299,7 @@ void extract_altitude(GPStimeContext *pg)
     uint8_t *prmc = (uint8_t *)strnstr((char *)pg->_pbytebuff, "$GNGGA,", sizeof(pg->_pbytebuff));
     if(prmc)
     {
-        //printf("Found prmc len: %d  full buff: %s\n",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);// printf("prmc found: %s\n",(char *)prmc);
+        printf("Found GNGGA len: %d  full buff: %s",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);// printf("prmc found: %s\n",(char *)prmc);
        
         uint8_t u8ixcollector[16] = {0};   //collects locations of commas
         uint8_t chksum = 0;
@@ -320,9 +320,10 @@ void extract_altitude(GPStimeContext *pg)
            
 			//printf("altitude: %s\n",(char *)prmc+u8ixcollector[8]);
         float f;
-		f = (float)atof((char *)prmc+u8ixcollector[8]);  //printf("floating version: %f\n",f); /
+		f = (float)atof((char *)prmc+u8ixcollector[8]);  printf("floating version of altitude: %f\n",f); 
 
-			pg->_power_altitude=0;
+			pg->_power_altitude=f;
+			/*0;
 			if (f>900) pg->_power_altitude=3;
 			if (f>2100) pg->_power_altitude=7;
 			if (f>3000) pg->_power_altitude=10;
@@ -340,7 +341,7 @@ void extract_altitude(GPStimeContext *pg)
 			if (f>15000) pg->_power_altitude=50;
 			if (f>15900) pg->_power_altitude=53;
 			if (f>17100) pg->_power_altitude=57;
-			if (f>18000) pg->_power_altitude=60;
+			if (f>18000) pg->_power_altitude=60; */
 											 
     }
 }

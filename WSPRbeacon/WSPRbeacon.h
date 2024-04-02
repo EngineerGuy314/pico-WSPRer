@@ -74,7 +74,6 @@ typedef struct
     int8_t output_number_toEnable_GPS;
     int8_t temp_in_Celsius;
     double voltage;
-
 } WSPRbeaconSchedule;
 
 typedef struct
@@ -82,14 +81,11 @@ typedef struct
     uint8_t _pu8_callsign[12];
     uint8_t _pu8_locator[7];
     uint8_t _u8_txpower;
-
     uint8_t _pu8_outbuf[256];
-
     TxChannelContext *_pTX;
-
     WSPRbeaconSchedule _txSched;
-
 } WSPRbeaconContext;
+
 
 WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare, int txpow_dbm,
                                   PioDco *pdco, uint32_t dial_freq_hz, uint32_t shift_freq_hz,
@@ -100,7 +96,7 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int time_slot);
 char* add_brackets(const char * call);
 
 int WSPRbeaconSendPacket(const WSPRbeaconContext *pctx);
-
+char EncodeBase36(uint8_t val);
 int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose);
 
 void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx);
