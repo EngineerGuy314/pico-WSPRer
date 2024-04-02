@@ -16,14 +16,14 @@ New revision utilizes a transistor to power down the GPS unit during transmissio
 
 # Quick-start
 1. Install Raspberry Pi Pico SDK. Configure environment variables. Test whether it is built successfully.
-2. git clone https://github.com/EngineerGuy314/pico-WSPRer 
+2. git clone -b V3 https://github.com/EngineerGuy314/pico-WSPRer 
 4. cd pico-WSPRer
-5. modify main.c with your personal callsign on line 81. You can include a single digit suffix after the slash
+5. modify main.c with your personal callsign on line 84. ~~You can include a single digit suffix after the slash~~ Change Config_id13 on line 87 as needed for your Traquito channel. For now, limited to timeslot 0. You can also tinker with frequency on line 82 to try to hit a specific "lane", although might not be needed with "fingerprinting", and might not be accurate enough anyway.
 6. ./build.sh
 7. Check whether output file ./build/pico-WSPRer.uf2 appears.
 8. Load the .uf2 file (2) into the Pico.
-9. The operating HF band is 20 meter. different bands can be tried by changing the frequency on line 80 in main.c
-10. WSPR type-1 messages will be sent every ten minutes (hh:00, hh:10, ...) and the type-3 message will be sent immediately after
+9. The operating HF band is 20 meter. different bands can be tried by changing the frequency on line 82 in main.c
+10. WSPR type-1 messages will be sent every ten minutes (hh:00, hh:10, ...) followed by the telemetry ~~and the type-3 message will be sent immediately after~~
 11. if the pico is plugged into a computer via USB while running it will appear as a COM port and diagnostic messages can be viewed at 115200 baud.
 ![pico_WSPRer_schema3](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/3f5834ce-b7f6-4771-9a32-b0801d9130fa)
 ![v2 before succesful flight kc3lbr-7](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/6a0a48e6-81e2-477d-8a83-dc0bd025c36f)
