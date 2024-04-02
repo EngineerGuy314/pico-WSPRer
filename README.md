@@ -1,6 +1,7 @@
 # pico balloon WSPR tracker
 
-(note: see the V3 branch for new version that will implement U4B protocol)
+(note: see the V3 branch for new version that implements U4B protocol!)
+
 (note: this branch (main) has a bug where Zachtek altitude is only reported as coarse, not fine. may or may not get fixed...)
 
 This code is forked from Roman Piksaykin's excellent work at https://github.com/RPiks/pico-WSPR-tx  
