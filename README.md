@@ -4,7 +4,7 @@
 
 This code is forked from Roman Piksaykin's excellent work at https://github.com/RPiks/pico-WSPR-tx  
 
-I fixed a couple bugs and added some extra functionality. This version calculates the altitude and full 6 character maidenhead grid based on the GPS data and transmits it along with the callsign. ~~It uses the wspr "Type 3" message format to send the full 6 character grid, and encodes the altitude into the power field (like a Zachtek).~~the V3 branch implements the U4B/Traquito protocol, including sending voltage and temperature
+I fixed a couple bugs and added some extra functionality. This version calculates the altitude and full 6 character maidenhead grid based on the GPS data and transmits it along with the callsign. ~~It uses the wspr "Type 3" message format to send the full 6 character grid, and encodes the altitude into the power field (like a Zachtek).~~ the V3 branch implements the U4B/Traquito protocol, including sending voltage and temperature
 
 This allows a Raspberry Pi Pico to function as a pico-balloon WSPR tracker, with the only other required hardware being a cheap GPS module such as ATGM336H.
 
