@@ -136,8 +136,9 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int time_slot)
 	        // convert inputs into components of a big number
         uint8_t grid5Val = grid5 - 'A';
         uint8_t grid6Val = grid6 - 'A';
-        uint16_t altFracM = 480  + round((double)pctx->_pTX->_p_oscillator->_pGPStime->_power_altitude / 20);  //not sure why I had to add 480     
-        // convert inputs into a big number
+		uint16_t altFracM =  round((double)pctx->_pTX->_p_oscillator->_pGPStime->_power_altitude / 20);     
+
+	 // convert inputs into a big number
         uint32_t val = 0;
         val *=   24; val += grid5Val;
         val *=   24; val += grid6Val;

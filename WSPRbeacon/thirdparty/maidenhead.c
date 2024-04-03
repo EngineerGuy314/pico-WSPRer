@@ -34,9 +34,10 @@ char* get_mh(double lat, double lon, int size) {
 			}
 				else      //The last 2 chars of a 6 char grid must be lowercase??,prolly makes no difference
 		    {
-				locator[i*2] = letterize(32+(int) (lon/LON_F[i]));     //0,1            4,5
-				locator[i*2+1] = letterize(32+(int) (lat/LAT_F[i]));
+				locator[i*2] = letterize((int) (lon/LON_F[i]));     //0,1            4,5
+				locator[i*2+1] = letterize((int) (lat/LAT_F[i]));
 			}      //technically all chars should be uppercase, these previous 2 lines not needed
+			//april 2 2024 removed the +32 from previous 2 lines, YEs, they should ALWAYS be uppercase. otherwise casued problems with U4B code
 					
         }
         lon = fmod(lon, LON_F[i]);
