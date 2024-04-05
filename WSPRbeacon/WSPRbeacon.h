@@ -68,8 +68,8 @@ typedef struct
      /* Inside of WSPRbeaconSchedule, which is in WSPRbeaconContext as _txSched, is where I hide goodies that i need global access to. there is surely a better way, but idk */
 	uint8_t force_xmit_for_testing;
     uint8_t led_mode;
-    uint8_t GPS_is_OFF_running_blind;
-    uint8_t slot;
+    uint8_t Xmission_In_Process;
+    uint8_t start_minute;
     char id13[3];
     int8_t output_number_toEnable_GPS;
     int8_t temp_in_Celsius;
