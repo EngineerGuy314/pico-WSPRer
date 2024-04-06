@@ -1,62 +1,9 @@
-///////////////////////////////////////////////////////////////////////////////
-//b
-//  Roman Piksaykin [piksaykin@gmail.com], R2BDY, PhD
+/////////////////////////////////////////////////////////////////////////////
+//  Majority of code forked from work by
+//  Roman Piksaykin [piksaykin@gmail.com], R2BDY
 //  https://www.qrz.com/db/r2bdy
-//
-///////////////////////////////////////////////////////////////////////////////
-//
-//
-//  gpstime.c - GPS time reference utilities for digital controlled radio freq
-//              oscillator based on Raspberry Pi Pico.
-//
-//  DESCRIPTION
-//
-//      GPS time utilities for pico-hf-oscillator calculate a precise frequency
-//  shift between the local Pico oscillator and reference oscill. of GPS system.
-//  The value of the shift is used to correct generated frequency. The practical 
-//  precision of this solution depends on GPS receiver's time pulse stability, 
-//  as well as on quality of navigation solution of GPS receiver. 
-//  This quality can be estimated by GDOP and TDOP parameters received 
-//  in NMEA-0183 message packet from GPS receiver.
-//      Owing to the meager frequency step in millihertz range, we obtain
-//  a quasi-analog precision frequency source (if the GPS navigation works OK).
-//      This is an experimental project of amateur radio class and it is devised
-//  by me on the free will base in order to experiment with QRP narrowband
-//  digital modes including extremely ones such as QRSS.
-//      I appreciate any thoughts or comments on that matter.
-//
-//  PLATFORM
-//      Raspberry Pi pico.
-//
-//  REVISION HISTORY
-// 
-//      Rev 0.1   25 Nov 2023   Initial release
-//
 //  PROJECT PAGE
-//      https://github.com/RPiks/pico-hf-oscillator
-//
-//  LICENCE
-//      MIT License (http://www.opensource.org/licenses/mit-license.php)
-//
-//  Copyright (c) 2023 by Roman Piksaykin
-//  
-//  Permission is hereby granted, free of charge,to any person obtaining a copy
-//  of this software and associated documentation files (the Software), to deal
-//  in the Software without restriction,including without limitation the rights
-//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//  copies of the Software, and to permit persons to whom the Software is
-//  furnished to do so, subject to the following conditions:
-//
-//  The above copyright notice and this permission notice shall be included in
-//  all copies or substantial portions of the Software.
-//
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY,WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-//  THE SOFTWARE.
+//  https://github.com/RPiks/pico-WSPR-tx
 ///////////////////////////////////////////////////////////////////////////////
 #include "GPStime.h"
 
@@ -212,7 +159,7 @@ void RAM (GPStimeUartRxIsr)()
 		
 	   if(spGPStimeContext->_is_sentence_ready)
         {
-			spGPStimeContext->_u8_ixw = 0;      //printf("\n dump RAW FIFO: %s\n\n",(char *)spGPStimeContext->_pbytebuff);           
+			spGPStimeContext->_u8_ixw = 0;     // printf("\n dump RAW FIFO: %s\n\n",(char *)spGPStimeContext->_pbytebuff);           
             spGPStimeContext->_is_sentence_ready =0;
 			spGPStimeContext->_i32_error_count -= GPStimeProcNMEAsentence(spGPStimeContext);
 			extract_altitude(spGPStimeContext);
@@ -228,12 +175,12 @@ void RAM (GPStimeUartRxIsr)()
 /// @return -4 Error: no final '*' char ere checksum value.
 /// @attention Checksum validation is not implemented so far. !FIXME!
 int GPStimeProcNMEAsentence(GPStimeContext *pg)
-{
+{                                                             //"$GNRMC, for new modules!
     assert_(pg);
     uint8_t *prmc = (uint8_t *)strnstr((char *)pg->_pbytebuff, "$GNRMC,", sizeof(pg->_pbytebuff));
     if(prmc)
     {
-        ++pg->_time_data._u32_nmea_gprmc_count;   //printf("Found prmc len: %d  full buff: %s\n",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);// printf("prmc found: %s\n",(char *)prmc);
+        ++pg->_time_data._u32_nmea_gprmc_count;   printf("Found GNRMC len: %d  full buff: %s",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);// printf("prmc found: %s\n",(char *)prmc);
 
         uint64_t tm_fix = GetUptime64();
         uint8_t u8ixcollector[16] = {0};   //collects locations of commas
@@ -252,11 +199,12 @@ int GPStimeProcNMEAsentence(GPStimeContext *pg)
                 }
             }
         }
-        
+		
+		pg->_time_data._u8_last_digit_minutes= *(prmc + u8ixcollector[0] + 3);
         pg->_time_data._u8_is_solution_active = 'A' == prmc[u8ixcollector[1]];  // printf("char is: %c\n",(char *)prmc[u8ixcollector[1]]);
 
         if(pg->_time_data._u8_is_solution_active)
-        {
+        {											 
             pg->_time_data._i64_lat_100k = (int64_t)(.5f + 1e5 * atof((const char *)prmc + u8ixcollector[2])); // printf("VALID, lat is: %lld\n",pg->_time_data._i64_lat_100k);
             if('N' == prmc[u8ixcollector[3]]) { }
             else if('S' == prmc[u8ixcollector[3]])
@@ -267,7 +215,7 @@ int GPStimeProcNMEAsentence(GPStimeContext *pg)
             {
                 return -2;
             }
-
+												   
             pg->_time_data._i64_lon_100k = (int64_t)(.5f + 1e5 * atof((const char *)prmc + u8ixcollector[4]));
             if('E' == prmc[u8ixcollector[5]]) { }
             else if('W' == prmc[u8ixcollector[5]])
@@ -286,7 +234,9 @@ int GPStimeProcNMEAsentence(GPStimeContext *pg)
 
             pg->_time_data._u32_utime_nmea_last = GPStime2UNIX(prmc + u8ixcollector[8], prmc + u8ixcollector[0]);
             pg->_time_data._u64_sysclk_nmea_last = tm_fix;
-        }
+			
+
+		}
     }
 
     return 0;
@@ -299,7 +249,7 @@ void extract_altitude(GPStimeContext *pg)
     uint8_t *prmc = (uint8_t *)strnstr((char *)pg->_pbytebuff, "$GNGGA,", sizeof(pg->_pbytebuff));
     if(prmc)
     {
-        //printf("Found prmc len: %d  full buff: %s\n",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);// printf("prmc found: %s\n",(char *)prmc);
+        //printf("Found GNGGA len: %d  full buff: %s",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);
        
         uint8_t u8ixcollector[16] = {0};   //collects locations of commas
         uint8_t chksum = 0;
@@ -320,27 +270,8 @@ void extract_altitude(GPStimeContext *pg)
            
 			//printf("altitude: %s\n",(char *)prmc+u8ixcollector[8]);
         float f;
-		f = (float)atof((char *)prmc+u8ixcollector[8]);  //printf("floating version: %f\n",f); /
-
-			pg->_power_altitude=0;
-			if (f>900) pg->_power_altitude=3;
-			if (f>2100) pg->_power_altitude=7;
-			if (f>3000) pg->_power_altitude=10;
-			if (f>3900) pg->_power_altitude=13;
-			if (f>5100) pg->_power_altitude=17;
-			if (f>6000) pg->_power_altitude=20;
-			if (f>6900) pg->_power_altitude=23;
-			if (f>8100) pg->_power_altitude=27;
-			if (f>9000) pg->_power_altitude=30;
-			if (f>9900) pg->_power_altitude=33;
-			if (f>11100) pg->_power_altitude=37;
-			if (f>12000) pg->_power_altitude=40;
-			if (f>12900) pg->_power_altitude=43;
-			if (f>14100) pg->_power_altitude=47;
-			if (f>15000) pg->_power_altitude=50;
-			if (f>15900) pg->_power_altitude=53;
-			if (f>17100) pg->_power_altitude=57;
-			if (f>18000) pg->_power_altitude=60;
+		f = (float)atof((char *)prmc+u8ixcollector[8]);  printf("floating version of altitude: %f\n",f); 
+			pg->_power_altitude=f;
 											 
     }
 }

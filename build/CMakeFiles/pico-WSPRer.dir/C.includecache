@@ -99,6 +99,8 @@ WSPRutility.h
 -
 maidenhead.h
 -
+math.h
+-
 
 /home/rob/pico-WSPRer/WSPRbeacon/WSPRbeacon.h
 stdint.h
