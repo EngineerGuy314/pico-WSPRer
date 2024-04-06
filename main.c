@@ -29,9 +29,9 @@
 #define RFOUT_PIN 6            /* RF output PIN. */                                 //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico
 #define GPS_ENABLE_PIN 3       /* GPS_ENABLE pin - high to enable GPS (needs a MOSFET ie 2N7000 on low side drive */    //its not actually PIN 3, its GPIO 3, which is physical pin 5 on pico
 
-#define CONFIG_CALLSIGN "KC3LBR"  //your callsign (no suffix or prefixes)
+#define CONFIG_CALLSIGN "your-callsign-here"  //your callsign (no suffix or prefixes)
 /* Go to https://traquito.github.io/channelmap/ and choose a clear channel. Make note of id13 (blue column header), slot (min) and lane  */
-#define CONFIG_id13 "Q8" 		  //two character alphanumeric channel specifier. will be the 1st and 3rd char of callsign in second xmission. see column headers on channelmap chart
+#define CONFIG_id13 "Q7" 		  //two character alphanumeric channel specifier. will be the 1st and 3rd char of callsign in second xmission. see column headers on channelmap chart
 #define CONFIG_start_minute 2             //0, 2, 4, 6 or 8. defines which MINUTE the first of the two xmissions begins on 
 //#define CONFIG_WSPR_DIAL_FREQUENCY 14097020UL  // Lane 1
 //#define CONFIG_WSPR_DIAL_FREQUENCY 14097060UL  // Lane 2
