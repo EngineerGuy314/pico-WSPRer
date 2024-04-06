@@ -1,1 +1,33 @@
+# pico balloon WSPR tracker
+This code is based on Roman Piksaykin's excellent work at https://github.com/RPiks/pico-WSPR-tx  
+
+I fixed a couple bugs and added some extra functionality. This version calculates the altitude and full 6 character maidenhead grid based on the GPS data and transmits it along with the callsign. It implements the U4B/Traquito protocol, including sending voltage and temperature
+
+This allows a Raspberry Pi Pico to function as a pico-balloon WSPR tracker, with the only other required hardware being a cheap GPS module such as ATGM336H.
+
+With the original code the Pico was being overclocked to 270Mhz, so the total power draw of the Pico and GPS module was around 100mA at 4 volts. But this version I have the speed down to 135Mhz, which is fine for transmitting on 20M (14Mhz).
+
+There is an issue with the RP2040 locking up if its input voltage is raised too gradually. To combat this I put a voltage dividor of two resistors across ground and the input voltage. The output if this voltage divider is tied to the RUN input on Pi Pico. Preliminary testing indicates this to be sufficient.
+
+New revision utilizes a transistor to power down the GPS unit during transmission. See schematic below. In this configuration a 6 cell Solar Array that can provide 80mA at 3.4v will be sufficient.
+
+# Quick-start
+1. Install Raspberry Pi Pico SDK. Configure environment variables. Test whether it is built successfully.
+2. git clone  https://github.com/EngineerGuy314/pico-WSPRer 
+4. cd pico-WSPRer
+5. modify main.c with your personal callsign on line 32. 
+6. Find an open "channel" on https://traquito.github.io/channelmap/. Modify lines 34-39 in main.c to setup the id13 code, start minute and lane
+7. ./build.sh
+8. Check whether output file ./build/pico-WSPRer.uf2 appears.
+9. Load the .uf2 file (2) into the Pico.
+10. WSPR type-1 messages will be sent every ten minutes (hh:00, hh:10, ...) followed by the telemetry with a coded callsign
+11. if the pico is plugged into a computer via USB while running it will appear as a COM port and diagnostic messages can be viewed at 115200 baud.
+![pico_WSPRer_schema3](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/3f5834ce-b7f6-4771-9a32-b0801d9130fa)
+![v2 before succesful flight kc3lbr-7](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/6a0a48e6-81e2-477d-8a83-dc0bd025c36f)
+Mounted beneath solar array, before first succesful flight.
+![pico_WSPRer](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/bfaad70b-ae55-4695-b1ce-e6d6bb5c9d0f)
+V1 prototype
+
+
+
 
