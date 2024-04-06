@@ -205,7 +205,12 @@ int GPStimeProcNMEAsentence(GPStimeContext *pg)
 
         if(pg->_time_data._u8_is_solution_active)
         {											 
-            pg->_time_data._i64_lat_100k = (int64_t)(.5f + 1e5 * atof((const char *)prmc + u8ixcollector[2])); // printf("VALID, lat is: %lld\n",pg->_time_data._i64_lat_100k);
+
+			char firstTwo[3]; // Array to hold the first two characters
+			strncpy(firstTwo, (const char *)prmc + u8ixcollector[2], 2);
+			firstTwo[2] = '\0'; // Null terminate the string
+			int dd_lat= atoi(firstTwo);
+			pg->_time_data._i64_lat_100k = (int64_t)(.5f + 1e5 * ( (100*dd_lat) + atof((const char *)prmc + u8ixcollector[2]+2)/0.6)          ); 
             if('N' == prmc[u8ixcollector[3]]) { }
             else if('S' == prmc[u8ixcollector[3]])
             {
@@ -215,8 +220,12 @@ int GPStimeProcNMEAsentence(GPStimeContext *pg)
             {
                 return -2;
             }
-												   
-            pg->_time_data._i64_lon_100k = (int64_t)(.5f + 1e5 * atof((const char *)prmc + u8ixcollector[4]));
+			
+			char firstThree[4]; // Array to hold the first two characters
+			strncpy(firstThree, (const char *)prmc + u8ixcollector[4], 3);
+			firstThree[3] = '\0'; // Null terminate the string
+			int dd_lon= atoi(firstThree);									   
+            pg->_time_data._i64_lon_100k = (int64_t)(.5f + 1e5 * ( (100*dd_lon) + atof((const char *)prmc + u8ixcollector[4]+3)/0.6)  );
             if('E' == prmc[u8ixcollector[5]]) { }
             else if('W' == prmc[u8ixcollector[5]])
             {
@@ -235,7 +244,6 @@ int GPStimeProcNMEAsentence(GPStimeContext *pg)
             pg->_time_data._u32_utime_nmea_last = GPStime2UNIX(prmc + u8ixcollector[8], prmc + u8ixcollector[0]);
             pg->_time_data._u64_sysclk_nmea_last = tm_fix;
 			
-
 		}
     }
 
