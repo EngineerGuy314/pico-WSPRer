@@ -26,7 +26,7 @@ GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio)
     uart_init(uart_id ? uart1 : uart0, uart_baud);
     gpio_set_function(uart_id ? 8 : 0, GPIO_FUNC_UART);
     gpio_set_function(uart_id ? 9 : 1, GPIO_FUNC_UART);
-
+    
     GPStimeContext *pgt = calloc(1, sizeof(GPStimeContext));
     ASSERT_(pgt);
 

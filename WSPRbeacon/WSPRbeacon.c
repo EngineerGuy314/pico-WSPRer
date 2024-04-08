@@ -13,7 +13,7 @@
 static int itx_trigger = 0;
 static int itx_trigger2 = 0;		
 static absolute_time_t start_time;
-
+static int current_minute;
 /// @brief Initializes a new WSPR beacon context.
 /// @param pcallsign HAM radio callsign, 12 chr max.
 /// @param pgridsquare Maidenhead locator, 7 chr max.
@@ -256,10 +256,11 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 		}
 		
 		
-		int current_minute = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_last_digit_minutes - 48;  //convert from char to int
+		current_minute = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_last_digit_minutes - 48;  //convert from char to int
 
 		if( (pctx->_txSched.Xmission_In_Process==FALSE) && (pctx->_txSched.start_minute==current_minute) ) 
 		{                                              //if not yet transmitting, and current minute == starting_minute, then enable xmission
+			printf("XMIT about to Start! start minute and current minute: >%i< >%i<\n\n",pctx->_txSched.start_minute,current_minute);
 			pctx->_txSched.Xmission_In_Process=1;
 			start_time = get_absolute_time();
 		}			
@@ -344,7 +345,8 @@ void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx)  //called ~ every 20 s
 	StampPrintf("Grid: %s",(char *)WSPRbeaconGetLastQTHLocator(pctx));
 	StampPrintf("lat: %lli",pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lat_100k);
 	StampPrintf("lon: %lli",pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lon_100k);
-	StampPrintf("altitude): %f",pctx->_pTX->_p_oscillator->_pGPStime->_power_altitude);	   
+	StampPrintf("altitude: %f",pctx->_pTX->_p_oscillator->_pGPStime->_power_altitude);	   
+	StampPrintf("current minute: %i",current_minute);	   
 }
 
 /// @brief Extracts maidenhead type QTH locator (such as KO85) using GPS coords.

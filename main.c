@@ -96,7 +96,7 @@ int main()
 	pWB->_txSched.led_mode = 0;  //waiting for GPS
 	pWB->_txSched.Xmission_In_Process = 0;  
 	pWB->_txSched.output_number_toEnable_GPS = GPS_ENABLE_PIN;
-	pWB->_txSched.start_minute,_start_minute[0]-48;
+	pWB->_txSched.start_minute=(uint8_t)_start_minute[0]-48;
 	strcpy(pWB->_txSched.id13,_id13);
 
 	multicore_launch_core1(Core1Entry);
@@ -190,6 +190,7 @@ void print_buf(const uint8_t *buf, size_t len) {
 	strncpy(_start_minute, flash_target_contents+8, 1);
 	strncpy(_lane, flash_target_contents+9, 1);
 
+	//printf("value of start minute as char and decimal >%c< >%i<\n\n",_start_minute[0],_start_minute[0]);
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 void user_interface(void)

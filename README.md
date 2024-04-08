@@ -23,8 +23,8 @@ New revision utilizes a transistor to power down the GPS unit during transmissio
 6. power up pico with BOOTSEL held, copy the .uf2 file into the Pico when it shows up as a jumpdrive.
 7. Go to https://traquito.github.io/channelmap/ to find an open channel and make note of id13 (column header), minute and lane (frequency)");
 8. Connect to pico with a USB cable and a terminal program such as Putty. Hit any key to access setup menu. Configure your callsign and telemetry channel details from step 7. 
-9. WSPR type-1 messages will be sent every ten minutes (hh:00, hh:10, ...) followed by the telemetry with a coded callsign
-10. If the pico is plugged into a computer via USB while running it will appear as a COM port and diagnostic messages can be viewed at 115200 baud.
+9. WSPR type-1 messages will be sent every ten minutes followed by the U4B style telemetry with a coded callsign
+10. If the pico is plugged into a computer via USB while running it will appear as a COM port and diagnostic messages can be viewed at 115200 baud. Raw $GNRMC messages from GPS unit will be displayed, and every 20 seconds decoded latitude/longitude and grid locator will be shown.
 ![pico_WSPRer_schema3](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/3f5834ce-b7f6-4771-9a32-b0801d9130fa)
 ![v2 before succesful flight kc3lbr-7](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/6a0a48e6-81e2-477d-8a83-dc0bd025c36f)
 Mounted beneath solar array, before first succesful flight.
