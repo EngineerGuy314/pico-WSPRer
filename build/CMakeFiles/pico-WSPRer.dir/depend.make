@@ -2755,6 +2755,7 @@ CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_re
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/sio.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/timer.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/uart.h
+CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/watchdog.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/adc.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/clocks.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/interp.h
@@ -2764,10 +2765,12 @@ CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_st
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/sio.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/timer.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/uart.h
+CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/watchdog.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2_common/cmsis/include/cmsis/rename_exceptions.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_adc/include/hardware/adc.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_base/include/hardware/address_mapped.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_clocks/include/hardware/clocks.h
+CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_flash/include/hardware/flash.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_gpio/include/hardware/gpio.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_irq/include/hardware/irq.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_pio/include/hardware/pio.h
@@ -2775,6 +2778,7 @@ CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2_common/hardwar
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_sync/include/hardware/sync.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_timer/include/hardware/timer.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_uart/include/hardware/uart.h
+CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_watchdog/include/hardware/watchdog.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_multicore/include/pico/multicore.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_platform/include/pico/platform.h
 CMakeFiles/pico-WSPRer.dir/main.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio.h

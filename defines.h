@@ -98,6 +98,9 @@
 #define WSPR_MAX_GPS_DISCONNECT_TM  \
         (6 * HOUR)                      /* How long is active without GPS. */
 
-
-
+void read_NVRAM(void);
+void write_NVRAM(void);
+void user_interface(void);
+void show_values(void);
+void convertToUpperCase(char *str);
 #endif

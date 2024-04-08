@@ -64,6 +64,8 @@ target_link_libraries(pico-WSPRer
                       hardware_clocks
                       hardware_pio
 					  hardware_adc
+					  hardware_flash
+					  hardware_sync
                      )
 
 pico_add_extra_outputs(pico-WSPRer)
