@@ -195,7 +195,9 @@ void print_buf(const uint8_t *buf, size_t len) {
 void user_interface(void)
 {
     char c;
-	    char str[10];
+	char str[10];
+	
+    gpio_put(GPS_ENABLE_PIN, 0); //shutoff gps to prevent serial input
 
 printf("\n\n\n\n\n\n\n\n\n\n\n\n");
 printf("Pico-WSPRer (pico whisper-er) by KC3LBR,  version: %s %s\n",__DATE__ ,__TIME__);

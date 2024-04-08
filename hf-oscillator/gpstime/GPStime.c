@@ -278,7 +278,7 @@ void extract_altitude(GPStimeContext *pg)
            
 			//printf("altitude: %s\n",(char *)prmc+u8ixcollector[8]);
         float f;
-		f = (float)atof((char *)prmc+u8ixcollector[8]);  printf("floating version of altitude: %f\n",f); 
+		f = (float)atof((char *)prmc+u8ixcollector[8]);  //printf("floating version of altitude: %f\n",f); 
 			pg->_power_altitude=f;
 											 
     }
