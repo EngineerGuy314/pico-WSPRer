@@ -251,7 +251,7 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 			}
 		else 
 		{
-			pctx->_txSched.led_mode = 1;
+			if (pctx->_txSched.Xmission_In_Process==FALSE) pctx->_txSched.led_mode = 1; else pctx->_txSched.led_mode = 2;
 			StampPrintf("gps is ACTIVE amd AVAILABLE. ledmode %d XMIT status %d",pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);				  
 		}
 		
