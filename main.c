@@ -30,7 +30,8 @@
 
 // Serial RX from GPS module wired to GPIO 1 (pin 2 on pico).
 #define GPS_PPS_PIN 2          /* GPS time mark PIN. (labeled PPS on GPS module)*/ //its not actually PIN 2, its GPIO 2, which is physical pin 4 on pico
-#define RFOUT_PIN 6            /* RF output PIN. */                                 //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico
+#define RFOUT_PIN 6            /* RF output PIN. (THE FOLLOWING PIN WILL ALSO BE RF, 180deg OUT OF PHASE!!!) */                                 //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico
+//            Pin 7 will also be RF out (inverted value of 6)
 #define GPS_ENABLE_PIN 3       /* GPS_ENABLE pin - high to enable GPS (needs a MOSFET ie 2N7000 on low side drive */    //its not actually PIN 3, its GPIO 3, which is physical pin 5 on pico
 #define FLASH_TARGET_OFFSET (256 * 1024) //leaves 256k of space for the program
 

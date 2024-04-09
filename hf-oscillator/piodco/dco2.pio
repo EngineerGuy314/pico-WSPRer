@@ -74,12 +74,12 @@
     mov x, y
 LOOP0:
     jmp x-- LOOP0
-    set pins, 1
+    set pins, 1          //bitmap of data sent to multiple pins
     
-    mov x, y        [1]
+    mov x, y        [1]        
 LOOP1:
     jmp x-- LOOP1
-    set pins, 0
+    set pins, 2
 
     mov x, y        [1]
 LOOP2:
@@ -89,7 +89,7 @@ LOOP2:
     mov x, y        [1]
 LOOP3:
     jmp x-- LOOP3
-    set pins, 0
+    set pins, 2
 .wrap
 
 % c-sdk {
@@ -103,10 +103,11 @@ static inline void dco_program_init(PIO pio, uint sm, uint offset, uint pin)
     sm_config_set_out_shift(&c, true, true, 32);           // Autopull.
     sm_config_set_fifo_join(&c, PIO_FIFO_JOIN_TX);
     
-    sm_config_set_out_pins(&c, pin, 1);
-    pio_gpio_init(pio, pin);
+    sm_config_set_out_pins(&c, pin, 2);						//wuz 1
+    pio_gpio_init(pio, pin);  
+	pio_gpio_init(pio, pin+1); 								//wuz added this
 
-    pio_sm_set_consecutive_pindirs(pio, sm, pin, 1, true);
+    pio_sm_set_consecutive_pindirs(pio, sm, pin, 2, true);   //wuz 1
     
     sm_config_set_clkdiv_int_frac(&c, 1u, 0u);
 

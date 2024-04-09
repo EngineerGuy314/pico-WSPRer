@@ -23,13 +23,13 @@ static const uint16_t dco_program_instructions[] = {
     0xe001, //  3: set    pins, 1                    
     0xa122, //  4: mov    x, y                   [1] 
     0x0045, //  5: jmp    x--, 5                     
-    0xe000, //  6: set    pins, 0                    
+    0xe002, //  6: set    pins, 2                    
     0xa122, //  7: mov    x, y                   [1] 
     0x0048, //  8: jmp    x--, 8                     
     0xe001, //  9: set    pins, 1                    
     0xa122, // 10: mov    x, y                   [1] 
     0x004b, // 11: jmp    x--, 11                    
-    0xe000, // 12: set    pins, 0                    
+    0xe002, // 12: set    pins, 2                    
             //     .wrap
 };
 
@@ -52,9 +52,10 @@ static inline void dco_program_init(PIO pio, uint sm, uint offset, uint pin)
     pio_sm_config c = dco_program_get_default_config(offset);
     sm_config_set_out_shift(&c, true, true, 32);           // Autopull.
     sm_config_set_fifo_join(&c, PIO_FIFO_JOIN_TX);
-    sm_config_set_out_pins(&c, pin, 1);
-    pio_gpio_init(pio, pin);
-    pio_sm_set_consecutive_pindirs(pio, sm, pin, 1, true);
+    sm_config_set_out_pins(&c, pin, 2);						//wuz 1
+    pio_gpio_init(pio, pin);  
+	pio_gpio_init(pio, pin+1); 								//wuz added this
+    pio_sm_set_consecutive_pindirs(pio, sm, pin, 2, true);   //wuz 1
     sm_config_set_clkdiv_int_frac(&c, 1u, 0u);
     pio_sm_init(pio, sm, offset, &c);
     pio_sm_set_enabled(pio, sm, true);
