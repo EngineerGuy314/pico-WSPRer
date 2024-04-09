@@ -34,6 +34,9 @@ Mounted beneath solar array, before first succesful flight.
 V1 prototype
 ![circumnavigation plus 2 days](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/b7c0b3ba-3f2a-43de-9247-e7e59d0fdf66)
 V2 was launched and circumnavigated the world in 13 days.
+![BEFORE first launch](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/f2614da2-a381-4c51-8be7-da3bd6e34af6)
+Typical solar powered tracker and balloon before launch. Balloon is deliberately under-filled with hydrogen to allow room for expansion at high altitude. 12-13km altitude is typicaly reached.
+
 ![initial spots](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/ee4be0e1-1591-4dc4-9fc2-510bcd0ae6cd)
 Global tracking with such low powered transmissions are possible thanks to the extensive network of WSPR receive stations.
 
