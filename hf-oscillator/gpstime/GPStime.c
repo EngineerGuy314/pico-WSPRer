@@ -177,10 +177,13 @@ void RAM (GPStimeUartRxIsr)()
 int GPStimeProcNMEAsentence(GPStimeContext *pg)
 {                                                             //"$GNRMC, for new modules!
     assert_(pg);
-    uint8_t *prmc = (uint8_t *)strnstr((char *)pg->_pbytebuff, "$GNRMC,", sizeof(pg->_pbytebuff));
-    if(prmc)
+    uint8_t *prmc = (uint8_t *)strnstr((char *)pg->_pbytebuff, "$GPRMC,", sizeof(pg->_pbytebuff));
+    uint8_t *nrmc = (uint8_t *)strnstr((char *)pg->_pbytebuff, "$GNRMC,", sizeof(pg->_pbytebuff));
+    if(nrmc) prmc=nrmc;
+	
+	if(prmc)
     {
-        ++pg->_time_data._u32_nmea_gprmc_count;   printf("Found GNRMC len: %d  full buff: %s",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);// printf("prmc found: %s\n",(char *)prmc);
+        ++pg->_time_data._u32_nmea_gprmc_count;   printf("Found GxRMC len: %d  full buff: %s",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);// printf("prmc found: %s\n",(char *)prmc);
 
         uint64_t tm_fix = GetUptime64();
         uint8_t u8ixcollector[16] = {0};   //collects locations of commas
@@ -254,16 +257,18 @@ int GPStimeProcNMEAsentence(GPStimeContext *pg)
 void extract_altitude(GPStimeContext *pg)
 {
     assert_(pg);
-    uint8_t *prmc = (uint8_t *)strnstr((char *)pg->_pbytebuff, "$GNGGA,", sizeof(pg->_pbytebuff));
-    if(prmc)
+    uint8_t *GnGGA = (uint8_t *)strnstr((char *)pg->_pbytebuff, "$GNGGA,", sizeof(pg->_pbytebuff));
+    uint8_t *GxGGA = (uint8_t *)strnstr((char *)pg->_pbytebuff, "$GPGGA,", sizeof(pg->_pbytebuff));
+    if(GnGGA) GxGGA=GnGGA; 
+	if(GxGGA)
     {
-        //printf("Found GNGGA len: %d  full buff: %s",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);
+        printf("Found GxGGA len: %d  full buff: %s",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);
        
         uint8_t u8ixcollector[16] = {0};   //collects locations of commas
         uint8_t chksum = 0;
-        for(uint8_t u8ix = 0, i = 0; u8ix != strlen(prmc); ++u8ix)
+        for(uint8_t u8ix = 0, i = 0; u8ix != strlen(GxGGA); ++u8ix)
         {
-            uint8_t *p = prmc + u8ix;
+            uint8_t *p = GxGGA + u8ix;
             chksum ^= *p;
             if(',' == *p)
             {
@@ -276,9 +281,9 @@ void extract_altitude(GPStimeContext *pg)
             }
         }
            
-			//printf("altitude: %s\n",(char *)prmc+u8ixcollector[8]);
+			//printf("altitude: %s\n",(char *)GxGGA+u8ixcollector[8]);
         float f;
-		f = (float)atof((char *)prmc+u8ixcollector[8]);  //printf("floating version of altitude: %f\n",f); 
+		f = (float)atof((char *)GxGGA+u8ixcollector[8]);  //printf("floating version of altitude: %f\n",f); 
 			pg->_power_altitude=f;
 											 
     }

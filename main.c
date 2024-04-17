@@ -22,6 +22,7 @@
 #include "hardware/gpio.h"
 #include "hardware/adc.h"   //dont forget to add hardware_adc to the target-link-libraries in CMakeLists.txt
 #include "hardware/watchdog.h"
+#include "hardware/uart.h"
 #define d_force_xmit_for_testing NO
 #define CONFIG_GPS_SOLUTION_IS_MANDATORY YES   //not used anymore
 #define CONFIG_GPS_RELY_ON_PAST_SOLUTION NO     //not used anymore
@@ -131,7 +132,7 @@ int main()
 #endif
 		//orig code had a 900mS pause here 
 	
-	if (getchar_timeout_us(0)>0) user_interface();
+	if (getchar_timeout_us(0)>0) user_interface();    //looks for input on USB serial port (luckily, seems to ignore input on serial port RX)
 
     const float conversionFactor = 3.3f / (1 << 12);          //read temperature
     adc_select_input(4);	
@@ -200,13 +201,20 @@ void user_interface(void)
 	char str[10];
 	
     gpio_put(GPS_ENABLE_PIN, 0); //shutoff gps to prevent serial input
-
+	sleep_ms(100);
+	gpio_put(PICO_DEFAULT_LED_PIN, 1); //LED on.	
 printf("\n\n\n\n\n\n\n\n\n\n\n\n");
 printf("Pico-WSPRer (pico whisper-er) by KC3LBR,  version: %s %s\n",__DATE__ ,__TIME__);
 printf("https://github.com/EngineerGuy314/pico-WSPRer\n");
 printf("forked from: https://github.com/RPiks/pico-WSPR-tx\n\n");
 printf("consult https://traquito.github.io/channelmap/ to find an open channel \nand make note of id13 (column headers), minute and lane (frequency)\n");
+
+printf("\n\nPRESS THE ~ TILDE TO MAKE SURE THIS WASNT CALLED BY MISTAKE. \nANY KEY BESIDES TILDE WILL REBOOT\n");
+c=getchar();
+if (c!='~') { printf("\n\n that wasnt tilde, GOODBYE");sleep_ms(2000);watchdog_enable(100, 1);for(;;)	{}}
+
 show_values();
+
     for(;;)
 	{		
 		c=getchar();
@@ -220,15 +228,14 @@ show_values();
 			case 'L':printf("Enter Lane (1,2,3,4): ");   scanf(" %s", _lane);_lane[1]=0;  write_NVRAM(); show_values();break;
 			case 13:  break;
 			case 10:  break;
-			default: printf("\n\n\n\n\n\n\nyou pressed %c, invalid choice",c);show_values();break;
+			default: printf("\n\n\n\n\n\n\nyou pressed %c %02x , invalid choice",c,c);show_values();break;		
 		}
 	}
-
 }
 //
 void show_values(void)
 {
-printf("\n\ncurrent values:\n\tCallsign:%s\n\tId13:%s\n\tMinute:%s\n\tLane:%s\n\n",_callsign,_id13,_start_minute,_lane);
+printf("\n\ncurrent values:\n\tCallsign:%s\n\tId13:%s\n\tMinute:%s \x28min of 1st xmission, lu7aa wants this +2\x29\n\tLane:%s\n\n",_callsign,_id13,_start_minute,_lane);
 printf("VALID commands: \n\n\tx: eXit configuraiton and reboot\n\tc: change Callsign (6 char max)\n\tI: change Id13 (two alpha numeric chars, ie Q8)\n\tM: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\n");
 
 }
