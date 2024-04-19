@@ -78,6 +78,7 @@ int main()
 			case '2':XMIT_FREQUENCY=14097060UL;break;
 			case '3':XMIT_FREQUENCY=14097140UL;break;
 			case '4':XMIT_FREQUENCY=14097180UL;break;
+			default: XMIT_FREQUENCY=14097100UL;        //in case an invalid lane was read from EEPROM
 		}	
     
 	WSPRbeaconContext *pWB = WSPRbeaconInit(
