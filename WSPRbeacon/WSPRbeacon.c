@@ -326,8 +326,8 @@ void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx)  //called ~ every 20 s
     StampPrintf("ixi:%u", pctx->_pTX->_ix_input);
     StampPrintf("dfq:%lu", pctx->_pTX->_u32_dialfreqhz);
     StampPrintf("gpo:%u", pctx->_pTX->_i_tx_gpio);   */
-    /*GPStimeContext *pGPS = pctx->_pTX->_p_oscillator->_pGPStime;
-    const uint32_t u32_unixtime_now = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_utime_nmea_last + u64_GPS_last_age_sec;
+    GPStimeContext *pGPS = pctx->_pTX->_p_oscillator->_pGPStime;
+    /*const uint32_t u32_unixtime_now = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_utime_nmea_last + u64_GPS_last_age_sec;
     assert_(pGPS);
     StampPrintf("=GPStimeContext=");
     StampPrintf("err:%ld", pGPS->_i32_error_count);
@@ -337,9 +337,9 @@ void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx)  //called ~ every 20 s
     StampPrintf("snl:%llu", pGPS->_time_data._u64_sysclk_nmea_last);
     StampPrintf("age:%llu", u64_GPS_last_age_sec);
     StampPrintf("utm:%lu", u32_unixtime_now);      
-    StampPrintf("rmc:%lu", pGPS->_time_data._u32_nmea_gprmc_count); 
+    StampPrintf("rmc:%lu", pGPS->_time_data._u32_nmea_gprmc_count); */ 
     StampPrintf("pps:%llu", pGPS->_time_data._u64_sysclk_pps_last);
-    StampPrintf("ppb:%lld", pGPS->_time_data._i32_freq_shift_ppb); */
+    StampPrintf("ppb:%lld", pGPS->_time_data._i32_freq_shift_ppb); 
 
 	StampPrintf("LED Mode: %d",pctx->_txSched.led_mode);
 	StampPrintf("Grid: %s",(char *)WSPRbeaconGetLastQTHLocator(pctx));
