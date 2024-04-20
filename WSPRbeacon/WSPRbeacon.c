@@ -59,7 +59,7 @@ void WSPRbeaconSetDialFreq(WSPRbeaconContext *pctx, uint32_t freq_hz)
 int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int time_slot)
 {
     assert_(pctx);
-    pctx->_u8_txpower =0;
+    pctx->_u8_txpower =10;
 
    if (time_slot==0)
    {
