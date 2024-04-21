@@ -104,6 +104,7 @@ void RAM (GPStimePPScallback)(uint gpio, uint32_t events)
 #endif
 
     }
+printf("PPS went on at: %.3f secs\n",((uint32_t)(to_us_since_boot(get_absolute_time()) / 1000ULL)/1000.0f ))
 }
 
 /// @brief Calculates current unixtime using data available.
