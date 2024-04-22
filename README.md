@@ -20,7 +20,7 @@ With the original code the Pico was being overclocked to 270Mhz, so the total po
 5. Check whether output file ./build/pico-WSPRer.uf2 appears.
 6. power up pico with BOOTSEL held, copy the .uf2 file into the Pico when it shows up as a jumpdrive.
 7. Go to https://traquito.github.io/channelmap/ to find an open channel and make note of id13 (column header), minute and lane (frequency).
-8. Connect to pico with a USB cable and a terminal program such as Putty. Hit any key to access setup menu. Configure your callsign and telemetry channel details from step 7. 
+8. Connect to pico with a USB cable and a terminal program such as Putty. Hit any key to access setup menu. Then press the tilde (~) key (this is to prevent accidentally enterring the config menu). Configure your callsign and telemetry channel details from step 7. 
 9. WSPR type-1 messages will be sent every ten minutes followed by the U4B style telemetry with a coded callsign
 10. If the pico is plugged into a computer via USB while running it will appear as a COM port and diagnostic messages can be viewed at 115200 baud. Raw $GNRMC messages from GPS unit will be displayed, and every 20 seconds decoded latitude/longitude and grid locator will be shown.
 ![pico_WSPRer_schema4](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/ce691e6d-bfd3-491e-849c-77bea688231e)
