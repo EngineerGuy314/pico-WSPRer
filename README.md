@@ -15,7 +15,7 @@ With the original code the Pico was being overclocked to 270Mhz, so the total po
 0. Download https://github.com/EngineerGuy314/pico-WSPRer/blob/main/build/pico-WSPRer.uf2 and skip to step 6 (or follow steps 1-5 to compile it yourself)
 1. Install Raspberry Pi Pico SDK. Configure environment variables. Test whether it is built successfully.
 2. git clone  https://github.com/EngineerGuy314/pico-WSPRer 
-3. cd pico-WSPRer5. 
+3. cd pico-WSPRer. 
 4. ./build.sh
 5. Check whether output file ./build/pico-WSPRer.uf2 appears.
 6. power up pico with BOOTSEL held, copy the .uf2 file into the Pico when it shows up as a jumpdrive.
