@@ -24,6 +24,9 @@
 #include "hardware/watchdog.h"
 #include "hardware/uart.h"
 #define d_force_xmit_for_testing NO
+#define d_enable_all_debugging_messages YES
+
+
 #define CONFIG_GPS_SOLUTION_IS_MANDATORY YES   //not used anymore
 #define CONFIG_GPS_RELY_ON_PAST_SOLUTION NO     //not used anymore
 #define CONFIG_SCHEDULE_SKIP_SLOT_COUNT 5      //not used anymore
@@ -45,6 +48,7 @@ char _lane[2];
 
 int main()
 {
+	
     gpio_init(PICO_DEFAULT_LED_PIN); 
 	gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT); //initialize LED output
     /* the next 6 lines  are needed to allow ADC3 to read VSYS */
@@ -102,6 +106,7 @@ int main()
 	pWB->_txSched.start_minute=(uint8_t)_start_minute[0]-48;
 	strcpy(pWB->_txSched.id13,_id13);
 
+
 	multicore_launch_core1(Core1Entry);
     StampPrintf("RF oscillator started.");
 
@@ -110,6 +115,7 @@ int main()
 
     DCO._pGPStime = GPStimeInit(0, 9600, GPS_PPS_PIN); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
     assert_(DCO._pGPStime);
+	DCO._pGPStime->enable_debug_messages=d_enable_all_debugging_messages;
 
     int tick = 0;
     for(;;)   //loop every ~ second
@@ -128,13 +134,16 @@ int main()
         WSPRbeaconTxScheduler(pWB, YES);   
                 
 #ifdef DEBUG
-        if(0 == ++tick % 20)      //every ~20 secs dumps context.  This is a great example of writing clever and consise code that is the opposite of "clear and easy to follow"
+        if(0 == ++tick % 20)      //every ~20 secs dumps context.  
         WSPRbeaconDumpContext(pWB);
 #endif
 		//orig code had a 900mS pause here 
-	
-	if (getchar_timeout_us(0)>0) user_interface();    //looks for input on USB serial port (luckily, seems to ignore input on serial port RX)
-
+	stdio_set_driver_enabled(&stdio_uart, false);  //prevents bytes from GPS causing problems	
+	if (getchar_timeout_us(0)>0)   //looks for input on USB serial port ( actually its lucky, ignores uart only because its on an interrupr)
+	{
+	DCO._pGPStime->enable_debug_messages=0;	
+	user_interface();   
+	}
     const float conversionFactor = 3.3f / (1 << 12);          //read temperature
     adc_select_input(4);	
 	float adc = (float)adc_read() * conversionFactor;
@@ -200,8 +209,8 @@ void user_interface(void)
 {
     char c;
 	char str[10];
-	
-    gpio_put(GPS_ENABLE_PIN, 0); //shutoff gps to prevent serial input
+	stdio_set_driver_enabled(&stdio_uart, false);  //prevents bytes from GPS causing problems	
+    gpio_put(GPS_ENABLE_PIN, 0);                   //shutoff gps to prevent serial input  (probably not needed anymore)
 	sleep_ms(100);
 	gpio_put(PICO_DEFAULT_LED_PIN, 1); //LED on.	
 printf("\n\n\n\n\n\n\n\n\n\n\n\n");
@@ -210,15 +219,17 @@ printf("https://github.com/EngineerGuy314/pico-WSPRer\n");
 printf("forked from: https://github.com/RPiks/pico-WSPR-tx\n\n");
 printf("consult https://traquito.github.io/channelmap/ to find an open channel \nand make note of id13 (column headers), minute and lane (frequency)\n");
 
-printf("\n\nPRESS THE ~ TILDE TO MAKE SURE THIS WASNT CALLED BY MISTAKE. \nANY KEY BESIDES TILDE WILL REBOOT\n");
+/*printf("\n\nPRESS THE ~ TILDE TO MAKE SURE THIS WASNT CALLED BY MISTAKE. \nANY KEY BESIDES TILDE WILL REBOOT\n");
 c=getchar();
-if (c!='~') { printf("\n\n that wasnt tilde, GOODBYE");sleep_ms(2000);watchdog_enable(100, 1);for(;;)	{}}
+if (c!='~') { printf("\n\n that wasnt tilde, GOODBYE");sleep_ms(2000);watchdog_enable(100, 1);for(;;)	{}} */
 
 show_values();
 
     for(;;)
 	{		
-		c=getchar();
+		//c=getchar();
+		c=getchar_timeout_us(60000000);		
+		if (c==255) {printf("\n\n TIMEOUT WAITING FOR INPUT, REBOOTING FOR YOUR OWN GOOD!!");watchdog_enable(100, 1);for(;;)	{}}
 		if (c>90) c-=32; //make it capital either way
 		switch(c)
 		{
@@ -236,7 +247,7 @@ show_values();
 //
 void show_values(void)
 {
-printf("\n\ncurrent values:\n\tCallsign:%s\n\tId13:%s\n\tMinute:%s \x28min of 1st xmission, lu7aa wants this +2\x29\n\tLane:%s\n\n",_callsign,_id13,_start_minute,_lane);
+printf("\n\ncurrent values:\n\tCallsign:%s\n\tId13:%s\n\tMinute:%s            \x28min of 1st xmission, lu7aa wants this +2\x29\n\tLane:%s\n\n",_callsign,_id13,_start_minute,_lane);
 printf("VALID commands: \n\n\tx: eXit configuraiton and reboot\n\tc: change Callsign (6 char max)\n\tI: change Id13 (two alpha numeric chars, ie Q8)\n\tM: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\n");
 
 }

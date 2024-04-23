@@ -104,7 +104,7 @@ void RAM (GPStimePPScallback)(uint gpio, uint32_t events)
 #endif
 
     }
-printf("PPS went on at: %.3f secs\n",((uint32_t)(to_us_since_boot(get_absolute_time()) / 1000ULL)/1000.0f ));
+	if (spGPStimeContext->enable_debug_messages) printf("PPS went on at: %.3f secs\n",((uint32_t)(to_us_since_boot(get_absolute_time()) / 1000ULL)/1000.0f ));
 }
 
 /// @brief Calculates current unixtime using data available.
@@ -184,7 +184,8 @@ int GPStimeProcNMEAsentence(GPStimeContext *pg)
 	
 	if(prmc)
     {
-        ++pg->_time_data._u32_nmea_gprmc_count;   printf("Found GxRMC len: %d  full buff: %s",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);// printf("prmc found: %s\n",(char *)prmc);
+        ++pg->_time_data._u32_nmea_gprmc_count;   
+		if (pg->enable_debug_messages)	printf("Found GxRMC len: %d  full buff: %s",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);// printf("prmc found: %s\n",(char *)prmc);
 
         uint64_t tm_fix = GetUptime64();
         uint8_t u8ixcollector[16] = {0};   //collects locations of commas
@@ -263,7 +264,7 @@ void extract_altitude(GPStimeContext *pg)
     if(GnGGA) GxGGA=GnGGA; 
 	if(GxGGA)
     {
-        printf("Found GxGGA len: %d  full buff: %s",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);
+        if (pg->enable_debug_messages) printf("Found GxGGA len: %d  full buff: %s",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);
        
         uint8_t u8ixcollector[16] = {0};   //collects locations of commas
         uint8_t chksum = 0;

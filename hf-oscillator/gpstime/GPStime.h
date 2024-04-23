@@ -115,6 +115,7 @@ typedef struct
     uint8_t _is_sentence_ready;
     int32_t _i32_error_count;
     float _power_altitude;   //altitude in metesr
+	uint8_t enable_debug_messages;
 
 } GPStimeContext;
 
