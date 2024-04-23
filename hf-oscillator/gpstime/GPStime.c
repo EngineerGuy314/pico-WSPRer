@@ -95,13 +95,13 @@ void RAM (GPStimePPScallback)(uint gpio, uint32_t events)
                 spGPStimeData->_u64_pps_period_1M = (int64_t)eDtUpscale * dt_per_window;
             }
         }
-
-#ifdef NOP
+	if (spGPStimeContext->forced_XMIT_on)
+		{
         const int64_t dt_1M = (dt_per_window + (eSlidingLen >> 1)) / eSlidingLen;
         const uint64_t tmp = (spGPStimeData->_u64_pps_period_1M + (eSlidingLen >> 1)) / eSlidingLen;
-        printf("%llu %lld %llu %lld\n", spGPStimeData->_u64_sysclk_pps_last, dt_1M, tmp, 
-               spGPStimeData->_i32_freq_shift_ppb);
-#endif
+        printf("tempr: %d \n",spGPStimeContext->temp_in_Celsius);
+	    GPStimeDump(spGPStimeData);
+	}
 
     }
 	if (spGPStimeContext->enable_debug_messages) printf("PPS went on at: %.3f secs\n",((uint32_t)(to_us_since_boot(get_absolute_time()) / 1000ULL)/1000.0f ));
@@ -328,8 +328,6 @@ void GPStimeDump(const GPStimeData *pd)
 
     printf("\nGPS solution is active:%u\n", pd->_u8_is_solution_active);
     printf("GPRMC count:%lu\n", pd->_u32_nmea_gprmc_count);
-    printf("NMEA unixtime last:%lu\n", pd->_u32_utime_nmea_last);
-    printf("NMEA sysclock last:%llu\n", pd->_u64_sysclk_nmea_last);
     printf("GPS Latitude:%lld Longtitude:%lld\n", pd->_i64_lat_100k, pd->_i64_lon_100k);
     printf("PPS sysclock last:%llu\n", pd->_u64_sysclk_pps_last);
     printf("PPS period *1e6:%llu\n", (pd->_u64_pps_period_1M + (eSlidingLen>>1)) / eSlidingLen);

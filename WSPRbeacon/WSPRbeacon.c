@@ -12,6 +12,7 @@
 
 static int itx_trigger = 0;
 static int itx_trigger2 = 0;		
+static int forced_xmit_in_process = 0;	
 static absolute_time_t start_time;
 static int current_minute;
 /// @brief Initializes a new WSPR beacon context.
@@ -230,13 +231,26 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
     const uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;
     const uint32_t is_GPS_active = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;
 
-		 if (pctx->_txSched.force_xmit_for_testing) {             // && is_GPS_active 
+		 if (pctx->_txSched.force_xmit_for_testing) {            
+							if(forced_xmit_in_process==0)
+							{
 								StampPrintf("> FORCING XMISSION! for debugging   <"); pctx->_txSched.led_mode = 2;
 								PioDCOStart(pctx->_pTX->_p_oscillator);
-								WSPRbeaconCreatePacket(pctx,0);
+								//WSPRbeaconCreatePacket(pctx,0);    If this is disabled, the packet is all zeroes, and it xmits an unmodulated steady frequency
 								sleep_ms(100);
 								WSPRbeaconSendPacket(pctx);
-								return -1;
+								start_time = get_absolute_time();
+								forced_xmit_in_process=1;
+							}
+								else if(absolute_time_diff_us( start_time, get_absolute_time()) > 120000000ULL) 
+								{
+									forced_xmit_in_process=0; //restart after 2 mins
+									PioDCOStop(pctx->_pTX->_p_oscillator); 
+									printf("Pio *STOP*  called by end of forced xmit. small pause before restart\n");
+									sleep_ms(2000);
+								}
+								
+				return -1;
 		 }
  
 		 if(!is_GPS_available)

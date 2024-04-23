@@ -24,7 +24,7 @@
 #include "hardware/watchdog.h"
 #include "hardware/uart.h"
 #define d_force_xmit_for_testing NO
-#define d_enable_all_debugging_messages YES
+#define d_enable_all_debugging_messages NO
 
 
 #define CONFIG_GPS_SOLUTION_IS_MANDATORY YES   //not used anymore
@@ -116,7 +116,7 @@ int main()
     DCO._pGPStime = GPStimeInit(0, 9600, GPS_PPS_PIN); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
     assert_(DCO._pGPStime);
 	DCO._pGPStime->enable_debug_messages=d_enable_all_debugging_messages;
-
+	DCO._pGPStime->forced_XMIT_on=d_force_xmit_for_testing;
     int tick = 0;
     for(;;)   //loop every ~ second
     {
@@ -133,10 +133,11 @@ int main()
         }        
         WSPRbeaconTxScheduler(pWB, YES);   
                 
-#ifdef DEBUG
+if (d_enable_all_debugging_messages)
+{
         if(0 == ++tick % 20)      //every ~20 secs dumps context.  
-        WSPRbeaconDumpContext(pWB);
-#endif
+         WSPRbeaconDumpContext(pWB);
+}
 		//orig code had a 900mS pause here 
 	stdio_set_driver_enabled(&stdio_uart, false);  //prevents bytes from GPS causing problems	
 	if (getchar_timeout_us(0)>0)   //looks for input on USB serial port ( actually its lucky, ignores uart only because its on an interrupr)
@@ -148,8 +149,8 @@ int main()
     adc_select_input(4);	
 	float adc = (float)adc_read() * conversionFactor;
 	float tempC = 27.0f - (adc - 0.706f) / 0.001721f;
-	pWB->_txSched.temp_in_Celsius=tempC;
-	//printf("as i: %i\n", pWB->_txSched.temp_in_Celsius);
+	pWB->_txSched.temp_in_Celsius=tempC;                         //printf("TEMPERATURE: %i\n", pWB->_txSched.temp_in_Celsius);
+	DCO._pGPStime->temp_in_Celsius=tempC;
 
 	adc_select_input(3);  //if setup correctly, ADC3 reads Vsys   // read voltage
 	float volts = 3*(float)adc_read() * conversionFactor;         //times 3 because thats what it said to do on the internet
@@ -176,8 +177,8 @@ int main()
 		gpio_put(PICO_DEFAULT_LED_PIN, 0);
 		sleep_ms(20);
 		}
-
-    }
+	
+	}
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
