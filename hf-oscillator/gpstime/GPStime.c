@@ -73,36 +73,37 @@ void RAM (GPStimePPScallback)(uint gpio, uint32_t events)
     const uint64_t tm64 = GetUptime64();
     if(spGPStimeData)
     {
-        spGPStimeData->_u64_sysclk_pps_last = tm64;   
-        ++spGPStimeData->_ix_last;
-        spGPStimeData->_ix_last %= eSlidingLen;
+        spGPStimeData->_u64_sysclk_pps_last = tm64;   //set pps_last = tm64 = uptime 
+        ++spGPStimeData->_ix_last;                    //increment ix_last
+        spGPStimeData->_ix_last %= eSlidingLen;       //rollover ix_last to zero at 32 (SlidingLen)
 
-        const int64_t dt_per_window = tm64 - spGPStimeData->_pu64_sliding_pps_tm[spGPStimeData->_ix_last];
+        const int64_t dt_per_window = tm64 - spGPStimeData->_pu64_sliding_pps_tm[spGPStimeData->_ix_last]; //sets dt_per_window to elapsed time since 32 cycles ago
         spGPStimeData->_pu64_sliding_pps_tm[spGPStimeData->_ix_last] = tm64;
-
-        if(ABS(dt_per_window - eCLKperTimeMark * eSlidingLen) < eMaxCLKdevPPM * eSlidingLen)
-        {
-            if(spGPStimeData->_u64_pps_period_1M)
+    
+	//	printf("Error value: %llu\n",(ABS((dt_per_window - eCLKperTimeMark * eSlidingLen)-eMaxCLKdevPPM * eSlidingLen)));    
+		if(ABS(dt_per_window - eCLKperTimeMark * eSlidingLen) < eMaxCLKdevPPM * eSlidingLen)   // only if dt_per_window within +/-250 ppm of 32 seconds
+        {      
+			if(spGPStimeData->_u64_pps_period_1M)   //only if pps_per_1m != 0
             {
-                spGPStimeData->_u64_pps_period_1M += iSAR64((int64_t)eDtUpscale * dt_per_window 
-                                                            - spGPStimeData->_u64_pps_period_1M + 2, 2);
-                spGPStimeData->_i32_freq_shift_ppb = (spGPStimeData->_u64_pps_period_1M
+                spGPStimeData->_u64_pps_period_1M += iSAR64((int64_t)eDtUpscale * dt_per_window   //pp_period incremented by error (of last 32sec period), but also add 2 and divide by4 (via bitshift)      pps_per_1m +=  1mill*dt_per_window - pps_per_1m+2 , divided by 4 (bit shift 2 to the right with iSAR64)
+														    - spGPStimeData->_u64_pps_period_1M + 2, 2);          // - spGPStimeData->_u64_pps_period_1M + 2, 2);
+                spGPStimeData->_i32_freq_shift_ppb = (spGPStimeData->_u64_pps_period_1M           //set the frequency compensation value here, pretty much from pps_period (lots zeroes and nums that cancel out in this calc)
                                                       - (int64_t)eDtUpscale * eCLKperTimeMark * eSlidingLen
                                                       + (eSlidingLen >> 1)) / eSlidingLen;
-            }
+			}
             else
             {
-                spGPStimeData->_u64_pps_period_1M = (int64_t)eDtUpscale * dt_per_window;
+                spGPStimeData->_u64_pps_period_1M = (int64_t)eDtUpscale * dt_per_window;  //if pps_per_1m was zero, initialize it to ~ 32 secs
             }
         }
-	if (spGPStimeContext->forced_XMIT_on)
+
+	if (spGPStimeContext->forced_XMIT_on)   //show some data for debugging
 		{
         const int64_t dt_1M = (dt_per_window + (eSlidingLen >> 1)) / eSlidingLen;
         const uint64_t tmp = (spGPStimeData->_u64_pps_period_1M + (eSlidingLen >> 1)) / eSlidingLen;
         printf("tempr: %d \n",spGPStimeContext->temp_in_Celsius);
 	    GPStimeDump(spGPStimeData);
 	}
-
     }
 	if (spGPStimeContext->enable_debug_messages) printf("PPS went on at: %.3f secs\n",((uint32_t)(to_us_since_boot(get_absolute_time()) / 1000ULL)/1000.0f ));
 }

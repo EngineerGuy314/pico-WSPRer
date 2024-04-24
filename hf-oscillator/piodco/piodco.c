@@ -148,7 +148,7 @@ int32_t PioDCOGetFreqShiftMilliHertz(const PioDco *pdco, uint64_t u64_desired_fr
     }
 
     static int64_t i64_last_correction = 0;
-    const int64_t dt = pdco->_pGPStime->_time_data._i32_freq_shift_ppb; /* Parts per billion. */
+    const int64_t dt = pdco->_pGPStime->_time_data._i32_freq_shift_ppb; /* Parts per billion. */   //Used here
     if(dt)
     {
         i64_last_correction = dt;

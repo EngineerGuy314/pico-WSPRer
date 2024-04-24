@@ -78,9 +78,9 @@
 enum
 {
     eDtUpscale = 1000000,
-    eSlidingLen = 32,
+    eSlidingLen = 32,			   //size of buffer used to compensated
     eCLKperTimeMark = 1000000,
-    eMaxCLKdevPPM = 250
+    eMaxCLKdevPPM = 250           // max error it will try to compensate for
 };
 
 typedef struct
