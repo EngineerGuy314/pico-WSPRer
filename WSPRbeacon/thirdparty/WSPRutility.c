@@ -81,8 +81,8 @@ void wspr_message_prep(char * call, char * loc, int8_t dbm)
 	
 	// Ensure that the only allowed characters are digits, uppercase letters, slash, and angle brackets
 	uint8_t i;
-  printf(" wsprs MSG prep callsign:: %s and its length is %i\n",call,strlen(call));
- printf(" wsprs MSG prep Location:: %s and its length is %i and dbm %i\n",loc,strlen(loc),dbm);
+  printf(" wsprs MSG prep callsign: %s and its length is %i\n",call,strlen(call));
+ printf(" wsprs MSG prep POWER: %s and its length is %i and dbm %i\n",loc,strlen(loc),dbm);
   for(i = 0; i < 12; i++)  //puts all letters in callsign uppercase
 	{
 		if(call[i] != '/' && call[i] != '<' && call[i] != '>')

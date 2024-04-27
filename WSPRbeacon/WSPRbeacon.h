@@ -69,7 +69,8 @@ typedef struct
 	uint8_t force_xmit_for_testing;
     uint8_t led_mode;
     uint8_t Xmission_In_Process;
-    uint8_t start_minute;
+//    uint8_t start_minute;  had to change this to an input param of the init function for reasons
+	uint8_t suffix;
     char id13[3];
     int8_t output_number_toEnable_GPS;
     int8_t temp_in_Celsius;
@@ -89,10 +90,10 @@ typedef struct
 
 WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare, int txpow_dbm,
                                   PioDco *pdco, uint32_t dial_freq_hz, uint32_t shift_freq_hz,
-                                  int gpio);
+                                  int gpio,  uint8_t start_minute);
 void WSPRbeaconSetDialFreq(WSPRbeaconContext *pctx, uint32_t freq_hz);
 
-int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int time_slot);
+int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type);
 char* add_brackets(const char * call);
 
 int WSPRbeaconSendPacket(const WSPRbeaconContext *pctx);

@@ -15,6 +15,11 @@ static int itx_trigger2 = 0;
 static int forced_xmit_in_process = 0;	
 static absolute_time_t start_time;
 static int current_minute;
+static int oneshots[10];
+static int schedule[10];  //array index is minute, (odd minutes are unused) value is -1 for NONE or 1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd
+static int at_least_one_slot_has_elapsed;
+static uint8_t _callsign_with_suffix[12];
+static 	uint8_t  altitude_as_power_fine;
 /// @brief Initializes a new WSPR beacon context.
 /// @param pcallsign HAM radio callsign, 12 chr max.
 /// @param pgridsquare Maidenhead locator, 7 chr max.
@@ -26,7 +31,7 @@ static int current_minute;
 /// @return Ptr to the new context.
 WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare, int txpow_dbm,
                                   PioDco *pdco, uint32_t dial_freq_hz, uint32_t shift_freq_hz,
-                                  int gpio)
+                                  int gpio,  uint8_t start_minute)
 {
     assert_(pcallsign);
     assert_(pgridsquare);
@@ -40,7 +45,27 @@ WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare
     assert_(p->_pTX);
     p->_pTX->_u32_dialfreqhz = dial_freq_hz + shift_freq_hz;
     p->_pTX->_i_tx_gpio = gpio;
-    return p;
+ 
+	at_least_one_slot_has_elapsed=0;
+	for (int i=0;i < 10;i++) schedule[i]=-1;
+
+	if (p->_txSched.id13[0]=='-')              //if U4B protocol disabled,  we will ONLY do Type3 (zachtek) at the specified minute
+	{
+		schedule[start_minute]=3;           
+		schedule[(start_minute+2)%10]=4;
+	}
+else
+	{
+		schedule[start_minute]=1;          //do U4b at selected minute 
+		schedule[(start_minute+2)%10]=2;
+		if (p->_txSched.suffix != 253)    // if Suffix enabled, Do zachtek messages 4 mins BEFORE (ie 6 minutes in future) of u4b (because minus (-) after char to decimal conversion is 253)
+			{
+				schedule[(start_minute+6)%10]=3;          
+				schedule[(start_minute+8)%10]=4;
+			}
+	}
+
+ return p;
 }
 
 /// @brief Sets dial (baseband minima) freq.
@@ -57,23 +82,25 @@ void WSPRbeaconSetDialFreq(WSPRbeaconContext *pctx, uint32_t freq_hz)
 /// @param pctx Context
 /// @return 0 if OK.
 //******************************************************************************************************************************
-int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int time_slot)
+int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd
 {
     assert_(pctx);
-    pctx->_u8_txpower =10;
+  const int8_t valid_dbm[19] =
+    {0, 3, 7, 10, 13, 17, 20, 23, 27, 30, 33, 37, 40,
+     43, 47, 50, 53, 57, 60};    
 
-   if (time_slot==0)
+   if (packet_type==1)   //U4B first msg
    {
-	printf("creating packet, modulo is %i\n",time_slot);
+	pctx->_u8_txpower =10;               //hardcoded at 10dbM when doing u4b MSG 1
+	printf("creating U4B packet 1\n");
 	char _4_char_version_of_locator[4];
 	strncpy(_4_char_version_of_locator, pctx->_pu8_locator, 4);     //only take first 4 chars of locator
-	_4_char_version_of_locator[4]=0; //null terminate end
-	
+	_4_char_version_of_locator[4]=0; //null terminate end	
 	wspr_encode(pctx->_pu8_callsign, _4_char_version_of_locator, pctx->_u8_txpower, pctx->_pu8_outbuf);   // look in WSPRutility.c for wspr_encode
    }
-   else  //if its not the first timeslot, do special encoding for U4B protocol
+ if (packet_type==2)   // special encoding for 2nd packet of U4B protocol
    {
-	printf("creating packet, modulo is %i\n",time_slot);
+	printf("creating U4B packet 2 \n");
 	char CallsignU4B[7]; 
 	char Grid_U4B[7]; 
 	uint8_t  power_U4B;
@@ -89,7 +116,7 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int time_slot)
 	        // convert inputs into components of a big number
         uint8_t grid5Val = grid5 - 'A';
         uint8_t grid6Val = grid6 - 'A';
-		uint16_t altFracM =  round((double)pctx->_pTX->_p_oscillator->_pGPStime->_power_altitude / 20);     
+		uint16_t altFracM =  round((double)pctx->_pTX->_p_oscillator->_pGPStime->_altitude / 20);     
 
 	 // convert inputs into a big number
         uint32_t val = 0;
@@ -156,53 +183,78 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int time_slot)
 		Grid_U4B[2] = g3;
 		Grid_U4B[3] = g4;
 		Grid_U4B[4] = 0;
-	
-		switch( powerVal)
-		{
-		case 0: power_U4B=0;
-				break;
-		case 1: power_U4B=3;
-				break;
-		case 2: power_U4B=7;
-				break;
-		case 3: power_U4B=10;
-				break;
-		case 4: power_U4B=13;
-				break;
-		case 5: power_U4B=17;
-				break;
-		case 6: power_U4B=20;
-				break;
-		case 7: power_U4B=23;
-				break;
-		case 8: power_U4B=27;
-				break;
-		case 9: power_U4B=30;
-				break;
-		case 10: power_U4B=33;
-				break;
-		case 11: power_U4B=37;
-				break;
-		case 12: power_U4B=40;
-				break;
-		case 13: power_U4B=43;
-				break;
-		case 14: power_U4B=47;
-				break;
-		case 15: power_U4B=50;
-				break;
-		case 16: power_U4B=53;
-				break;
-		case 17: power_U4B=57;
-				break;
-		case 18: power_U4B=60;
-				break;
-		}
+
+	power_U4B=valid_dbm[powerVal];
 
 	wspr_encode(CallsignU4B, Grid_U4B, power_U4B, pctx->_pu8_outbuf); 
    }
-     
-    return 0;
+	
+if (packet_type==3)   //1st Zachtek (WSPR type 1 message)
+   {
+
+	 strcpy(_callsign_with_suffix,pctx->_pu8_callsign);
+	 strcat(_callsign_with_suffix,"/"); 
+ 	 uint8_t suffix_as_string[2];
+	 suffix_as_string[0]=pctx->_txSched.suffix+48;
+	 suffix_as_string[1]=0;
+	 strcat(_callsign_with_suffix,suffix_as_string);
+
+	uint8_t  altitude_as_power_rough;
+
+			altitude_as_power_rough=0;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>900) altitude_as_power_rough=3;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>2100) altitude_as_power_rough=7;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>3000) altitude_as_power_rough=10;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>3900) altitude_as_power_rough=13;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>5100) altitude_as_power_rough=17;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>6000) altitude_as_power_rough=20;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>6900) altitude_as_power_rough=23;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>8100) altitude_as_power_rough=27;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>9000) altitude_as_power_rough=30;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>9900) altitude_as_power_rough=33;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>11100) altitude_as_power_rough=37;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>12000) altitude_as_power_rough=40;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>12900) altitude_as_power_rough=43;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>14100) altitude_as_power_rough=47;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>15000) altitude_as_power_rough=50;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>15900) altitude_as_power_rough=53;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>17100) altitude_as_power_rough=57;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>18000) altitude_as_power_rough=60;
+
+			float fine_altitude = pctx->_pTX->_p_oscillator->_pGPStime->_altitude - (altitude_as_power_rough*300.0f);
+
+			altitude_as_power_fine=0;
+			if (fine_altitude>60) altitude_as_power_fine=3;
+			if (fine_altitude>140) altitude_as_power_fine=7;
+			if (fine_altitude>200) altitude_as_power_fine=10;
+			if (fine_altitude>260) altitude_as_power_fine=13;
+			if (fine_altitude>340) altitude_as_power_fine=17;
+			if (fine_altitude>400) altitude_as_power_fine=20;
+			if (fine_altitude>460) altitude_as_power_fine=23;
+			if (fine_altitude>540) altitude_as_power_fine=27;
+			if (fine_altitude>600) altitude_as_power_fine=30;
+			if (fine_altitude>660) altitude_as_power_fine=33;
+			if (fine_altitude>740) altitude_as_power_fine=37;
+			if (fine_altitude>800) altitude_as_power_fine=40;
+			if (fine_altitude>860) altitude_as_power_fine=43;
+			if (fine_altitude>940) altitude_as_power_fine=47;
+			if (fine_altitude>1000) altitude_as_power_fine=50;
+			if (fine_altitude>1060) altitude_as_power_fine=53;
+			if (fine_altitude>1140) altitude_as_power_fine=57;
+			if (fine_altitude>1200) altitude_as_power_fine=60;
+
+
+printf("Raw altitude: %0.3f rough: %d fine: %d\n",pctx->_pTX->_p_oscillator->_pGPStime->_altitude,altitude_as_power_rough,altitude_as_power_fine);
+
+	wspr_encode(_callsign_with_suffix, pctx->_pu8_locator, altitude_as_power_rough, pctx->_pu8_outbuf);  
+   }
+
+if (packet_type==4)   //2nd Zachtek (WSPR type 3 message)
+   {
+	wspr_encode(add_brackets(_callsign_with_suffix), pctx->_pu8_locator, altitude_as_power_fine, pctx->_pu8_outbuf);  			
+   }
+	
+	return 0;
 }
 //******************************************************************************************************************************
 /// @brief Sends a prepared WSPR packet using TxChannel.
@@ -223,7 +275,6 @@ int WSPRbeaconSendPacket(const WSPRbeaconContext *pctx)
 /// @brief Arranges WSPR sending in accordance with pre-defined schedule.
 /// @brief It works only if GPS receiver available (for now).
 /// @param pctx Ptr to Context.
-/// @param verbose Whether stdio output is needed.
 /// @return 0 if OK, -1 if NO GPS received available
 int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called every second from Main.c
 {
@@ -236,7 +287,7 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 							{
 								StampPrintf("> FORCING XMISSION! for debugging   <"); pctx->_txSched.led_mode = 2;
 								PioDCOStart(pctx->_pTX->_p_oscillator);
-								//WSPRbeaconCreatePacket(pctx,0);    If this is disabled, the packet is all zeroes, and it xmits an unmodulated steady frequency
+								//WSPRbeaconCreatePacket(pctx,0);    If this is disabled, the packet is all zeroes, and it xmits an unmodulated steady frequency. but if you didnt power cycle since enabling Force_xmition there will still be data stuck in the buffer...
 								sleep_ms(100);
 								WSPRbeaconSendPacket(pctx);
 								start_time = get_absolute_time();
@@ -248,8 +299,7 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 									PioDCOStop(pctx->_pTX->_p_oscillator); 
 									printf("Pio *STOP*  called by end of forced xmit. small pause before restart\n");
 									sleep_ms(2000);
-								}
-								
+								}								
 				return -1;
 		 }
  
@@ -259,70 +309,32 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 			return -1;
 		}
 	 
-		if(!is_GPS_active && pctx->_txSched.Xmission_In_Process==0) 
-			{   StampPrintf("Gps was available, but wasnt active yet. ledmode %d XMIT status %d",pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);
-				return -1;
-			}
-		else 
-		{
-			if (pctx->_txSched.Xmission_In_Process==FALSE) pctx->_txSched.led_mode = 1; else pctx->_txSched.led_mode = 2;
-			StampPrintf("gps is ACTIVE amd AVAILABLE. ledmode %d XMIT status %d",pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);				  
-		}
-		
-		
+		if(!is_GPS_active) StampPrintf("Gps was available, but wasnt active yet. ledmode %d XMIT status %d",pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);
+
 		current_minute = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_last_digit_minutes - 48;  //convert from char to int
-
-		if( (pctx->_txSched.Xmission_In_Process==FALSE) && (pctx->_txSched.start_minute==current_minute) ) 
-		{                                              //if not yet transmitting, and current minute == starting_minute, then enable xmission
-			printf("XMIT about to Start! start minute and current minute: >%i< >%i<\n\n",pctx->_txSched.start_minute,current_minute);
-			pctx->_txSched.Xmission_In_Process=1;
-			start_time = get_absolute_time();
-		}			
-		
-		if(pctx->_txSched.Xmission_In_Process==TRUE) 
-		{	
-				if(absolute_time_diff_us( start_time, get_absolute_time()) < 120000000ULL)     //first timeslot
-				{
-					if(!itx_trigger)   //oneshot right at beginning of slot
-					{
-						//we get here once, and only once, at top of modulo 0												
-						pctx->_txSched.Xmission_In_Process=1;   
-						itx_trigger = 1;
-						if(verbose) StampPrintf(">      >    >     Start TX.  <   <       <");
-						PioDCOStart(pctx->_pTX->_p_oscillator); printf("Pio START called by modulo 0\n");						
-						WSPRbeaconCreatePacket(pctx,0);
-						sleep_ms(100);
-						WSPRbeaconSendPacket(pctx); 
-						pctx->_txSched.led_mode = 2;  //xmitting						
-					}
-				}				
-				else if(absolute_time_diff_us( start_time, get_absolute_time()) > 120000000ULL)  //time for 2nd (telemetry) message
-				{
-					if(!itx_trigger2)   //oneshot right at beginning of slot 
-					{                                  
-						PioDCOStop(pctx->_pTX->_p_oscillator); printf("Pio-Stop called by modulo 1 \n");//make sure to kill the previous message
-						itx_trigger2 = 1;
-						if(verbose) StampPrintf(">>>>> >                   Start SECOND TX.         < <<<<<<<<<<");
-						PioDCOStart(pctx->_pTX->_p_oscillator);        printf("Pio START called by modulo 1 \n");
-						WSPRbeaconCreatePacket(pctx,1);
-						sleep_ms(100);
-						WSPRbeaconSendPacket(pctx);
-						pctx->_txSched.led_mode = 2;  //xmitting
-					}
-				}				
-				
-				if (absolute_time_diff_us( start_time, get_absolute_time()) > 240000000ULL) //4 minutes past, time to killl it
-				{
-					itx_trigger = 0;	itx_trigger2 = 0;   //reset oneshots					
-					pctx->_txSched.led_mode = 1;  //not xmitting, waiting for SLOT
-					if(verbose) StampPrintf("..   WAITING  for right time slot to start xmit..modulo and led-mode and XMIT %d %d %d",current_minute,pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);
-					PioDCOStop(pctx->_pTX->_p_oscillator); printf("Pio *STOP*  called by else. modulo: %d\n",current_minute);
-					pctx->_txSched.Xmission_In_Process=0; // back to normal
-				}
+	
+	if (schedule[current_minute]==-1)        //if the current minute is an odd minute or a non-scheduled minute
+	{
+		for (int i=0;i < 10;i++) oneshots[i]=0;
+		at_least_one_slot_has_elapsed=1;
+	}
+	
+	else if (is_GPS_available && at_least_one_slot_has_elapsed 
+			&& schedule[current_minute]>0
+			&& oneshots[current_minute]==0)		
+		{
+			oneshots[current_minute]=1;	
+			printf("\nStarting TX. current minute: %i Schedule Value (packet type): %i\n",current_minute,schedule[current_minute]);
+			PioDCOStart(pctx->_pTX->_p_oscillator); 
+			WSPRbeaconCreatePacket(pctx, schedule[current_minute] ); //the schedule determines packet type (1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd)
+			sleep_ms(100);
+			WSPRbeaconSendPacket(pctx); 
+			pctx->_txSched.led_mode = 2;  //xmitting		. with current setup this will remain on forever to keep temperature stable	
 		}
-    return 0;
-}
 
+   return 0;
+}
+///////////////////////////////////////////////////////////
 /// @brief Dumps the beacon context to stdio.
 /// @param pctx Ptr to Context.
 void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx)  //called ~ every 20 secs from main.c
@@ -359,10 +371,10 @@ void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx)  //called ~ every 20 s
 	StampPrintf("Grid: %s",(char *)WSPRbeaconGetLastQTHLocator(pctx));
 	StampPrintf("lat: %lli",pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lat_100k);
 	StampPrintf("lon: %lli",pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lon_100k);
-	StampPrintf("altitude: %f",pctx->_pTX->_p_oscillator->_pGPStime->_power_altitude);	   
+	StampPrintf("altitude: %f",pctx->_pTX->_p_oscillator->_pGPStime->_altitude);	   
 	StampPrintf("current minute: %i",current_minute);	   
 }
-
+///////////////////////////////////////////////////////////
 /// @brief Extracts maidenhead type QTH locator (such as KO85) using GPS coords.
 /// @param pctx Ptr to WSPR beacon context.
 /// @return ptr to string of QTH locator (static duration object inside get_mh).
@@ -389,7 +401,7 @@ uint8_t WSPRbeaconIsGPSsolutionActive(const WSPRbeaconContext *pctx)
     return YES == pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;
 }
 ///////////////////////////////////////////////////////////
-          //no longer used. was used for Zachtek style in v1,v2
+          // used for Zachtek style
 char* add_brackets(const char * call)   //adds <> around the callsign. this is what triggers a type 3 message. 
 {
 	static char temp_holder[20];

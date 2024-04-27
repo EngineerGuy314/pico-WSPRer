@@ -1,9 +1,9 @@
 # pico balloon WSPR tracker
-Implements an extremely low-cost WSPR tracker for HAB (high altitude balloons) with barely anything besides a Raspberry Pi Pico. The only other significant component is a cheap GPS module such as a generic ATGM336H as shown (approx $4 as of April 2024). RF power in the 14Mhz (20 meter) band is generated directly by the Pi Pico. Two gpio pins are driven out of phase to feed a dipole antenna (typ 38awg copper).
+Implements an extremely low-cost WSPR tracker for HAB (high altitude balloons) with barely anything besides a Raspberry Pi Pico. The only other significant component is a cheap GPS module such as a generic ATGM336H as shown (approx $4 as of April 2024). RF power in the 14Mhz (20 meter) band is generated directly by the Pi Pico. Two gpio pins are driven out of phase to feed a half wave dipole antenna trimmed for 20M (typically 38awg copper).
 
 The RF synthesis and basic WSPR code is based on Roman Piksaykin's excellent work at https://github.com/RPiks/pico-WSPR-tx  
 
-This WSPR beacon calculates the altitude and full 6 character maidenhead grid based on the GPS location data and transmits it along with the callsign. Solar array voltage and rp2040 temperature are also sent as telemetry utilizing the U4B/Traquito protocol.
+This WSPR beacon calculates the altitude and full 6 character maidenhead grid based on the GPS location data and transmits it along with the callsign. Solar array voltage and rp2040 temperature are also sent as telemetry utilizing the U4B/Traquito protocol. If you specify a callsign suffix, it can ALSO/INSTEAD transmit WSPR Type 3 every ten minutes. These include the 6 character maidenhead grid and the altitude encoded using the Zachtek protocol. Type 3 messaging is arguably more robust than U4B, but less detailed.
 
 The user's callsign and telemetry encoding details are configurable via the pico's USB port and a simple terminal program (ie Putty).
 
@@ -20,7 +20,7 @@ With the original code the Pico was being overclocked to 270Mhz, so the total po
 5. Check whether output file ./build/pico-WSPRer.uf2 appears.
 6. power up pico with BOOTSEL held, copy the .uf2 file into the Pico when it shows up as a jumpdrive.
 7. Go to https://traquito.github.io/channelmap/ to find an open channel and make note of id13 (column header), minute and lane (frequency).
-8. Connect to pico with a USB cable and a terminal program such as Putty. Hit any key to access setup menu. Configure your callsign and telemetry channel details from step 7. 
+8. Connect to pico with a USB cable and a terminal program such as Putty. Hit any key to access setup menu. Configure your callsign and telemetry channel details from step 7. Enter dash (-) for the Suffix if you only want to use U4B protocol. Enter double dash (--) for Id13 if you only want to use Type3 (zachtek) protocol.
 9. WSPR type-1 messages will be sent every ten minutes followed by the U4B style telemetry with a coded callsign
 10. If the pico is plugged into a computer via USB while running it will appear as a COM port and diagnostic messages can be viewed at 115200 baud. Raw $GNRMC or $GPRMC messages from GPS unit will be displayed, and every 20 seconds decoded latitude/longitude and grid locator will be shown.
 ![pico_WSPRer_schema4](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/ce691e6d-bfd3-491e-849c-77bea688231e)

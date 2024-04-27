@@ -287,8 +287,10 @@ void extract_altitude(GPStimeContext *pg)
 			//printf("altitude: %s\n",(char *)GxGGA+u8ixcollector[8]);
         float f;
 		f = (float)atof((char *)GxGGA+u8ixcollector[8]);  //printf("floating version of altitude: %f\n",f); 
-			pg->_power_altitude=f;
-											 
+		pg->_altitude=f;
+    	
+		//pg->_altitude=12500;     //FORCING A SPECIFIC ALTITUDE for debugging
+		
     }
 }
 
@@ -332,5 +334,5 @@ void GPStimeDump(const GPStimeData *pd)
     printf("GPS Latitude:%lld Longtitude:%lld\n", pd->_i64_lat_100k, pd->_i64_lon_100k);
     printf("PPS sysclock last:%llu\n", pd->_u64_sysclk_pps_last);
     printf("PPS period *1e6:%llu\n", (pd->_u64_pps_period_1M + (eSlidingLen>>1)) / eSlidingLen);
-    printf("FRQ correction ppb:%lld\n\n", pd->_i32_freq_shift_ppb);
+    printf(" FRQ correction ppb:%lld  ", pd->_i32_freq_shift_ppb);
 }
