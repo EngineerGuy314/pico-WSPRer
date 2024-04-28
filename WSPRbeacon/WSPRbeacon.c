@@ -92,7 +92,7 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-4 for U
    if (packet_type==1)   //U4B first msg
    {
 	pctx->_u8_txpower =10;               //hardcoded at 10dbM when doing u4b MSG 1
-	printf("creating U4B packet 1\n");
+	//printf("creating U4B packet 1\n");
 	char _4_char_version_of_locator[4];
 	strncpy(_4_char_version_of_locator, pctx->_pu8_locator, 4);     //only take first 4 chars of locator
 	_4_char_version_of_locator[4]=0; //null terminate end	
@@ -100,7 +100,7 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-4 for U
    }
  if (packet_type==2)   // special encoding for 2nd packet of U4B protocol
    {
-	printf("creating U4B packet 2 \n");
+	//printf("creating U4B packet 2 \n");
 	char CallsignU4B[7]; 
 	char Grid_U4B[7]; 
 	uint8_t  power_U4B;
@@ -324,10 +324,10 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 			&& oneshots[current_minute]==0)		
 		{
 			oneshots[current_minute]=1;	
-			printf("\nStarting TX. current minute: %i Schedule Value (packet type): %i\n",current_minute,schedule[current_minute]);
+	//		printf("\nStarting TX. current minute: %i Schedule Value (packet type): %i\n",current_minute,schedule[current_minute]);
 			PioDCOStart(pctx->_pTX->_p_oscillator); 
 			WSPRbeaconCreatePacket(pctx, schedule[current_minute] ); //the schedule determines packet type (1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd)
-			sleep_ms(100);
+			sleep_ms(50);
 			WSPRbeaconSendPacket(pctx); 
 			pctx->_txSched.led_mode = 2;  //xmitting		. with current setup this will remain on forever to keep temperature stable	
 		}

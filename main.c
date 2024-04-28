@@ -154,26 +154,26 @@ if (d_enable_all_debugging_messages)
 	    if (volts < 3.00) { volts += 1.95; }			          //wrap around for overflow
         if (volts > 4.95) { volts -= 1.95; }
 	pWB->_txSched.voltage=volts;
-    /* if (d_enable_all_debugging_messages) */printf("Temp: %0.1f  Voltage: %0.1f \n", (tempC*(9.0f/5.0f))+32,volts);
+    printf("T: %0.1f  V: %0.1f \n", (tempC*(9.0f/5.0f))+32,volts);
 	
 		gpio_put(PICO_DEFAULT_LED_PIN, 1); //LED on. how long it stays on depends on "mode"0,1,2 ~= no gps, waiting for slot, xmitting
 		if (pWB->_txSched.led_mode==0)
 		{
-		sleep_ms(20);
+		sleep_ms(10);
 		gpio_put(PICO_DEFAULT_LED_PIN, 0);
-		sleep_ms(880);
+		sleep_ms(440);
 		}
 		if (pWB->_txSched.led_mode==1)
 		{
-		sleep_ms(450);
+		sleep_ms(220);
 		gpio_put(PICO_DEFAULT_LED_PIN, 0);
-		sleep_ms(450);
+		sleep_ms(220);
 		}
 		if (pWB->_txSched.led_mode==2)
 		{
-		sleep_ms(880);
+		sleep_ms(440);
 		gpio_put(PICO_DEFAULT_LED_PIN, 0);
-		sleep_ms(20);
+		sleep_ms(10);
 		}
 	
 	}

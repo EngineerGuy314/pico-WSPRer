@@ -20,15 +20,19 @@ pico/stdlib.h
 piodco.h
 -
 
-../WSPRbeacon/WSPRbeacon.h
+../WSPRbeacon/thirdparty/WSPRutility.h
 stdint.h
 -
 string.h
 -
-TxChannel.h
+ctype.h
 -
-logutils.h
--
+nhash.h
+../WSPRbeacon/thirdparty/nhash.h
+
+../WSPRbeacon/thirdparty/maidenhead.h
+
+../WSPRbeacon/thirdparty/nhash.h
 
 ../defines.h
 
@@ -88,53 +92,25 @@ defines.h
 ../gpstime/GPStime.h
 ../hf-oscillator/gpstime/GPStime.h
 
-../protos.h
-
-/home/rob/pico-WSPRer/hf-oscillator/defines.h
-
-/home/rob/pico-WSPRer/hf-oscillator/lib/assert.h
-stdbool.h
+/home/rob/pico-WSPRer/WSPRbeacon/WSPRbeacon.c
+WSPRbeacon.h
+/home/rob/pico-WSPRer/WSPRbeacon/WSPRbeacon.h
+WSPRutility.h
 -
-pico/stdlib.h
-/home/rob/pico-WSPRer/hf-oscillator/lib/pico/stdlib.h
+maidenhead.h
+-
+math.h
+-
 
-/home/rob/pico-WSPRer/main.c
+/home/rob/pico-WSPRer/WSPRbeacon/WSPRbeacon.h
+stdint.h
+-
 string.h
 -
-stdio.h
--
-stdlib.h
--
-ctype.h
--
-pico/multicore.h
-/home/rob/pico-WSPRer/pico/multicore.h
-hf-oscillator/lib/assert.h
-/home/rob/pico-WSPRer/hf-oscillator/lib/assert.h
-hf-oscillator/defines.h
-/home/rob/pico-WSPRer/hf-oscillator/defines.h
-hardware/flash.h
-/home/rob/pico-WSPRer/hardware/flash.h
-defines.h
--
-piodco.h
--
-WSPRbeacon.h
+TxChannel.h
 -
 logutils.h
 -
-protos.h
--
-pico/stdlib.h
-/home/rob/pico-WSPRer/pico/stdlib.h
-hardware/gpio.h
-/home/rob/pico-WSPRer/hardware/gpio.h
-hardware/adc.h
-/home/rob/pico-WSPRer/hardware/adc.h
-hardware/watchdog.h
-/home/rob/pico-WSPRer/hardware/watchdog.h
-hardware/uart.h
-/home/rob/pico-WSPRer/hardware/uart.h
 
 /home/rob/pico-sdk/src/boards/include/boards/pico.h
 
@@ -192,34 +168,6 @@ pico/stdio_usb.h
 pico/stdio_semihosting.h
 /home/rob/pico-sdk/src/common/pico_stdlib/include/pico/pico/stdio_semihosting.h
 
-/home/rob/pico-sdk/src/common/pico_sync/include/pico/critical_section.h
-pico/lock_core.h
-/home/rob/pico-sdk/src/common/pico_sync/include/pico/pico/lock_core.h
-
-/home/rob/pico-sdk/src/common/pico_sync/include/pico/lock_core.h
-pico.h
-/home/rob/pico-sdk/src/common/pico_sync/include/pico/pico.h
-pico/time.h
-/home/rob/pico-sdk/src/common/pico_sync/include/pico/pico/time.h
-hardware/sync.h
-/home/rob/pico-sdk/src/common/pico_sync/include/pico/hardware/sync.h
-
-/home/rob/pico-sdk/src/common/pico_sync/include/pico/mutex.h
-pico/lock_core.h
-/home/rob/pico-sdk/src/common/pico_sync/include/pico/pico/lock_core.h
-
-/home/rob/pico-sdk/src/common/pico_sync/include/pico/sem.h
-pico/lock_core.h
-/home/rob/pico-sdk/src/common/pico_sync/include/pico/pico/lock_core.h
-
-/home/rob/pico-sdk/src/common/pico_sync/include/pico/sync.h
-pico/sem.h
-/home/rob/pico-sdk/src/common/pico_sync/include/pico/pico/sem.h
-pico/mutex.h
-/home/rob/pico-sdk/src/common/pico_sync/include/pico/pico/mutex.h
-pico/critical_section.h
-/home/rob/pico-sdk/src/common/pico_sync/include/pico/pico/critical_section.h
-
 /home/rob/pico-sdk/src/common/pico_time/include/pico/time.h
 pico.h
 /home/rob/pico-sdk/src/common/pico_time/include/pico/pico.h
@@ -227,8 +175,6 @@ hardware/timer.h
 /home/rob/pico-sdk/src/common/pico_time/include/pico/hardware/timer.h
 
 /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/platform_defs.h
-
-/home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/adc.h
 
 /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/addressmap.h
 hardware/platform_defs.h
@@ -253,14 +199,6 @@ hardware/platform_defs.h
 /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/timer.h
 
 /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/uart.h
-
-/home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/watchdog.h
-
-/home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/adc.h
-hardware/address_mapped.h
-/home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/hardware/address_mapped.h
-hardware/regs/adc.h
-/home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/hardware/regs/adc.h
 
 /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/clocks.h
 hardware/address_mapped.h
@@ -312,21 +250,7 @@ hardware/address_mapped.h
 hardware/regs/uart.h
 /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/hardware/regs/uart.h
 
-/home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/watchdog.h
-hardware/address_mapped.h
-/home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/hardware/address_mapped.h
-hardware/regs/watchdog.h
-/home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/hardware/regs/watchdog.h
-
 /home/rob/pico-sdk/src/rp2_common/cmsis/include/cmsis/rename_exceptions.h
-
-/home/rob/pico-sdk/src/rp2_common/hardware_adc/include/hardware/adc.h
-pico.h
-/home/rob/pico-sdk/src/rp2_common/hardware_adc/include/hardware/pico.h
-hardware/structs/adc.h
-/home/rob/pico-sdk/src/rp2_common/hardware_adc/include/hardware/hardware/structs/adc.h
-hardware/gpio.h
-/home/rob/pico-sdk/src/rp2_common/hardware_adc/include/hardware/hardware/gpio.h
 
 /home/rob/pico-sdk/src/rp2_common/hardware_base/include/hardware/address_mapped.h
 pico.h
@@ -339,10 +263,6 @@ pico.h
 /home/rob/pico-sdk/src/rp2_common/hardware_clocks/include/hardware/pico.h
 hardware/structs/clocks.h
 /home/rob/pico-sdk/src/rp2_common/hardware_clocks/include/hardware/hardware/structs/clocks.h
-
-/home/rob/pico-sdk/src/rp2_common/hardware_flash/include/hardware/flash.h
-pico.h
-/home/rob/pico-sdk/src/rp2_common/hardware_flash/include/hardware/pico.h
 
 /home/rob/pico-sdk/src/rp2_common/hardware_gpio/include/hardware/gpio.h
 pico.h
@@ -384,14 +304,6 @@ hardware/pio_instructions.h
 pico.h
 /home/rob/pico-sdk/src/rp2_common/hardware_pio/include/hardware/pico.h
 
-/home/rob/pico-sdk/src/rp2_common/hardware_sync/include/hardware/sync.h
-pico.h
-/home/rob/pico-sdk/src/rp2_common/hardware_sync/include/hardware/pico.h
-hardware/address_mapped.h
-/home/rob/pico-sdk/src/rp2_common/hardware_sync/include/hardware/hardware/address_mapped.h
-hardware/regs/sio.h
-/home/rob/pico-sdk/src/rp2_common/hardware_sync/include/hardware/hardware/regs/sio.h
-
 /home/rob/pico-sdk/src/rp2_common/hardware_timer/include/hardware/timer.h
 pico.h
 /home/rob/pico-sdk/src/rp2_common/hardware_timer/include/hardware/pico.h
@@ -405,20 +317,6 @@ hardware/structs/uart.h
 /home/rob/pico-sdk/src/rp2_common/hardware_uart/include/hardware/hardware/structs/uart.h
 hardware/regs/dreq.h
 /home/rob/pico-sdk/src/rp2_common/hardware_uart/include/hardware/hardware/regs/dreq.h
-
-/home/rob/pico-sdk/src/rp2_common/hardware_watchdog/include/hardware/watchdog.h
-pico.h
-/home/rob/pico-sdk/src/rp2_common/hardware_watchdog/include/hardware/pico.h
-hardware/structs/watchdog.h
-/home/rob/pico-sdk/src/rp2_common/hardware_watchdog/include/hardware/hardware/structs/watchdog.h
-
-/home/rob/pico-sdk/src/rp2_common/pico_multicore/include/pico/multicore.h
-pico/types.h
-/home/rob/pico-sdk/src/rp2_common/pico_multicore/include/pico/pico/types.h
-pico/sync.h
-/home/rob/pico-sdk/src/rp2_common/pico_multicore/include/pico/pico/sync.h
-hardware/structs/sio.h
-/home/rob/pico-sdk/src/rp2_common/pico_multicore/include/pico/hardware/structs/sio.h
 
 /home/rob/pico-sdk/src/rp2_common/pico_platform/include/pico/platform.h
 hardware/platform_defs.h
