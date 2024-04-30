@@ -74,6 +74,7 @@ typedef struct
     char id13[3];
     int8_t output_number_toEnable_GPS;
     int8_t temp_in_Celsius;
+	int8_t verbosity;
     double voltage;
 } WSPRbeaconSchedule;
 

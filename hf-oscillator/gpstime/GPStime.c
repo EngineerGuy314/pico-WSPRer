@@ -21,7 +21,6 @@ GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio)
     ASSERT_(0 == uart_id || 1 == uart_id);
     ASSERT_(uart_baud <= 115200);
     ASSERT_(pps_gpio < 29);
-	printf(" GPS time init was called ");
     // Set up our UART with the required speed & assign pins.
     uart_init(uart_id ? uart1 : uart0, uart_baud);
     gpio_set_function(uart_id ? 8 : 0, GPIO_FUNC_UART);
@@ -68,6 +67,9 @@ void GPStimeDestroy(GPStimeContext **pp)
 
 /// @brief The PPS interrupt service subroutine.
 /// @param  gpio The GPIO pin of Pico which is connected to PPS output of GPS rec.
+
+
+
 void RAM (GPStimePPScallback)(uint gpio, uint32_t events)
 {   
     const uint64_t tm64 = GetUptime64();
@@ -80,7 +82,7 @@ void RAM (GPStimePPScallback)(uint gpio, uint32_t events)
         const int64_t dt_per_window = tm64 - spGPStimeData->_pu64_sliding_pps_tm[spGPStimeData->_ix_last]; //sets dt_per_window to elapsed time since 32 cycles ago
         spGPStimeData->_pu64_sliding_pps_tm[spGPStimeData->_ix_last] = tm64;
     
-	//	printf("Error value: %llu\n",(ABS((dt_per_window - eCLKperTimeMark * eSlidingLen)-eMaxCLKdevPPM * eSlidingLen)));    
+		if ((spGPStimeContext->verbosity>=6)&&(spGPStimeContext->user_setup_menu_active==0 )) printf("Error value: %llu\n",(ABS((dt_per_window - eCLKperTimeMark * eSlidingLen)-eMaxCLKdevPPM * eSlidingLen)));    
 		if(ABS(dt_per_window - eCLKperTimeMark * eSlidingLen) < eMaxCLKdevPPM * eSlidingLen)   // only if dt_per_window within +/-250 ppm of 32 seconds
         {      
 			if(spGPStimeData->_u64_pps_period_1M)   //only if pps_per_1m != 0
@@ -97,15 +99,15 @@ void RAM (GPStimePPScallback)(uint gpio, uint32_t events)
             }
         }
 
-	if (spGPStimeContext->forced_XMIT_on)   //show some data for debugging
+		if ((spGPStimeContext->verbosity>=6)&&(spGPStimeContext->user_setup_menu_active==0))   //show some data for debugging
 		{
         const int64_t dt_1M = (dt_per_window + (eSlidingLen >> 1)) / eSlidingLen;
         const uint64_t tmp = (spGPStimeData->_u64_pps_period_1M + (eSlidingLen >> 1)) / eSlidingLen;
-        printf("tempr: %d \n",spGPStimeContext->temp_in_Celsius);
 	    GPStimeDump(spGPStimeData);
+	    }
+	 if ((spGPStimeContext->verbosity>=6)&&(spGPStimeContext->user_setup_menu_active==0 )) printf("PPS went on at: %.3f secs\n",((uint32_t)(to_us_since_boot(get_absolute_time()) / 1000ULL)/1000.0f ));
 	}
-    }
-	if (spGPStimeContext->enable_debug_messages) printf("PPS went on at: %.3f secs\n",((uint32_t)(to_us_since_boot(get_absolute_time()) / 1000ULL)/1000.0f ));
+	
 }
 
 /// @brief Calculates current unixtime using data available.
@@ -143,7 +145,7 @@ int GPStimeGetTime(const GPStimeContext *pg, uint32_t *u32_tmdst)
 /// @brief UART FIFO ISR. Processes another N chars received from GPS receiver
 void RAM (GPStimeUartRxIsr)()
 {
-    if(spGPStimeContext)
+    if((spGPStimeContext))
     {
 		uart_inst_t *puart_id = spGPStimeContext->_uart_id ? uart1 : uart0;
         while (uart_is_readable(puart_id))
@@ -161,7 +163,8 @@ void RAM (GPStimeUartRxIsr)()
 		
 	   if(spGPStimeContext->_is_sentence_ready)
         {
-			spGPStimeContext->_u8_ixw = 0;     // printf("\n dump RAW FIFO: %s\n\n",(char *)spGPStimeContext->_pbytebuff);           
+			spGPStimeContext->_u8_ixw = 0;     
+			if ((spGPStimeContext->verbosity>=8)&&(spGPStimeContext->user_setup_menu_active==0 ))  printf("dump ALL RAW FIFO: %s",(char *)spGPStimeContext->_pbytebuff);           
             spGPStimeContext->_is_sentence_ready =0;
 			spGPStimeContext->_i32_error_count -= GPStimeProcNMEAsentence(spGPStimeContext);
 			extract_altitude(spGPStimeContext);
@@ -186,7 +189,7 @@ int GPStimeProcNMEAsentence(GPStimeContext *pg)
 	if(prmc)
     {
         ++pg->_time_data._u32_nmea_gprmc_count;   
-		if (pg->enable_debug_messages)	printf("Found GxRMC len: %d  full buff: %s",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);// printf("prmc found: %s\n",(char *)prmc);
+		if ((spGPStimeContext->verbosity>=7)&&(spGPStimeContext->user_setup_menu_active==0 )) 	printf("Found GxRMC len: %d  full buff: %s",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);// printf("prmc found: %s\n",(char *)prmc);
 
         uint64_t tm_fix = GetUptime64();
         uint8_t u8ixcollector[16] = {0};   //collects locations of commas
@@ -265,7 +268,7 @@ void extract_altitude(GPStimeContext *pg)
     if(GnGGA) GxGGA=GnGGA; 
 	if(GxGGA)
     {
-        if (pg->enable_debug_messages) printf("Found GxGGA len: %d  full buff: %s",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);
+       if ((spGPStimeContext->verbosity>=7)&&(spGPStimeContext->user_setup_menu_active==0 )) printf("Found GxGGA len: %d  full buff: %s",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);
        
         uint8_t u8ixcollector[16] = {0};   //collects locations of commas
         uint8_t chksum = 0;
@@ -284,9 +287,9 @@ void extract_altitude(GPStimeContext *pg)
             }
         }
            
-			//printf("altitude: %s\n",(char *)GxGGA+u8ixcollector[8]);
+		if ((spGPStimeContext->verbosity>=4)&&(spGPStimeContext->user_setup_menu_active==0 )) printf("altitude: %s\n",(char *)GxGGA+u8ixcollector[8]);
         float f;
-		f = (float)atof((char *)GxGGA+u8ixcollector[8]);  //printf("floating version of altitude: %f\n",f); 
+		f = (float)atof((char *)GxGGA+u8ixcollector[8]);  
 		pg->_altitude=f;
     	
 		//pg->_altitude=12500;     //FORCING A SPECIFIC ALTITUDE for debugging

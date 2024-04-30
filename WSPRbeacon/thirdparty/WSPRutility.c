@@ -26,7 +26,7 @@
 static char callsign[12];
 static char locator[7];
 static int8_t power;
-
+static int _verbos;
 /*
  * wspr_encode(const char * call, const char * loc, const uint8_t dbm, uint8_t * symbols)
  *
@@ -40,15 +40,18 @@ static int8_t power;
  *  Ensure that you pass a uint8_t array of at least size WSPR_SYMBOL_COUNT to the method.
  *
  */
-void wspr_encode(const char * call, const char * loc, const int8_t dbm, uint8_t * symbols)
+void wspr_encode(const char * call, const char * loc, const int8_t dbm, uint8_t * symbols, uint8_t verbos)
 {
   char call_[13];
   char loc_[7];
   uint8_t dbm_ = dbm;
   strcpy(call_, call);
   strcpy(loc_, loc);
-//printf(" THECALLSIGN IS: %s\n",call);
-//printf(" THE LoCaToR IS: %s and its length is %i\n",loc,strlen(loc));
+  _verbos=verbos;
+  if (verbos>=4)
+  {printf(" THECALLSIGN IS: %s\n",call);
+	printf(" THE LoCaToR IS: %s and its length is %i\n",loc,strlen(loc));
+  }
 
 
   // Ensure that the message text conforms to standards
@@ -81,8 +84,9 @@ void wspr_message_prep(char * call, char * loc, int8_t dbm)
 	
 	// Ensure that the only allowed characters are digits, uppercase letters, slash, and angle brackets
 	uint8_t i;
- //printf(" wsprs MSG prep callsign: %s and its length is %i\n",call,strlen(call));
- //printf(" wsprs MSG prep POWER: %s and its length is %i and dbm %i\n",loc,strlen(loc),dbm);
+   if (_verbos>=4) printf(" wsprs MSG prep callsign: %s and its length is %i\n",call,strlen(call));
+   if (_verbos>=4) printf(" wsprs MSG prep POWER: %s and its length is %i and dbm %i\n",loc,strlen(loc),dbm);
+   
   for(i = 0; i < 12; i++)  //puts all letters in callsign uppercase
 	{
 		if(call[i] != '/' && call[i] != '<' && call[i] != '>')

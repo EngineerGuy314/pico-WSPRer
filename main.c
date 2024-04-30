@@ -25,7 +25,7 @@
 #include "hardware/uart.h"
 
 #define d_force_xmit_for_testing NO
-#define d_enable_all_debugging_messages NO
+
 
 // Serial data from GPS module wired to UART0 RX, GPIO 1 (pin 2 on pico), 
 #define GPS_PPS_PIN 2          /* GPS time mark PIN. (labeled PPS on GPS module)*/ //its not actually PIN 2, its GPIO 2, which is physical pin 4 on pico
@@ -43,6 +43,7 @@ char _id13[3];
 char _start_minute[2];
 char _lane[2];
 char _suffix[2];
+char _verbosity[2];
 
 int main()
 {
@@ -99,8 +100,8 @@ int main()
 	pWB->_txSched.led_mode = 0;  //waiting for GPS
 	pWB->_txSched.Xmission_In_Process = 0;  //prolly not used anymore
 	pWB->_txSched.output_number_toEnable_GPS = GPS_ENABLE_PIN;
-//	pWB->_txSched.start_minute=(uint8_t)_start_minute[0]-48;
 	pWB->_txSched.suffix=(uint8_t)_suffix[0]-48;    //vall 253 if  dash was enterred
+	pWB->_txSched.verbosity=(uint8_t)_verbosity[0]-48; 
 	strcpy(pWB->_txSched.id13,_id13);
 
 	multicore_launch_core1(Core1Entry);
@@ -111,10 +112,12 @@ int main()
 
     DCO._pGPStime = GPStimeInit(0, 9600, GPS_PPS_PIN); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
     assert_(DCO._pGPStime);
-	DCO._pGPStime->enable_debug_messages=d_enable_all_debugging_messages;
+	DCO._pGPStime->user_setup_menu_active=0;
 	DCO._pGPStime->forced_XMIT_on=d_force_xmit_for_testing;
-    int tick = 0;
-    for(;;)   //loop every ~ second
+	DCO._pGPStime->verbosity=(uint8_t)_verbosity[0]-48; 
+    int tick = 0;int tick2 = 0;  //used for timing various messages
+
+    for(;;)   //loop every ~ half second
     {
 		//GET MAIDENHEAD       - this code in original fork wasnt working due to error in WSPRbeacon.c
         if(WSPRbeaconIsGPSsolutionActive(pWB))
@@ -129,51 +132,61 @@ int main()
         }        
         WSPRbeaconTxScheduler(pWB, YES);   
                 
-if (d_enable_all_debugging_messages)
-{
-        if(0 == ++tick % 20)      //every ~20 secs dumps context.  
-         WSPRbeaconDumpContext(pWB);
-}
+		if (pWB->_txSched.verbosity>=5)
+		{
+				if(0 == ++tick % 20)      //every ~20 secs dumps context.  
+				 WSPRbeaconDumpContext(pWB);
+		}
+
 		//orig code had a 900mS pause here 
-	stdio_set_driver_enabled(&stdio_uart, false);  //prevents bytes from GPS causing problems	
-	if (getchar_timeout_us(0)>0)   //looks for input on USB serial port ( actually its lucky, ignores uart only because its on an interrupr)
-	{
-	DCO._pGPStime->enable_debug_messages=0;	
-	user_interface();   
-	}
-    const float conversionFactor = 3.3f / (1 << 12);          //read temperature
-    adc_select_input(4);	
-	float adc = (float)adc_read() * conversionFactor;
-	float tempC = 27.0f - (adc - 0.706f) / 0.001721f;
-	pWB->_txSched.temp_in_Celsius=tempC;           
+		stdio_set_driver_enabled(&stdio_uart, false);  //prevents bytes from GPS causing problems	
 
-	DCO._pGPStime->temp_in_Celsius=tempC;
+		if (getchar_timeout_us(0)>0)   //looks for input on USB serial port only
+		{
+		DCO._pGPStime->user_setup_menu_active=1;	
+		user_interface();   
+		}
+		const float conversionFactor = 3.3f / (1 << 12);          //read temperature
+		adc_select_input(4);	
+		float adc = (float)adc_read() * conversionFactor;
+		float tempC = 27.0f - (adc - 0.706f) / 0.001721f;
+		pWB->_txSched.temp_in_Celsius=tempC;           
+		DCO._pGPStime->temp_in_Celsius=tempC;
 
-	adc_select_input(3);  //if setup correctly, ADC3 reads Vsys   // read voltage
-	float volts = 3*(float)adc_read() * conversionFactor;         //times 3 because thats what it said to do on the internet
-	    if (volts < 3.00) { volts += 1.95; }			          //wrap around for overflow
-        if (volts > 4.95) { volts -= 1.95; }
-	pWB->_txSched.voltage=volts;
-    printf("T: %0.1f  V: %0.1f \n", (tempC*(9.0f/5.0f))+32,volts);
-	
+		adc_select_input(3);  //if setup correctly, ADC3 reads Vsys   // read voltage
+		float volts = 3*(float)adc_read() * conversionFactor;         //times 3 because thats what it said to do on the internet
+			if (volts < 3.00) { volts += 1.95; }			          //wrap around for overflow
+			if (volts > 4.95) { volts -= 1.95; }
+		pWB->_txSched.voltage=volts;
+
+		if (pWB->_txSched.verbosity>=1)
+		{
+				if(0 == ++tick2 % 4)      //every ~2 sec
+				printf("Temp: %0.1f  Volts: %0.1f \n", (tempC*(9.0f/5.0f))+32,volts);
+		}
+
+
+
+			//////////////////////// LED HANDLING /////////////////////////////////////////////////////////
+			
 		gpio_put(PICO_DEFAULT_LED_PIN, 1); //LED on. how long it stays on depends on "mode"0,1,2 ~= no gps, waiting for slot, xmitting
 		if (pWB->_txSched.led_mode==0)
 		{
-		sleep_ms(10);
+		sleep_ms(20);
 		gpio_put(PICO_DEFAULT_LED_PIN, 0);
 		sleep_ms(440);
 		}
 		if (pWB->_txSched.led_mode==1)
 		{
-		sleep_ms(220);
+		sleep_ms(260);
 		gpio_put(PICO_DEFAULT_LED_PIN, 0);
-		sleep_ms(220);
+		sleep_ms(260);
 		}
 		if (pWB->_txSched.led_mode==2)
 		{
 		sleep_ms(440);
 		gpio_put(PICO_DEFAULT_LED_PIN, 0);
-		sleep_ms(10);
+		sleep_ms(30);
 		}
 	
 	}
@@ -201,6 +214,9 @@ void print_buf(const uint8_t *buf, size_t len) {
 	strncpy(_start_minute, flash_target_contents+8, 1);
 	strncpy(_lane, flash_target_contents+9, 1);
 	strncpy(_suffix, flash_target_contents+10, 1);
+	strncpy(_verbosity, flash_target_contents+11, 1);
+
+	if ( (_verbosity[0]<48) || (_verbosity[0]>57)) _verbosity[0]=49; //set default verbosity to 1
 
 	//printf("value of start minute as char and decimal >%c< >%i<\n\n",_start_minute[0],_start_minute[0]);
 	}
@@ -235,6 +251,7 @@ show_values();
 			case 'I':printf("Enter id13: ");			 scanf(" %s", _id13);_id13[2]=0; convertToUpperCase(_id13); write_NVRAM(); show_values();break;
 			case 'M':printf("Enter starting Minute: ");  scanf(" %s", _start_minute); _start_minute[1]=0; write_NVRAM(); show_values();break;
 			case 'L':printf("Enter Lane (1,2,3,4): ");   scanf(" %s", _lane);_lane[1]=0;  write_NVRAM(); show_values();break;
+			case 'V':printf("Verbosity level (0-9): ");   scanf(" %s", _verbosity);_verbosity[1]=0;  write_NVRAM(); show_values();break;
 			case 13:  break;
 			case 10:  break;
 			default: printf("\n\n\n\n\n\n\nyou pressed %c %02x , invalid choice",c,c);show_values();break;		
@@ -244,8 +261,8 @@ show_values();
 //
 void show_values(void)
 {
-printf("\n\ncurrent values:\n\tCallsign:%s\n\tSuffix:%s\n\tId13:%s\n\tMinute:%s\n\tLane:%s\n\n",_callsign,_suffix,_id13,_start_minute,_lane);
-printf("VALID commands: \n\n\tx: eXit configuraiton and reboot\n\tC: change Callsign (6 char max)\n\tS: change Suffix (added to callsign for WSPR3) - to disable WSPR3\n\tI: change Id13 (two alpha numeric chars, ie Q8) --to disable U4B\n\tM: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\n");
+printf("\n\ncurrent values:\n\tCallsign:%s\n\tSuffix:%s\n\tId13:%s\n\tMinute:%s\n\tLane:%s\n\tVerbosity:%s\n\n",_callsign,_suffix,_id13,_start_minute,_lane,_verbosity);
+printf("VALID commands: \n\n\tx: eXit configuraiton and reboot\n\tC: change Callsign (6 char max)\n\tS: change Suffix (added to callsign for WSPR3) enter '-' to disable WSPR3\n\tI: change Id13 (two alpha numeric chars, ie Q8) enter '--' to disable U4B\n\tM: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\tV: Verbosity level (0 for no messages, 9 for too many) \n\n");
 
 }
 //
@@ -258,6 +275,7 @@ void write_NVRAM(void)
 	strncpy(data_chunk+8,_start_minute, 1);
 	strncpy(data_chunk+9,_lane, 1);
 	strncpy(data_chunk+10,_suffix, 1);
+	strncpy(data_chunk+11,_verbosity, 1);
 
 	uint32_t ints = save_and_disable_interrupts();
     flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);
@@ -272,3 +290,19 @@ void convertToUpperCase(char *str) {
         str++;
     }
 }
+
+
+/*
+Verbosity notes:
+0: none
+1: temp/volts every second, message if no gps
+2: GPS status every second
+3:          messages when a xmition started
+4: x-tended messages when a xmition started 
+5: dump context every 20 secs
+6: show PPB every second
+7: Display GxRMC and GxGGA messages
+8: display ALL serial input from GPS module
+
+
+*/

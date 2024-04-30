@@ -33,7 +33,7 @@
 #define WSPR_BIT_COUNT      162
 #define VALID_DBM_SIZE      28
 
-void wspr_encode(const char * call, const char * loc, const int8_t dbm, uint8_t * symbols);
+void wspr_encode(const char * call, const char * loc, const int8_t dbm, uint8_t * symbols,uint8_t verbos);
 void wspr_message_prep(char * call, char * loc, int8_t dbm);
 void wspr_bit_packing(uint8_t * c);
 void convolve(uint8_t * c, uint8_t * s, uint8_t message_size, uint8_t bit_size);

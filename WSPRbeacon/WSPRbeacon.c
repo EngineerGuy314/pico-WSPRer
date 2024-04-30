@@ -92,15 +92,15 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-4 for U
    if (packet_type==1)   //U4B first msg
    {
 	pctx->_u8_txpower =10;               //hardcoded at 10dbM when doing u4b MSG 1
-	//printf("creating U4B packet 1\n");
+	if (pctx->_txSched.verbosity>=3) printf("creating U4B packet 1\n");
 	char _4_char_version_of_locator[4];
 	strncpy(_4_char_version_of_locator, pctx->_pu8_locator, 4);     //only take first 4 chars of locator
 	_4_char_version_of_locator[4]=0; //null terminate end	
-	wspr_encode(pctx->_pu8_callsign, _4_char_version_of_locator, pctx->_u8_txpower, pctx->_pu8_outbuf);   // look in WSPRutility.c for wspr_encode
+	wspr_encode(pctx->_pu8_callsign, _4_char_version_of_locator, pctx->_u8_txpower, pctx->_pu8_outbuf, pctx->_txSched.verbosity);   // look in WSPRutility.c for wspr_encode
    }
  if (packet_type==2)   // special encoding for 2nd packet of U4B protocol
    {
-	//printf("creating U4B packet 2 \n");
+	if (pctx->_txSched.verbosity>=3) printf("creating U4B packet 2 \n");
 	char CallsignU4B[7]; 
 	char Grid_U4B[7]; 
 	uint8_t  power_U4B;
@@ -186,12 +186,12 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-4 for U
 
 	power_U4B=valid_dbm[powerVal];
 
-	wspr_encode(CallsignU4B, Grid_U4B, power_U4B, pctx->_pu8_outbuf); 
+	wspr_encode(CallsignU4B, Grid_U4B, power_U4B, pctx->_pu8_outbuf,pctx->_txSched.verbosity); 
    }
 	
 if (packet_type==3)   //1st Zachtek (WSPR type 1 message)
    {
-
+	
 	 strcpy(_callsign_with_suffix,pctx->_pu8_callsign);
 	 strcat(_callsign_with_suffix,"/"); 
  	 uint8_t suffix_as_string[2];
@@ -244,14 +244,14 @@ if (packet_type==3)   //1st Zachtek (WSPR type 1 message)
 			if (fine_altitude>1200) altitude_as_power_fine=60;
 
 
-printf("Raw altitude: %0.3f rough: %d fine: %d\n",pctx->_pTX->_p_oscillator->_pGPStime->_altitude,altitude_as_power_rough,altitude_as_power_fine);
+				if (pctx->_txSched.verbosity>=3) printf("Raw altitude: %0.3f rough: %d fine: %d\n",pctx->_pTX->_p_oscillator->_pGPStime->_altitude,altitude_as_power_rough,altitude_as_power_fine);
 
-	wspr_encode(_callsign_with_suffix, pctx->_pu8_locator, altitude_as_power_rough, pctx->_pu8_outbuf);  
+	wspr_encode(_callsign_with_suffix, pctx->_pu8_locator, altitude_as_power_rough, pctx->_pu8_outbuf,pctx->_txSched.verbosity);  
    }
 
 if (packet_type==4)   //2nd Zachtek (WSPR type 3 message)
    {
-	wspr_encode(add_brackets(_callsign_with_suffix), pctx->_pu8_locator, altitude_as_power_fine, pctx->_pu8_outbuf);  			
+	wspr_encode(add_brackets(_callsign_with_suffix), pctx->_pu8_locator, altitude_as_power_fine, pctx->_pu8_outbuf,pctx->_txSched.verbosity);  			
    }
 	
 	return 0;
@@ -305,11 +305,14 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
  
 		 if(!is_GPS_available)
 		{
-			StampPrintf(" Waiting for GPS receiver...");pctx->_txSched.led_mode = 0;  //waiting for GPS
+			if (pctx->_txSched.verbosity>=1) StampPrintf(" Waiting for GPS receiver...");
+			pctx->_txSched.led_mode = 0;  //waiting for GPS
 			return -1;
 		}
 	 
-		if(!is_GPS_active) StampPrintf("Gps was available, but wasnt active yet. ledmode %d XMIT status %d",pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);
+		if(!is_GPS_active){
+			if (pctx->_txSched.verbosity>=1) StampPrintf("Gps was available, but wasnt active yet. ledmode %d XMIT status %d",pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);
+		}
 
 		current_minute = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_last_digit_minutes - 48;  //convert from char to int
 	
@@ -324,7 +327,7 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 			&& oneshots[current_minute]==0)		
 		{
 			oneshots[current_minute]=1;	
-	//		printf("\nStarting TX. current minute: %i Schedule Value (packet type): %i\n",current_minute,schedule[current_minute]);
+			if (pctx->_txSched.verbosity>=3) printf("\nStarting TX. current minute: %i Schedule Value (packet type): %i\n",current_minute,schedule[current_minute]);
 			PioDCOStart(pctx->_pTX->_p_oscillator); 
 			WSPRbeaconCreatePacket(pctx, schedule[current_minute] ); //the schedule determines packet type (1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd)
 			sleep_ms(50);
