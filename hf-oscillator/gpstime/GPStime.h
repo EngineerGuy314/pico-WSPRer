@@ -86,6 +86,7 @@ enum
 typedef struct
 {
     uint8_t _u8_is_solution_active;             /* A navigation solution is valid. */
+	uint8_t sat_count;
     char _u8_last_digit_minutes;             // First digit of the minutes. Really, this is the only thing i care about. 
     uint32_t _u32_utime_nmea_last;              /* The last unix time received from GPS. */
     uint64_t _u64_sysclk_nmea_last;             /* The sysclk of the last unix time received. */

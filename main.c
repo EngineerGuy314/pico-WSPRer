@@ -26,7 +26,6 @@
 
 #define d_force_xmit_for_testing NO
 
-
 // Serial data from GPS module wired to UART0 RX, GPIO 1 (pin 2 on pico), 
 #define GPS_PPS_PIN 2          /* GPS time mark PIN. (labeled PPS on GPS module)*/ //its not actually PIN 2, its GPIO 2, which is physical pin 4 on pico
 #define RFOUT_PIN 6            /* RF output PIN. (THE FOLLOWING PIN WILL ALSO BE RF, 180deg OUT OF PHASE!!!) */                                 //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico
@@ -138,7 +137,6 @@ int main()
 				 WSPRbeaconDumpContext(pWB);
 		}
 
-		//orig code had a 900mS pause here 
 		stdio_set_driver_enabled(&stdio_uart, false);  //prevents bytes from GPS causing problems	
 
 		if (getchar_timeout_us(0)>0)   //looks for input on USB serial port only
@@ -155,19 +153,18 @@ int main()
 
 		adc_select_input(3);  //if setup correctly, ADC3 reads Vsys   // read voltage
 		float volts = 3*(float)adc_read() * conversionFactor;         //times 3 because thats what it said to do on the internet
-			if (volts < 3.00) { volts += 1.95; }			          //wrap around for overflow
+			if (volts < 3.00) { volts += 1.95; }			          //wrap around for overflow, per U4B protocol
 			if (volts > 4.95) { volts -= 1.95; }
 		pWB->_txSched.voltage=volts;
 
 		if (pWB->_txSched.verbosity>=1)
 		{
 				if(0 == ++tick2 % 4)      //every ~2 sec
-				printf("Temp: %0.1f  Volts: %0.1f \n", (tempC*(9.0f/5.0f))+32,volts);
+				printf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Sattellite count: %d\n", (tempC*(9.0f/5.0f))+32,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count );
 		}
 
-
-
 			//////////////////////// LED HANDLING /////////////////////////////////////////////////////////
+			//orig code had a 900mS pause here, i handle it by waiting for led times
 			
 		gpio_put(PICO_DEFAULT_LED_PIN, 1); //LED on. how long it stays on depends on "mode"0,1,2 ~= no gps, waiting for slot, xmitting
 		if (pWB->_txSched.led_mode==0)
@@ -254,15 +251,15 @@ show_values();
 			case 'V':printf("Verbosity level (0-9): ");   scanf(" %s", _verbosity);_verbosity[1]=0;  write_NVRAM(); show_values();break;
 			case 13:  break;
 			case 10:  break;
-			default: printf("\n\n\n\n\n\n\nyou pressed %c %02x , invalid choice",c,c);show_values();break;		
+			default: printf("\n\n\n\n\n\n\nyou pressed %c %02x , INVALID choice!! ",c,c);show_values();break;		
 		}
 	}
 }
 //
 void show_values(void)
 {
-printf("\n\ncurrent values:\n\tCallsign:%s\n\tSuffix:%s\n\tId13:%s\n\tMinute:%s\n\tLane:%s\n\tVerbosity:%s\n\n",_callsign,_suffix,_id13,_start_minute,_lane,_verbosity);
-printf("VALID commands: \n\n\tx: eXit configuraiton and reboot\n\tC: change Callsign (6 char max)\n\tS: change Suffix (added to callsign for WSPR3) enter '-' to disable WSPR3\n\tI: change Id13 (two alpha numeric chars, ie Q8) enter '--' to disable U4B\n\tM: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\tV: Verbosity level (0 for no messages, 9 for too many) \n\n");
+printf("\n\nCurrent values:\n\tCallsign:%s\n\tSuffix:%s\n\tId13:%s\n\tMinute:%s\n\tLane:%s\n\tVerbosity:%s\n\n",_callsign,_suffix,_id13,_start_minute,_lane,_verbosity);
+printf("VALID commands: \n\n\tX: eXit configuraiton and reboot\n\tC: change Callsign (6 char max)\n\tS: change Suffix (added to callsign for WSPR3) enter '-' to disable WSPR3\n\tI: change Id13 (two alpha numeric chars, ie Q8) enter '--' to disable U4B\n\tM: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\tV: Verbosity level (0 for no messages, 9 for too many) \n\n");
 
 }
 //

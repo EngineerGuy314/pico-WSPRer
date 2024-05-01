@@ -156,8 +156,9 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-4 for U
        // map input presentations onto input radix (numbers within their stated range of possibilities)
         uint8_t tempCNum      = tempC - -50;
         uint8_t voltageNum    = ((uint8_t)round(((voltage * 100) - 300) / 5) + 20) % 40;
-        uint8_t speedKnotsNum = 0; // NOT USED FOR NOW, wuz:  round((double)speedKnots / 2.0);
-        uint8_t gpsValidNum   = 1; // NOT USED FOR NOW, wuz: gpsValid ? 1 : 0;
+ 
+		uint8_t speedKnotsNum = pctx->_pTX->_p_oscillator->_pGPStime->_time_data.sat_count;   //encoding # of sattelites into knots
+        uint8_t gpsValidNum   = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;
         // shift inputs into a big number
         val = 0;
 
@@ -279,8 +280,8 @@ int WSPRbeaconSendPacket(const WSPRbeaconContext *pctx)
 int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called every second from Main.c
 {
 	assert_(pctx);                 	
-    const uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;
-    const uint32_t is_GPS_active = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;
+    const uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;  //on if there ever were any serial data received from a GPS unit
+    const uint32_t is_GPS_active = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;  //on if valid 3d fix
 
 		 if (pctx->_txSched.force_xmit_for_testing) {            
 							if(forced_xmit_in_process==0)
@@ -305,13 +306,13 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
  
 		 if(!is_GPS_available)
 		{
-			if (pctx->_txSched.verbosity>=1) StampPrintf(" Waiting for GPS receiver...");
+			if (pctx->_txSched.verbosity>=1) StampPrintf(" Waiting for GPS receiver to start communicating...");
 			pctx->_txSched.led_mode = 0;  //waiting for GPS
 			return -1;
 		}
 	 
 		if(!is_GPS_active){
-			if (pctx->_txSched.verbosity>=1) StampPrintf("Gps was available, but wasnt active yet. ledmode %d XMIT status %d",pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);
+			if (pctx->_txSched.verbosity>=1) StampPrintf("Gps was available, but no valid 3d Fix. ledmode %d XMIT status %d",pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);
 		}
 
 		current_minute = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_last_digit_minutes - 48;  //convert from char to int
