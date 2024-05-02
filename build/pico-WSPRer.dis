@@ -6003,7 +6003,7 @@ Disassembly of section .text:
 1000338a:	486e      	ldr	r0, [pc, #440]	; (10003544 <user_interface+0x1c8>)
 1000338c:	24d0      	movs	r4, #208	; 0xd0
 1000338e:	f005 fe8b 	bl	100090a8 <stdio_set_driver_enabled>
-10003392:	2308      	movs	r3, #8
+10003392:	2320      	movs	r3, #32
 10003394:	0624      	lsls	r4, r4, #24
 10003396:	61a3      	str	r3, [r4, #24]
 10003398:	2064      	movs	r0, #100	; 0x64
@@ -6309,7 +6309,7 @@ Disassembly of section .text:
 10003686:	3302      	adds	r3, #2
 10003688:	54fa      	strb	r2, [r7, r3]
 1000368a:	2324      	movs	r3, #36	; 0x24
-1000368c:	2203      	movs	r2, #3
+1000368c:	2205      	movs	r2, #5
 1000368e:	33ff      	adds	r3, #255	; 0xff
 10003690:	54fa      	strb	r2, [r7, r3]
 10003692:	2220      	movs	r2, #32
@@ -6333,17 +6333,17 @@ Disassembly of section .text:
 100036b8:	f008 f862 	bl	1000b780 <multicore_launch_core1>
 100036bc:	48b1      	ldr	r0, [pc, #708]	; (10003984 <main+0x3d4>)
 100036be:	f7ff fc99 	bl	10002ff4 <StampPrintf>
-100036c2:	2003      	movs	r0, #3
+100036c2:	2005      	movs	r0, #5
 100036c4:	f000 fc14 	bl	10003ef0 <gpio_init>
 100036c8:	23d0      	movs	r3, #208	; 0xd0
-100036ca:	2208      	movs	r2, #8
+100036ca:	2220      	movs	r2, #32
 100036cc:	2196      	movs	r1, #150	; 0x96
 100036ce:	061b      	lsls	r3, r3, #24
 100036d0:	625a      	str	r2, [r3, #36]	; 0x24
 100036d2:	0189      	lsls	r1, r1, #6
 100036d4:	615a      	str	r2, [r3, #20]
 100036d6:	2000      	movs	r0, #0
-100036d8:	3a06      	subs	r2, #6
+100036d8:	3a1e      	subs	r2, #30
 100036da:	f7fc ffdb 	bl	10000694 <GPStimeInit>
 100036de:	901c      	str	r0, [sp, #112]	; 0x70
 100036e0:	1e43      	subs	r3, r0, #1
