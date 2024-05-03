@@ -31,7 +31,7 @@ Shows ATGM336H GPS receiver and the Pi Pico board after trimming excess weight.
 Completed V3 unit before flight. GPS receiver is flipped over and glued to the RP2040. Total weight including GPS antenna 3.5g.
 
 ![v2 before succesful flight kc3lbr-7](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/6a0a48e6-81e2-477d-8a83-dc0bd025c36f)
-Mounted beneath solar array, before first succesful flight.
+Tracker mounted beneath solar array, before first succesful flight. This GPS module had a small battery and EEPROM, later version used bare module instead.
 
 ![pico_WSPRer](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/bfaad70b-ae55-4695-b1ce-e6d6bb5c9d0f)
 V1 prototype
