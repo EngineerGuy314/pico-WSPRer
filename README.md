@@ -26,16 +26,22 @@ With the original code the Pico was being overclocked to 270Mhz, so the total po
 ![pico_WSPRer_schema5](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/95f2b65e-3c5c-47af-a960-af1c65ebdb9c)
 ![after cutting](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/07774544-43b6-43c6-89e8-56013e6f962f)
 Shows ATGM336H GPS receiver and the Pi Pico board after trimming excess weight.
+
 ![on_scale](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/f15d8888-dc46-4c07-b3b2-78174d81c816)
 Completed V3 unit before flight. GPS receiver is flipped over and glued to the RP2040. Total weight including GPS antenna 3.5g.
+
 ![v2 before succesful flight kc3lbr-7](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/6a0a48e6-81e2-477d-8a83-dc0bd025c36f)
 Mounted beneath solar array, before first succesful flight.
+
 ![pico_WSPRer](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/bfaad70b-ae55-4695-b1ce-e6d6bb5c9d0f)
 V1 prototype
+
 ![circumnavigation plus 2 days](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/b7c0b3ba-3f2a-43de-9247-e7e59d0fdf66)
 V2 was launched and circumnavigated the world in 13 days.
+
 ![BEFORE first launch](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/f2614da2-a381-4c51-8be7-da3bd6e34af6)
 Typical solar powered tracker and balloon before launch. Balloon is deliberately under-filled with hydrogen to allow room for expansion at high altitude. 12-13km altitude is typicaly reached.
+
 ![initial spots](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/ee4be0e1-1591-4dc4-9fc2-510bcd0ae6cd)
 Global tracking with such low powered transmissions are possible thanks to the extensive network of WSPR receive stations.
 
