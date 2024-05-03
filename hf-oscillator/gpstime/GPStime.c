@@ -292,9 +292,9 @@ void GPStimeDump(const GPStimeData *pd)
     assert_(pd);
 
     printf("\nGPS solution is active:%u\n", pd->_u8_is_solution_active);
-    printf("GPRMC count:%lu\n", pd->_u32_nmea_gprmc_count);
+    printf("GxGGA count:%lu\n", pd->_u32_nmea_gprmc_count);
     printf("GPS Latitude:%lld Longtitude:%lld\n", pd->_i64_lat_100k, pd->_i64_lon_100k);
-    printf("PPS sysclock last:%llu\n", pd->_u64_sysclk_pps_last);
-    printf("PPS period *1e6:%llu\n", (pd->_u64_pps_period_1M + (eSlidingLen>>1)) / eSlidingLen);
+ //   printf("PPS sysclock last:%llu\n", pd->_u64_sysclk_pps_last);
+ //   printf("PPS period *1e6:%llu\n", (pd->_u64_pps_period_1M + (eSlidingLen>>1)) / eSlidingLen);
     printf(" FRQ correction ppb:%lld  ", pd->_i32_freq_shift_ppb);
 }

@@ -126,7 +126,7 @@ int main()
             {
                 strncpy(pWB->_pu8_locator, pgps_qth, 6);     //does full 6 char maidenhead 				
 //		        strcpy(pWB->_pu8_locator,"FN12AB");                                                     //DEBUGGING FORCE LOCATOR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				pWB->_pu8_locator[7] = 0x00;                 //null terminates  (needed?)
+				
             }
         }        
         WSPRbeaconTxScheduler(pWB, YES);   
@@ -160,7 +160,8 @@ int main()
 		if (pWB->_txSched.verbosity>=1)
 		{
 				if(0 == ++tick2 % 4)      //every ~2 sec
-				printf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Sattellite count: %d\n", (tempC*(9.0f/5.0f))+32,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count );
+				printf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Satellite count: %d\n", (tempC*(9.0f/5.0f))+32,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count );
+		
 		}
 
 			//////////////////////// LED HANDLING /////////////////////////////////////////////////////////

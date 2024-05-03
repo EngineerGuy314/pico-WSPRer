@@ -95,7 +95,7 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-4 for U
 	if (pctx->_txSched.verbosity>=3) printf("creating U4B packet 1\n");
 	char _4_char_version_of_locator[4];
 	strncpy(_4_char_version_of_locator, pctx->_pu8_locator, 4);     //only take first 4 chars of locator
-	_4_char_version_of_locator[4]=0; //null terminate end	
+	
 	wspr_encode(pctx->_pu8_callsign, _4_char_version_of_locator, pctx->_u8_txpower, pctx->_pu8_outbuf, pctx->_txSched.verbosity);   // look in WSPRutility.c for wspr_encode
    }
  if (packet_type==2)   // special encoding for 2nd packet of U4B protocol
@@ -192,7 +192,7 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-4 for U
 	
 if (packet_type==3)   //1st Zachtek (WSPR type 1 message)
    {
-	
+	if (pctx->_txSched.verbosity>=3) printf("creating Zachtek packet 1 (WSPR type 1)\n");
 	 strcpy(_callsign_with_suffix,pctx->_pu8_callsign);
 	 strcat(_callsign_with_suffix,"/"); 
  	 uint8_t suffix_as_string[2];
@@ -252,6 +252,7 @@ if (packet_type==3)   //1st Zachtek (WSPR type 1 message)
 
 if (packet_type==4)   //2nd Zachtek (WSPR type 3 message)
    {
+	if (pctx->_txSched.verbosity>=3) printf("creating Zachtek packet 2 (WSPR type 3)\n");
 	wspr_encode(add_brackets(_callsign_with_suffix), pctx->_pu8_locator, altitude_as_power_fine, pctx->_pu8_outbuf,pctx->_txSched.verbosity);  			
    }
 	
