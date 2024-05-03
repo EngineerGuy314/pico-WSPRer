@@ -1,9 +1,9 @@
 # pico balloon WSPR tracker
-Implements an extremely low-cost WSPR tracker for HAB (high altitude balloons) with barely anything besides a Raspberry Pi Pico. The only other significant component is a cheap GPS module such as a generic ATGM336H as shown (approx $4 as of April 2024). RF power in the 14Mhz (20 meter) band is generated directly by the Pi Pico. Two gpio pins are driven out of phase to feed a half wave dipole antenna trimmed for 20M (typically 38awg copper).
+Implements an extremely low-cost WSPR tracker for HAB (high altitude balloons) using only a Raspberry Pi Pico and a cheap GPS module such as a generic ATGM336H as shown (approx $4 as of April 2024). RF power in the 14Mhz (20 meter) band is generated directly by the Pi Pico. Two gpio pins are driven out of phase to feed a half wave dipole antenna trimmed for 20M (typically 38awg copper).
 
 The RF synthesis and basic WSPR code is based on Roman Piksaykin's excellent work at https://github.com/RPiks/pico-WSPR-tx  
 
-This WSPR beacon calculates the altitude and full 6 character maidenhead grid based on the GPS location data and transmits it along with the callsign. Solar array voltage and rp2040 temperature are also sent as telemetry utilizing the U4B/Traquito protocol. If you specify a callsign suffix, it can ALSO/INSTEAD transmit WSPR Type 3 every ten minutes. These include the 6 character maidenhead grid and the altitude encoded using the Zachtek protocol. Type 3 messaging is arguably more robust than U4B, but less detailed.
+The altitude and full 6 character maidenhead grid are calculated from the GPS location data and transmitted along with the callsign. Solar array voltage and rp2040 temperature are also sent as telemetry when utilizing the U4B/Traquito protocol. If you specify a callsign suffix, it can ALSO/INSTEAD transmit WSPR Type 3 messages every ten minutes. These include the 6 character maidenhead grid and the altitude encoded using the Zachtek protocol. Type 3 messaging is arguably more robust than U4B, but less detailed.
 
 The user's callsign and telemetry encoding details are configurable via the pico's USB port and a simple terminal program (ie Putty).
 
