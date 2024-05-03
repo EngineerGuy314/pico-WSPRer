@@ -25,7 +25,7 @@ With the original code the Pico was being overclocked to 270Mhz, so the total po
 10. If the pico is plugged into a computer via USB while running it will appear as a COM port and basic diagnostic messages can be viewed at 115200 baud.  The amount of messages shown depends on the Verbosity setting in the user config menu.
 ![pico_WSPRer_schema5](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/95f2b65e-3c5c-47af-a960-af1c65ebdb9c)
 ![after cutting](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/07774544-43b6-43c6-89e8-56013e6f962f)
-Shows ATGM336H GOS receiver and the Pi Pico board after trimming excess weight.
+Shows ATGM336H GPS receiver and the Pi Pico board after trimming excess weight.
 ![on_scale](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/f15d8888-dc46-4c07-b3b2-78174d81c816)
 Completed V3 unit before flight. GPS receiver is flipped over and glued to the RP2040. Total weight including GPS antenna 3.5g.
 ![v2 before succesful flight kc3lbr-7](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/6a0a48e6-81e2-477d-8a83-dc0bd025c36f)
