@@ -1,0 +1,13 @@
+# Target labels
+ ELF2UF2Build
+# Source files and their labels
+/home/rob/pico-WSPRer/build/CMakeFiles/ELF2UF2Build
+/home/rob/pico-WSPRer/build/CMakeFiles/ELF2UF2Build.rule
+/home/rob/pico-WSPRer/build/CMakeFiles/ELF2UF2Build-complete.rule
+/home/rob/pico-WSPRer/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-install.rule
+/home/rob/pico-WSPRer/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-mkdir.rule
+/home/rob/pico-WSPRer/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-download.rule
+/home/rob/pico-WSPRer/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-update.rule
+/home/rob/pico-WSPRer/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-patch.rule
+/home/rob/pico-WSPRer/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-configure.rule
+/home/rob/pico-WSPRer/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-build.rule
