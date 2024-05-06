@@ -1,0 +1,82 @@
+\doxysection{hfconsole.\+h}
+\hypertarget{hfconsole_8h_source}{}\label{hfconsole_8h_source}\index{D:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/hf-\/oscillator/hfconsole/hfconsole.h@{D:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/hf-\/oscillator/hfconsole/hfconsole.h}}
+\mbox{\hyperlink{hfconsole_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ \ Roman\ Piksaykin\ [piksaykin@gmail.com],\ R2BDY,\ PhD}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ \ https://www.qrz.com/db/r2bdy}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \ hfconsole.h\ -\/\ Serial\ console\ of\ Raspberry\ Pi\ Pico.}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ \ DESCRIPTION}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ \ \ \ \ \ -\/}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ \ PLATFORM}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ \ \ \ \ Raspberry\ Pi\ pico.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ \ REVISION\ HISTORY}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ \ \ \ \ \ Rev\ 0.1\ \ \ 16\ Dec\ 2023\ \ \ Initial\ revision.}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ \ PROJECT\ PAGE}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ \ \ \ \ \ https://github.com/RPiks/pico-\/hf-\/oscillator}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//}}
+\DoxyCodeLine{00023\ \textcolor{comment}{//\ \ LICENCE}}
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ \ \ \ \ \ MIT\ License\ (http://www.opensource.org/licenses/mit-\/license.php)}}
+\DoxyCodeLine{00025\ \textcolor{comment}{//}}
+\DoxyCodeLine{00026\ \textcolor{comment}{//\ \ Copyright\ (c)\ 2023\ by\ Roman\ Piksaykin}}
+\DoxyCodeLine{00027\ \textcolor{comment}{//\ \ }}
+\DoxyCodeLine{00028\ \textcolor{comment}{//\ \ Permission\ is\ hereby\ granted,\ free\ of\ charge,to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00029\ \textcolor{comment}{//\ \ of\ this\ software\ and\ associated\ documentation\ files\ (the\ Software),\ to\ deal}}
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ \ in\ the\ Software\ without\ restriction,including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00031\ \textcolor{comment}{//\ \ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ \ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00033\ \textcolor{comment}{//\ \ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00034\ \textcolor{comment}{//}}
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ \ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ \ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00037\ \textcolor{comment}{//}}
+\DoxyCodeLine{00038\ \textcolor{comment}{//\ \ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00039\ \textcolor{comment}{//\ \ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ \ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00041\ \textcolor{comment}{//\ \ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ \ LIABILITY,WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00043\ \textcolor{comment}{//\ \ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN}}
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ \ THE\ SOFTWARE.}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#ifndef\ HFTERM\_H\_}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ HFTERM\_H\_}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#include\ <time.h>}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#include\ "{}pico/stdlib.h"{}}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#include\ "{}hardware/uart.h"{}}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{assert_8h}{../lib/assert.h}}"{}}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{utility_8h}{../lib/utility.h}}"{}}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00060\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_h_fconsole_context_afeaabdda81873bce5af362cbc9e57f76}{\_uart\_id}};\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ UART\ id\ (-\/1\ when\ use\ Pico\ USB\ port)}}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_h_fconsole_context_a8ed360ff39d42a3c7c183b8c3c618039}{\_uart\_baudrate}};\ \ \ \ \ \textcolor{comment}{//\ UART\ baud\ rate\ (isn't\ used\ when\ uaer\ id\ is\ 0)}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ void\ (*\_pfwrapper)(\textcolor{keywordtype}{char}\ *,\ int,\ \textcolor{keywordtype}{char}\ *);}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{char}\ buffer[256];}
+\DoxyCodeLine{00067\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_h_fconsole_context_a7e236a20c6b96578a544c680b13e6de2}{ix}};}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \}\ \mbox{\hyperlink{struct_h_fconsole_context}{HFconsoleContext}};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \mbox{\hyperlink{struct_h_fconsole_context}{HFconsoleContext}}\ *\mbox{\hyperlink{hfconsole_8h_aa65819b7c854d9ccea0ee4bf27aa59c8}{HFconsoleInit}}(\textcolor{keywordtype}{int}\ uart\_id,\ \textcolor{keywordtype}{int}\ baud);}
+\DoxyCodeLine{00072\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{hfconsole_8h_a111cbad5f44ac4f73ce21dc3a9fddd9f}{HFconsoleDestroy}}(\mbox{\hyperlink{struct_h_fconsole_context}{HFconsoleContext}}\ **pp);}
+\DoxyCodeLine{00073\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{hfconsole_8h_ac4fc46a1827a57ae863950ef67d60d0e}{HFconsoleProcess}}(\mbox{\hyperlink{struct_h_fconsole_context}{HFconsoleContext}}\ *p,\ \textcolor{keywordtype}{int}\ ms);}
+\DoxyCodeLine{00074\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{hfconsole_8h_a9dbd00375df6f8e589b96b382e083660}{HFconsoleEmitCommand}}(\mbox{\hyperlink{struct_h_fconsole_context}{HFconsoleContext}}\ *pc);}
+\DoxyCodeLine{00075\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{hfconsole_8h_acba363b08920d04d7eff81247ba43d89}{HFconsoleSetWrapper}}(\mbox{\hyperlink{struct_h_fconsole_context}{HFconsoleContext}}\ *pc,\ \textcolor{keywordtype}{void}\ *pfwrapper);}
+\DoxyCodeLine{00076\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{hfconsole_8h_a85f89c2689bab2ba00095b4597933663}{HFconsoleClear}}(\mbox{\hyperlink{struct_h_fconsole_context}{HFconsoleContext}}\ *pc);}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

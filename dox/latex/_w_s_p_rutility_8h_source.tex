@@ -1,0 +1,51 @@
+\doxysection{WSPRutility.\+h}
+\hypertarget{_w_s_p_rutility_8h_source}{}\label{_w_s_p_rutility_8h_source}\index{D:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/WSPRbeacon/thirdparty/WSPRutility.h@{D:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/WSPRbeacon/thirdparty/WSPRutility.h}}
+\mbox{\hyperlink{_w_s_p_rutility_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ JTEncode.cpp\ -\/\ JT65/JT9/WSPR/FSQ\ encoder\ library\ for\ Arduino}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ Copyright\ (C)\ 2015-\/2021\ Jason\ Milldrum\ <milldrum@gmail.com>}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ Based\ on\ the\ algorithms\ presented\ in\ the\ WSJT\ software\ suite.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ Thanks\ to\ Andy\ Talbot\ G4JNT\ for\ the\ whitepaper\ on\ the\ WSPR\ encoding}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *\ process\ that\ helped\ me\ to\ understand\ all\ of\ this.}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ *\ This\ program\ is\ free\ software:\ you\ can\ redistribute\ it\ and/or\ modify}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ License\ as\ published\ by}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ *\ the\ Free\ Software\ Foundation,\ either\ version\ 3\ of\ the\ License,\ or}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ *\ (at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ This\ program\ is\ distributed\ in\ the\ hope\ that\ it\ will\ be\ useful,}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *\ but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied\ warranty\ of}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.\ \ See\ the}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ *\ GNU\ General\ Public\ License\ for\ more\ details.}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *\ You\ should\ have\ received\ a\ copy\ of\ the\ GNU\ General\ Public\ License}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ *\ along\ with\ this\ program.\ \ If\ not,\ see\ <http://www.gnu.org/licenses/>.}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifndef\ WSPR\_UTILITY\_H\_}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ WSPR\_UTILITY\_H\_}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ <ctype.h>}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{nhash_8h}{nhash.h}}"{}}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ WSPR\_SYMBOL\_COUNT\ \ \ 162}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ WSPR\_BIT\_COUNT\ \ \ \ \ \ 162}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#define\ VALID\_DBM\_SIZE\ \ \ \ \ \ 28}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_w_s_p_rutility_8h_ae1d85e365009507929a5e635563fa540}{wspr\_encode}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ call,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ loc,\ \textcolor{keyword}{const}\ int8\_t\ dbm,\ uint8\_t\ *\ symbols,uint8\_t\ verbos);}
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_w_s_p_rutility_8h_aafeb946e2f657a77eaeae6410096172f}{wspr\_message\_prep}}(\textcolor{keywordtype}{char}\ *\ call,\ \textcolor{keywordtype}{char}\ *\ loc,\ int8\_t\ dbm);}
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_w_s_p_rutility_8h_ad95493909c8836e4ae3b66edfe7e8d25}{wspr\_bit\_packing}}(uint8\_t\ *\ c);}
+\DoxyCodeLine{00039\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_w_s_p_rutility_8h_adcb376fc2f0b2ec1f4944b0e5acb1bc8}{convolve}}(uint8\_t\ *\ c,\ uint8\_t\ *\ s,\ uint8\_t\ message\_size,\ uint8\_t\ bit\_size);}
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_w_s_p_rutility_8h_ad018d91c88b22b8bb4c14d79c6edc2f8}{wspr\_interleave}}(uint8\_t\ *\ s);}
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_w_s_p_rutility_8h_a528dda233a6e54dc0073d81b6a03bebb}{wspr\_merge\_sync\_vector}}(uint8\_t\ *\ g,\ uint8\_t\ *\ symbols);}
+\DoxyCodeLine{00042\ uint8\_t\ \mbox{\hyperlink{_w_s_p_rutility_8h_a940c3d8bdfd506eb1ce4755346408ae5}{wspr\_code}}(\textcolor{keywordtype}{char}\ c);}
+\DoxyCodeLine{00043\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_w_s_p_rutility_8h_ac75e031e61af9acff568a5f90418d8d3}{pad\_callsign}}(\textcolor{keywordtype}{char}\ *\ call);}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

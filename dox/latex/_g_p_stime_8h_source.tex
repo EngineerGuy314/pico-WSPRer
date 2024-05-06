@@ -1,0 +1,144 @@
+\doxysection{GPStime.\+h}
+\hypertarget{_g_p_stime_8h_source}{}\label{_g_p_stime_8h_source}\index{D:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/hf-\/oscillator/gpstime/GPStime.h@{D:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/hf-\/oscillator/gpstime/GPStime.h}}
+\mbox{\hyperlink{_g_p_stime_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ \ Roman\ Piksaykin\ [piksaykin@gmail.com],\ R2BDY,\ PhD}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ \ https://www.qrz.com/db/r2bdy}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \ gpstime.h\ -\/\ GPS\ time\ reference\ utilities\ for\ digital\ controlled\ radio\ freq}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ oscillator\ based\ on\ Raspberry\ Pi\ Pico.}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ \ DESCRIPTION}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ \ \ \ \ \ GPS\ time\ utilities\ for\ pico-\/hf-\/oscillator\ calculate\ a\ precise\ frequency}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ shift\ between\ the\ local\ Pico\ oscillator\ and\ reference\ oscill.\ of\ GPS\ system.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ \ The\ value\ of\ the\ shift\ is\ used\ to\ correct\ generated\ frequency.\ The\ practical\ }}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ \ precision\ of\ this\ solution\ depends\ on\ GPS\ receiver's\ time\ pulse\ stability,\ }}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ \ as\ well\ as\ on\ quality\ of\ navigation\ solution\ of\ GPS\ receiver.\ }}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ \ This\ quality\ can\ be\ estimated\ by\ GDOP\ and\ TDOP\ parameters\ received\ }}
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ \ in\ NMEA-\/0183\ message\ packet\ from\ GPS\ receiver.}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ \ \ \ \ \ Owing\ to\ the\ meager\ frequency\ step\ in\ millihertz\ range,\ we\ obtain}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ \ a\ quasi-\/analog\ precision\ frequency\ source\ (if\ the\ GPS\ navigation\ works\ OK).}}
+\DoxyCodeLine{00023\ \textcolor{comment}{//\ \ \ \ \ \ This\ is\ an\ experimental\ project\ of\ amateur\ radio\ class\ and\ it\ is\ devised}}
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ \ by\ me\ on\ the\ free\ will\ base\ in\ order\ to\ experiment\ with\ QRP\ narrowband}}
+\DoxyCodeLine{00025\ \textcolor{comment}{//\ \ digital\ modes\ including\ extremely\ ones\ such\ as\ QRSS.}}
+\DoxyCodeLine{00026\ \textcolor{comment}{//\ \ \ \ \ \ I\ appreciate\ any\ thoughts\ or\ comments\ on\ that\ matter.}}
+\DoxyCodeLine{00027\ \textcolor{comment}{//}}
+\DoxyCodeLine{00028\ \textcolor{comment}{//\ \ PLATFORM}}
+\DoxyCodeLine{00029\ \textcolor{comment}{//\ \ \ \ \ \ Raspberry\ Pi\ pico.}}
+\DoxyCodeLine{00030\ \textcolor{comment}{//}}
+\DoxyCodeLine{00031\ \textcolor{comment}{//\ \ REVISION\ HISTORY}}
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ }}
+\DoxyCodeLine{00033\ \textcolor{comment}{//\ \ \ \ \ \ Rev\ 0.1\ \ \ 25\ Nov\ 2023\ \ \ Initial\ release}}
+\DoxyCodeLine{00034\ \textcolor{comment}{//}}
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ \ PROJECT\ PAGE}}
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ \ \ \ \ \ https://github.com/RPiks/pico-\/hf-\/oscillator}}
+\DoxyCodeLine{00037\ \textcolor{comment}{//}}
+\DoxyCodeLine{00038\ \textcolor{comment}{//\ \ LICENCE}}
+\DoxyCodeLine{00039\ \textcolor{comment}{//\ \ \ \ \ \ MIT\ License\ (http://www.opensource.org/licenses/mit-\/license.php)}}
+\DoxyCodeLine{00040\ \textcolor{comment}{//}}
+\DoxyCodeLine{00041\ \textcolor{comment}{//\ \ Copyright\ (c)\ 2023\ by\ Roman\ Piksaykin}}
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ \ }}
+\DoxyCodeLine{00043\ \textcolor{comment}{//\ \ Permission\ is\ hereby\ granted,\ free\ of\ charge,to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ \ of\ this\ software\ and\ associated\ documentation\ files\ (the\ Software),\ to\ deal}}
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ \ in\ the\ Software\ without\ restriction,including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00046\ \textcolor{comment}{//\ \ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00047\ \textcolor{comment}{//\ \ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00048\ \textcolor{comment}{//\ \ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00049\ \textcolor{comment}{//}}
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ \ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{00051\ \textcolor{comment}{//\ \ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00052\ \textcolor{comment}{//}}
+\DoxyCodeLine{00053\ \textcolor{comment}{//\ \ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00054\ \textcolor{comment}{//\ \ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00055\ \textcolor{comment}{//\ \ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00056\ \textcolor{comment}{//\ \ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00057\ \textcolor{comment}{//\ \ LIABILITY,WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00058\ \textcolor{comment}{//\ \ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN}}
+\DoxyCodeLine{00059\ \textcolor{comment}{//\ \ THE\ SOFTWARE.}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#ifndef\ GPSTIME\_H\_}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ GPSTIME\_H\_}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#include\ <time.h>}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#include\ "{}pico/stdlib.h"{}}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#include\ "{}hardware/uart.h"{}}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{hf-oscillator_2defines_8h}{../defines.h}}"{}}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{assert_8h}{../lib/assert.h}}"{}}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{utility_8h}{../lib/utility.h}}"{}}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{strnstr_8h}{../lib/thirdparty/strnstr.h}}"{}}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ ASSERT\_(x)\ assert\_(x)}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00079\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{_g_p_stime_8h_a06fc87d81c62e9abb8790b6e5713c55baa84d2f4c0fb612ddafb365df7227db93}{eDtUpscale}}\ =\ 1000000,}
+\DoxyCodeLine{00081\ \ \ \ \ \mbox{\hyperlink{_g_p_stime_8h_a06fc87d81c62e9abb8790b6e5713c55baa4ce873f8b7ed0a060731f33e571fd65}{eSlidingLen}}\ =\ 32,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//size\ of\ buffer\ used\ to\ compensated}}
+\DoxyCodeLine{00082\ \ \ \ \ \mbox{\hyperlink{_g_p_stime_8h_a06fc87d81c62e9abb8790b6e5713c55ba4c3de232ecffe68569b22ec2832cfb9b}{eCLKperTimeMark}}\ =\ 1000000,}
+\DoxyCodeLine{00083\ \ \ \ \ \mbox{\hyperlink{_g_p_stime_8h_a06fc87d81c62e9abb8790b6e5713c55ba1b3fbc9b5265d606336deadf02f4b8d9}{eMaxCLKdevPPM}}\ =\ 250\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ max\ error\ it\ will\ try\ to\ compensate\ for}}
+\DoxyCodeLine{00084\ \};}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00087\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_g_p_stime_data_a5bc6af34052603048e1ae2b1340b1e59}{\_u8\_is\_solution\_active}};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ A\ navigation\ solution\ is\ valid.\ */}}
+\DoxyCodeLine{00089\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_g_p_stime_data_a8a4ee858d63e09a92c9f32babc11e7bf}{sat\_count}};}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{struct_g_p_stime_data_ac20e08d30929c7951f22ebcbb20745a4}{\_u8\_last\_digit\_minutes}};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ First\ digit\ of\ the\ minutes.\ Really,\ this\ is\ the\ only\ thing\ i\ care\ about.\ }}
+\DoxyCodeLine{00091\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{struct_g_p_stime_data_ab5f959bdd22de156276aacecb64ae73c}{\_u32\_utime\_nmea\_last}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ The\ last\ unix\ time\ received\ from\ GPS.\ */}}
+\DoxyCodeLine{00092\ \ \ \ \ uint64\_t\ \mbox{\hyperlink{struct_g_p_stime_data_a4cecb958d0d4d153171baeec9e723953}{\_u64\_sysclk\_nmea\_last}};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ The\ sysclk\ of\ the\ last\ unix\ time\ received.\ */}}
+\DoxyCodeLine{00093\ \ \ \ \ int64\_t\ \mbox{\hyperlink{struct_g_p_stime_data_a037370f2b00fbb28ddb1c31c7a10803c}{\_i64\_lat\_100k}},\ \_i64\_lon\_100k;\ \ \ \ \ \ \ \textcolor{comment}{/*\ The\ lat,\ lon,\ degrees,\ multiplied\ by\ 1e5.\ */}}
+\DoxyCodeLine{00094\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{struct_g_p_stime_data_a6d8f9f4457ebe07375b7912fbefe5475}{\_u32\_nmea\_gprmc\_count}};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ The\ count\ of\ \$GPRMC\ sentences\ received\ */}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ uint64\_t\ \mbox{\hyperlink{struct_g_p_stime_data_a944881d29f8aad29bc0fce7b72abbffd}{\_u64\_sysclk\_pps\_last}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ The\ sysclk\ of\ the\ last\ rising\ edge\ of\ PPS.\ */}}
+\DoxyCodeLine{00097\ \ \ \ \ uint64\_t\ \mbox{\hyperlink{struct_g_p_stime_data_ab2ccdf7ce74f4e6d7124c278045fce4c}{\_u64\_pps\_period\_1M}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ The\ PPS\ avg.\ period\ *1e6,\ filtered.\ */}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ uint64\_t\ \_pu64\_sliding\_pps\_tm[\mbox{\hyperlink{_g_p_stime_8h_a06fc87d81c62e9abb8790b6e5713c55baa4ce873f8b7ed0a060731f33e571fd65}{eSlidingLen}}];\ \textcolor{comment}{/*\ A\ sliding\ window\ to\ store\ PPS\ periods.\ */}}
+\DoxyCodeLine{00100\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_g_p_stime_data_a5a0194aeca48d763d435063fd9938c31}{\_ix\_last}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ An\ index\ of\ last\ write\ to\ sliding\ window.\ */}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ int64\_t\ \mbox{\hyperlink{struct_g_p_stime_data_ad7c6577ca0b233fc90463bec0912df64}{\_i32\_freq\_shift\_ppb}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Calcd\ frequency\ shift,\ parts\ per\ billion.\ */}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \}\ \mbox{\hyperlink{struct_g_p_stime_data}{GPStimeData}};}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00107\ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_g_p_stime_context_afeaabdda81873bce5af362cbc9e57f76}{\_uart\_id}};}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_g_p_stime_context_a8ed360ff39d42a3c7c183b8c3c618039}{\_uart\_baudrate}};}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_g_p_stime_context_ad5b1368b7ff2d66462ed5b8eaf0ab467}{\_pps\_gpio}};}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \mbox{\hyperlink{struct_g_p_stime_data}{GPStimeData}}\ \mbox{\hyperlink{struct_g_p_stime_context_aa1f08032bdad2805427d32d8dec9080b}{\_time\_data}};}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ uint8\_t\ \_pbytebuff[256];\ \ }
+\DoxyCodeLine{00115\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_g_p_stime_context_a043dcec996978539db67174b9a8b1b58}{\_u8\_ixw}};}
+\DoxyCodeLine{00116\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_g_p_stime_context_ab3391515f4ec8a5c23f4f458477db217}{\_is\_sentence\_ready}};}
+\DoxyCodeLine{00117\ \ \ \ \ int32\_t\ \mbox{\hyperlink{struct_g_p_stime_context_ac0323a3037d1191bf56ae24735dc4d3c}{\_i32\_error\_count}};}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_g_p_stime_context_ab5917ea65d6ab191efedccf3f12117ef}{\_altitude}};\ \ \ \textcolor{comment}{//altitude\ in\ metesr}}
+\DoxyCodeLine{00119\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_g_p_stime_context_a58d62942ad4f7c0eb8702d52280c9310}{user\_setup\_menu\_active}};}
+\DoxyCodeLine{00120\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_g_p_stime_context_a29cb96f0e376b5bbd7c4666c0fb2c769}{forced\_XMIT\_on}};}
+\DoxyCodeLine{00121\ \ \ \ \ int8\_t\ \mbox{\hyperlink{struct_g_p_stime_context_afc36ba2a75db4dcd3b84f1ce0a635fd1}{temp\_in\_Celsius}};}
+\DoxyCodeLine{00122\ \ \ \ \ int8\_t\ \mbox{\hyperlink{struct_g_p_stime_context_a6e82420acfdbb35cc069b72566f586be}{verbosity}};}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \}\ \mbox{\hyperlink{struct_g_p_stime_context}{GPStimeContext}};}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \mbox{\hyperlink{struct_g_p_stime_context}{GPStimeContext}}\ *\mbox{\hyperlink{_g_p_stime_8h_ac291b3ba1b9d992b08f2187bd93334d9}{GPStimeInit}}(\textcolor{keywordtype}{int}\ uart\_id,\ \textcolor{keywordtype}{int}\ uart\_baud,\ \textcolor{keywordtype}{int}\ pps\_gpio);}
+\DoxyCodeLine{00127\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_g_p_stime_8h_ac5e284ae60311552522b968b648ee91a}{GPStimeDestroy}}(\mbox{\hyperlink{struct_g_p_stime_context}{GPStimeContext}}\ **pp);}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_g_p_stime_8h_a713471dc366fed21ce491836200dddab}{GPStimeProcNMEAsentence}}(\mbox{\hyperlink{struct_g_p_stime_context}{GPStimeContext}}\ *pg);}
+\DoxyCodeLine{00130\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_g_p_stime_8h_a04858af9d5bcfd08658dfad78a87811c}{extract\_altitude}}(\mbox{\hyperlink{struct_g_p_stime_context}{GPStimeContext}}\ *pg);}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}}\ (\mbox{\hyperlink{_g_p_stime_8h_a61dcadb91ff7476cb0c4653ffe87fb60}{GPStimePPScallback}})(uint\ gpio,\ uint32\_t\ events);}
+\DoxyCodeLine{00133\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}}\ (\mbox{\hyperlink{_g_p_stime_8h_a4a7722cabbc40a5bfec88cb1e1c2d991}{GPStimeUartRxIsr}})();}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_g_p_stime_8h_a041cb0b0fa4c23e1dfa4c460a0d905de}{GPStimeGetTime}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_g_p_stime_context}{GPStimeContext}}\ *pg,\ uint32\_t\ *u32\_tmdst);}
+\DoxyCodeLine{00136\ uint32\_t\ \mbox{\hyperlink{_g_p_stime_8h_a1ba7bee03416f3945a6e34bd77a90faf}{GPStime2UNIX}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *pdate,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ptime);}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_g_p_stime_8h_a4b52d0532bd03a2df6cb968f1e1ec950}{GPStimeDump}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_g_p_stime_data}{GPStimeData}}\ *pd);}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

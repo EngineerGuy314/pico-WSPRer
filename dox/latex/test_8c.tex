@@ -1,0 +1,115 @@
+\doxysection{D\+:/\+Users/serych/\+SVN/\+Bastleni/\+HAB/pico-\/\+WSPRer/hf-\/oscillator/test.c File Reference}
+\hypertarget{test_8c}{}\label{test_8c}\index{D:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/hf-\/oscillator/test.c@{D:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/hf-\/oscillator/test.c}}
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include "{}defines.\+h"{}}\newline
+{\ttfamily \#include "{}piodco/piodco.\+h"{}}\newline
+{\ttfamily \#include "{}build/dco2.\+pio.\+h"{}}\newline
+{\ttfamily \#include "{}hardware/vreg.\+h"{}}\newline
+{\ttfamily \#include "{}pico/multicore.\+h"{}}\newline
+{\ttfamily \#include "{}pico/stdio/driver.\+h"{}}\newline
+{\ttfamily \#include "{}./lib/assert.\+h"{}}\newline
+{\ttfamily \#include "{}./debug/logutils.\+h"{}}\newline
+{\ttfamily \#include "{}hwdefs.\+h"{}}\newline
+{\ttfamily \#include $<$GPStime.\+h$>$}\newline
+{\ttfamily \#include $<$hfconsole.\+h$>$}\newline
+{\ttfamily \#include "{}protos.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{test_8c_af95648dd067cdacb7fc89f167429098e}{GEN\+\_\+\+FRQ\+\_\+\+HZ}}~29977777L
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{test_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\item 
+void \mbox{\hyperlink{test_8c_a9f153132b8b4afad133b952111e18bd9}{core1\+\_\+entry}} ()
+\item 
+void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} \mbox{\hyperlink{test_8c_a7da912f83d7e17bc4463f57dc9b50730}{Spinner\+MFSKTest}} (void)
+\item 
+void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} \mbox{\hyperlink{test_8c_a082f7d01db781c79aab93a6e66d2ad41}{Spinner\+Sweep\+Test}} (void)
+\item 
+void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} \mbox{\hyperlink{test_8c_a04461605f8069818dab5ee6aa280493c}{Spinner\+RTTYTest}} (void)
+\item 
+void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} \mbox{\hyperlink{test_8c_ada3dea7222a8ff061635375d3be9c057}{Spinner\+Milli\+Hertz\+Test}} (void)
+\item 
+void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} \mbox{\hyperlink{test_8c_a09da7bf78bef2ed91241592e10fca7cf}{Spinner\+Wide4\+FSKTest}} (void)
+\item 
+void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} \mbox{\hyperlink{test_8c_a836b01a2f3fc1de24fffd598e089894e}{Spinner\+GPSreference\+Test}} (void)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \mbox{\hyperlink{test_8c_aef68134eeb0087b6fadd085ab10a20dd}{DCO}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{test_8c_af95648dd067cdacb7fc89f167429098e}\label{test_8c_af95648dd067cdacb7fc89f167429098e} 
+\index{test.c@{test.c}!GEN\_FRQ\_HZ@{GEN\_FRQ\_HZ}}
+\index{GEN\_FRQ\_HZ@{GEN\_FRQ\_HZ}!test.c@{test.c}}
+\doxysubsubsection{\texorpdfstring{GEN\_FRQ\_HZ}{GEN\_FRQ\_HZ}}
+{\footnotesize\ttfamily \#define GEN\+\_\+\+FRQ\+\_\+\+HZ~29977777L}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{test_8c_a9f153132b8b4afad133b952111e18bd9}\label{test_8c_a9f153132b8b4afad133b952111e18bd9} 
+\index{test.c@{test.c}!core1\_entry@{core1\_entry}}
+\index{core1\_entry@{core1\_entry}!test.c@{test.c}}
+\doxysubsubsection{\texorpdfstring{core1\_entry()}{core1\_entry()}}
+{\footnotesize\ttfamily void core1\+\_\+entry (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{test_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{test_8c_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+\index{test.c@{test.c}!main@{main}}
+\index{main@{main}!test.c@{test.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{test_8c_a836b01a2f3fc1de24fffd598e089894e}\label{test_8c_a836b01a2f3fc1de24fffd598e089894e} 
+\index{test.c@{test.c}!SpinnerGPSreferenceTest@{SpinnerGPSreferenceTest}}
+\index{SpinnerGPSreferenceTest@{SpinnerGPSreferenceTest}!test.c@{test.c}}
+\doxysubsubsection{\texorpdfstring{SpinnerGPSreferenceTest()}{SpinnerGPSreferenceTest()}}
+{\footnotesize\ttfamily void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} Spinner\+GPSreference\+Test (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{test_8c_a7da912f83d7e17bc4463f57dc9b50730}\label{test_8c_a7da912f83d7e17bc4463f57dc9b50730} 
+\index{test.c@{test.c}!SpinnerMFSKTest@{SpinnerMFSKTest}}
+\index{SpinnerMFSKTest@{SpinnerMFSKTest}!test.c@{test.c}}
+\doxysubsubsection{\texorpdfstring{SpinnerMFSKTest()}{SpinnerMFSKTest()}}
+{\footnotesize\ttfamily void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} Spinner\+MFSKTest (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{test_8c_ada3dea7222a8ff061635375d3be9c057}\label{test_8c_ada3dea7222a8ff061635375d3be9c057} 
+\index{test.c@{test.c}!SpinnerMilliHertzTest@{SpinnerMilliHertzTest}}
+\index{SpinnerMilliHertzTest@{SpinnerMilliHertzTest}!test.c@{test.c}}
+\doxysubsubsection{\texorpdfstring{SpinnerMilliHertzTest()}{SpinnerMilliHertzTest()}}
+{\footnotesize\ttfamily void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} Spinner\+Milli\+Hertz\+Test (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{test_8c_a04461605f8069818dab5ee6aa280493c}\label{test_8c_a04461605f8069818dab5ee6aa280493c} 
+\index{test.c@{test.c}!SpinnerRTTYTest@{SpinnerRTTYTest}}
+\index{SpinnerRTTYTest@{SpinnerRTTYTest}!test.c@{test.c}}
+\doxysubsubsection{\texorpdfstring{SpinnerRTTYTest()}{SpinnerRTTYTest()}}
+{\footnotesize\ttfamily void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} Spinner\+RTTYTest (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{test_8c_a082f7d01db781c79aab93a6e66d2ad41}\label{test_8c_a082f7d01db781c79aab93a6e66d2ad41} 
+\index{test.c@{test.c}!SpinnerSweepTest@{SpinnerSweepTest}}
+\index{SpinnerSweepTest@{SpinnerSweepTest}!test.c@{test.c}}
+\doxysubsubsection{\texorpdfstring{SpinnerSweepTest()}{SpinnerSweepTest()}}
+{\footnotesize\ttfamily void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} Spinner\+Sweep\+Test (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{test_8c_a09da7bf78bef2ed91241592e10fca7cf}\label{test_8c_a09da7bf78bef2ed91241592e10fca7cf} 
+\index{test.c@{test.c}!SpinnerWide4FSKTest@{SpinnerWide4FSKTest}}
+\index{SpinnerWide4FSKTest@{SpinnerWide4FSKTest}!test.c@{test.c}}
+\doxysubsubsection{\texorpdfstring{SpinnerWide4FSKTest()}{SpinnerWide4FSKTest()}}
+{\footnotesize\ttfamily void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} Spinner\+Wide4\+FSKTest (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{test_8c_aef68134eeb0087b6fadd085ab10a20dd}\label{test_8c_aef68134eeb0087b6fadd085ab10a20dd} 
+\index{test.c@{test.c}!DCO@{DCO}}
+\index{DCO@{DCO}!test.c@{test.c}}
+\doxysubsubsection{\texorpdfstring{DCO}{DCO}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} DCO}
+
