@@ -1,0 +1,88 @@
+\doxysection{Tx\+Channel.\+h}
+\hypertarget{_tx_channel_8h_source}{}\label{_tx_channel_8h_source}\index{TxChannel/TxChannel.h@{TxChannel/TxChannel.h}}
+\mbox{\hyperlink{_tx_channel_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ \ Roman\ Piksaykin\ [piksaykin@gmail.com],\ R2BDY}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ \ https://www.qrz.com/db/r2bdy}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \ TxChannel.h\ -\/\ Produces\ a\ time-\/accurate\ stream.}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Invokes\ a\ \`{}modulator`\ function.\ }}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ \ DESCRIPTION}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ \ \ \ \ \ Receives\ data\ asynchronously.\ Calls\ low\ level\ modulator\ function}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ \ \ \ \ \ synchronously\ according\ to\ params.}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ HOWTOSTART}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ \ \ \ \ \ -\/}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ \ PLATFORM}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ \ \ \ \ \ Raspberry\ Pi\ pico.}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ \ REVISION\ HISTORY}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ \ \ \ \ \ -\/}}
+\DoxyCodeLine{00023\ \textcolor{comment}{//}}
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ \ PROJECT\ PAGE}}
+\DoxyCodeLine{00025\ \textcolor{comment}{//\ \ \ \ \ \ https://github.com/RPiks/pico-\/WSPR-\/tx}}
+\DoxyCodeLine{00026\ \textcolor{comment}{//}}
+\DoxyCodeLine{00027\ \textcolor{comment}{//\ \ LICENCE}}
+\DoxyCodeLine{00028\ \textcolor{comment}{//\ \ \ \ \ \ MIT\ License\ (http://www.opensource.org/licenses/mit-\/license.php)}}
+\DoxyCodeLine{00029\ \textcolor{comment}{//}}
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ \ Copyright\ (c)\ 2023\ by\ Roman\ Piksaykin}}
+\DoxyCodeLine{00031\ \textcolor{comment}{//\ \ }}
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ \ Permission\ is\ hereby\ granted,\ free\ of\ charge,to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00033\ \textcolor{comment}{//\ \ of\ this\ software\ and\ associated\ documentation\ files\ (the\ Software),\ to\ deal}}
+\DoxyCodeLine{00034\ \textcolor{comment}{//\ \ in\ the\ Software\ without\ restriction,including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ \ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ \ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00037\ \textcolor{comment}{//\ \ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00038\ \textcolor{comment}{//}}
+\DoxyCodeLine{00039\ \textcolor{comment}{//\ \ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ \ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00041\ \textcolor{comment}{//}}
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ \ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00043\ \textcolor{comment}{//\ \ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ \ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ \ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00046\ \textcolor{comment}{//\ \ LIABILITY,WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00047\ \textcolor{comment}{//\ \ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN}}
+\DoxyCodeLine{00048\ \textcolor{comment}{//\ \ THE\ SOFTWARE.}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#ifndef\ BITEMITTER\_H\_}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ BITEMITTER\_H\_}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#include\ "{}hardware/clocks.h"{}}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#include\ "{}pico/stdlib.h"{}}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{assert_8h}{../hf-\/oscillator/lib/assert.h}}"{}}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{piodco_8h}{piodco.h}}>}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00061\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ uint64\_t\ \mbox{\hyperlink{struct_tx_channel_context_a35438b429ebdedc8c6bd2726dae224ad}{\_tm\_future\_call}};}
+\DoxyCodeLine{00063\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{struct_tx_channel_context_acf5cc8454973d71e7b8cf65c88052136}{\_bit\_period\_us}};}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_tx_channel_context_ad9c0a3db26e99449c91c961f5a6334a8}{\_timer\_alarm\_num}};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_tx_channel_context_a304fa3c081c6d9da547559f2b247e05a}{\_ix\_input}},\ \_ix\_output;}
+\DoxyCodeLine{00068\ \ \ \ \ uint8\_t\ \_pbyte\_buffer[256];}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ \mbox{\hyperlink{struct_pio_dco}{PioDco}}\ *\mbox{\hyperlink{struct_tx_channel_context_a4d0c4de9cff57a7e0e6e31ad57de42ec}{\_p\_oscillator}};}
+\DoxyCodeLine{00071\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{struct_tx_channel_context_a714905920e5988eaa36a0ccd131268db}{\_u32\_dialfreqhz}};}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_tx_channel_context_a6e95d5efcfc2b159e88d38f981ae6afc}{\_i\_tx\_gpio}};}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \}\ \mbox{\hyperlink{struct_tx_channel_context}{TxChannelContext}};}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \mbox{\hyperlink{struct_tx_channel_context}{TxChannelContext}}\ *\mbox{\hyperlink{_tx_channel_8h_a526789f3145eada8db1897ce759b9532}{TxChannelInit}}(\textcolor{keyword}{const}\ uint32\_t\ bit\_period\_us,\ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ timer\_alarm\_num,\ \mbox{\hyperlink{struct_pio_dco}{PioDco}}\ *pDCO);}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ uint8\_t\ \mbox{\hyperlink{_tx_channel_8h_a91224c417af35bc6ad43268d047f5842}{TxChannelPending}}(\mbox{\hyperlink{struct_tx_channel_context}{TxChannelContext}}\ *pctx);}
+\DoxyCodeLine{00080\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_tx_channel_8h_ab19ec46c4de859dacfa243878ffdf078}{TxChannelPush}}(\mbox{\hyperlink{struct_tx_channel_context}{TxChannelContext}}\ *pctx,\ uint8\_t\ *psrc,\ \textcolor{keywordtype}{int}\ n);}
+\DoxyCodeLine{00081\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_tx_channel_8h_a99f29e81a3070d9ee80b1af46ab7d36c}{TxChannelPop}}(\mbox{\hyperlink{struct_tx_channel_context}{TxChannelContext}}\ *pctx,\ uint8\_t\ *pdst);}
+\DoxyCodeLine{00082\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_tx_channel_8h_aa0f611ac0d1bc011b9ba1335f008bf28}{TxChannelClear}}(\mbox{\hyperlink{struct_tx_channel_context}{TxChannelContext}}\ *pctx);}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

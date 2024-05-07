@@ -1,0 +1,173 @@
+\doxysection{hf-\/oscillator/gpstime/\+GPStime.c File Reference}
+\hypertarget{_g_p_stime_8c}{}\label{_g_p_stime_8c}\index{hf-\/oscillator/gpstime/GPStime.c@{hf-\/oscillator/gpstime/GPStime.c}}
+{\ttfamily \#include "{}GPStime.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_g_p_stime_context}{GPStime\+Context}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_g_p_stime_8c_ac291b3ba1b9d992b08f2187bd93334d9}{GPStime\+Init}} (int uart\+\_\+id, int uart\+\_\+baud, int pps\+\_\+gpio)
+\begin{DoxyCompactList}\small\item\em Initializes GPS time module Context. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_g_p_stime_8c_ac5e284ae60311552522b968b648ee91a}{GPStime\+Destroy}} (\mbox{\hyperlink{struct_g_p_stime_context}{GPStime\+Context}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}pp)
+\begin{DoxyCompactList}\small\item\em Deinits the GPS module and destroys allocated resources. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} \mbox{\hyperlink{_g_p_stime_8c_a61dcadb91ff7476cb0c4653ffe87fb60}{GPStime\+PPScallback}} (uint gpio, uint32\+\_\+t events)
+\begin{DoxyCompactList}\small\item\em The PPS interrupt service subroutine. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_g_p_stime_8c_a041cb0b0fa4c23e1dfa4c460a0d905de}{GPStime\+Get\+Time}} (const \mbox{\hyperlink{struct_g_p_stime_context}{GPStime\+Context}} \texorpdfstring{$\ast$}{*}pg, uint32\+\_\+t \texorpdfstring{$\ast$}{*}u32\+\_\+tmdst)
+\begin{DoxyCompactList}\small\item\em Calculates current unixtime using data available. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} \mbox{\hyperlink{_g_p_stime_8c_a4a7722cabbc40a5bfec88cb1e1c2d991}{GPStime\+Uart\+Rx\+Isr}} ()
+\begin{DoxyCompactList}\small\item\em UART FIFO ISR. Processes another N chars received from GPS receiver. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_g_p_stime_8c_a713471dc366fed21ce491836200dddab}{GPStime\+Proc\+NMEAsentence}} (\mbox{\hyperlink{struct_g_p_stime_context}{GPStime\+Context}} \texorpdfstring{$\ast$}{*}pg)
+\begin{DoxyCompactList}\small\item\em Processes a NMEA sentence GPRMC. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{_g_p_stime_8c_a1ba7bee03416f3945a6e34bd77a90faf}{GPStime2\+UNIX}} (const char \texorpdfstring{$\ast$}{*}pdate, const char \texorpdfstring{$\ast$}{*}ptime)
+\begin{DoxyCompactList}\small\item\em Converts GPS time and date strings to unix time. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_g_p_stime_8c_a4b52d0532bd03a2df6cb968f1e1ec950}{GPStime\+Dump}} (const \mbox{\hyperlink{struct_g_p_stime_data}{GPStime\+Data}} \texorpdfstring{$\ast$}{*}pd)
+\begin{DoxyCompactList}\small\item\em Dumps the GPS data struct to stdio. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{_g_p_stime_8c_a1ba7bee03416f3945a6e34bd77a90faf}\label{_g_p_stime_8c_a1ba7bee03416f3945a6e34bd77a90faf} 
+\index{GPStime.c@{GPStime.c}!GPStime2UNIX@{GPStime2UNIX}}
+\index{GPStime2UNIX@{GPStime2UNIX}!GPStime.c@{GPStime.c}}
+\doxysubsubsection{\texorpdfstring{GPStime2UNIX()}{GPStime2UNIX()}}
+{\footnotesize\ttfamily uint32\+\_\+t GPStime2\+UNIX (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{pdate,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{ptime }\end{DoxyParamCaption})}
+
+
+
+Converts GPS time and date strings to unix time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdate} & Date string, 6 chars in work. \\
+\hline
+{\em ptime} & Time string, 6 chars in work. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Unix timestamp (epoch). 0 if bad imput format. 
+\end{DoxyReturn}
+\Hypertarget{_g_p_stime_8c_ac5e284ae60311552522b968b648ee91a}\label{_g_p_stime_8c_ac5e284ae60311552522b968b648ee91a} 
+\index{GPStime.c@{GPStime.c}!GPStimeDestroy@{GPStimeDestroy}}
+\index{GPStimeDestroy@{GPStimeDestroy}!GPStime.c@{GPStime.c}}
+\doxysubsubsection{\texorpdfstring{GPStimeDestroy()}{GPStimeDestroy()}}
+{\footnotesize\ttfamily void GPStime\+Destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_g_p_stime_context}{GPStime\+Context}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{pp }\end{DoxyParamCaption})}
+
+
+
+Deinits the GPS module and destroys allocated resources. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pp} & Ptr to Ptr of the Context. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{_g_p_stime_8c_a4b52d0532bd03a2df6cb968f1e1ec950}\label{_g_p_stime_8c_a4b52d0532bd03a2df6cb968f1e1ec950} 
+\index{GPStime.c@{GPStime.c}!GPStimeDump@{GPStimeDump}}
+\index{GPStimeDump@{GPStimeDump}!GPStime.c@{GPStime.c}}
+\doxysubsubsection{\texorpdfstring{GPStimeDump()}{GPStimeDump()}}
+{\footnotesize\ttfamily void GPStime\+Dump (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_g_p_stime_data}{GPStime\+Data}} \texorpdfstring{$\ast$}{*}}]{pd }\end{DoxyParamCaption})}
+
+
+
+Dumps the GPS data struct to stdio. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pd} & Ptr to Context. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{_g_p_stime_8c_a041cb0b0fa4c23e1dfa4c460a0d905de}\label{_g_p_stime_8c_a041cb0b0fa4c23e1dfa4c460a0d905de} 
+\index{GPStime.c@{GPStime.c}!GPStimeGetTime@{GPStimeGetTime}}
+\index{GPStimeGetTime@{GPStimeGetTime}!GPStime.c@{GPStime.c}}
+\doxysubsubsection{\texorpdfstring{GPStimeGetTime()}{GPStimeGetTime()}}
+{\footnotesize\ttfamily int GPStime\+Get\+Time (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_g_p_stime_context}{GPStime\+Context}} \texorpdfstring{$\ast$}{*}}]{pg,  }\item[{uint32\+\_\+t \texorpdfstring{$\ast$}{*}}]{u32\+\_\+tmdst }\end{DoxyParamCaption})}
+
+
+
+Calculates current unixtime using data available. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pg} & Ptr to the context. \\
+\hline
+{\em u32\+\_\+tmdst} & Ptr to destination unixtime val. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if OK. 
+
+-\/1 There was NO historical GPS fixes. 
+
+-\/2 The fix was expired (24hrs or more time ago). 
+\end{DoxyReturn}
+\Hypertarget{_g_p_stime_8c_ac291b3ba1b9d992b08f2187bd93334d9}\label{_g_p_stime_8c_ac291b3ba1b9d992b08f2187bd93334d9} 
+\index{GPStime.c@{GPStime.c}!GPStimeInit@{GPStimeInit}}
+\index{GPStimeInit@{GPStimeInit}!GPStime.c@{GPStime.c}}
+\doxysubsubsection{\texorpdfstring{GPStimeInit()}{GPStimeInit()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_g_p_stime_context}{GPStime\+Context}} \texorpdfstring{$\ast$}{*} GPStime\+Init (\begin{DoxyParamCaption}\item[{int}]{uart\+\_\+id,  }\item[{int}]{uart\+\_\+baud,  }\item[{int}]{pps\+\_\+gpio }\end{DoxyParamCaption})}
+
+
+
+Initializes GPS time module Context. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em uart\+\_\+id} & UART id to which GPS receiver is connected, 0 OR 1. \\
+\hline
+{\em uart\+\_\+baud} & UART baudrate, 115200 max. \\
+\hline
+{\em pps\+\_\+gpio} & GPIO pin of PPS (second pulse) from GPS receiver. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the new GPS time Context. 
+\end{DoxyReturn}
+\Hypertarget{_g_p_stime_8c_a61dcadb91ff7476cb0c4653ffe87fb60}\label{_g_p_stime_8c_a61dcadb91ff7476cb0c4653ffe87fb60} 
+\index{GPStime.c@{GPStime.c}!GPStimePPScallback@{GPStimePPScallback}}
+\index{GPStimePPScallback@{GPStimePPScallback}!GPStime.c@{GPStime.c}}
+\doxysubsubsection{\texorpdfstring{GPStimePPScallback()}{GPStimePPScallback()}}
+{\footnotesize\ttfamily void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} GPStime\+PPScallback (\begin{DoxyParamCaption}\item[{uint}]{gpio,  }\item[{uint32\+\_\+t}]{events }\end{DoxyParamCaption})}
+
+
+
+The PPS interrupt service subroutine. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gpio} & The GPIO pin of Pico which is connected to PPS output of GPS rec. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{_g_p_stime_8c_a713471dc366fed21ce491836200dddab}\label{_g_p_stime_8c_a713471dc366fed21ce491836200dddab} 
+\index{GPStime.c@{GPStime.c}!GPStimeProcNMEAsentence@{GPStimeProcNMEAsentence}}
+\index{GPStimeProcNMEAsentence@{GPStimeProcNMEAsentence}!GPStime.c@{GPStime.c}}
+\doxysubsubsection{\texorpdfstring{GPStimeProcNMEAsentence()}{GPStimeProcNMEAsentence()}}
+{\footnotesize\ttfamily int GPStime\+Proc\+NMEAsentence (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_g_p_stime_context}{GPStime\+Context}} \texorpdfstring{$\ast$}{*}}]{pg }\end{DoxyParamCaption})}
+
+
+
+Processes a NMEA sentence GPRMC. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pg} & Ptr to Context. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 OK. 
+
+-\/2 Error\+: bad lat format. 
+
+-\/3 Error\+: bad lon format. 
+
+-\/4 Error\+: no final \textquotesingle{}\texorpdfstring{$\ast$}{*}\textquotesingle{} char ere checksum value. 
+\end{DoxyReturn}
+\begin{DoxyAttention}{Attention}
+Checksum validation is not implemented so far. !\+FIXME! 
+\end{DoxyAttention}
+\Hypertarget{_g_p_stime_8c_a4a7722cabbc40a5bfec88cb1e1c2d991}\label{_g_p_stime_8c_a4a7722cabbc40a5bfec88cb1e1c2d991} 
+\index{GPStime.c@{GPStime.c}!GPStimeUartRxIsr@{GPStimeUartRxIsr}}
+\index{GPStimeUartRxIsr@{GPStimeUartRxIsr}!GPStime.c@{GPStime.c}}
+\doxysubsubsection{\texorpdfstring{GPStimeUartRxIsr()}{GPStimeUartRxIsr()}}
+{\footnotesize\ttfamily void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} GPStime\+Uart\+Rx\+Isr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+UART FIFO ISR. Processes another N chars received from GPS receiver. 
+

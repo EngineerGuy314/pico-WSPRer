@@ -1,0 +1,106 @@
+\doxysection{WSPRbeacon/thirdparty/nhash.c File Reference}
+\hypertarget{nhash_8c}{}\label{nhash_8c}\index{WSPRbeacon/thirdparty/nhash.c@{WSPRbeacon/thirdparty/nhash.c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{nhash_8c_ae7281eaa0cfa431b028e911f952a4452}{SELF\+\_\+\+TEST}}~1
+\item 
+\#define \mbox{\hyperlink{nhash_8c_a8c49a94782a573ded31a7bb1949cbf47}{HASH\+\_\+\+LITTLE\+\_\+\+ENDIAN}}~1
+\item 
+\#define \mbox{\hyperlink{nhash_8c_a86173ca25b300cf3276b088d3fc6bdaf}{hashsize}}(n)~((uint32\+\_\+t)1$<$$<$(n))
+\item 
+\#define \mbox{\hyperlink{nhash_8c_aacd6ed104463685849b2550389d05ff3}{hashmask}}(n)~(\mbox{\hyperlink{nhash_8c_a86173ca25b300cf3276b088d3fc6bdaf}{hashsize}}(n)-\/1)
+\item 
+\#define \mbox{\hyperlink{nhash_8c_aae44e21ada356d9d84450d5440fbb0c4}{rot}}(x,  k)~(((x)$<$$<$(k)) \texorpdfstring{$\vert$}{|} ((x)$>$$>$(32-\/(k))))
+\item 
+\#define \mbox{\hyperlink{nhash_8c_afd9fa1747724ec6142812721997394c3}{mix}}(a,  b,  c)
+\item 
+\#define \mbox{\hyperlink{nhash_8c_ab4646d77540701d2eb2c877effbe5739}{final}}(a,  b,  c)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{nhash_8c_a690cc27475954f4488f369cfddac6f93}{nhash\+\_\+}} (const void \texorpdfstring{$\ast$}{*}key, int \texorpdfstring{$\ast$}{*}length0, uint32\+\_\+t \texorpdfstring{$\ast$}{*}initval0)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{nhash_8c_ab4646d77540701d2eb2c877effbe5739}\label{nhash_8c_ab4646d77540701d2eb2c877effbe5739} 
+\index{nhash.c@{nhash.c}!final@{final}}
+\index{final@{final}!nhash.c@{nhash.c}}
+\doxysubsubsection{\texorpdfstring{final}{final}}
+{\footnotesize\ttfamily \#define final(\begin{DoxyParamCaption}\item[{}]{a,  }\item[{}]{b,  }\item[{}]{c }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{\ \(\backslash\)}
+\DoxyCodeLine{\ \ c\ \string^=\ b;\ c\ -\/=\ \mbox{\hyperlink{nhash_8c_aae44e21ada356d9d84450d5440fbb0c4}{rot}}(b,14);\ \(\backslash\)}
+\DoxyCodeLine{\ \ a\ \string^=\ c;\ a\ -\/=\ \mbox{\hyperlink{nhash_8c_aae44e21ada356d9d84450d5440fbb0c4}{rot}}(c,11);\ \(\backslash\)}
+\DoxyCodeLine{\ \ b\ \string^=\ a;\ b\ -\/=\ \mbox{\hyperlink{nhash_8c_aae44e21ada356d9d84450d5440fbb0c4}{rot}}(a,25);\ \(\backslash\)}
+\DoxyCodeLine{\ \ c\ \string^=\ b;\ c\ -\/=\ \mbox{\hyperlink{nhash_8c_aae44e21ada356d9d84450d5440fbb0c4}{rot}}(b,16);\ \(\backslash\)}
+\DoxyCodeLine{\ \ a\ \string^=\ c;\ a\ -\/=\ \mbox{\hyperlink{nhash_8c_aae44e21ada356d9d84450d5440fbb0c4}{rot}}(c,4);\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ b\ \string^=\ a;\ b\ -\/=\ \mbox{\hyperlink{nhash_8c_aae44e21ada356d9d84450d5440fbb0c4}{rot}}(a,14);\ \(\backslash\)}
+\DoxyCodeLine{\ \ c\ \string^=\ b;\ c\ -\/=\ \mbox{\hyperlink{nhash_8c_aae44e21ada356d9d84450d5440fbb0c4}{rot}}(b,24);\ \(\backslash\)}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\Hypertarget{nhash_8c_a8c49a94782a573ded31a7bb1949cbf47}\label{nhash_8c_a8c49a94782a573ded31a7bb1949cbf47} 
+\index{nhash.c@{nhash.c}!HASH\_LITTLE\_ENDIAN@{HASH\_LITTLE\_ENDIAN}}
+\index{HASH\_LITTLE\_ENDIAN@{HASH\_LITTLE\_ENDIAN}!nhash.c@{nhash.c}}
+\doxysubsubsection{\texorpdfstring{HASH\_LITTLE\_ENDIAN}{HASH\_LITTLE\_ENDIAN}}
+{\footnotesize\ttfamily \#define HASH\+\_\+\+LITTLE\+\_\+\+ENDIAN~1}
+
+\Hypertarget{nhash_8c_aacd6ed104463685849b2550389d05ff3}\label{nhash_8c_aacd6ed104463685849b2550389d05ff3} 
+\index{nhash.c@{nhash.c}!hashmask@{hashmask}}
+\index{hashmask@{hashmask}!nhash.c@{nhash.c}}
+\doxysubsubsection{\texorpdfstring{hashmask}{hashmask}}
+{\footnotesize\ttfamily \#define hashmask(\begin{DoxyParamCaption}\item[{}]{n }\end{DoxyParamCaption})~(\mbox{\hyperlink{nhash_8c_a86173ca25b300cf3276b088d3fc6bdaf}{hashsize}}(n)-\/1)}
+
+\Hypertarget{nhash_8c_a86173ca25b300cf3276b088d3fc6bdaf}\label{nhash_8c_a86173ca25b300cf3276b088d3fc6bdaf} 
+\index{nhash.c@{nhash.c}!hashsize@{hashsize}}
+\index{hashsize@{hashsize}!nhash.c@{nhash.c}}
+\doxysubsubsection{\texorpdfstring{hashsize}{hashsize}}
+{\footnotesize\ttfamily \#define hashsize(\begin{DoxyParamCaption}\item[{}]{n }\end{DoxyParamCaption})~((uint32\+\_\+t)1$<$$<$(n))}
+
+\Hypertarget{nhash_8c_afd9fa1747724ec6142812721997394c3}\label{nhash_8c_afd9fa1747724ec6142812721997394c3} 
+\index{nhash.c@{nhash.c}!mix@{mix}}
+\index{mix@{mix}!nhash.c@{nhash.c}}
+\doxysubsubsection{\texorpdfstring{mix}{mix}}
+{\footnotesize\ttfamily \#define mix(\begin{DoxyParamCaption}\item[{}]{a,  }\item[{}]{b,  }\item[{}]{c }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{\ \(\backslash\)}
+\DoxyCodeLine{\ \ a\ -\/=\ c;\ \ a\ \string^=\ \mbox{\hyperlink{nhash_8c_aae44e21ada356d9d84450d5440fbb0c4}{rot}}(c,\ 4);\ \ c\ +=\ b;\ \(\backslash\)}
+\DoxyCodeLine{\ \ b\ -\/=\ a;\ \ b\ \string^=\ \mbox{\hyperlink{nhash_8c_aae44e21ada356d9d84450d5440fbb0c4}{rot}}(a,\ 6);\ \ a\ +=\ c;\ \(\backslash\)}
+\DoxyCodeLine{\ \ c\ -\/=\ b;\ \ c\ \string^=\ \mbox{\hyperlink{nhash_8c_aae44e21ada356d9d84450d5440fbb0c4}{rot}}(b,\ 8);\ \ b\ +=\ a;\ \(\backslash\)}
+\DoxyCodeLine{\ \ a\ -\/=\ c;\ \ a\ \string^=\ \mbox{\hyperlink{nhash_8c_aae44e21ada356d9d84450d5440fbb0c4}{rot}}(c,16);\ \ c\ +=\ b;\ \(\backslash\)}
+\DoxyCodeLine{\ \ b\ -\/=\ a;\ \ b\ \string^=\ \mbox{\hyperlink{nhash_8c_aae44e21ada356d9d84450d5440fbb0c4}{rot}}(a,19);\ \ a\ +=\ c;\ \(\backslash\)}
+\DoxyCodeLine{\ \ c\ -\/=\ b;\ \ c\ \string^=\ \mbox{\hyperlink{nhash_8c_aae44e21ada356d9d84450d5440fbb0c4}{rot}}(b,\ 4);\ \ b\ +=\ a;\ \(\backslash\)}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\Hypertarget{nhash_8c_aae44e21ada356d9d84450d5440fbb0c4}\label{nhash_8c_aae44e21ada356d9d84450d5440fbb0c4} 
+\index{nhash.c@{nhash.c}!rot@{rot}}
+\index{rot@{rot}!nhash.c@{nhash.c}}
+\doxysubsubsection{\texorpdfstring{rot}{rot}}
+{\footnotesize\ttfamily \#define rot(\begin{DoxyParamCaption}\item[{}]{x,  }\item[{}]{k }\end{DoxyParamCaption})~(((x)$<$$<$(k)) \texorpdfstring{$\vert$}{|} ((x)$>$$>$(32-\/(k))))}
+
+\Hypertarget{nhash_8c_ae7281eaa0cfa431b028e911f952a4452}\label{nhash_8c_ae7281eaa0cfa431b028e911f952a4452} 
+\index{nhash.c@{nhash.c}!SELF\_TEST@{SELF\_TEST}}
+\index{SELF\_TEST@{SELF\_TEST}!nhash.c@{nhash.c}}
+\doxysubsubsection{\texorpdfstring{SELF\_TEST}{SELF\_TEST}}
+{\footnotesize\ttfamily \#define SELF\+\_\+\+TEST~1}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{nhash_8c_a690cc27475954f4488f369cfddac6f93}\label{nhash_8c_a690cc27475954f4488f369cfddac6f93} 
+\index{nhash.c@{nhash.c}!nhash\_@{nhash\_}}
+\index{nhash\_@{nhash\_}!nhash.c@{nhash.c}}
+\doxysubsubsection{\texorpdfstring{nhash\_()}{nhash\_()}}
+{\footnotesize\ttfamily uint32\+\_\+t nhash\+\_\+ (\begin{DoxyParamCaption}\item[{const void \texorpdfstring{$\ast$}{*}}]{key,  }\item[{int \texorpdfstring{$\ast$}{*}}]{length0,  }\item[{uint32\+\_\+t \texorpdfstring{$\ast$}{*}}]{initval0 }\end{DoxyParamCaption})}
+

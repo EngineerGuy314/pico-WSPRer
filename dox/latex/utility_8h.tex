@@ -1,0 +1,50 @@
+\doxysection{hf-\/oscillator/lib/utility.h File Reference}
+\hypertarget{utility_8h}{}\label{utility_8h}\index{hf-\/oscillator/lib/utility.h@{hf-\/oscillator/lib/utility.h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}pico/stdlib.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint64\+\_\+t \mbox{\hyperlink{utility_8h_a441e062f6e5c2f3d53fcfa43cc5c1ac0}{Get\+Uptime64}} (void)
+\item 
+uint32\+\_\+t \mbox{\hyperlink{utility_8h_a805669ac9937ce05a615424243fc030e}{Get\+Time32}} (void)
+\item 
+uint32\+\_\+t \mbox{\hyperlink{utility_8h_ae1ea771d03c5f1b81e563190eb719602}{Pico\+U64time\+To\+Seconds}} (uint64\+\_\+t u64tm)
+\item 
+uint32\+\_\+t \mbox{\hyperlink{utility_8h_add2f6a183bba913694252b6ce08cd315}{Decimal\+Str2\+To\+Number}} (const char \texorpdfstring{$\ast$}{*}p)
+\item 
+void \mbox{\hyperlink{utility_8h_a265a2aa6cce4c56af8e779ce3cfa7a82}{PRN32}} (uint32\+\_\+t \texorpdfstring{$\ast$}{*}val)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{utility_8h_add2f6a183bba913694252b6ce08cd315}\label{utility_8h_add2f6a183bba913694252b6ce08cd315} 
+\index{utility.h@{utility.h}!DecimalStr2ToNumber@{DecimalStr2ToNumber}}
+\index{DecimalStr2ToNumber@{DecimalStr2ToNumber}!utility.h@{utility.h}}
+\doxysubsubsection{\texorpdfstring{DecimalStr2ToNumber()}{DecimalStr2ToNumber()}}
+{\footnotesize\ttfamily uint32\+\_\+t Decimal\+Str2\+To\+Number (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{utility_8h_a805669ac9937ce05a615424243fc030e}\label{utility_8h_a805669ac9937ce05a615424243fc030e} 
+\index{utility.h@{utility.h}!GetTime32@{GetTime32}}
+\index{GetTime32@{GetTime32}!utility.h@{utility.h}}
+\doxysubsubsection{\texorpdfstring{GetTime32()}{GetTime32()}}
+{\footnotesize\ttfamily uint32\+\_\+t Get\+Time32 (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{utility_8h_a441e062f6e5c2f3d53fcfa43cc5c1ac0}\label{utility_8h_a441e062f6e5c2f3d53fcfa43cc5c1ac0} 
+\index{utility.h@{utility.h}!GetUptime64@{GetUptime64}}
+\index{GetUptime64@{GetUptime64}!utility.h@{utility.h}}
+\doxysubsubsection{\texorpdfstring{GetUptime64()}{GetUptime64()}}
+{\footnotesize\ttfamily uint64\+\_\+t Get\+Uptime64 (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{utility_8h_ae1ea771d03c5f1b81e563190eb719602}\label{utility_8h_ae1ea771d03c5f1b81e563190eb719602} 
+\index{utility.h@{utility.h}!PicoU64timeToSeconds@{PicoU64timeToSeconds}}
+\index{PicoU64timeToSeconds@{PicoU64timeToSeconds}!utility.h@{utility.h}}
+\doxysubsubsection{\texorpdfstring{PicoU64timeToSeconds()}{PicoU64timeToSeconds()}}
+{\footnotesize\ttfamily uint32\+\_\+t Pico\+U64time\+To\+Seconds (\begin{DoxyParamCaption}\item[{uint64\+\_\+t}]{u64tm }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{utility_8h_a265a2aa6cce4c56af8e779ce3cfa7a82}\label{utility_8h_a265a2aa6cce4c56af8e779ce3cfa7a82} 
+\index{utility.h@{utility.h}!PRN32@{PRN32}}
+\index{PRN32@{PRN32}!utility.h@{utility.h}}
+\doxysubsubsection{\texorpdfstring{PRN32()}{PRN32()}}
+{\footnotesize\ttfamily void PRN32 (\begin{DoxyParamCaption}\item[{uint32\+\_\+t \texorpdfstring{$\ast$}{*}}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+

@@ -1,0 +1,121 @@
+\doxysection{GPStime\+Data Struct Reference}
+\hypertarget{struct_g_p_stime_data}{}\label{struct_g_p_stime_data}\index{GPStimeData@{GPStimeData}}
+
+
+{\ttfamily \#include $<$GPStime.\+h$>$}
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{struct_g_p_stime_data_a5bc6af34052603048e1ae2b1340b1e59}{\+\_\+u8\+\_\+is\+\_\+solution\+\_\+active}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{struct_g_p_stime_data_a8a4ee858d63e09a92c9f32babc11e7bf}{sat\+\_\+count}}
+\item 
+char \mbox{\hyperlink{struct_g_p_stime_data_ac20e08d30929c7951f22ebcbb20745a4}{\+\_\+u8\+\_\+last\+\_\+digit\+\_\+minutes}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{struct_g_p_stime_data_ab5f959bdd22de156276aacecb64ae73c}{\+\_\+u32\+\_\+utime\+\_\+nmea\+\_\+last}}
+\item 
+uint64\+\_\+t \mbox{\hyperlink{struct_g_p_stime_data_a4cecb958d0d4d153171baeec9e723953}{\+\_\+u64\+\_\+sysclk\+\_\+nmea\+\_\+last}}
+\item 
+int64\+\_\+t \mbox{\hyperlink{struct_g_p_stime_data_a037370f2b00fbb28ddb1c31c7a10803c}{\+\_\+i64\+\_\+lat\+\_\+100k}}
+\item 
+int64\+\_\+t \mbox{\hyperlink{struct_g_p_stime_data_a22f33a37ca2d29b30f7b5777ad7d16e3}{\+\_\+i64\+\_\+lon\+\_\+100k}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{struct_g_p_stime_data_a6d8f9f4457ebe07375b7912fbefe5475}{\+\_\+u32\+\_\+nmea\+\_\+gprmc\+\_\+count}}
+\item 
+uint64\+\_\+t \mbox{\hyperlink{struct_g_p_stime_data_a944881d29f8aad29bc0fce7b72abbffd}{\+\_\+u64\+\_\+sysclk\+\_\+pps\+\_\+last}}
+\item 
+uint64\+\_\+t \mbox{\hyperlink{struct_g_p_stime_data_ab2ccdf7ce74f4e6d7124c278045fce4c}{\+\_\+u64\+\_\+pps\+\_\+period\+\_\+1M}}
+\item 
+uint64\+\_\+t \mbox{\hyperlink{struct_g_p_stime_data_a275f35190bbcf27464774b922c2fe81e}{\+\_\+pu64\+\_\+sliding\+\_\+pps\+\_\+tm}} \mbox{[}\mbox{\hyperlink{_g_p_stime_8h_a06fc87d81c62e9abb8790b6e5713c55baa4ce873f8b7ed0a060731f33e571fd65}{e\+Sliding\+Len}}\mbox{]}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{struct_g_p_stime_data_a5a0194aeca48d763d435063fd9938c31}{\+\_\+ix\+\_\+last}}
+\item 
+int64\+\_\+t \mbox{\hyperlink{struct_g_p_stime_data_ad7c6577ca0b233fc90463bec0912df64}{\+\_\+i32\+\_\+freq\+\_\+shift\+\_\+ppb}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Field Documentation}
+\Hypertarget{struct_g_p_stime_data_ad7c6577ca0b233fc90463bec0912df64}\label{struct_g_p_stime_data_ad7c6577ca0b233fc90463bec0912df64} 
+\index{GPStimeData@{GPStimeData}!\_i32\_freq\_shift\_ppb@{\_i32\_freq\_shift\_ppb}}
+\index{\_i32\_freq\_shift\_ppb@{\_i32\_freq\_shift\_ppb}!GPStimeData@{GPStimeData}}
+\doxysubsubsection{\texorpdfstring{\_i32\_freq\_shift\_ppb}{\_i32\_freq\_shift\_ppb}}
+{\footnotesize\ttfamily int64\+\_\+t \+\_\+i32\+\_\+freq\+\_\+shift\+\_\+ppb}
+
+\Hypertarget{struct_g_p_stime_data_a037370f2b00fbb28ddb1c31c7a10803c}\label{struct_g_p_stime_data_a037370f2b00fbb28ddb1c31c7a10803c} 
+\index{GPStimeData@{GPStimeData}!\_i64\_lat\_100k@{\_i64\_lat\_100k}}
+\index{\_i64\_lat\_100k@{\_i64\_lat\_100k}!GPStimeData@{GPStimeData}}
+\doxysubsubsection{\texorpdfstring{\_i64\_lat\_100k}{\_i64\_lat\_100k}}
+{\footnotesize\ttfamily int64\+\_\+t \+\_\+i64\+\_\+lat\+\_\+100k}
+
+\Hypertarget{struct_g_p_stime_data_a22f33a37ca2d29b30f7b5777ad7d16e3}\label{struct_g_p_stime_data_a22f33a37ca2d29b30f7b5777ad7d16e3} 
+\index{GPStimeData@{GPStimeData}!\_i64\_lon\_100k@{\_i64\_lon\_100k}}
+\index{\_i64\_lon\_100k@{\_i64\_lon\_100k}!GPStimeData@{GPStimeData}}
+\doxysubsubsection{\texorpdfstring{\_i64\_lon\_100k}{\_i64\_lon\_100k}}
+{\footnotesize\ttfamily int64\+\_\+t \+\_\+i64\+\_\+lon\+\_\+100k}
+
+\Hypertarget{struct_g_p_stime_data_a5a0194aeca48d763d435063fd9938c31}\label{struct_g_p_stime_data_a5a0194aeca48d763d435063fd9938c31} 
+\index{GPStimeData@{GPStimeData}!\_ix\_last@{\_ix\_last}}
+\index{\_ix\_last@{\_ix\_last}!GPStimeData@{GPStimeData}}
+\doxysubsubsection{\texorpdfstring{\_ix\_last}{\_ix\_last}}
+{\footnotesize\ttfamily uint8\+\_\+t \+\_\+ix\+\_\+last}
+
+\Hypertarget{struct_g_p_stime_data_a275f35190bbcf27464774b922c2fe81e}\label{struct_g_p_stime_data_a275f35190bbcf27464774b922c2fe81e} 
+\index{GPStimeData@{GPStimeData}!\_pu64\_sliding\_pps\_tm@{\_pu64\_sliding\_pps\_tm}}
+\index{\_pu64\_sliding\_pps\_tm@{\_pu64\_sliding\_pps\_tm}!GPStimeData@{GPStimeData}}
+\doxysubsubsection{\texorpdfstring{\_pu64\_sliding\_pps\_tm}{\_pu64\_sliding\_pps\_tm}}
+{\footnotesize\ttfamily uint64\+\_\+t \+\_\+pu64\+\_\+sliding\+\_\+pps\+\_\+tm\mbox{[}\mbox{\hyperlink{_g_p_stime_8h_a06fc87d81c62e9abb8790b6e5713c55baa4ce873f8b7ed0a060731f33e571fd65}{e\+Sliding\+Len}}\mbox{]}}
+
+\Hypertarget{struct_g_p_stime_data_a6d8f9f4457ebe07375b7912fbefe5475}\label{struct_g_p_stime_data_a6d8f9f4457ebe07375b7912fbefe5475} 
+\index{GPStimeData@{GPStimeData}!\_u32\_nmea\_gprmc\_count@{\_u32\_nmea\_gprmc\_count}}
+\index{\_u32\_nmea\_gprmc\_count@{\_u32\_nmea\_gprmc\_count}!GPStimeData@{GPStimeData}}
+\doxysubsubsection{\texorpdfstring{\_u32\_nmea\_gprmc\_count}{\_u32\_nmea\_gprmc\_count}}
+{\footnotesize\ttfamily uint32\+\_\+t \+\_\+u32\+\_\+nmea\+\_\+gprmc\+\_\+count}
+
+\Hypertarget{struct_g_p_stime_data_ab5f959bdd22de156276aacecb64ae73c}\label{struct_g_p_stime_data_ab5f959bdd22de156276aacecb64ae73c} 
+\index{GPStimeData@{GPStimeData}!\_u32\_utime\_nmea\_last@{\_u32\_utime\_nmea\_last}}
+\index{\_u32\_utime\_nmea\_last@{\_u32\_utime\_nmea\_last}!GPStimeData@{GPStimeData}}
+\doxysubsubsection{\texorpdfstring{\_u32\_utime\_nmea\_last}{\_u32\_utime\_nmea\_last}}
+{\footnotesize\ttfamily uint32\+\_\+t \+\_\+u32\+\_\+utime\+\_\+nmea\+\_\+last}
+
+\Hypertarget{struct_g_p_stime_data_ab2ccdf7ce74f4e6d7124c278045fce4c}\label{struct_g_p_stime_data_ab2ccdf7ce74f4e6d7124c278045fce4c} 
+\index{GPStimeData@{GPStimeData}!\_u64\_pps\_period\_1M@{\_u64\_pps\_period\_1M}}
+\index{\_u64\_pps\_period\_1M@{\_u64\_pps\_period\_1M}!GPStimeData@{GPStimeData}}
+\doxysubsubsection{\texorpdfstring{\_u64\_pps\_period\_1M}{\_u64\_pps\_period\_1M}}
+{\footnotesize\ttfamily uint64\+\_\+t \+\_\+u64\+\_\+pps\+\_\+period\+\_\+1M}
+
+\Hypertarget{struct_g_p_stime_data_a4cecb958d0d4d153171baeec9e723953}\label{struct_g_p_stime_data_a4cecb958d0d4d153171baeec9e723953} 
+\index{GPStimeData@{GPStimeData}!\_u64\_sysclk\_nmea\_last@{\_u64\_sysclk\_nmea\_last}}
+\index{\_u64\_sysclk\_nmea\_last@{\_u64\_sysclk\_nmea\_last}!GPStimeData@{GPStimeData}}
+\doxysubsubsection{\texorpdfstring{\_u64\_sysclk\_nmea\_last}{\_u64\_sysclk\_nmea\_last}}
+{\footnotesize\ttfamily uint64\+\_\+t \+\_\+u64\+\_\+sysclk\+\_\+nmea\+\_\+last}
+
+\Hypertarget{struct_g_p_stime_data_a944881d29f8aad29bc0fce7b72abbffd}\label{struct_g_p_stime_data_a944881d29f8aad29bc0fce7b72abbffd} 
+\index{GPStimeData@{GPStimeData}!\_u64\_sysclk\_pps\_last@{\_u64\_sysclk\_pps\_last}}
+\index{\_u64\_sysclk\_pps\_last@{\_u64\_sysclk\_pps\_last}!GPStimeData@{GPStimeData}}
+\doxysubsubsection{\texorpdfstring{\_u64\_sysclk\_pps\_last}{\_u64\_sysclk\_pps\_last}}
+{\footnotesize\ttfamily uint64\+\_\+t \+\_\+u64\+\_\+sysclk\+\_\+pps\+\_\+last}
+
+\Hypertarget{struct_g_p_stime_data_a5bc6af34052603048e1ae2b1340b1e59}\label{struct_g_p_stime_data_a5bc6af34052603048e1ae2b1340b1e59} 
+\index{GPStimeData@{GPStimeData}!\_u8\_is\_solution\_active@{\_u8\_is\_solution\_active}}
+\index{\_u8\_is\_solution\_active@{\_u8\_is\_solution\_active}!GPStimeData@{GPStimeData}}
+\doxysubsubsection{\texorpdfstring{\_u8\_is\_solution\_active}{\_u8\_is\_solution\_active}}
+{\footnotesize\ttfamily uint8\+\_\+t \+\_\+u8\+\_\+is\+\_\+solution\+\_\+active}
+
+\Hypertarget{struct_g_p_stime_data_ac20e08d30929c7951f22ebcbb20745a4}\label{struct_g_p_stime_data_ac20e08d30929c7951f22ebcbb20745a4} 
+\index{GPStimeData@{GPStimeData}!\_u8\_last\_digit\_minutes@{\_u8\_last\_digit\_minutes}}
+\index{\_u8\_last\_digit\_minutes@{\_u8\_last\_digit\_minutes}!GPStimeData@{GPStimeData}}
+\doxysubsubsection{\texorpdfstring{\_u8\_last\_digit\_minutes}{\_u8\_last\_digit\_minutes}}
+{\footnotesize\ttfamily char \+\_\+u8\+\_\+last\+\_\+digit\+\_\+minutes}
+
+\Hypertarget{struct_g_p_stime_data_a8a4ee858d63e09a92c9f32babc11e7bf}\label{struct_g_p_stime_data_a8a4ee858d63e09a92c9f32babc11e7bf} 
+\index{GPStimeData@{GPStimeData}!sat\_count@{sat\_count}}
+\index{sat\_count@{sat\_count}!GPStimeData@{GPStimeData}}
+\doxysubsubsection{\texorpdfstring{sat\_count}{sat\_count}}
+{\footnotesize\ttfamily uint8\+\_\+t sat\+\_\+count}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+hf-\/oscillator/gpstime/\mbox{\hyperlink{_g_p_stime_8h}{GPStime.\+h}}\end{DoxyCompactItemize}
