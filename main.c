@@ -49,15 +49,11 @@ int main()
 	
     gpio_init(PICO_DEFAULT_LED_PIN); 
 	gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT); //initialize LED output
-    /* the next 6 lines  are needed to allow ADC3 to read VSYS */
-	gpio_init(25);  //needed to allow ADC3 to read Vsys
-	gpio_set_dir(25, GPIO_OUT); 
-    gpio_put(25, 1);	
-    gpio_init(29);  //needed to allow ADC3 to read Vsys
-	gpio_set_dir(29, GPIO_IN); 
-	gpio_set_pulls(29,0,0);	
+    gpio_init(PICO_VSYS_PIN);  		//Prepare ADC to read Vsys
+	gpio_set_dir(PICO_VSYS_PIN, GPIO_IN);
+	gpio_set_pulls(PICO_VSYS_PIN,0,0);
     adc_init();
-    adc_set_temp_sensor_enabled(true);
+    adc_set_temp_sensor_enabled(true); 	//Enable the onboard temperature sensor
 	StampPrintf("\n");
 	
 	for (int i=0;i < 20;i++)     //do some blinkey on startup, allows time for power supply to stabilize before GPS unit enabled
@@ -68,8 +64,8 @@ int main()
 		sleep_ms(100);
 	}
 
-	read_NVRAM();
-    StampPrintf("pico-WSPRer version: %s %s\n",__DATE__ ,__TIME__);//messages are sent to USB serial port, 115200 baud
+	read_NVRAM();	//reads values of _callsign ... _verbosity from NVRAM
+    StampPrintf("pico-WSPRer version: %s %s\n",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
     InitPicoHW();
     PioDco DCO = {0};
 	StampPrintf("WSPR beacon init...");
@@ -84,14 +80,14 @@ int main()
 		}	
     
 	WSPRbeaconContext *pWB = WSPRbeaconInit(
-        _callsign,/* the Callsign. */
-        CONFIG_LOCATOR4,/* the default QTH locator if GPS isn't used. */
-        10,             /* Tx power, dbm. */  
-        &DCO,           /* the PioDCO object. */
+        _callsign,/** the Callsign. */
+        CONFIG_LOCATOR4,/**< the default QTH locator if GPS isn't used. */
+        10,             /**< Tx power, dbm. */
+        &DCO,           /**< the PioDCO object. */
         XMIT_FREQUENCY,
-        0,           /* the carrier freq. shift relative to dial freq. */ //not used
-        RFOUT_PIN,       /* RF output GPIO pin. */
-		(uint8_t)_start_minute[0]-48
+        0,           /**< the carrier freq. shift relative to dial freq. */ //not used
+        RFOUT_PIN,       /**< RF output GPIO pin. */
+		(uint8_t)_start_minute[0]-48   /**< convert ASCI number to int (ASCII '0' = 48) */
         );
     assert_(pWB);
     pWSPR = pWB;

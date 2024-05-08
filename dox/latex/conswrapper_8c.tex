@@ -1,0 +1,70 @@
+\doxysection{hf-\/oscillator/conswrapper.c File Reference}
+\hypertarget{conswrapper_8c}{}\label{conswrapper_8c}\index{hf-\/oscillator/conswrapper.c@{hf-\/oscillator/conswrapper.c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include "{}hardware/uart.\+h"{}}\newline
+{\ttfamily \#include "{}./lib/assert.\+h"{}}\newline
+{\ttfamily \#include "{}piodco/piodco.\+h"{}}\newline
+{\ttfamily \#include "{}protos.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{conswrapper_8c_a8f4bf59e2a95ebaeda4ae309a95823a3}{Console\+Commands\+Wrapper}} (char \texorpdfstring{$\ast$}{*}cmd, int narg, char \texorpdfstring{$\ast$}{*}params)
+\begin{DoxyCompactList}\small\item\em Console commands manager. Currently available\+: \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{conswrapper_8c_a88721f95560c600b313a5585379f41aa}{Push\+Error\+Message}} (int id)
+\item 
+void \mbox{\hyperlink{conswrapper_8c_ae7bd3f4eb52ab22e07032551dfa9edd9}{Push\+Status\+Message}} (void)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \mbox{\hyperlink{conswrapper_8c_aef68134eeb0087b6fadd085ab10a20dd}{DCO}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{conswrapper_8c_a8f4bf59e2a95ebaeda4ae309a95823a3}\label{conswrapper_8c_a8f4bf59e2a95ebaeda4ae309a95823a3} 
+\index{conswrapper.c@{conswrapper.c}!ConsoleCommandsWrapper@{ConsoleCommandsWrapper}}
+\index{ConsoleCommandsWrapper@{ConsoleCommandsWrapper}!conswrapper.c@{conswrapper.c}}
+\doxysubsubsection{\texorpdfstring{ConsoleCommandsWrapper()}{ConsoleCommandsWrapper()}}
+{\footnotesize\ttfamily void Console\+Commands\+Wrapper (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{cmd,  }\item[{int}]{narg,  }\item[{char \texorpdfstring{$\ast$}{*}}]{params }\end{DoxyParamCaption})}
+
+
+
+Console commands manager. Currently available\+: 
+
+HELP -\/ Usage.
+
+SETFREQ f -\/ Set oscillator output frequency in Hz.
+
+SWITCH ON/\+OFF -\/ Switch output to ON or OFF state. 
+\begin{DoxyParams}{Parameters}
+{\em cmd} & Ptr to command. \\
+\hline
+{\em narg} & Argument count. \\
+\hline
+{\em params} & Command params, full string. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{conswrapper_8c_a88721f95560c600b313a5585379f41aa}\label{conswrapper_8c_a88721f95560c600b313a5585379f41aa} 
+\index{conswrapper.c@{conswrapper.c}!PushErrorMessage@{PushErrorMessage}}
+\index{PushErrorMessage@{PushErrorMessage}!conswrapper.c@{conswrapper.c}}
+\doxysubsubsection{\texorpdfstring{PushErrorMessage()}{PushErrorMessage()}}
+{\footnotesize\ttfamily void Push\+Error\+Message (\begin{DoxyParamCaption}\item[{int}]{id }\end{DoxyParamCaption})}
+
+\Hypertarget{conswrapper_8c_ae7bd3f4eb52ab22e07032551dfa9edd9}\label{conswrapper_8c_ae7bd3f4eb52ab22e07032551dfa9edd9} 
+\index{conswrapper.c@{conswrapper.c}!PushStatusMessage@{PushStatusMessage}}
+\index{PushStatusMessage@{PushStatusMessage}!conswrapper.c@{conswrapper.c}}
+\doxysubsubsection{\texorpdfstring{PushStatusMessage()}{PushStatusMessage()}}
+{\footnotesize\ttfamily void Push\+Status\+Message (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{conswrapper_8c_aef68134eeb0087b6fadd085ab10a20dd}\label{conswrapper_8c_aef68134eeb0087b6fadd085ab10a20dd} 
+\index{conswrapper.c@{conswrapper.c}!DCO@{DCO}}
+\index{DCO@{DCO}!conswrapper.c@{conswrapper.c}}
+\doxysubsubsection{\texorpdfstring{DCO}{DCO}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} DCO\hspace{0.3cm}{\ttfamily [extern]}}
+

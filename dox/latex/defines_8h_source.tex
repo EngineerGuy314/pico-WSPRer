@@ -1,0 +1,109 @@
+\doxysection{defines.\+h}
+\hypertarget{defines_8h_source}{}\label{defines_8h_source}\mbox{\hyperlink{defines_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ \ Roman\ Piksaykin\ [piksaykin@gmail.com],\ R2BDY}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ \ https://www.qrz.com/db/r2bdy}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \ defines.h\ -\/\ Project\ macros.}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ }}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ \ DESCRIPTION}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ \ \ \ \ \ The\ pico-\/WSPR-\/tx\ project\ provides\ WSPR\ beacon\ function\ using\ only}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ \ Pi\ Pico\ board.\ *NO*\ additional\ hardware\ such\ as\ freq.synth\ required.}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ HOWTOSTART}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ \ .}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ \ PLATFORM}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ \ \ \ \ \ Raspberry\ Pi\ pico.}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ \ REVISION\ HISTORY}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ }}
+\DoxyCodeLine{00023\ \textcolor{comment}{//\ \ \ \ \ \ Rev\ 0.1\ \ \ 18\ Nov\ 2023}}
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ \ Initial\ release.}}
+\DoxyCodeLine{00025\ \textcolor{comment}{//}}
+\DoxyCodeLine{00026\ \textcolor{comment}{//\ \ PROJECT\ PAGE}}
+\DoxyCodeLine{00027\ \textcolor{comment}{//\ \ \ \ \ \ https://github.com/RPiks/pico-\/WSPR-\/tx}}
+\DoxyCodeLine{00028\ \textcolor{comment}{//}}
+\DoxyCodeLine{00029\ \textcolor{comment}{//\ \ LICENCE}}
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ \ \ \ \ \ MIT\ License\ (http://www.opensource.org/licenses/mit-\/license.php)}}
+\DoxyCodeLine{00031\ \textcolor{comment}{//}}
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ \ Copyright\ (c)\ 2023\ by\ Roman\ Piksaykin}}
+\DoxyCodeLine{00033\ \textcolor{comment}{//\ \ }}
+\DoxyCodeLine{00034\ \textcolor{comment}{//\ \ Permission\ is\ hereby\ granted,\ free\ of\ charge,to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ \ of\ this\ software\ and\ associated\ documentation\ files\ (the\ Software),\ to\ deal}}
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ \ in\ the\ Software\ without\ restriction,including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00037\ \textcolor{comment}{//\ \ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00038\ \textcolor{comment}{//\ \ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00039\ \textcolor{comment}{//\ \ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00040\ \textcolor{comment}{//}}
+\DoxyCodeLine{00041\ \textcolor{comment}{//\ \ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ \ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00043\ \textcolor{comment}{//}}
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ \ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ \ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00046\ \textcolor{comment}{//\ \ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00047\ \textcolor{comment}{//\ \ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00048\ \textcolor{comment}{//\ \ LIABILITY,WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00049\ \textcolor{comment}{//\ \ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN}}
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ \ THE\ SOFTWARE.}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#ifndef\ DEFINESWSPR\_H}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#define\ DEFINESWSPR\_H}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ DEBUG}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#ifdef\ DEBUG}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ DEBUGPRINTF(x)\ StampPrintf(x);}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ DEBUGPRINTF(x)\ \{\ \}}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ FALSE\ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Something\ is\ false.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#define\ TRUE\ 1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Something\ is\ true.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ BAD\ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Something\ is\ bad.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ GOOD\ 1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Something\ is\ good.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ INVALID\ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Something\ is\ invalid.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ VALID\ 1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Something\ is\ valid.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ NO\ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ The\ answer\ is\ no.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#define\ YES\ 1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ The\ answer\ is\ yes.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ OFF\ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Turn\ something\ off.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ ON\ 1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Turn\ something\ on.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ ZERO\ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Something\ in\ zero\ state.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ RAM\ \_\_not\_in\_flash\_func\ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Place\ time-\/critical\ func\ in\ RAM\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ RAM\_A\ \_\_not\_in\_flash("{}A"{})\ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Place\ time-\/critical\ var\ in\ RAM\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \textcolor{comment}{/*\ A\ macro\ for\ arithmetic\ right\ shifts,\ with\ casting\ of\ the\ argument.\ */}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#define\ iSAR(arg,\ rcount)\ (((int32\_t)(arg))\ >>\ (rcount))}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ min(a,b)\ ((a)<(b)?(a):(b))}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ max(a,b)\ ((a)>(b)?(a):(b))}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \textcolor{comment}{/*\ A\ macro\ of\ multiplication\ guarantees\ of\ doing\ so\ using\ 1\ ASM\ command.\ */}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ iMUL32ASM(a,b)\ \_\_mul\_instruction((int32\_t)(a),\ (int32\_t)(b))}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ SECOND\ 1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Time.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ MINUTE\ (60\ *\ SECOND)}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ HOUR\ (60\ *\ MINUTE)}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ kHz\ 1000UL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Freq.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ MHz\ 1000000UL}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#define\ PLL\_SYS\_MHZ\ 135UL\ \ \ }\textcolor{comment}{//\ This\ determines\ overclocking.\ Roman\ originally\ had\ 270UL.\ lower\ speed=lower\ power\ consumption.\ but\ doesnt\ like\ below\ 135Mhz\ (for\ 14Mhz\ output\ anyway)\ \ \ \ \ \ }}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ WSPR\ defs.\ */}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ WSPR\_FREQ\_STEP\_MILHZ\ \ \ \ 2930UL\ \ \ \ \ }\textcolor{comment}{/*\ FSK\ freq.bin\ (*2\ this\ time).\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#define\ WSPR\_MAX\_GPS\_DISCONNECT\_TM\ \ \(\backslash\)}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ (6\ *\ HOUR)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ How\ long\ is\ active\ without\ GPS.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{defines_8h_a1cd0ac559fb276d78fdba0dc0b6f944c}{read\_NVRAM}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00102\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{defines_8h_a7f9afff0be649c60b3b591ae7eb89383}{write\_NVRAM}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00103\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{defines_8h_a2197acd436dd50dc315aec635f97e2c3}{user\_interface}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00104\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{defines_8h_a4271ca948bbd6d1cdc24a4bcc775ac27}{show\_values}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00105\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{defines_8h_a45b2896ed990b3928bbdd95e88fdfa7e}{convertToUpperCase}}(\textcolor{keywordtype}{char}\ *str);}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

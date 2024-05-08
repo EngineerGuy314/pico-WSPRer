@@ -1,0 +1,113 @@
+\doxysection{WSPRbeacon.\+h}
+\hypertarget{_w_s_p_rbeacon_8h_source}{}\label{_w_s_p_rbeacon_8h_source}\index{WSPRbeacon/WSPRbeacon.h@{WSPRbeacon/WSPRbeacon.h}}
+\mbox{\hyperlink{_w_s_p_rbeacon_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ \ Roman\ Piksaykin\ [piksaykin@gmail.com],\ R2BDY}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ \ https://www.qrz.com/db/r2bdy}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \ WSPRbeacon.h\ -\/\ WSPR\ beacon\ -\/\ related\ functions.}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ }}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ \ DESCRIPTION}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ \ \ \ \ \ The\ pico-\/WSPR-\/tx\ project\ provides\ WSPR\ beacon\ function\ using\ only}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ \ Pi\ Pico\ board.\ *NO*\ additional\ hardware\ such\ as\ freq.synth\ required.}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ HOWTOSTART}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ \ .}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ \ PLATFORM}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ \ \ \ \ \ Raspberry\ Pi\ pico.}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ \ REVISION\ HISTORY}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ }}
+\DoxyCodeLine{00023\ \textcolor{comment}{//\ \ \ \ \ \ Rev\ 0.1\ \ \ 18\ Nov\ 2023}}
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ \ Initial\ release.}}
+\DoxyCodeLine{00025\ \textcolor{comment}{//}}
+\DoxyCodeLine{00026\ \textcolor{comment}{//\ \ PROJECT\ PAGE}}
+\DoxyCodeLine{00027\ \textcolor{comment}{//\ \ \ \ \ \ https://github.com/RPiks/pico-\/WSPR-\/tx}}
+\DoxyCodeLine{00028\ \textcolor{comment}{//}}
+\DoxyCodeLine{00029\ \textcolor{comment}{//\ \ LICENCE}}
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ \ \ \ \ \ MIT\ License\ (http://www.opensource.org/licenses/mit-\/license.php)}}
+\DoxyCodeLine{00031\ \textcolor{comment}{//}}
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ \ Copyright\ (c)\ 2023\ by\ Roman\ Piksaykin}}
+\DoxyCodeLine{00033\ \textcolor{comment}{//\ \ }}
+\DoxyCodeLine{00034\ \textcolor{comment}{//\ \ Permission\ is\ hereby\ granted,\ free\ of\ charge,to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ \ of\ this\ software\ and\ associated\ documentation\ files\ (the\ Software),\ to\ deal}}
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ \ in\ the\ Software\ without\ restriction,including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00037\ \textcolor{comment}{//\ \ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00038\ \textcolor{comment}{//\ \ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00039\ \textcolor{comment}{//\ \ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00040\ \textcolor{comment}{//}}
+\DoxyCodeLine{00041\ \textcolor{comment}{//\ \ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ \ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00043\ \textcolor{comment}{//}}
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ \ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ \ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00046\ \textcolor{comment}{//\ \ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00047\ \textcolor{comment}{//\ \ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00048\ \textcolor{comment}{//\ \ LIABILITY,WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00049\ \textcolor{comment}{//\ \ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN}}
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ \ THE\ SOFTWARE.}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#ifndef\ WSPRBEACON\_H\_}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#define\ WSPRBEACON\_H\_}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{_tx_channel_8h}{TxChannel.h}}>}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#include\ <logutils.h>}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00061\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_w_s_p_rbeacon_schedule_a70756efe74179d03cecdb82b5fb75917}{\_u8\_tx\_slot\_skip}};\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ 0=1tx0skip,\ 1=1tx1skip,\ 2=1tx2skip,\ ...\ */}}
+\DoxyCodeLine{00063\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_w_s_p_rbeacon_schedule_a3dd4471cf2f2bb9a13b4f858078261de}{\_u8\_tx\_GPS\_mandatory}};\ \ \ \ \ \ \ \textcolor{comment}{/*\ No\ tx\ when\ no\ active\ GPS\ solution.\ */}}
+\DoxyCodeLine{00064\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_w_s_p_rbeacon_schedule_a0e1b901c309908dc184f9c2141ad237b}{\_u8\_tx\_GPS\_past\_time}};\ \ \ \ \ \ \ \textcolor{comment}{/*\ Override\ \_u8\_tx\_GPS\_mandatory\ if\ there\ }}
+\DoxyCodeLine{00065\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ was\ solution\ in\ the\ past.\ */}}
+\DoxyCodeLine{00066\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_w_s_p_rbeacon_schedule_a3ee0efc6a94b48a3d5935f2f67522f2c}{\_u8\_tx\_heating\_pause\_min}};\ \ \ \textcolor{comment}{/*\ No\ tx\ during\ this\ interval\ from\ start.\ */}}
+\DoxyCodeLine{00067\ \ }
+\DoxyCodeLine{00068\ \ \ \ \ \ \textcolor{comment}{/*\ Inside\ of\ WSPRbeaconSchedule,\ which\ is\ in\ WSPRbeaconContext\ as\ \_txSched,\ is\ where\ I\ hide\ goodies\ that\ i\ need\ global\ access\ to.\ there\ is\ surely\ a\ better\ way,\ but\ idk\ */}}
+\DoxyCodeLine{00069\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_w_s_p_rbeacon_schedule_ae75147abf94fcf2456334c563bd71318}{force\_xmit\_for\_testing}};}
+\DoxyCodeLine{00070\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_w_s_p_rbeacon_schedule_a5c02ff5a51d2f028f60cba241dc9cc42}{led\_mode}};}
+\DoxyCodeLine{00071\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_w_s_p_rbeacon_schedule_a1277f681ba486ce6593381b1b30e2505}{Xmission\_In\_Process}};}
+\DoxyCodeLine{00072\ \textcolor{comment}{//\ \ \ \ uint8\_t\ start\_minute;\ \ had\ to\ change\ this\ to\ an\ input\ param\ of\ the\ init\ function\ for\ reasons}}
+\DoxyCodeLine{00073\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_w_s_p_rbeacon_schedule_ad0d398ea82476c0fe09ffbd2ab136bda}{suffix}};}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{char}\ id13[3];}
+\DoxyCodeLine{00075\ \ \ \ \ int8\_t\ \mbox{\hyperlink{struct_w_s_p_rbeacon_schedule_a9c92ed9d5358846763d88dd567863772}{output\_number\_toEnable\_GPS}};}
+\DoxyCodeLine{00076\ \ \ \ \ int8\_t\ \mbox{\hyperlink{struct_w_s_p_rbeacon_schedule_afc36ba2a75db4dcd3b84f1ce0a635fd1}{temp\_in\_Celsius}};}
+\DoxyCodeLine{00077\ \ \ \ \ int8\_t\ \mbox{\hyperlink{struct_w_s_p_rbeacon_schedule_a6e82420acfdbb35cc069b72566f586be}{verbosity}};}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{struct_w_s_p_rbeacon_schedule_ad3c64efcaba662da1a2f4393d00584e9}{voltage}};}
+\DoxyCodeLine{00079\ \}\ \mbox{\hyperlink{struct_w_s_p_rbeacon_schedule}{WSPRbeaconSchedule}};}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00082\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ uint8\_t\ \_pu8\_callsign[12];}
+\DoxyCodeLine{00084\ \ \ \ \ uint8\_t\ \_pu8\_locator[7];}
+\DoxyCodeLine{00085\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_w_s_p_rbeacon_context_afafbd041427a5d5233cde9d5bf3c951e}{\_u8\_txpower}};}
+\DoxyCodeLine{00086\ \ \ \ \ uint8\_t\ \_pu8\_outbuf[256];}
+\DoxyCodeLine{00087\ \ \ \ \ \mbox{\hyperlink{struct_tx_channel_context}{TxChannelContext}}\ *\mbox{\hyperlink{struct_w_s_p_rbeacon_context_a1d8c615c7cc6b3663b9fc6e57ba2d3c1}{\_pTX}};}
+\DoxyCodeLine{00088\ \ \ \ \ \mbox{\hyperlink{struct_w_s_p_rbeacon_schedule}{WSPRbeaconSchedule}}\ \mbox{\hyperlink{struct_w_s_p_rbeacon_context_a00aa7259272ab1071e8166bc68d017e7}{\_txSched}};}
+\DoxyCodeLine{00089\ \}\ \mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeaconContext}};}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeaconContext}}\ *\mbox{\hyperlink{_w_s_p_rbeacon_8h_ac3c9dc08cb6d8cb3eac8f4d35d68918b}{WSPRbeaconInit}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *pcallsign,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *pgridsquare,\ \textcolor{keywordtype}{int}\ txpow\_dbm,}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_pio_dco}{PioDco}}\ *pdco,\ uint32\_t\ dial\_freq\_hz,\ uint32\_t\ shift\_freq\_hz,}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ gpio,\ \ uint8\_t\ start\_minute);}
+\DoxyCodeLine{00095\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_w_s_p_rbeacon_8h_aa1689bc64306333d4793925c3bd99dc7}{WSPRbeaconSetDialFreq}}(\mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeaconContext}}\ *pctx,\ uint32\_t\ freq\_hz);}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_w_s_p_rbeacon_8h_a627715ae59a40d64e2f12e35cee22e1f}{WSPRbeaconCreatePacket}}(\mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeaconContext}}\ *pctx,\textcolor{keywordtype}{int}\ packet\_type);}
+\DoxyCodeLine{00098\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{_w_s_p_rbeacon_8h_abe800d0d795bd51c08dc4c4a89a97ee2}{add\_brackets}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ call);}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_w_s_p_rbeacon_8h_adde5f7a367372b48e684c89abeeb5835}{WSPRbeaconSendPacket}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeaconContext}}\ *pctx);}
+\DoxyCodeLine{00101\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{_w_s_p_rbeacon_8h_afd5fb08ec6b36c1cebaa0c38b4788791}{EncodeBase36}}(uint8\_t\ val);}
+\DoxyCodeLine{00102\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_w_s_p_rbeacon_8h_af1b1581f3666ea0fef0c3662bec93c52}{WSPRbeaconTxScheduler}}(\mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeaconContext}}\ *pctx,\ \textcolor{keywordtype}{int}\ verbose);}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_w_s_p_rbeacon_8h_a6113600dd0ba7c6bc59b72763025f722}{WSPRbeaconDumpContext}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeaconContext}}\ *pctx);}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{_w_s_p_rbeacon_8h_adaf51700926db7846413fb61bbb0bcb0}{WSPRbeaconGetLastQTHLocator}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeaconContext}}\ *pctx);}
+\DoxyCodeLine{00107\ uint8\_t\ \mbox{\hyperlink{_w_s_p_rbeacon_8h_aec8beb7a767e64378e0544cb81ee0c10}{WSPRbeaconIsGPSsolutionActive}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeaconContext}}\ *pctx);}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

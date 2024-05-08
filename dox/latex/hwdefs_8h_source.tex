@@ -1,0 +1,69 @@
+\doxysection{hwdefs.\+h}
+\hypertarget{hwdefs_8h_source}{}\label{hwdefs_8h_source}\index{hf-\/oscillator/hwdefs.h@{hf-\/oscillator/hwdefs.h}}
+\mbox{\hyperlink{hwdefs_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ \ Roman\ Piksaykin\ [piksaykin@gmail.com],\ R2BDY}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ \ https://www.qrz.com/db/r2bdy}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \ hwdefs.h\ -\/\ Hardware\ related\ constant\ values\ for\ the\ project.}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ }}
+\DoxyCodeLine{00011\ \textcolor{comment}{//}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ \ DESCRIPTION}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ \ \ \ \ \ .}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ \ PLATFORM}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ \ \ \ \ \ Raspberry\ Pi\ pico.}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ \ REVISION\ HISTORY}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ }}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ \ \ \ \ \ Rev\ 0.1\ \ \ 05\ Nov\ 2023\ \ \ Initial\ release}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ \ \ \ \ \ Rev\ 0.2\ \ \ 18\ Nov\ 2023}}
+\DoxyCodeLine{00023\ \textcolor{comment}{//}}
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ \ PROJECT\ PAGE}}
+\DoxyCodeLine{00025\ \textcolor{comment}{//\ \ \ \ \ \ https://github.com/RPiks/pico-\/hf-\/oscillator}}
+\DoxyCodeLine{00026\ \textcolor{comment}{//}}
+\DoxyCodeLine{00027\ \textcolor{comment}{//\ \ LICENCE}}
+\DoxyCodeLine{00028\ \textcolor{comment}{//\ \ \ \ \ \ MIT\ License\ (http://www.opensource.org/licenses/mit-\/license.php)}}
+\DoxyCodeLine{00029\ \textcolor{comment}{//}}
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ \ Copyright\ (c)\ 2023\ by\ Roman\ Piksaykin}}
+\DoxyCodeLine{00031\ \textcolor{comment}{//\ \ }}
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ \ Permission\ is\ hereby\ granted,\ free\ of\ charge,to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00033\ \textcolor{comment}{//\ \ of\ this\ software\ and\ associated\ documentation\ files\ (the\ Software),\ to\ deal}}
+\DoxyCodeLine{00034\ \textcolor{comment}{//\ \ in\ the\ Software\ without\ restriction,including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ \ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ \ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00037\ \textcolor{comment}{//\ \ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00038\ \textcolor{comment}{//}}
+\DoxyCodeLine{00039\ \textcolor{comment}{//\ \ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ \ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00041\ \textcolor{comment}{//}}
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ \ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00043\ \textcolor{comment}{//\ \ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ \ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ \ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00046\ \textcolor{comment}{//\ \ LIABILITY,WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00047\ \textcolor{comment}{//\ \ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN}}
+\DoxyCodeLine{00048\ \textcolor{comment}{//\ \ THE\ SOFTWARE.}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#ifndef\ HWDEFS\_H}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ HWDEFS\_H}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{00054\ \textcolor{comment}{*\ General\ defs.}}
+\DoxyCodeLine{00055\ \textcolor{comment}{****************************************************************************/}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ kHZ\ 1000L}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{00059\ \textcolor{comment}{*\ RPi\ pico\ specific\ defs.}}
+\DoxyCodeLine{00060\ \textcolor{comment}{****************************************************************************/}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ CLK\_ADC\_FREQ\ 48000000L\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ pico's\ ADC\ clock\ is\ 48M.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ GPIO(x)\ (x)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ pico\ GPIO\ number\ to\ address.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ PLL\_SYS\_MHZ\ 270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ system\ clock.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
