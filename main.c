@@ -209,11 +209,20 @@ void print_buf(const uint8_t *buf, size_t len) {
 	strncpy(_lane, flash_target_contents+9, 1);
 	strncpy(_suffix, flash_target_contents+10, 1);
 	strncpy(_verbosity, flash_target_contents+11, 1);
-
-	if ( (_verbosity[0]<48) || (_verbosity[0]>57)) _verbosity[0]=49; //set default verbosity to 1
-
-	//printf("value of start minute as char and decimal >%c< >%i<\n\n",_start_minute[0],_start_minute[0]);
+						
+    check_data_validity();
 	}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+void check_data_validity(void)
+{
+//do some basic plausibility checking on data							
+	if ( (_callsign[0]<65) || (_callsign[0]>90)) {   strncpy(_callsign,"ABC123",6);     ; write_NVRAM();} 
+	if ( (_suffix[0]<48) || (_suffix[0]>57)) {_suffix[0]=45; write_NVRAM();} //by default, disable zachtek suffix
+	if ( (_id13[0]!=48) && (_id13[0]!=49) && (_id13[0]!=81)) {strncpy(_id13,"Q0",2); write_NVRAM();}
+	if ( (_start_minute[0]!=48) && (_start_minute[0]!=50) && (_start_minute[0]!=52)&& (_start_minute[0]!=54)&& (_start_minute[0]!=56)) {_start_minute[0]=48; write_NVRAM();}
+	if ( (_lane[0]!=49) && (_lane[0]!=50) && (_lane[0]!=51)&& (_lane[0]!=52)) {_lane[0]=50; write_NVRAM();}
+	if ( (_verbosity[0]<48) || (_verbosity[0]>57)) {_verbosity[0]=49; write_NVRAM();} //set default verbosity to 1
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 void user_interface(void)
 {
@@ -240,16 +249,18 @@ show_values();
 		switch(c)
 		{
 			case 'X': printf("\n\nGOODBYE");watchdog_enable(100, 1);for(;;)	{}
-			case 'C':printf("Enter callsign: ");		 scanf(" %s", _callsign); _callsign[6]=0;convertToUpperCase(_callsign); write_NVRAM(); show_values();break;
-			case 'S':printf("Enter single digit numeric suffix: "); scanf(" %s", _suffix); _suffix[1]=0; write_NVRAM(); show_values();break;
-			case 'I':printf("Enter id13: ");			 scanf(" %s", _id13);_id13[2]=0; convertToUpperCase(_id13); write_NVRAM(); show_values();break;
-			case 'M':printf("Enter starting Minute: ");  scanf(" %s", _start_minute); _start_minute[1]=0; write_NVRAM(); show_values();break;
-			case 'L':printf("Enter Lane (1,2,3,4): ");   scanf(" %s", _lane);_lane[1]=0;  write_NVRAM(); show_values();break;
-			case 'V':printf("Verbosity level (0-9): ");   scanf(" %s", _verbosity);_verbosity[1]=0;  write_NVRAM(); show_values();break;
+			case 'C':printf("Enter callsign: ");		 scanf(" %s", _callsign); _callsign[6]=0;convertToUpperCase(_callsign); write_NVRAM();break;
+			case 'S':printf("Enter single digit numeric suffix: "); scanf(" %s", _suffix); _suffix[1]=0; write_NVRAM();break;
+			case 'I':printf("Enter id13: ");			 scanf(" %s", _id13);_id13[2]=0; convertToUpperCase(_id13); write_NVRAM();break;
+			case 'M':printf("Enter starting Minute: ");  scanf(" %s", _start_minute); _start_minute[1]=0; write_NVRAM(); break;
+			case 'L':printf("Enter Lane (1,2,3,4): ");   scanf(" %s", _lane);_lane[1]=0;  write_NVRAM();break;
+			case 'V':printf("Verbosity level (0-9): ");   scanf(" %s", _verbosity);_verbosity[1]=0;  write_NVRAM();break;
 			case 13:  break;
 			case 10:  break;
 			default: printf("\n\n\n\n\n\n\nyou pressed %c %02x , INVALID choice!! ",c,c);show_values();break;		
 		}
+		check_data_validity();
+		show_values();
 	}
 }
 //

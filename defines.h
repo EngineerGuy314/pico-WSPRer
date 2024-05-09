@@ -100,6 +100,7 @@
 
 void read_NVRAM(void);
 void write_NVRAM(void);
+void check_data_validity(void);
 void user_interface(void);
 void show_values(void);
 void convertToUpperCase(char *str);
