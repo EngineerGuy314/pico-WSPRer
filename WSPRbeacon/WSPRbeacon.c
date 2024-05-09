@@ -18,6 +18,7 @@ static int current_minute;
 static int oneshots[10];
 static int schedule[10];  //array index is minute, (odd minutes are unused) value is -1 for NONE or 1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd
 static int at_least_one_slot_has_elapsed;
+static int at_least_one_GPS_fixed_has_been_obtained;
 static uint8_t _callsign_with_suffix[12];
 static 	uint8_t  altitude_as_power_fine;
 /// @brief Initializes a new WSPR beacon context.
@@ -64,7 +65,7 @@ else
 				schedule[(start_minute+8)%10]=4;
 			}
 	}
-
+	at_least_one_GPS_fixed_has_been_obtained=0;
  return p;
 }
 
@@ -284,6 +285,8 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
     const uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;  //on if there ever were any serial data received from a GPS unit
     const uint32_t is_GPS_active = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;  //on if valid 3d fix
 
+		 if(is_GPS_active) at_least_one_GPS_fixed_has_been_obtained=1;
+		 
 		 if (pctx->_txSched.force_xmit_for_testing) {            
 							if(forced_xmit_in_process==0)
 							{
@@ -321,12 +324,13 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 	if (schedule[current_minute]==-1)        //if the current minute is an odd minute or a non-scheduled minute
 	{
 		for (int i=0;i < 10;i++) oneshots[i]=0;
-		at_least_one_slot_has_elapsed=1;
+		at_least_one_slot_has_elapsed=1;  
 	}
 	
 	else if (is_GPS_available && at_least_one_slot_has_elapsed 
 			&& schedule[current_minute]>0
-			&& oneshots[current_minute]==0)		
+			&& oneshots[current_minute]==0
+			&& (at_least_one_GPS_fixed_has_been_obtained!=0) )       //prevent transmission if a location has never been received
 		{
 			oneshots[current_minute]=1;	
 			if (pctx->_txSched.verbosity>=3) printf("\nStarting TX. current minute: %i Schedule Value (packet type): %i\n",current_minute,schedule[current_minute]);
