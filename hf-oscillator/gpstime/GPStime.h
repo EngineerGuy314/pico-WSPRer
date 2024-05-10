@@ -94,7 +94,8 @@ typedef struct
     uint32_t _u32_nmea_gprmc_count;             /* The count of $GPRMC sentences received */
 
     uint64_t _u64_sysclk_pps_last;              /* The sysclk of the last rising edge of PPS. */
-    uint64_t _u64_pps_period_1M;                /* The PPS avg. period *1e6, filtered. */
+    int64_t _u64_pps_period_1M;                /* The PPS avg. period *1e6, filtered. */ //took 8 hours of my life to figure out that uint64_t should be int64. 
+																						  //There was a strange match scenario where if the xtal actual freq was lower than ideal, the correction came out wrong. something about bit shifting an unsigned but thingings its signed...
 
     uint64_t _pu64_sliding_pps_tm[eSlidingLen]; /* A sliding window to store PPS periods. */
     uint8_t _ix_last;                           /* An index of last write to sliding window. */
