@@ -88,7 +88,10 @@ void RAM (GPStimePPScallback)(uint gpio, uint32_t events)
 			if(spGPStimeData->_u64_pps_period_1M)   //only if pps_per_1m != 0
             {
                 spGPStimeData->_u64_pps_period_1M += iSAR64((int64_t)eDtUpscale * dt_per_window   //pp_period incremented by error (of last 32sec period), but also add 2 and divide by4 (via bitshift)      pps_per_1m +=  1mill*dt_per_window - pps_per_1m+2 , divided by 4 (bit shift 2 to the right with iSAR64)
-														    - spGPStimeData->_u64_pps_period_1M + 2, 2);          // - spGPStimeData->_u64_pps_period_1M + 2, 2);
+														    - (int64_t)spGPStimeData->_u64_pps_period_1M + 2, 2);          // - spGPStimeData->_u64_pps_period_1M + 2, 2);
+																	//took 8 hours of my life to figure out that uint64_t should be int64. 
+																	//There was a strange match scenario where if the xtal actual freq was lower than ideal, the correction came out wrong. something about bit shifting an unsigned but thingings its signed...
+
                 spGPStimeData->_i32_freq_shift_ppb = (spGPStimeData->_u64_pps_period_1M           //set the frequency compensation value here, pretty much from pps_period (lots zeroes and nums that cancel out in this calc)
                                                       - (int64_t)eDtUpscale * eCLKperTimeMark * eSlidingLen
                                                       + (eSlidingLen >> 1)) / eSlidingLen;
