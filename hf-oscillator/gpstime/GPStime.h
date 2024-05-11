@@ -94,7 +94,7 @@ typedef struct
     uint32_t _u32_nmea_gprmc_count;             /* The count of $GPRMC sentences received */
 
     uint64_t _u64_sysclk_pps_last;              /* The sysclk of the last rising edge of PPS. */
-    uint64_t _u64_pps_period_1M;                /* The PPS avg. period *1e6, filtered. */ 
+    int64_t _u64_pps_period_1M;                /* The PPS avg. period *1e6, filtered. */ 
     uint64_t _pu64_sliding_pps_tm[eSlidingLen]; /* A sliding window to store PPS periods. */
     uint8_t _ix_last;                           /* An index of last write to sliding window. */
 
