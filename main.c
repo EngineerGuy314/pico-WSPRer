@@ -87,7 +87,9 @@ int main()
         XMIT_FREQUENCY,
         0,           /**< the carrier freq. shift relative to dial freq. */ //not used
         RFOUT_PIN,       /**< RF output GPIO pin. */
-		(uint8_t)_start_minute[0]-48   /**< convert ASCI number to int (ASCII '0' = 48) */
+		(uint8_t)_start_minute[0]-48,   /**< convert ASCI number to int (ASCII '0' = 48) */
+		(uint8_t)_id13[0]-48,   /**< convert ASCI number to int (ASCII '0' = 48) */  //need to pass this early for setting up schedule
+		(uint8_t)_suffix[0]-48   /**< convert ASCI number to int (ASCII '0' = 48) */ //need to pass this early for setting up schedule
         );
     assert_(pWB);
     pWSPR = pWB;
@@ -95,8 +97,8 @@ int main()
 	pWB->_txSched.led_mode = 0;  //waiting for GPS
 	pWB->_txSched.Xmission_In_Process = 0;  //prolly not used anymore
 	pWB->_txSched.output_number_toEnable_GPS = GPS_ENABLE_PIN;
-	pWB->_txSched.suffix=(uint8_t)_suffix[0]-48;    //vall 253 if  dash was enterred
-	pWB->_txSched.verbosity=(uint8_t)_verbosity[0]-48; 
+	pWB->_txSched.verbosity=(uint8_t)_verbosity[0]-48;       //this line is NOT redundant
+	pWB->_txSched.suffix=(uint8_t)_suffix[0]-48;    //vall 253 if  dash was enterred //this line is NOT redundant
 	strcpy(pWB->_txSched.id13,_id13);
 
 	multicore_launch_core1(Core1Entry);
@@ -218,7 +220,7 @@ void check_data_validity(void)
 //do some basic plausibility checking on data							
 	if ( (_callsign[0]<65) || (_callsign[0]>90)) {   strncpy(_callsign,"ABC123",6);     ; write_NVRAM();} 
 	if ( (_suffix[0]<48) || (_suffix[0]>57)) {_suffix[0]=45; write_NVRAM();} //by default, disable zachtek suffix
-	if ( (_id13[0]!=48) && (_id13[0]!=49) && (_id13[0]!=81)) {strncpy(_id13,"Q0",2); write_NVRAM();}
+	if ( (_id13[0]!=48) && (_id13[0]!=49) && (_id13[0]!=81)&& (_id13[0]!=45)) {strncpy(_id13,"Q0",2); write_NVRAM();}
 	if ( (_start_minute[0]!=48) && (_start_minute[0]!=50) && (_start_minute[0]!=52)&& (_start_minute[0]!=54)&& (_start_minute[0]!=56)) {_start_minute[0]=48; write_NVRAM();}
 	if ( (_lane[0]!=49) && (_lane[0]!=50) && (_lane[0]!=51)&& (_lane[0]!=52)) {_lane[0]=50; write_NVRAM();}
 	if ( (_verbosity[0]<48) || (_verbosity[0]>57)) {_verbosity[0]=49; write_NVRAM();} //set default verbosity to 1

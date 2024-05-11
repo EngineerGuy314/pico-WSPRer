@@ -32,7 +32,7 @@ static 	uint8_t  altitude_as_power_fine;
 /// @return Ptr to the new context.
 WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare, int txpow_dbm,
                                   PioDco *pdco, uint32_t dial_freq_hz, uint32_t shift_freq_hz,
-                                  int gpio,  uint8_t start_minute)
+                                  int gpio,  uint8_t start_minute, uint8_t id13, uint8_t suffix)
 {
     assert_(pcallsign);
     assert_(pgridsquare);
@@ -50,7 +50,7 @@ WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare
 	at_least_one_slot_has_elapsed=0;
 	for (int i=0;i < 10;i++) schedule[i]=-1;
 
-	if (p->_txSched.id13[0]=='-')              //if U4B protocol disabled,  we will ONLY do Type3 (zachtek) at the specified minute
+	if (id13==253)              //if U4B protocol disabled,  we will ONLY do Type3 (zachtek) at the specified minute
 	{
 		schedule[start_minute]=3;           
 		schedule[(start_minute+2)%10]=4;
@@ -59,7 +59,7 @@ else
 	{
 		schedule[start_minute]=1;          //do U4b at selected minute 
 		schedule[(start_minute+2)%10]=2;
-		if (p->_txSched.suffix != 253)    // if Suffix enabled, Do zachtek messages 4 mins BEFORE (ie 6 minutes in future) of u4b (because minus (-) after char to decimal conversion is 253)
+		if (suffix != 253)    // if Suffix enabled, Do zachtek messages 4 mins BEFORE (ie 6 minutes in future) of u4b (because minus (-) after char to decimal conversion is 253)
 			{
 				schedule[(start_minute+6)%10]=3;          
 				schedule[(start_minute+8)%10]=4;
