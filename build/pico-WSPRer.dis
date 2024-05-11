@@ -5895,90 +5895,90 @@ Disassembly of section .text:
 10003280:	b510      	push	{r4, lr}
 10003282:	482f      	ldr	r0, [pc, #188]	; (10003340 <check_data_validity+0xc0>)
 10003284:	7803      	ldrb	r3, [r0, #0]
-10003286:	3b41      	subs	r3, #65	; 0x41
-10003288:	2b19      	cmp	r3, #25
-1000328a:	d83b      	bhi.n	10003304 <check_data_validity+0x84>
-1000328c:	4a2d      	ldr	r2, [pc, #180]	; (10003344 <check_data_validity+0xc4>)
-1000328e:	7813      	ldrb	r3, [r2, #0]
-10003290:	3b30      	subs	r3, #48	; 0x30
-10003292:	2b09      	cmp	r3, #9
-10003294:	d841      	bhi.n	1000331a <check_data_validity+0x9a>
-10003296:	482c      	ldr	r0, [pc, #176]	; (10003348 <check_data_validity+0xc8>)
-10003298:	7803      	ldrb	r3, [r0, #0]
-1000329a:	001a      	movs	r2, r3
-1000329c:	3a30      	subs	r2, #48	; 0x30
-1000329e:	2a01      	cmp	r2, #1
-100032a0:	d903      	bls.n	100032aa <check_data_validity+0x2a>
-100032a2:	2b51      	cmp	r3, #81	; 0x51
-100032a4:	d001      	beq.n	100032aa <check_data_validity+0x2a>
-100032a6:	2b2d      	cmp	r3, #45	; 0x2d
-100032a8:	d13c      	bne.n	10003324 <check_data_validity+0xa4>
-100032aa:	4a28      	ldr	r2, [pc, #160]	; (1000334c <check_data_validity+0xcc>)
-100032ac:	7813      	ldrb	r3, [r2, #0]
-100032ae:	3b30      	subs	r3, #48	; 0x30
-100032b0:	b2db      	uxtb	r3, r3
-100032b2:	2b08      	cmp	r3, #8
-100032b4:	d80f      	bhi.n	100032d6 <check_data_validity+0x56>
-100032b6:	2156      	movs	r1, #86	; 0x56
-100032b8:	31ff      	adds	r1, #255	; 0xff
-100032ba:	40d9      	lsrs	r1, r3
-100032bc:	07cb      	lsls	r3, r1, #31
-100032be:	d50a      	bpl.n	100032d6 <check_data_validity+0x56>
-100032c0:	4a23      	ldr	r2, [pc, #140]	; (10003350 <check_data_validity+0xd0>)
-100032c2:	7813      	ldrb	r3, [r2, #0]
-100032c4:	3b31      	subs	r3, #49	; 0x31
-100032c6:	2b03      	cmp	r3, #3
-100032c8:	d80e      	bhi.n	100032e8 <check_data_validity+0x68>
-100032ca:	4a22      	ldr	r2, [pc, #136]	; (10003354 <check_data_validity+0xd4>)
-100032cc:	7813      	ldrb	r3, [r2, #0]
-100032ce:	3b30      	subs	r3, #48	; 0x30
-100032d0:	2b09      	cmp	r3, #9
-100032d2:	d812      	bhi.n	100032fa <check_data_validity+0x7a>
-100032d4:	bd10      	pop	{r4, pc}
-100032d6:	2330      	movs	r3, #48	; 0x30
-100032d8:	7013      	strb	r3, [r2, #0]
-100032da:	f7ff ff8d 	bl	100031f8 <write_NVRAM>
-100032de:	4a1c      	ldr	r2, [pc, #112]	; (10003350 <check_data_validity+0xd0>)
-100032e0:	7813      	ldrb	r3, [r2, #0]
-100032e2:	3b31      	subs	r3, #49	; 0x31
-100032e4:	2b03      	cmp	r3, #3
-100032e6:	d9f0      	bls.n	100032ca <check_data_validity+0x4a>
-100032e8:	2332      	movs	r3, #50	; 0x32
-100032ea:	7013      	strb	r3, [r2, #0]
-100032ec:	f7ff ff84 	bl	100031f8 <write_NVRAM>
-100032f0:	4a18      	ldr	r2, [pc, #96]	; (10003354 <check_data_validity+0xd4>)
-100032f2:	7813      	ldrb	r3, [r2, #0]
-100032f4:	3b30      	subs	r3, #48	; 0x30
-100032f6:	2b09      	cmp	r3, #9
-100032f8:	d9ec      	bls.n	100032d4 <check_data_validity+0x54>
-100032fa:	2331      	movs	r3, #49	; 0x31
-100032fc:	7013      	strb	r3, [r2, #0]
-100032fe:	f7ff ff7b 	bl	100031f8 <write_NVRAM>
-10003302:	e7e7      	b.n	100032d4 <check_data_validity+0x54>
-10003304:	2206      	movs	r2, #6
-10003306:	4914      	ldr	r1, [pc, #80]	; (10003358 <check_data_validity+0xd8>)
-10003308:	f005 fcec 	bl	10008ce4 <__wrap___aeabi_memcpy>
-1000330c:	f7ff ff74 	bl	100031f8 <write_NVRAM>
-10003310:	4a0c      	ldr	r2, [pc, #48]	; (10003344 <check_data_validity+0xc4>)
-10003312:	7813      	ldrb	r3, [r2, #0]
-10003314:	3b30      	subs	r3, #48	; 0x30
-10003316:	2b09      	cmp	r3, #9
-10003318:	d9bd      	bls.n	10003296 <check_data_validity+0x16>
-1000331a:	232d      	movs	r3, #45	; 0x2d
-1000331c:	7013      	strb	r3, [r2, #0]
+10003286:	001a      	movs	r2, r3
+10003288:	3a41      	subs	r2, #65	; 0x41
+1000328a:	2a19      	cmp	r2, #25
+1000328c:	d902      	bls.n	10003294 <check_data_validity+0x14>
+1000328e:	3b30      	subs	r3, #48	; 0x30
+10003290:	2b09      	cmp	r3, #9
+10003292:	d84d      	bhi.n	10003330 <check_data_validity+0xb0>
+10003294:	4a2b      	ldr	r2, [pc, #172]	; (10003344 <check_data_validity+0xc4>)
+10003296:	7813      	ldrb	r3, [r2, #0]
+10003298:	3b30      	subs	r3, #48	; 0x30
+1000329a:	2b09      	cmp	r3, #9
+1000329c:	d836      	bhi.n	1000330c <check_data_validity+0x8c>
+1000329e:	482a      	ldr	r0, [pc, #168]	; (10003348 <check_data_validity+0xc8>)
+100032a0:	7803      	ldrb	r3, [r0, #0]
+100032a2:	001a      	movs	r2, r3
+100032a4:	3a30      	subs	r2, #48	; 0x30
+100032a6:	2a01      	cmp	r2, #1
+100032a8:	d903      	bls.n	100032b2 <check_data_validity+0x32>
+100032aa:	2b51      	cmp	r3, #81	; 0x51
+100032ac:	d001      	beq.n	100032b2 <check_data_validity+0x32>
+100032ae:	2b2d      	cmp	r3, #45	; 0x2d
+100032b0:	d131      	bne.n	10003316 <check_data_validity+0x96>
+100032b2:	4a26      	ldr	r2, [pc, #152]	; (1000334c <check_data_validity+0xcc>)
+100032b4:	7813      	ldrb	r3, [r2, #0]
+100032b6:	3b30      	subs	r3, #48	; 0x30
+100032b8:	b2db      	uxtb	r3, r3
+100032ba:	2b08      	cmp	r3, #8
+100032bc:	d80f      	bhi.n	100032de <check_data_validity+0x5e>
+100032be:	2156      	movs	r1, #86	; 0x56
+100032c0:	31ff      	adds	r1, #255	; 0xff
+100032c2:	40d9      	lsrs	r1, r3
+100032c4:	07cb      	lsls	r3, r1, #31
+100032c6:	d50a      	bpl.n	100032de <check_data_validity+0x5e>
+100032c8:	4a21      	ldr	r2, [pc, #132]	; (10003350 <check_data_validity+0xd0>)
+100032ca:	7813      	ldrb	r3, [r2, #0]
+100032cc:	3b31      	subs	r3, #49	; 0x31
+100032ce:	2b03      	cmp	r3, #3
+100032d0:	d80e      	bhi.n	100032f0 <check_data_validity+0x70>
+100032d2:	4a20      	ldr	r2, [pc, #128]	; (10003354 <check_data_validity+0xd4>)
+100032d4:	7813      	ldrb	r3, [r2, #0]
+100032d6:	3b30      	subs	r3, #48	; 0x30
+100032d8:	2b09      	cmp	r3, #9
+100032da:	d812      	bhi.n	10003302 <check_data_validity+0x82>
+100032dc:	bd10      	pop	{r4, pc}
+100032de:	2330      	movs	r3, #48	; 0x30
+100032e0:	7013      	strb	r3, [r2, #0]
+100032e2:	f7ff ff89 	bl	100031f8 <write_NVRAM>
+100032e6:	4a1a      	ldr	r2, [pc, #104]	; (10003350 <check_data_validity+0xd0>)
+100032e8:	7813      	ldrb	r3, [r2, #0]
+100032ea:	3b31      	subs	r3, #49	; 0x31
+100032ec:	2b03      	cmp	r3, #3
+100032ee:	d9f0      	bls.n	100032d2 <check_data_validity+0x52>
+100032f0:	2332      	movs	r3, #50	; 0x32
+100032f2:	7013      	strb	r3, [r2, #0]
+100032f4:	f7ff ff80 	bl	100031f8 <write_NVRAM>
+100032f8:	4a16      	ldr	r2, [pc, #88]	; (10003354 <check_data_validity+0xd4>)
+100032fa:	7813      	ldrb	r3, [r2, #0]
+100032fc:	3b30      	subs	r3, #48	; 0x30
+100032fe:	2b09      	cmp	r3, #9
+10003300:	d9ec      	bls.n	100032dc <check_data_validity+0x5c>
+10003302:	2331      	movs	r3, #49	; 0x31
+10003304:	7013      	strb	r3, [r2, #0]
+10003306:	f7ff ff77 	bl	100031f8 <write_NVRAM>
+1000330a:	e7e7      	b.n	100032dc <check_data_validity+0x5c>
+1000330c:	232d      	movs	r3, #45	; 0x2d
+1000330e:	7013      	strb	r3, [r2, #0]
+10003310:	f7ff ff72 	bl	100031f8 <write_NVRAM>
+10003314:	e7c3      	b.n	1000329e <check_data_validity+0x1e>
+10003316:	2202      	movs	r2, #2
+10003318:	490f      	ldr	r1, [pc, #60]	; (10003358 <check_data_validity+0xd8>)
+1000331a:	f005 fce3 	bl	10008ce4 <__wrap___aeabi_memcpy>
 1000331e:	f7ff ff6b 	bl	100031f8 <write_NVRAM>
-10003322:	e7b8      	b.n	10003296 <check_data_validity+0x16>
-10003324:	2202      	movs	r2, #2
-10003326:	490d      	ldr	r1, [pc, #52]	; (1000335c <check_data_validity+0xdc>)
-10003328:	f005 fcdc 	bl	10008ce4 <__wrap___aeabi_memcpy>
-1000332c:	f7ff ff64 	bl	100031f8 <write_NVRAM>
-10003330:	4a06      	ldr	r2, [pc, #24]	; (1000334c <check_data_validity+0xcc>)
-10003332:	7813      	ldrb	r3, [r2, #0]
-10003334:	3b30      	subs	r3, #48	; 0x30
-10003336:	b2db      	uxtb	r3, r3
-10003338:	2b08      	cmp	r3, #8
-1000333a:	d8cc      	bhi.n	100032d6 <check_data_validity+0x56>
-1000333c:	e7bb      	b.n	100032b6 <check_data_validity+0x36>
+10003322:	4a0a      	ldr	r2, [pc, #40]	; (1000334c <check_data_validity+0xcc>)
+10003324:	7813      	ldrb	r3, [r2, #0]
+10003326:	3b30      	subs	r3, #48	; 0x30
+10003328:	b2db      	uxtb	r3, r3
+1000332a:	2b08      	cmp	r3, #8
+1000332c:	d8d7      	bhi.n	100032de <check_data_validity+0x5e>
+1000332e:	e7c6      	b.n	100032be <check_data_validity+0x3e>
+10003330:	2206      	movs	r2, #6
+10003332:	490a      	ldr	r1, [pc, #40]	; (1000335c <check_data_validity+0xdc>)
+10003334:	f005 fcd6 	bl	10008ce4 <__wrap___aeabi_memcpy>
+10003338:	f7ff ff5e 	bl	100031f8 <write_NVRAM>
+1000333c:	e7aa      	b.n	10003294 <check_data_validity+0x14>
 1000333e:	46c0      	nop			; (mov r8, r8)
 10003340:	20003044 	.word	0x20003044
 10003344:	2000303c 	.word	0x2000303c
@@ -5986,8 +5986,8 @@ Disassembly of section .text:
 1000334c:	2000304c 	.word	0x2000304c
 10003350:	20003040 	.word	0x20003040
 10003354:	20003038 	.word	0x20003038
-10003358:	10011c90 	.word	0x10011c90
-1000335c:	10011c98 	.word	0x10011c98
+10003358:	10011c98 	.word	0x10011c98
+1000335c:	10011c90 	.word	0x10011c90
 
 10003360 <read_NVRAM>:
 10003360:	b5f0      	push	{r4, r5, r6, r7, lr}

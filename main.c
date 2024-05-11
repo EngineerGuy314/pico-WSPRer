@@ -218,7 +218,7 @@ void print_buf(const uint8_t *buf, size_t len) {
 void check_data_validity(void)
 {
 //do some basic plausibility checking on data							
-	if ( (_callsign[0]<65) || (_callsign[0]>90)) {   strncpy(_callsign,"ABC123",6);     ; write_NVRAM();} 
+	if ( ((_callsign[0]<65) || (_callsign[0]>90)) && ((_callsign[0]<48) || (_callsign[0]>57))    ) {   strncpy(_callsign,"ABC123",6);     ; write_NVRAM();} 
 	if ( (_suffix[0]<48) || (_suffix[0]>57)) {_suffix[0]=45; write_NVRAM();} //by default, disable zachtek suffix
 	if ( (_id13[0]!=48) && (_id13[0]!=49) && (_id13[0]!=81)&& (_id13[0]!=45)) {strncpy(_id13,"Q0",2); write_NVRAM();}
 	if ( (_start_minute[0]!=48) && (_start_minute[0]!=50) && (_start_minute[0]!=52)&& (_start_minute[0]!=54)&& (_start_minute[0]!=56)) {_start_minute[0]=48; write_NVRAM();}
