@@ -87,9 +87,9 @@ int main()
         XMIT_FREQUENCY,
         0,           /**< the carrier freq. shift relative to dial freq. */ //not used
         RFOUT_PIN,       /**< RF output GPIO pin. */
-		(uint8_t)_start_minute[0]-48,   /**< convert ASCI number to int (ASCII '0' = 48) */
-		(uint8_t)_id13[0]-48,   /**< convert ASCI number to int (ASCII '0' = 48) */  //need to pass this early for setting up schedule
-		(uint8_t)_suffix[0]-48   /**< convert ASCI number to int (ASCII '0' = 48) */ //need to pass this early for setting up schedule
+		(uint8_t)_start_minute[0]-'0',   /**< convert ASCI digits to ints  */
+		(uint8_t)_id13[0]-'0',   
+		(uint8_t)_suffix[0]-'0'   
         );
     assert_(pWB);
     pWSPR = pWB;
@@ -97,8 +97,8 @@ int main()
 	pWB->_txSched.led_mode = 0;  //waiting for GPS
 	pWB->_txSched.Xmission_In_Process = 0;  //prolly not used anymore
 	pWB->_txSched.output_number_toEnable_GPS = GPS_ENABLE_PIN;
-	pWB->_txSched.verbosity=(uint8_t)_verbosity[0]-48;       //this line is NOT redundant
-	pWB->_txSched.suffix=(uint8_t)_suffix[0]-48;    //vall 253 if  dash was enterred //this line is NOT redundant
+	pWB->_txSched.verbosity=(uint8_t)_verbosity[0]-'0';       /**< convert ASCI digit to int  */
+	pWB->_txSched.suffix=(uint8_t)_suffix[0]-'0';    /**< convert ASCI digit to int (value 253 if dash was entered) */
 	strcpy(pWB->_txSched.id13,_id13);
 
 	multicore_launch_core1(Core1Entry);
@@ -111,7 +111,7 @@ int main()
     assert_(DCO._pGPStime);
 	DCO._pGPStime->user_setup_menu_active=0;
 	DCO._pGPStime->forced_XMIT_on=d_force_xmit_for_testing;
-	DCO._pGPStime->verbosity=(uint8_t)_verbosity[0]-48; 
+	DCO._pGPStime->verbosity=(uint8_t)_verbosity[0]-'0'; 
     int tick = 0;int tick2 = 0;  //used for timing various messages
 
     for(;;)   //loop every ~ half second
@@ -218,14 +218,17 @@ void print_buf(const uint8_t *buf, size_t len) {
 void check_data_validity(void)
 {
 //do some basic plausibility checking on data							
-	if ( ((_callsign[0]<65) || (_callsign[0]>90)) && ((_callsign[0]<48) || (_callsign[0]>57))    ) {   strncpy(_callsign,"ABC123",6);     ; write_NVRAM();} 
-	if ( (_suffix[0]<48) || (_suffix[0]>57)) {_suffix[0]=45; write_NVRAM();} //by default, disable zachtek suffix
-	if ( (_id13[0]!=48) && (_id13[0]!=49) && (_id13[0]!=81)&& (_id13[0]!=45)) {strncpy(_id13,"Q0",2); write_NVRAM();}
-	if ( (_start_minute[0]!=48) && (_start_minute[0]!=50) && (_start_minute[0]!=52)&& (_start_minute[0]!=54)&& (_start_minute[0]!=56)) {_start_minute[0]=48; write_NVRAM();}
-	if ( (_lane[0]!=49) && (_lane[0]!=50) && (_lane[0]!=51)&& (_lane[0]!=52)) {_lane[0]=50; write_NVRAM();}
-	if ( (_verbosity[0]<48) || (_verbosity[0]>57)) {_verbosity[0]=49; write_NVRAM();} //set default verbosity to 1
+	if ( ((_callsign[0]<'A') || (_callsign[0]>'Z')) && ((_callsign[0]<'0') || (_callsign[0]>'9'))    ) {   strncpy(_callsign,"ABC123",6);     ; write_NVRAM();} 
+	if ( (_suffix[0]<'0') || (_suffix[0]>'9')) {_suffix[0]='-'; write_NVRAM();} //by default, disable zachtek suffix
+	if ( (_id13[0]!='0') && (_id13[0]!='1') && (_id13[0]!='Q')&& (_id13[0]!='-')) {strncpy(_id13,"Q0",2); write_NVRAM();}
+	if ( (_start_minute[0]!='0') && (_start_minute[0]!='2') && (_start_minute[0]!='4')&& (_start_minute[0]!='6')&& (_start_minute[0]!='8')) {_start_minute[0]='0'; write_NVRAM();}
+	if ( (_lane[0]!='1') && (_lane[0]!='2') && (_lane[0]!='3')&& (_lane[0]!='4')) {_lane[0]='2'; write_NVRAM();}
+	if ( (_verbosity[0]<'0') || (_verbosity[0]>'9')) {_verbosity[0]='1'; write_NVRAM();} //set default verbosity to 1
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * @brief Function that implements simple user interface via UART
+ * 
+ */
 void user_interface(void)
 {
     char c;
@@ -265,14 +268,20 @@ show_values();
 		show_values();
 	}
 }
-//
+/**
+ * @brief Function that writes out the current set values of parameters
+ * 
+ */
 void show_values(void)
 {
 printf("\n\nCurrent values:\n\tCallsign:%s\n\tSuffix:%s\n\tId13:%s\n\tMinute:%s\n\tLane:%s\n\tVerbosity:%s\n\n",_callsign,_suffix,_id13,_start_minute,_lane,_verbosity);
 printf("VALID commands: \n\n\tX: eXit configuraiton and reboot\n\tC: change Callsign (6 char max)\n\tS: change Suffix (added to callsign for WSPR3) enter '-' to disable WSPR3\n\tI: change Id13 (two alpha numeric chars, ie Q8) enter '--' to disable U4B\n\tM: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\tV: Verbosity level (0 for no messages, 9 for too many) \n\n");
 
 }
-//
+/**
+ * @brief Writes the user entered data into NVRAM
+ * 
+ */
 void write_NVRAM(void)
 {
     uint8_t data_chunk[FLASH_PAGE_SIZE];
@@ -290,7 +299,12 @@ void write_NVRAM(void)
 	restore_interrupts (ints);
 
 }
-////////////////
+/**
+ * @brief Converts string to upper case
+ * 
+ * @param str string to convert
+ * @return No return value, string is converted directly in the parameter *str  
+ */
 void convertToUpperCase(char *str) {
     while (*str) {
         *str = toupper((unsigned char)*str);
@@ -299,17 +313,16 @@ void convertToUpperCase(char *str) {
 }
 
 
-/*
-Verbosity notes:
-0: none
-1: temp/volts every second, message if no gps
-2: GPS status every second
-3:          messages when a xmition started
-4: x-tended messages when a xmition started 
-5: dump context every 20 secs
-6: show PPB every second
-7: Display GxRMC and GxGGA messages
-8: display ALL serial input from GPS module
-
-
+/**
+* @note:
+* Verbosity notes:
+* 0: none
+* 1: temp/volts every second, message if no gps
+* 2: GPS status every second
+* 3:          messages when a xmition started
+* 4: x-tended messages when a xmition started 
+* 5: dump context every 20 secs
+* 6: show PPB every second
+* 7: Display GxRMC and GxGGA messages
+* 8: display ALL serial input from GPS module
 */
