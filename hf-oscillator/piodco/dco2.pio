@@ -127,21 +127,4 @@ static inline void dco_program_init(PIO pio, uint sm, uint offset, uint pin)
     pio_sm_set_enabled(pio, sm, true);              // PIO started
 }
 
-//
-static inline void dco_program_puts(PIO pio, uint sm, const uint32_t *s)
-{
-    pio_sm_put_blocking(pio, sm, s[0]);
-    pio_sm_put_blocking(pio, sm, s[1]);
-    pio_sm_put_blocking(pio, sm, s[2]);
-    pio_sm_put_blocking(pio, sm, s[3]);
-    pio_sm_put_blocking(pio, sm, s[4]);
-    pio_sm_put_blocking(pio, sm, s[5]);
-    pio_sm_put_blocking(pio, sm, s[6]);
-    pio_sm_put_blocking(pio, sm, s[7]);
-}
-
-static inline void dco_program_puts1w(PIO pio, uint sm, const uint32_t val)
-{
-    pio_sm_put_blocking(pio, sm, val);
-}
 %}

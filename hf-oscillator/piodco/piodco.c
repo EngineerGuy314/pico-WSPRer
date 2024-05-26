@@ -206,46 +206,6 @@ LOOP:
     goto LOOP;
 }
 
-/// @brief Main worker task of DCO. It is time critical, so it ought to be run on
-/// @brief the dedicated pi pico core.
-/// @param pDCO Ptr to DCO context.
-/// @return No return. It spins forever.
-void RAM (PioDCOWorker)(PioDco *pDCO)
-{
-    assert_(pDCO);
-
-    register PIO pio = pDCO->_pio;
-    register uint sm = pDCO->_ism;
-    register int32_t i32acc_error = 0;
-    register uint32_t *preg32 = pDCO->_ui32_pioreg;
-    register uint8_t *pu8reg = (uint8_t *)preg32;
-
-    for(;;)
-    {
-        const register int32_t i32reg = si32precise_cycles;
-        /* RPix: Load the next precise value of CPU CLK cycles per DCO cycle,
-           scaled by 2^24. It yields about 24 millihertz resolution at @10MHz
-           DCO frequency. */
-        for(int i = 0; i < 32; ++i)
-        {
-            /* RPix: Calculate the integer number of CPU CLK cycles per next
-               DCO cycle, corrected by accumulated error (feedback of the PLL). */
-            const int32_t i32wc = iSAR32(i32reg - i32acc_error + (1<<23), 24);
-
-            /* RPix: Calculate the difference betwixt calculated value scaled to
-               fine resolution back and precise value of DCO cycles per CPU CLK cycle. 
-               This forms a phase locked loop which provides precise freq */
-            i32acc_error += (i32wc<<24) - i32reg;
-
-            /* RPix: Set PIO array contents corrected by pio program delay
-               of N CPU CLK cycles owing to pio asm instructions. */
-            pu8reg[i] = i32wc - PIOASM_DELAY_CYCLES;
-        }
-
-        dco_program_puts(pio, sm, preg32);
-    }
-}
-
 /// @brief Sets DCO running mode.
 /// @param pdco Ptr to DCO context.
 /// @param emode Desired mode.
