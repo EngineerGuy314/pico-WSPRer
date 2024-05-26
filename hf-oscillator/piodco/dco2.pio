@@ -40,6 +40,7 @@
 //      Rev 0.1   05 Nov 2023   Initial release
 //      Rev 0.2   18 Nov 2023
 //      Rev 1.0   10 Dec 2023   Improved frequency range (to ~33.333 MHz).
+//      Rev 2.0   27 May 2024   (serych) Used side_set (freq ~45 MHz (270 CPU))   
 //
 //  PROJECT PAGE
 //      https://github.com/RPiks/pico-hf-oscillator
@@ -68,6 +69,7 @@
 //  THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 .program dco
+.side_set 2 opt          // We will use sideset of two bits
 // one generated period is 2 . y + 8 cyc. long, so minimaly (if y = 0) 8 cycles
 // PioDCOWorker2 pushes periodicaly i32wc value to the output shift register
 // for example for 135 MHz clock and 14.097 MHz output we need 9.576505.. cycles
@@ -75,32 +77,27 @@
 // which is approximately 11/14 so we will be pushed something like:
 // 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, ....
 
-.wrap_target            //                                             [cycles]
-    out y, 32           // gets i32wc from output shift register into y    [1]
-    mov x, y            // moves the y value to x register                 [1]
+.wrap_target                //                                         [cycles]
+    out y, 32               // gets i32wc from output shift reg. into y     [1]
+    mov x, y  side 0b10     // moves y to x, sideset 0b20                   [1]
 LOOP0:
-    jmp x-- LOOP0       // decrements x until 0                          [x+1]
-    set pins, 1         // sets 0b01 to two output pins                    [1]
-    
-    mov x, y        [1] // moves the y value to x register (1 cycle added) [2]
+    jmp x-- LOOP0           // decrements x until 0                       [x+1]
+    mov x, y side 0b01 [1]  // moves again y to x sideset 0b01 (+1 cycle)   [2]
+                            // sideset 0b01
 LOOP1:
-    jmp x-- LOOP1       // decrements x until 0                          [x+1]
-    set pins, 2         // sets 0b10 to two output pins                    [1]
-                        //                                        Sum  [2.x+8] 
-    mov x, y        [1] // we will run one more period to give core 1 time
-LOOP2:                  // to calculate next i32wc value
-    jmp x-- LOOP2      
-    set pins, 1         
-
-    mov x, y        [1] 
+    jmp x-- LOOP1           // decrements x until 0                       [x+1]
+                            //                                    SUM:  [2.x+6] 
+    mov x, y side 0b10 [1]  // we will run one more period to give core 1 time
+LOOP2:                      // to calculate next i32wc value
+    jmp x-- LOOP2           
+    mov x, y side 0b01 [1] 
 LOOP3:
-    jmp x-- LOOP3       
-    set pins, 2         
+    jmp x-- LOOP3              
 .wrap                   // go to begining to get new i32wc value
 
 % c-sdk {
 
-#define PIOASM_DELAY_CYCLES 4       // fixed delay cycles per halfperiod
+#define PIOASM_DELAY_CYCLES 3       // fixed delay cycles per halfperiod
 
 /// @brief Inicialization of PIO oscilator
 /// @param pio PIO number
@@ -116,6 +113,7 @@ static inline void dco_program_init(PIO pio, uint sm, uint offset, uint pin)
     sm_config_set_fifo_join(&c, PIO_FIFO_JOIN_TX);  // Join RX and TX FIFOs
     
     sm_config_set_out_pins(&c, pin, 2);				// Two output pins
+    sm_config_set_sideset_pins(&c, pin);            // Sideset pins
     pio_gpio_init(pio, pin);                        // Init first pin
 	pio_gpio_init(pio, pin+1); 					    // Init second pin
 
