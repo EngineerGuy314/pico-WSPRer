@@ -90,7 +90,7 @@
 
 #define kHz 1000UL                                                /* Freq. */
 #define MHz 1000000UL
-#define PLL_SYS_MHZ 135UL   // This determines overclocking. Roman originally had 270UL. lower speed=lower power consumption. but doesnt like below 135Mhz (for 14Mhz output anyway)      
+#define PLL_SYS_MHZ 115UL   // This determines overclocking. Roman originally had 270UL. After improvement od PIODCO we are now on 115 MHz (for 20m band) :-)      
 
 
                                                        /* WSPR defs. */

@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
 //
-//  dco2.pio - Digital controlled radio freq oscillator based on PIO.
+//  @brief dco2.pio - Digital controlled radio freq oscillator based on PIO.
 // 
 //
 //  DESCRIPTION
@@ -40,6 +40,7 @@
 //      Rev 0.1   05 Nov 2023   Initial release
 //      Rev 0.2   18 Nov 2023
 //      Rev 1.0   10 Dec 2023   Improved frequency range (to ~33.333 MHz).
+//      Rev 2.0   27 May 2024   (serych) Used side_set (freq ~45 MHz (270 CPU))   
 //
 //  PROJECT PAGE
 //      https://github.com/RPiks/pico-hf-oscillator
@@ -68,67 +69,60 @@
 //  THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 .program dco
+.side_set 2 opt          // We will use sideset of two bits
+// one generated period is 2 . y + 8 cyc. long, so minimaly (if y = 0) 8 cycles
+// PioDCOWorker2 pushes periodicaly i32wc value to the output shift register
+// for example for 135 MHz clock and 14.097 MHz output we need 9.576505.. cycles
+// i.e. 4.78825 - PIOASM_DELAY_CYCLES = 0.78825 cycles per halfperiod 
+// which is approximately 11/14 so we will be pushed something like:
+// 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, ....
 
-.wrap_target
-    out y, 32
-    mov x, y
+.wrap_target                //                                         [cycles]
+    out y, 32               // gets i32wc from output shift reg. into y     [1]
+    mov x, y  side 0b10     // moves y to x, sideset 0b20                   [1]
 LOOP0:
-    jmp x-- LOOP0
-    set pins, 1          //bitmap of data sent to multiple pins
-    
-    mov x, y        [1]        
+    jmp x-- LOOP0           // decrements x until 0                       [x+1]
+    mov x, y side 0b01 [1]  // moves again y to x sideset 0b01 (+1 cycle)   [2]
+                            // sideset 0b01
 LOOP1:
-    jmp x-- LOOP1
-    set pins, 2
-
-    mov x, y        [1]
-LOOP2:
-    jmp x-- LOOP2
-    set pins, 1
-
-    mov x, y        [1]
+    jmp x-- LOOP1           // decrements x until 0                       [x+1]
+                            //                                    SUM:  [2.x+6] 
+    mov x, y side 0b10 [1]  // we will run one more period to give core 1 time
+LOOP2:                      // to calculate next i32wc value
+    jmp x-- LOOP2           
+    mov x, y side 0b01 [1] 
 LOOP3:
-    jmp x-- LOOP3
-    set pins, 2
-.wrap
+    jmp x-- LOOP3              
+.wrap                   // go to begining to get new i32wc value
 
 % c-sdk {
 
-#define PIOASM_DELAY_CYCLES 4
+#define PIOASM_DELAY_CYCLES 3       // fixed delay cycles per halfperiod
 
+/// @brief Inicialization of PIO oscilator
+/// @param pio PIO number
+/// @param sm Status machine number
+/// @param pio offset PIO program offset
+/// @param pio pin Output pin (we use two pins for output [pin] and [pin + 1])
+/// @return No return. It just starts the PIO 
 static inline void dco_program_init(PIO pio, uint sm, uint offset, uint pin)
 {
     pio_sm_config c = dco_program_get_default_config(offset);
    
-    sm_config_set_out_shift(&c, true, true, 32);           // Autopull.
-    sm_config_set_fifo_join(&c, PIO_FIFO_JOIN_TX);
+    sm_config_set_out_shift(&c, true, true, 32);    // Autopull from FIFO
+    sm_config_set_fifo_join(&c, PIO_FIFO_JOIN_TX);  // Join RX and TX FIFOs
     
-    sm_config_set_out_pins(&c, pin, 2);						//wuz 1
-    pio_gpio_init(pio, pin);  
-	pio_gpio_init(pio, pin+1); 								//wuz added this
+    sm_config_set_out_pins(&c, pin, 2);				// Two output pins
+    sm_config_set_sideset_pins(&c, pin);            // Sideset pins
+    pio_gpio_init(pio, pin);                        // Init first pin
+	pio_gpio_init(pio, pin+1); 					    // Init second pin
 
-    pio_sm_set_consecutive_pindirs(pio, sm, pin, 2, true);   //wuz 1
+    pio_sm_set_consecutive_pindirs(pio, sm, pin, 2, true); //Set pins to output
     
-    sm_config_set_clkdiv_int_frac(&c, 1u, 0u);
+    sm_config_set_clkdiv_int_frac(&c, 1u, 0u);      // PIO CLK = system CLK 
 
-    pio_sm_init(pio, sm, offset, &c);
-    pio_sm_set_enabled(pio, sm, true);
-}
-//
-static inline void dco_program_puts(PIO pio, uint sm, const uint32_t *s)
-{
-    pio_sm_put_blocking(pio, sm, s[0]);
-    pio_sm_put_blocking(pio, sm, s[1]);
-    pio_sm_put_blocking(pio, sm, s[2]);
-    pio_sm_put_blocking(pio, sm, s[3]);
-    pio_sm_put_blocking(pio, sm, s[4]);
-    pio_sm_put_blocking(pio, sm, s[5]);
-    pio_sm_put_blocking(pio, sm, s[6]);
-    pio_sm_put_blocking(pio, sm, s[7]);
+    pio_sm_init(pio, sm, offset, &c);               // PIO initialized 
+    pio_sm_set_enabled(pio, sm, true);              // PIO started
 }
 
-static inline void dco_program_puts1w(PIO pio, uint sm, const uint32_t val)
-{
-    pio_sm_put_blocking(pio, sm, val);
-}
 %}
