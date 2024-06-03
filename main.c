@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////
 //  Majority of code forked from work by
 //  Roman Piksaykin [piksaykin@gmail.com], R2BDY
-//  https://www.qrz.com/db/r2bdy
-//  PROJECT PAGE
 //  https://github.com/RPiks/pico-WSPR-tx
+//  PROJECT PAGE
+//  https://github.com/EngineerGuy314/pico-WSPRer
 ///////////////////////////////////////////////////////////////////////////////
 #include <string.h>
 #include <stdio.h>
@@ -11,7 +11,6 @@
 #include <ctype.h>
 #include "pico/multicore.h"
 #include "hf-oscillator/lib/assert.h"
-#include "hf-oscillator/defines.h"
 #include "hardware/flash.h"
 #include <defines.h>
 #include <piodco.h>
@@ -20,7 +19,7 @@
 #include <protos.h>
 #include "pico/stdlib.h"
 #include "hardware/gpio.h"
-#include "hardware/adc.h"   //dont forget to add hardware_adc to the target-link-libraries in CMakeLists.txt
+#include "hardware/adc.h"   
 #include "hardware/watchdog.h"
 #include "hardware/uart.h"
 
