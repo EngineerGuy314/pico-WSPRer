@@ -104,8 +104,11 @@ int main()
     StampPrintf("RF oscillator started.");
 
 	gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output output
-    gpio_put(GPS_ENABLE_PIN, 1); 									   // to power up GPS unit
-
+	gpio_put(GPS_ENABLE_PIN, 1); 									   // to power up GPS unit
+	gpio_init(8); gpio_set_dir(8, GPIO_OUT); //alternate way to enable the GPS is to pull down its ground (aka low-side drive) using 3 GPIO in parallel (no mosfet needed)
+	gpio_init(9); gpio_set_dir(9, GPIO_OUT); 
+	gpio_init(10); gpio_set_dir(10, GPIO_OUT);
+	
     DCO._pGPStime = GPStimeInit(0, 9600, GPS_PPS_PIN); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
     assert_(DCO._pGPStime);
 	DCO._pGPStime->user_setup_menu_active=0;
