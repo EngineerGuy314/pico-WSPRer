@@ -9,13 +9,15 @@ The user's callsign and telemetry encoding details are configurable via the pico
 
 There is an issue with the RP2040 locking up if its input voltage is raised too gradually (as would happen during sunrise). To combat this I have a simple voltage dividor of two resistors across ground and the input voltage. The output if this voltage divider is tied to the RUN input on Pi Pico. The GPS unit stays on during transmission to provide continual frequency shift correction. However, a generic MOSFET or NPN transistor must be included to allow the pico to keep the GPS powered off during initial sunrise boot. See schematic below.
 
-With the original code the Pico was being overclocked to 270Mhz, so the total power draw of the Pico and GPS module was around 100mA at 4 volts. But this version I have the speed down to 135Mhz, which reduces power consumption but is still fine for transmitting on 20M (14Mhz).
+With the original code the Pico was being overclocked to 270Mhz, so the total power draw of the Pico and GPS module was around 100mA at 4 volts. But this version I have the speed down to 135Mhz, which reduces power consumption but is still fine for transmitting on 20M (14Mhz). 
+
+We managed to optimize the code of the PIODCO oscillator, so that 115 MHz CPU clock is enough for 20m band. In the /build directory you will find both versions translated (for 115 and 135 MHz CPU clock)   
 
 # Quick-start
-0. Download https://github.com/EngineerGuy314/pico-WSPRer/blob/main/build/pico-WSPRer.uf2 and skip to step 6 (or follow steps 1-5 to compile it yourself)
+0. Download https://github.com/EngineerGuy314/pico-WSPRer/blob/main/build/pico-WSPRer-115.uf2 and skip to step 6 (or follow steps 1-5 to compile it yourself)
 1. Install Raspberry Pi Pico SDK. Configure environment variables. Test whether it is built successfully.
 2. git clone  https://github.com/EngineerGuy314/pico-WSPRer 
-3. cd pico-WSPRer. 
+3. cd pico-WSPRer. In defines.h you can change CPU clock frequency (#define PLL_SYS_MHZ)
 4. ./build.sh
 5. Check whether output file ./build/pico-WSPRer.uf2 appears.
 6. power up pico with BOOTSEL held, copy the .uf2 file into the Pico when it shows up as a jumpdrive.
