@@ -1,35 +1,31 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Roman Piksaykin [piksaykin@gmail.com], R2BDY
-//  https://www.qrz.com/db/r2bdy
+//  EngineerGuy314 
+//  https://github.com/EngineerGuy314/pico-WSPRer
 //
 ///////////////////////////////////////////////////////////////////////////////
-//
 //
 //  defines.h - Project macros.
 // 
 //  DESCRIPTION
-//      The pico-WSPR-tx project provides WSPR beacon function using only
+//      The pico-WSPRer project provides WSPR beacon function using only
 //  Pi Pico board. *NO* additional hardware such as freq.synth required.
-//
-//  HOWTOSTART
-//  .
+//  That's why its operation is absolutely time critical and has to be done in
+//  fixed point arithmetic defined in macros below
 //
 //  PLATFORM
 //      Raspberry Pi pico.
 //
-//  REVISION HISTORY
-// 
-//      Rev 0.1   18 Nov 2023
-//  Initial release.
-//
 //  PROJECT PAGE
-//      https://github.com/RPiks/pico-WSPR-tx
+//      https://github.com/EngineerGuy314/pico-WSPRer
+//
+//  ( ORIGINAL PROJECT PAGE
+//      https://github.com/RPiks/pico-WSPR-tx )
 //
 //  LICENCE
 //      MIT License (http://www.opensource.org/licenses/mit-license.php)
 //
-//  Copyright (c) 2023 by Roman Piksaykin
+//  Copyright (c) 2023 by EngineerGuy314
 //  
 //  Permission is hereby granted, free of charge,to any person obtaining a copy
 //  of this software and associated documentation files (the Software), to deal
@@ -49,8 +45,8 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef DEFINESWSPR_H
-#define DEFINESWSPR_H
+#ifndef DEFINES_H
+#define DEFINES_H
 
 #define DEBUG
 
@@ -59,6 +55,9 @@
 #else
 #define DEBUGPRINTF(x) { }
 #endif
+
+#define PLL_SYS_MHZ 115UL // This sets CPU speed. Roman originally had 270UL. 
+      // After improvement od PIODCO we are now on 115 MHz (for 20m band) :-)      
 
 #define FALSE 0                                     /* Something is false. */
 #define TRUE 1                                       /* Something is true. */
@@ -75,14 +74,20 @@
 #define RAM __not_in_flash_func         /* Place time-critical func in RAM */
 #define RAM_A __not_in_flash("A")        /* Place time-critical var in RAM */
 
-     /* A macro for arithmetic right shifts, with casting of the argument. */
-#define iSAR(arg, rcount) (((int32_t)(arg)) >> (rcount))
+     /* A macros for arithmetic right shifts, with casting of the argument. */
+//#define iSAR(arg, rcount) (((int32_t)(arg)) >> (rcount))
+#define iSAR32(arg, rcount) (((int32_t)(arg)) >> (rcount))
+#define iSAR64(arg, rcount) (((int64_t)(arg)) >> (rcount))
 
 #define min(a,b) ((a)<(b)?(a):(b))
 #define max(a,b) ((a)>(b)?(a):(b))
 
-  /* A macro of multiplication guarantees of doing so using 1 ASM command. */
+  /* A macros for fast fixed point arithmetics calculations */
 #define iMUL32ASM(a,b) __mul_instruction((int32_t)(a), (int32_t)(b))
+#define iSquare32ASM(x) (iMUL32ASM((x), (x)))
+#define ABS(x) ((x) > 0 ? (x) : -(x))
+#define INVERSE(x) ((x) = -(x))
+#define asizeof(a) (sizeof (a) / sizeof ((a)[0]))
 
 #define SECOND 1                                                  /* Time. */
 #define MINUTE (60 * SECOND)
@@ -90,10 +95,8 @@
 
 #define kHz 1000UL                                                /* Freq. */
 #define MHz 1000000UL
-#define PLL_SYS_MHZ 115UL   // This determines overclocking. Roman originally had 270UL. After improvement od PIODCO we are now on 115 MHz (for 20m band) :-)      
 
-
-                                                       /* WSPR defs. */
+/* WSPR constants definitions */
 #define WSPR_FREQ_STEP_MILHZ    2930UL     /* FSK freq.bin (*2 this time). */
 #define WSPR_MAX_GPS_DISCONNECT_TM  \
         (6 * HOUR)                      /* How long is active without GPS. */
