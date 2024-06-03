@@ -50,7 +50,16 @@
 #include "TxChannel.h"
 
 static TxChannelContext *spTX = NULL;
-static void __not_in_flash_func (TxChannelISR)(void)
+
+/**
+ * @brief ISR initiated by timer alarm interupt each WSPR bit period. 
+ * @brief It pops next byte from transmit buffer, compensates oscillator 
+ * @brief frequency shift and tunes oscillator frequency for the next
+ * @brief symbol transmission (frequency shift keying)
+ * @param NONE
+ * @return NONE
+ */
+static void RAM (TxChannelISR)(void)
 {
     PioDco *pDCO = spTX->_p_oscillator;
 
@@ -61,23 +70,21 @@ static void __not_in_flash_func (TxChannelISR)(void)
         const int32_t i32_compensation_millis = 
             PioDCOGetFreqShiftMilliHertz(spTX->_p_oscillator, 
                                          (uint64_t)(spTX->_u32_dialfreqhz * 1000LL));
+            //compensate freqency shift using last symbol frequency
 
         PioDCOSetFreq(pDCO, spTX->_u32_dialfreqhz, 
                       (uint32_t)byte * WSPR_FREQ_STEP_MILHZ - 2 * i32_compensation_millis);
+            //set the current symbol frequency
     }
 
-    spTX->_tm_future_call += spTX->_bit_period_us;
+    spTX->_tm_future_call += spTX->_bit_period_us; //next alarm calculation
 
 EXIT:
-    hw_clear_bits(&timer_hw->intr, 1U<<spTX->_timer_alarm_num);
-    timer_hw->alarm[spTX->_timer_alarm_num] = (uint32_t)spTX->_tm_future_call;
-
-    /* LED debug signal */
-    static int tick = 0;
-    //gpio_put(PICO_DEFAULT_LED_PIN, ++tick & 1);  //blinks every second. not sure how though
+    hw_clear_bits(&timer_hw->intr, 1U<<spTX->_timer_alarm_num); //clear interupt flag
+    timer_hw->alarm[spTX->_timer_alarm_num] = (uint32_t)spTX->_tm_future_call; //set next alarm
 }
 
-/// @brief Initializes a TxChannel context. Starts ISR.
+/// @brief Initializes a TxChannel context. Starts timer alarm ISR.
 /// @param bit_period_us Period of data bits, BPS speed = 1e6/bit_period_us.
 /// @param timer_alarm_num Pico-specific hardware timer resource id.
 /// @param pDCO Ptr to oscillator.
@@ -108,7 +115,7 @@ TxChannelContext *TxChannelInit(const uint32_t bit_period_us, uint8_t timer_alar
     return p;
 }
 
-/// @brief Gets a count of bytes to send.
+/// @brief Gets a count of remaining bytes to send.
 /// @param pctx Context.
 /// @return A count of bytes.
 uint8_t TxChannelPending(TxChannelContext *pctx)
@@ -116,7 +123,7 @@ uint8_t TxChannelPending(TxChannelContext *pctx)
     return 256L + (int)pctx->_ix_input - (int)pctx->_ix_output;
 }
 
-/// @brief Push a number of bytes to the output FIFO.
+/// @brief Push a number of bytes to the transmission buffer.
 /// @param pctx Context.
 /// @param psrc Ptr to buffer to send.
 /// @param n A count of bytes to send.
@@ -141,14 +148,13 @@ int TxChannelPop(TxChannelContext *pctx, uint8_t *pdst)
     if(pctx->_ix_input != pctx->_ix_output)
     {
         *pdst = pctx->_pbyte_buffer[pctx->_ix_output++];
-
         return 1;
     }
 
-    return 0;
+    return 0;  // no more bytes to transmit
 }
 
-/// @brief Clears FIFO completely. Sets write&read indexes to 0.
+/// @brief Clears transmission buffer completely by setting write & read indexes to 0.
 /// @param pctx Context.
 void TxChannelClear(TxChannelContext *pctx)
 {
