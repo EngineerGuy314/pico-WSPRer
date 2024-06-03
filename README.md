@@ -26,6 +26,8 @@ We managed to optimize the code of the PIODCO oscillator, so that 115 MHz CPU cl
 9. You can use either one (or both) U4B and Zachtek protocol. If you only use one protocol its first message is sent on the starting-minute you enterred in step 8. If you are using both protocols, it starts the U4B messages on the starting minute, will then pause for two minutes and do the Zachtek messages (each protocol uses 4 minutes total). For Zachtek protocol (at this time) you must specify a numeric suffix that will be appended to your callsign. Enter dash (-) for the Suffix if you only want to use U4B protocol. Enter double dash (--) for Id13 if you only want to use Type3 (zachtek) protocol.
 10. If the pico is plugged into a computer via USB while running it will appear as a COM port and basic diagnostic messages can be viewed at 115200 baud.  The amount of messages shown depends on the Verbosity setting in the user config menu.
 ![pico_WSPRer_schema6](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/9ac68332-ecae-4a51-bd83-05a625c1f8df)
+![pico_WSPRer_schema_alt6](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/31e57618-8d9a-478d-a8de-94d5f41020bf)
+Alternate schematic that omits the MOSFET and low-side drives the GPS module with 3 outputs in parallel. This exceeds current spec of the rp2040, use at your own risk
 ![after cutting](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/07774544-43b6-43c6-89e8-56013e6f962f)
 Shows ATGM336H GPS receiver and the Pi Pico board after trimming excess weight.
 
