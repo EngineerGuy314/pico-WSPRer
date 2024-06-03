@@ -54,6 +54,15 @@
 #include "hardware/clocks.h"
 #include "pico/stdlib.h"
 
+#define BUFFER_SIZE 256
+
+static char logBuffer[BUFFER_SIZE] = {0};
+
+
+/// @brief Buffers the log information to the log buffer
+/// @brief it is much faster than direct UART output
+/// @param pformat printf style format
+/// @param ... argument list to print 
 void StampPrintf(const char* pformat, ...)
 {
     static uint32_t sTick = 0;
@@ -76,14 +85,30 @@ void StampPrintf(const char* pformat, ...)
     const uint32_t tm_sec = (uint32_t)(tm_us / 1000000ULL);
     tm_us -= (uint64_t)tm_sec * 1000000ULL;
 
-    stdio_set_driver_enabled(&stdio_uart, false);
-    printf("%02lud%02lu:%02lu:%02lu.%06llu [%04lu] ", tm_day, tm_hour, tm_min, tm_sec, tm_us, sTick++);
+    char timestamp[64];  //let's create timestamp
+    snprintf(timestamp, sizeof(timestamp), "%02lud%02lu:%02lu:%02lu.%06llu [%04lu] ", tm_day, tm_hour, tm_min, tm_sec, tm_us, sTick++);
 
     va_list argptr;
     va_start(argptr, pformat);
-    vprintf(pformat, argptr);
+    char message[BUFFER_SIZE];
+    vsnprintf(message, sizeof(message), pformat, argptr); //let's format the message 
     va_end(argptr);
+    strncat(logBuffer, timestamp, BUFFER_SIZE - strlen(logBuffer) - 1);
+    strncat(logBuffer, message, BUFFER_SIZE - strlen(logBuffer) - 1);
+    strncat(logBuffer, "\n", BUFFER_SIZE - strlen(logBuffer) - 1);
+    
+}
 
-    printf("\n");
-    stdio_set_driver_enabled(&stdio_uart, true);
+/// @brief Outputs the content of the log buffer to stdio (UART and/or USB)
+/// @brief Direct output to UART is very slow so we will do it in CPU idle times
+/// @brief and not in time critical functions
+void DoLogPrint()
+{
+    if (logBuffer[0] != '\0')
+    {
+        printf("%s", logBuffer);
+        logBuffer[0] = '\0';  // Clear the buffer
+
+    }
+
 }

@@ -55,7 +55,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <TxChannel.h>
-#include <logutils.h>
+#include "../../debug/logutils.h"
 
 typedef struct
 {
