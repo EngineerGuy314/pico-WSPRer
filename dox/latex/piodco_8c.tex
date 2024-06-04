@@ -1,5 +1,5 @@
-\doxysection{hf-\/oscillator/piodco/piodco.c File Reference}
-\hypertarget{piodco_8c}{}\label{piodco_8c}\index{hf-\/oscillator/piodco/piodco.c@{hf-\/oscillator/piodco/piodco.c}}
+\doxysection{C\+:/\+Users/serych/\+SVN/\+Bastleni/\+HAB/pico-\/\+WSPRer/hf-\/oscillator/piodco/piodco.c File Reference}
+\hypertarget{piodco_8c}{}\label{piodco_8c}\index{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/hf-\/oscillator/piodco/piodco.c@{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/hf-\/oscillator/piodco/piodco.c}}
 {\ttfamily \#include "{}piodco.\+h"{}}\newline
 {\ttfamily \#include $<$string.\+h$>$}\newline
 {\ttfamily \#include "{}../lib/assert.\+h"{}}\newline
@@ -19,8 +19,6 @@ void \mbox{\hyperlink{piodco_8c_ac29ab5dd136565b4a53390d1079bfc7c}{Pio\+DCOStop}
 \begin{DoxyCompactList}\small\item\em Stops the DCO. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} \mbox{\hyperlink{piodco_8c_a41f252dde25c5fbe603a899a7c8395a9}{Pio\+DCOWorker2}} (\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}p\+DCO)
 \begin{DoxyCompactList}\small\item\em Main worker task of DCO V.\+2. It is time critical, so it ought to be run on. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} \mbox{\hyperlink{piodco_8c_a447a27f78d68d184bc154bcc940ef3af}{Pio\+DCOWorker}} (\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}p\+DCO)
-\begin{DoxyCompactList}\small\item\em Main worker task of DCO. It is time critical, so it ought to be run on. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{piodco_8c_a9264e94db7474897d13b75952ca95b93}{Pio\+DCOSet\+Mode}} (\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}pdco, enum \mbox{\hyperlink{piodco_8h_af87c63ca4eaf4a0b418df10b2eeb1366}{Pio\+Dco\+Mode}} emode)
 \begin{DoxyCompactList}\small\item\em Sets DCO running mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
@@ -150,24 +148,6 @@ Stops the DCO.
 {\em pdco} & Ptr to DCO context. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{piodco_8c_a447a27f78d68d184bc154bcc940ef3af}\label{piodco_8c_a447a27f78d68d184bc154bcc940ef3af} 
-\index{piodco.c@{piodco.c}!PioDCOWorker@{PioDCOWorker}}
-\index{PioDCOWorker@{PioDCOWorker}!piodco.c@{piodco.c}}
-\doxysubsubsection{\texorpdfstring{PioDCOWorker()}{PioDCOWorker()}}
-{\footnotesize\ttfamily void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} Pio\+DCOWorker (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}}]{p\+DCO }\end{DoxyParamCaption})}
-
-
-
-Main worker task of DCO. It is time critical, so it ought to be run on. 
-
-the dedicated pi pico core. 
-\begin{DoxyParams}{Parameters}
-{\em p\+DCO} & Ptr to DCO context. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-No return. It spins forever. 
-\end{DoxyReturn}
 \Hypertarget{piodco_8c_a41f252dde25c5fbe603a899a7c8395a9}\label{piodco_8c_a41f252dde25c5fbe603a899a7c8395a9} 
 \index{piodco.c@{piodco.c}!PioDCOWorker2@{PioDCOWorker2}}
 \index{PioDCOWorker2@{PioDCOWorker2}!piodco.c@{piodco.c}}

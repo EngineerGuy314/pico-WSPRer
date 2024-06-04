@@ -1,0 +1,42 @@
+\doxysection{C\+:/\+Users/serych/\+SVN/\+Bastleni/\+HAB/pico-\/\+WSPRer/debug/logutils.h File Reference}
+\hypertarget{logutils_8h}{}\label{logutils_8h}\index{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/debug/logutils.h@{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/debug/logutils.h}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{logutils_8h_a56a068e6108f44623c3e966d0c627446}{Stamp\+Printf}} (const char \texorpdfstring{$\ast$}{*}pformat,...)
+\begin{DoxyCompactList}\small\item\em Buffers the log information to the log buffer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{logutils_8h_af832893d5967715c80c65a7352e2cc95}{Do\+Log\+Print}} ()
+\begin{DoxyCompactList}\small\item\em Outputs the content of the log buffer to stdio (UART and/or USB) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{logutils_8h_af832893d5967715c80c65a7352e2cc95}\label{logutils_8h_af832893d5967715c80c65a7352e2cc95} 
+\index{logutils.h@{logutils.h}!DoLogPrint@{DoLogPrint}}
+\index{DoLogPrint@{DoLogPrint}!logutils.h@{logutils.h}}
+\doxysubsubsection{\texorpdfstring{DoLogPrint()}{DoLogPrint()}}
+{\footnotesize\ttfamily void Do\+Log\+Print (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Outputs the content of the log buffer to stdio (UART and/or USB) 
+
+Direct output to UART is very slow so we will do it in CPU idle times
+
+and not in time critical functions \Hypertarget{logutils_8h_a56a068e6108f44623c3e966d0c627446}\label{logutils_8h_a56a068e6108f44623c3e966d0c627446} 
+\index{logutils.h@{logutils.h}!StampPrintf@{StampPrintf}}
+\index{StampPrintf@{StampPrintf}!logutils.h@{logutils.h}}
+\doxysubsubsection{\texorpdfstring{StampPrintf()}{StampPrintf()}}
+{\footnotesize\ttfamily void Stamp\+Printf (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{pformat,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Buffers the log information to the log buffer. 
+
+it is much faster than direct UART output 
+\begin{DoxyParams}{Parameters}
+{\em pformat} & printf style format \\
+\hline
+{\em ...} & argument list to print ~\newline
+ \\
+\hline
+\end{DoxyParams}

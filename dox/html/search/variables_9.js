@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['temp_5fin_5fcelsius_0',['temp_in_Celsius',['../struct_g_p_stime_context.html#afc36ba2a75db4dcd3b84f1ce0a635fd1',1,'GPStimeContext::temp_in_Celsius'],['../struct_w_s_p_rbeacon_schedule.html#afc36ba2a75db4dcd3b84f1ce0a635fd1',1,'WSPRbeaconSchedule::temp_in_Celsius']]]
+  ['user_5fsetup_5fmenu_5factive_0',['user_setup_menu_active',['../struct_g_p_stime_context.html#a58d62942ad4f7c0eb8702d52280c9310',1,'GPStimeContext']]]
 ];

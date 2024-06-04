@@ -1,9 +1,9 @@
-\doxysection{WSPRbeacon/\+WSPRbeacon.h File Reference}
-\hypertarget{_w_s_p_rbeacon_8h}{}\label{_w_s_p_rbeacon_8h}\index{WSPRbeacon/WSPRbeacon.h@{WSPRbeacon/WSPRbeacon.h}}
+\doxysection{C\+:/\+Users/serych/\+SVN/\+Bastleni/\+HAB/pico-\/\+WSPRer/\+WSPRbeacon/\+WSPRbeacon.h File Reference}
+\hypertarget{_w_s_p_rbeacon_8h}{}\label{_w_s_p_rbeacon_8h}\index{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/WSPRbeacon/WSPRbeacon.h@{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/WSPRbeacon/WSPRbeacon.h}}
 {\ttfamily \#include $<$stdint.\+h$>$}\newline
 {\ttfamily \#include $<$string.\+h$>$}\newline
 {\ttfamily \#include $<$Tx\+Channel.\+h$>$}\newline
-{\ttfamily \#include $<$logutils.\+h$>$}\newline
+{\ttfamily \#include "{}../../debug/logutils.\+h"{}}\newline
 \doxysubsubsection*{Data Structures}
 \begin{DoxyCompactItemize}
 \item 
@@ -14,7 +14,7 @@ struct \mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeacon\+Context}}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeacon\+Context}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_w_s_p_rbeacon_8h_ac3c9dc08cb6d8cb3eac8f4d35d68918b}{WSPRbeacon\+Init}} (const char \texorpdfstring{$\ast$}{*}pcallsign, const char \texorpdfstring{$\ast$}{*}pgridsquare, int txpow\+\_\+dbm, \mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}pdco, uint32\+\_\+t dial\+\_\+freq\+\_\+hz, uint32\+\_\+t shift\+\_\+freq\+\_\+hz, int gpio, uint8\+\_\+t start\+\_\+minute)
+\mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeacon\+Context}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_w_s_p_rbeacon_8h_af02dc9e0f37c96a17d2a35ed4b5b88e4}{WSPRbeacon\+Init}} (const char \texorpdfstring{$\ast$}{*}pcallsign, const char \texorpdfstring{$\ast$}{*}pgridsquare, int txpow\+\_\+dbm, \mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}pdco, uint32\+\_\+t dial\+\_\+freq\+\_\+hz, uint32\+\_\+t shift\+\_\+freq\+\_\+hz, int gpio, uint8\+\_\+t start\+\_\+minute, uint8\+\_\+t id13, uint8\+\_\+t suffix)
 \begin{DoxyCompactList}\small\item\em Initializes a new WSPR beacon context. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{_w_s_p_rbeacon_8h_aa1689bc64306333d4793925c3bd99dc7}{WSPRbeacon\+Set\+Dial\+Freq}} (\mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeacon\+Context}} \texorpdfstring{$\ast$}{*}pctx, uint32\+\_\+t freq\+\_\+hz)
 \begin{DoxyCompactList}\small\item\em Sets dial (baseband minima) freq. \end{DoxyCompactList}\item 
@@ -103,11 +103,11 @@ ptr to string of QTH locator (static duration object inside get\+\_\+mh).
 \begin{DoxyRemark}{Remarks}
 It uses third-\/party project \href{https://github.com/sp6q/maidenhead}{\texttt{ https\+://github.\+com/sp6q/maidenhead}} . 
 \end{DoxyRemark}
-\Hypertarget{_w_s_p_rbeacon_8h_ac3c9dc08cb6d8cb3eac8f4d35d68918b}\label{_w_s_p_rbeacon_8h_ac3c9dc08cb6d8cb3eac8f4d35d68918b} 
+\Hypertarget{_w_s_p_rbeacon_8h_af02dc9e0f37c96a17d2a35ed4b5b88e4}\label{_w_s_p_rbeacon_8h_af02dc9e0f37c96a17d2a35ed4b5b88e4} 
 \index{WSPRbeacon.h@{WSPRbeacon.h}!WSPRbeaconInit@{WSPRbeaconInit}}
 \index{WSPRbeaconInit@{WSPRbeaconInit}!WSPRbeacon.h@{WSPRbeacon.h}}
 \doxysubsubsection{\texorpdfstring{WSPRbeaconInit()}{WSPRbeaconInit()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeacon\+Context}} \texorpdfstring{$\ast$}{*} WSPRbeacon\+Init (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{pcallsign,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{pgridsquare,  }\item[{int}]{txpow\+\_\+dbm,  }\item[{\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}}]{pdco,  }\item[{uint32\+\_\+t}]{dial\+\_\+freq\+\_\+hz,  }\item[{uint32\+\_\+t}]{shift\+\_\+freq\+\_\+hz,  }\item[{int}]{gpio,  }\item[{uint8\+\_\+t}]{start\+\_\+minute }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeacon\+Context}} \texorpdfstring{$\ast$}{*} WSPRbeacon\+Init (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{pcallsign,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{pgridsquare,  }\item[{int}]{txpow\+\_\+dbm,  }\item[{\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}}]{pdco,  }\item[{uint32\+\_\+t}]{dial\+\_\+freq\+\_\+hz,  }\item[{uint32\+\_\+t}]{shift\+\_\+freq\+\_\+hz,  }\item[{int}]{gpio,  }\item[{uint8\+\_\+t}]{start\+\_\+minute,  }\item[{uint8\+\_\+t}]{id13,  }\item[{uint8\+\_\+t}]{suffix }\end{DoxyParamCaption})}
 
 
 
@@ -133,6 +133,11 @@ Initializes a new WSPR beacon context.
 \begin{DoxyReturn}{Returns}
 Ptr to the new context. 
 \end{DoxyReturn}
+\begin{DoxyRefDesc}{Bug}
+\item[\mbox{\hyperlink{bug__bug000001}{Bug}}]The function sets schedule hardcoded to minutes 1, 2 and 3. It may lead to 
+
+out of schedule transmits if the device is switched on around minute 0 ~\newline
+ \end{DoxyRefDesc}
 \Hypertarget{_w_s_p_rbeacon_8h_aec8beb7a767e64378e0544cb81ee0c10}\label{_w_s_p_rbeacon_8h_aec8beb7a767e64378e0544cb81ee0c10} 
 \index{WSPRbeacon.h@{WSPRbeacon.h}!WSPRbeaconIsGPSsolutionActive@{WSPRbeaconIsGPSsolutionActive}}
 \index{WSPRbeaconIsGPSsolutionActive@{WSPRbeaconIsGPSsolutionActive}!WSPRbeacon.h@{WSPRbeacon.h}}

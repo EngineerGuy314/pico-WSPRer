@@ -1,2 +1,3 @@
-build-dev/ 
+build-dev/
+dox-dev/ 
 CMakeCache.txt

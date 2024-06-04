@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>pico-WSPRer: defines.h File Reference</title>
+<title>pico-WSPRer: C:/Users/serych/SVN/Bastleni/HAB/pico-WSPRer/defines.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -75,7 +75,7 @@ $(function() {
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">defines.h File Reference</div></div>
+  <div class="headertitle"><div class="title">C:/Users/serych/SVN/Bastleni/HAB/pico-WSPRer/defines.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -85,8 +85,10 @@ $(function() {
 Macros</h2></td></tr>
 <tr class="memitem:ad72dbcf6d0153db1b8d8a58001feed83" id="r_ad72dbcf6d0153db1b8d8a58001feed83"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad72dbcf6d0153db1b8d8a58001feed83">DEBUG</a></td></tr>
 <tr class="separator:ad72dbcf6d0153db1b8d8a58001feed83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2597d7eeeb4e70d8e239d994805b877d" id="r_a2597d7eeeb4e70d8e239d994805b877d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2597d7eeeb4e70d8e239d994805b877d">DEBUGPRINTF</a>(x)&#160;&#160;&#160;<a class="el" href="debug_2logutils_8c.html#a56a068e6108f44623c3e966d0c627446">StampPrintf</a>(x);</td></tr>
+<tr class="memitem:a2597d7eeeb4e70d8e239d994805b877d" id="r_a2597d7eeeb4e70d8e239d994805b877d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2597d7eeeb4e70d8e239d994805b877d">DEBUGPRINTF</a>(x)&#160;&#160;&#160;<a class="el" href="logutils_8c.html#a56a068e6108f44623c3e966d0c627446">StampPrintf</a>(x);</td></tr>
 <tr class="separator:a2597d7eeeb4e70d8e239d994805b877d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a529c17f7c567ea2baf4f5784228c8a0c" id="r_a529c17f7c567ea2baf4f5784228c8a0c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a529c17f7c567ea2baf4f5784228c8a0c">PLL_SYS_MHZ</a>&#160;&#160;&#160;115UL</td></tr>
+<tr class="separator:a529c17f7c567ea2baf4f5784228c8a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa93f0eb578d23995850d61f7d61c55c1" id="r_aa93f0eb578d23995850d61f7d61c55c1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa93f0eb578d23995850d61f7d61c55c1">FALSE</a>&#160;&#160;&#160;0                                     /* Something is false. */</td></tr>
 <tr class="separator:aa93f0eb578d23995850d61f7d61c55c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8cecfc5c5c054d2875c03e77b7be15d" id="r_aa8cecfc5c5c054d2875c03e77b7be15d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8cecfc5c5c054d2875c03e77b7be15d">TRUE</a>&#160;&#160;&#160;1                                       /* Something is true. */</td></tr>
@@ -113,14 +115,24 @@ Macros</h2></td></tr>
 <tr class="separator:a60a6bc58d166c2eefc6a59b6c0d172e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f6d0c25f4aa72268cecf2dc2087c3bc" id="r_a1f6d0c25f4aa72268cecf2dc2087c3bc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1f6d0c25f4aa72268cecf2dc2087c3bc">RAM_A</a>&#160;&#160;&#160;__not_in_flash(&quot;A&quot;)        /* Place time-critical var in <a class="el" href="#a60a6bc58d166c2eefc6a59b6c0d172e8">RAM</a> */</td></tr>
 <tr class="separator:a1f6d0c25f4aa72268cecf2dc2087c3bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ce1f94272ba730abffd104ef4651a6d" id="r_a5ce1f94272ba730abffd104ef4651a6d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5ce1f94272ba730abffd104ef4651a6d">iSAR</a>(arg,  rcount)&#160;&#160;&#160;(((int32_t)(arg)) &gt;&gt; (rcount))</td></tr>
-<tr class="separator:a5ce1f94272ba730abffd104ef4651a6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab867dab5b80b429cdb739a53155a38ae" id="r_ab867dab5b80b429cdb739a53155a38ae"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab867dab5b80b429cdb739a53155a38ae">iSAR32</a>(arg,  rcount)&#160;&#160;&#160;(((int32_t)(arg)) &gt;&gt; (rcount))</td></tr>
+<tr class="separator:ab867dab5b80b429cdb739a53155a38ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a679b48d2e9b36ba07b60a32a23b53274" id="r_a679b48d2e9b36ba07b60a32a23b53274"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a679b48d2e9b36ba07b60a32a23b53274">iSAR64</a>(arg,  rcount)&#160;&#160;&#160;(((int64_t)(arg)) &gt;&gt; (rcount))</td></tr>
+<tr class="separator:a679b48d2e9b36ba07b60a32a23b53274"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6afabdc09a49a433ee19d8a9486056d" id="r_ac6afabdc09a49a433ee19d8a9486056d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6afabdc09a49a433ee19d8a9486056d">min</a>(a,  b)&#160;&#160;&#160;((a)&lt;(b)?(a):(b))</td></tr>
 <tr class="separator:ac6afabdc09a49a433ee19d8a9486056d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affe776513b24d84b39af8ab0930fef7f" id="r_affe776513b24d84b39af8ab0930fef7f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#affe776513b24d84b39af8ab0930fef7f">max</a>(a,  b)&#160;&#160;&#160;((a)&gt;(b)?(a):(b))</td></tr>
 <tr class="separator:affe776513b24d84b39af8ab0930fef7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab97e9b3b29932283551e8d06c1b7eb88" id="r_ab97e9b3b29932283551e8d06c1b7eb88"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab97e9b3b29932283551e8d06c1b7eb88">iMUL32ASM</a>(a,  b)&#160;&#160;&#160;__mul_instruction((int32_t)(a), (int32_t)(b))</td></tr>
 <tr class="separator:ab97e9b3b29932283551e8d06c1b7eb88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f0e718c39a3847ee3550b6be123cd6b" id="r_a3f0e718c39a3847ee3550b6be123cd6b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f0e718c39a3847ee3550b6be123cd6b">iSquare32ASM</a>(x)&#160;&#160;&#160;(<a class="el" href="#ab97e9b3b29932283551e8d06c1b7eb88">iMUL32ASM</a>((x), (x)))</td></tr>
+<tr class="separator:a3f0e718c39a3847ee3550b6be123cd6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a996f7be338ccb40d1a2a5abc1ad61759" id="r_a996f7be338ccb40d1a2a5abc1ad61759"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a996f7be338ccb40d1a2a5abc1ad61759">ABS</a>(x)&#160;&#160;&#160;((x) &gt; 0 ? (x) : -(x))</td></tr>
+<tr class="separator:a996f7be338ccb40d1a2a5abc1ad61759"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fa4e9388cbdfd3d342bfb6904d3ce0a" id="r_a8fa4e9388cbdfd3d342bfb6904d3ce0a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8fa4e9388cbdfd3d342bfb6904d3ce0a">INVERSE</a>(x)&#160;&#160;&#160;((x) = -(x))</td></tr>
+<tr class="separator:a8fa4e9388cbdfd3d342bfb6904d3ce0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8772ce0df6a4b5211e877bc4acec1ace" id="r_a8772ce0df6a4b5211e877bc4acec1ace"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8772ce0df6a4b5211e877bc4acec1ace">asizeof</a>(a)&#160;&#160;&#160;(sizeof (a) / sizeof ((a)[0]))</td></tr>
+<tr class="separator:a8772ce0df6a4b5211e877bc4acec1ace"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94212be2394d2d37d9dfd33d07d82dba" id="r_a94212be2394d2d37d9dfd33d07d82dba"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94212be2394d2d37d9dfd33d07d82dba">SECOND</a>&#160;&#160;&#160;1                                                  /* Time. */</td></tr>
 <tr class="separator:a94212be2394d2d37d9dfd33d07d82dba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1454fa04f41c693f39425697a137d82" id="r_ac1454fa04f41c693f39425697a137d82"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1454fa04f41c693f39425697a137d82">MINUTE</a>&#160;&#160;&#160;(60 * <a class="el" href="#a94212be2394d2d37d9dfd33d07d82dba">SECOND</a>)</td></tr>
@@ -131,8 +143,6 @@ Macros</h2></td></tr>
 <tr class="separator:a599a1ece15a5eff312b9ceb732596226"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a978be084da4a9180ba3bd85c0d385ce2" id="r_a978be084da4a9180ba3bd85c0d385ce2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a978be084da4a9180ba3bd85c0d385ce2">MHz</a>&#160;&#160;&#160;1000000UL</td></tr>
 <tr class="separator:a978be084da4a9180ba3bd85c0d385ce2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a529c17f7c567ea2baf4f5784228c8a0c" id="r_a529c17f7c567ea2baf4f5784228c8a0c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a529c17f7c567ea2baf4f5784228c8a0c">PLL_SYS_MHZ</a>&#160;&#160;&#160;135UL</td></tr>
-<tr class="separator:a529c17f7c567ea2baf4f5784228c8a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a029380e2d7086f3afbb7d654005a4af2" id="r_a029380e2d7086f3afbb7d654005a4af2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a029380e2d7086f3afbb7d654005a4af2">WSPR_FREQ_STEP_MILHZ</a>&#160;&#160;&#160;2930UL     /* FSK freq.bin (*2 this time). */</td></tr>
 <tr class="separator:a029380e2d7086f3afbb7d654005a4af2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a958b6e6af9e335655c76ea4efa2d899c" id="r_a958b6e6af9e335655c76ea4efa2d899c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a958b6e6af9e335655c76ea4efa2d899c">WSPR_MAX_GPS_DISCONNECT_TM</a>&#160;&#160;&#160;        (6 * <a class="el" href="#a4698ae12cf6a8acb5886fffd0ec897e6">HOUR</a>)                      /* How long is active without GPS. */</td></tr>
@@ -143,15 +153,55 @@ Functions</h2></td></tr>
 <tr class="memitem:a1cd0ac559fb276d78fdba0dc0b6f944c" id="r_a1cd0ac559fb276d78fdba0dc0b6f944c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1cd0ac559fb276d78fdba0dc0b6f944c">read_NVRAM</a> (void)</td></tr>
 <tr class="separator:a1cd0ac559fb276d78fdba0dc0b6f944c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f9afff0be649c60b3b591ae7eb89383" id="r_a7f9afff0be649c60b3b591ae7eb89383"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f9afff0be649c60b3b591ae7eb89383">write_NVRAM</a> (void)</td></tr>
+<tr class="memdesc:a7f9afff0be649c60b3b591ae7eb89383"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the user entered data into NVRAM.  <br /></td></tr>
 <tr class="separator:a7f9afff0be649c60b3b591ae7eb89383"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae241d4e645b81fce29ef421dca104cf" id="r_aae241d4e645b81fce29ef421dca104cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae241d4e645b81fce29ef421dca104cf">check_data_validity</a> (void)</td></tr>
+<tr class="separator:aae241d4e645b81fce29ef421dca104cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2197acd436dd50dc315aec635f97e2c3" id="r_a2197acd436dd50dc315aec635f97e2c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2197acd436dd50dc315aec635f97e2c3">user_interface</a> (void)</td></tr>
+<tr class="memdesc:a2197acd436dd50dc315aec635f97e2c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function that implements simple user interface via UART.  <br /></td></tr>
 <tr class="separator:a2197acd436dd50dc315aec635f97e2c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4271ca948bbd6d1cdc24a4bcc775ac27" id="r_a4271ca948bbd6d1cdc24a4bcc775ac27"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4271ca948bbd6d1cdc24a4bcc775ac27">show_values</a> (void)</td></tr>
+<tr class="memdesc:a4271ca948bbd6d1cdc24a4bcc775ac27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function that writes out the current set values of parameters.  <br /></td></tr>
 <tr class="separator:a4271ca948bbd6d1cdc24a4bcc775ac27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45b2896ed990b3928bbdd95e88fdfa7e" id="r_a45b2896ed990b3928bbdd95e88fdfa7e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45b2896ed990b3928bbdd95e88fdfa7e">convertToUpperCase</a> (char *str)</td></tr>
+<tr class="memdesc:a45b2896ed990b3928bbdd95e88fdfa7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts string to upper case.  <br /></td></tr>
 <tr class="separator:a45b2896ed990b3928bbdd95e88fdfa7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a996f7be338ccb40d1a2a5abc1ad61759" name="a996f7be338ccb40d1a2a5abc1ad61759"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a996f7be338ccb40d1a2a5abc1ad61759">&#9670;&#160;</a></span>ABS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ABS</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname">x</span></td><td>)</td>
+          <td>&#160;&#160;&#160;((x) &gt; 0 ? (x) : -(x))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8772ce0df6a4b5211e877bc4acec1ace" name="a8772ce0df6a4b5211e877bc4acec1ace"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8772ce0df6a4b5211e877bc4acec1ace">&#9670;&#160;</a></span>asizeof</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define asizeof</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname">a</span></td><td>)</td>
+          <td>&#160;&#160;&#160;(sizeof (a) / sizeof ((a)[0]))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="afd3fc9004925132db4faf607ebbf9db7" name="afd3fc9004925132db4faf607ebbf9db7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afd3fc9004925132db4faf607ebbf9db7">&#9670;&#160;</a></span>BAD</h2>
 
@@ -190,7 +240,7 @@ Functions</h2></td></tr>
           <td class="memname">#define DEBUGPRINTF</td>
           <td>(</td>
           <td class="paramtype"></td>          <td class="paramname"><span class="paramname">x</span></td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="debug_2logutils_8c.html#a56a068e6108f44623c3e966d0c627446">StampPrintf</a>(x);</td>
+          <td>&#160;&#160;&#160;<a class="el" href="logutils_8c.html#a56a068e6108f44623c3e966d0c627446">StampPrintf</a>(x);</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -274,14 +324,31 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a5ce1f94272ba730abffd104ef4651a6d" name="a5ce1f94272ba730abffd104ef4651a6d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5ce1f94272ba730abffd104ef4651a6d">&#9670;&#160;</a></span>iSAR</h2>
+<a id="a8fa4e9388cbdfd3d342bfb6904d3ce0a" name="a8fa4e9388cbdfd3d342bfb6904d3ce0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fa4e9388cbdfd3d342bfb6904d3ce0a">&#9670;&#160;</a></span>INVERSE</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define iSAR</td>
+          <td class="memname">#define INVERSE</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname">x</span></td><td>)</td>
+          <td>&#160;&#160;&#160;((x) = -(x))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab867dab5b80b429cdb739a53155a38ae" name="ab867dab5b80b429cdb739a53155a38ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab867dab5b80b429cdb739a53155a38ae">&#9670;&#160;</a></span>iSAR32</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define iSAR32</td>
           <td>(</td>
           <td class="paramtype"></td>          <td class="paramname"><span class="paramname">arg, </span></td>
         </tr>
@@ -289,6 +356,44 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"></td>          <td class="paramname"><span class="paramname">rcount</span>&#160;)&#160;&#160;&#160;(((int32_t)(arg)) &gt;&gt; (rcount))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a679b48d2e9b36ba07b60a32a23b53274" name="a679b48d2e9b36ba07b60a32a23b53274"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a679b48d2e9b36ba07b60a32a23b53274">&#9670;&#160;</a></span>iSAR64</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define iSAR64</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname">arg, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname">rcount</span>&#160;)&#160;&#160;&#160;(((int64_t)(arg)) &gt;&gt; (rcount))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3f0e718c39a3847ee3550b6be123cd6b" name="a3f0e718c39a3847ee3550b6be123cd6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f0e718c39a3847ee3550b6be123cd6b">&#9670;&#160;</a></span>iSquare32ASM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define iSquare32ASM</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname">x</span></td><td>)</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="#ab97e9b3b29932283551e8d06c1b7eb88">iMUL32ASM</a>((x), (x)))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -428,7 +533,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define PLL_SYS_MHZ&#160;&#160;&#160;135UL</td>
+          <td class="memname">#define PLL_SYS_MHZ&#160;&#160;&#160;115UL</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -562,6 +667,23 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="aae241d4e645b81fce29ef421dca104cf" name="aae241d4e645b81fce29ef421dca104cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae241d4e645b81fce29ef421dca104cf">&#9670;&#160;</a></span>check_data_validity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void check_data_validity </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a45b2896ed990b3928bbdd95e88fdfa7e" name="a45b2896ed990b3928bbdd95e88fdfa7e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a45b2896ed990b3928bbdd95e88fdfa7e">&#9670;&#160;</a></span>convertToUpperCase()</h2>
 
@@ -576,6 +698,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Converts string to upper case. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>string to convert </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>No return value, string is converted directly in the parameter *str <br  />
+ </dd></dl>
 
 </div>
 </div>
@@ -611,6 +743,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Function that writes out the current set values of parameters. </p>
+
 </div>
 </div>
 <a id="a2197acd436dd50dc315aec635f97e2c3" name="a2197acd436dd50dc315aec635f97e2c3"></a>
@@ -628,6 +762,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Function that implements simple user interface via UART. </p>
+
 </div>
 </div>
 <a id="a7f9afff0be649c60b3b591ae7eb89383" name="a7f9afff0be649c60b3b591ae7eb89383"></a>
@@ -644,6 +780,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Writes the user entered data into NVRAM. </p>
 
 </div>
 </div>

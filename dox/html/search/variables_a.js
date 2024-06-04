@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['user_5fsetup_5fmenu_5factive_0',['user_setup_menu_active',['../struct_g_p_stime_context.html#a58d62942ad4f7c0eb8702d52280c9310',1,'GPStimeContext']]]
+  ['verbosity_0',['verbosity',['../struct_g_p_stime_context.html#a6e82420acfdbb35cc069b72566f586be',1,'GPStimeContext::verbosity'],['../struct_w_s_p_rbeacon_schedule.html#a6e82420acfdbb35cc069b72566f586be',1,'WSPRbeaconSchedule::verbosity']]],
+  ['voltage_1',['voltage',['../struct_w_s_p_rbeacon_schedule.html#ad3c64efcaba662da1a2f4393d00584e9',1,'WSPRbeaconSchedule']]]
 ];

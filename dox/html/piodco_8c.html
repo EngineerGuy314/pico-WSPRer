@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>pico-WSPRer: hf-oscillator/piodco/piodco.c File Reference</title>
+<title>pico-WSPRer: C:/Users/serych/SVN/Bastleni/HAB/pico-WSPRer/hf-oscillator/piodco/piodco.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -85,7 +85,7 @@ $(function() {
 <div class="textblock"><code>#include &quot;<a class="el" href="piodco_8h_source.html">piodco.h</a>&quot;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="assert_8h_source.html">../lib/assert.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="dco2_8pio_8h_source.html">build/dco2.pio.h</a>&quot;</code><br />
+<code>#include &quot;build/dco2.pio.h&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -107,9 +107,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a41f252dde25c5fbe603a899a7c8395a9" id="r_a41f252dde25c5fbe603a899a7c8395a9"><td class="memItemLeft" align="right" valign="top">void <a class="el" href="defines_8h.html#a60a6bc58d166c2eefc6a59b6c0d172e8">RAM</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41f252dde25c5fbe603a899a7c8395a9">PioDCOWorker2</a> (<a class="el" href="struct_pio_dco.html">PioDco</a> *pDCO)</td></tr>
 <tr class="memdesc:a41f252dde25c5fbe603a899a7c8395a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main worker task of DCO V.2. It is time critical, so it ought to be run on.  <br /></td></tr>
 <tr class="separator:a41f252dde25c5fbe603a899a7c8395a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a447a27f78d68d184bc154bcc940ef3af" id="r_a447a27f78d68d184bc154bcc940ef3af"><td class="memItemLeft" align="right" valign="top">void <a class="el" href="defines_8h.html#a60a6bc58d166c2eefc6a59b6c0d172e8">RAM</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a447a27f78d68d184bc154bcc940ef3af">PioDCOWorker</a> (<a class="el" href="struct_pio_dco.html">PioDco</a> *pDCO)</td></tr>
-<tr class="memdesc:a447a27f78d68d184bc154bcc940ef3af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main worker task of DCO. It is time critical, so it ought to be run on.  <br /></td></tr>
-<tr class="separator:a447a27f78d68d184bc154bcc940ef3af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9264e94db7474897d13b75952ca95b93" id="r_a9264e94db7474897d13b75952ca95b93"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9264e94db7474897d13b75952ca95b93">PioDCOSetMode</a> (<a class="el" href="struct_pio_dco.html">PioDco</a> *pdco, enum <a class="el" href="piodco_8h.html#af87c63ca4eaf4a0b418df10b2eeb1366">PioDcoMode</a> emode)</td></tr>
 <tr class="memdesc:a9264e94db7474897d13b75952ca95b93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets DCO running mode.  <br /></td></tr>
 <tr class="separator:a9264e94db7474897d13b75952ca95b93"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -306,32 +303,6 @@ Pico's reference clock shift. 2854974. </dd></dl>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="a447a27f78d68d184bc154bcc940ef3af" name="a447a27f78d68d184bc154bcc940ef3af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a447a27f78d68d184bc154bcc940ef3af">&#9670;&#160;</a></span>PioDCOWorker()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="defines_8h.html#a60a6bc58d166c2eefc6a59b6c0d172e8">RAM</a> PioDCOWorker </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_pio_dco.html">PioDco</a> *</td>          <td class="paramname"><span class="paramname"><em>pDCO</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Main worker task of DCO. It is time critical, so it ought to be run on. </p>
-<p>the dedicated pi pico core. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pDCO</td><td>Ptr to DCO context. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>No return. It spins forever. </dd></dl>
 
 </div>
 </div>

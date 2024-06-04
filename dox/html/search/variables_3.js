@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['force_5fxmit_5ffor_5ftesting_0',['force_xmit_for_testing',['../struct_w_s_p_rbeacon_schedule.html#ae75147abf94fcf2456334c563bd71318',1,'WSPRbeaconSchedule']]],
-  ['forced_5fxmit_5fon_1',['forced_XMIT_on',['../struct_g_p_stime_context.html#a29cb96f0e376b5bbd7c4666c0fb2c769',1,'GPStimeContext']]]
+  ['id13_0',['id13',['../struct_w_s_p_rbeacon_schedule.html#aa43a7d9d339d142def292a54070005ff',1,'WSPRbeaconSchedule']]],
+  ['ix_1',['ix',['../struct_h_fconsole_context.html#a7e236a20c6b96578a544c680b13e6de2',1,'HFconsoleContext']]]
 ];

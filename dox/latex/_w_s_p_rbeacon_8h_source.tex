@@ -1,5 +1,5 @@
 \doxysection{WSPRbeacon.\+h}
-\hypertarget{_w_s_p_rbeacon_8h_source}{}\label{_w_s_p_rbeacon_8h_source}\index{WSPRbeacon/WSPRbeacon.h@{WSPRbeacon/WSPRbeacon.h}}
+\hypertarget{_w_s_p_rbeacon_8h_source}{}\label{_w_s_p_rbeacon_8h_source}\index{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/WSPRbeacon/WSPRbeacon.h@{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/WSPRbeacon/WSPRbeacon.h}}
 \mbox{\hyperlink{_w_s_p_rbeacon_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ }
@@ -57,7 +57,7 @@
 \DoxyCodeLine{00055\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
 \DoxyCodeLine{00056\ \textcolor{preprocessor}{\#include\ <string.h>}}
 \DoxyCodeLine{00057\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{_tx_channel_8h}{TxChannel.h}}>}}
-\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#include\ <logutils.h>}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#include\ "{}../../debug/logutils.h"{}}}
 \DoxyCodeLine{00059\ }
 \DoxyCodeLine{00060\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
 \DoxyCodeLine{00061\ \{}
@@ -91,9 +91,9 @@
 \DoxyCodeLine{00089\ \}\ \mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeaconContext}};}
 \DoxyCodeLine{00090\ }
 \DoxyCodeLine{00091\ }
-\DoxyCodeLine{00092\ \mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeaconContext}}\ *\mbox{\hyperlink{_w_s_p_rbeacon_8h_ac3c9dc08cb6d8cb3eac8f4d35d68918b}{WSPRbeaconInit}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *pcallsign,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *pgridsquare,\ \textcolor{keywordtype}{int}\ txpow\_dbm,}
+\DoxyCodeLine{00092\ \mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeaconContext}}\ *\mbox{\hyperlink{_w_s_p_rbeacon_8h_af02dc9e0f37c96a17d2a35ed4b5b88e4}{WSPRbeaconInit}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *pcallsign,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *pgridsquare,\ \textcolor{keywordtype}{int}\ txpow\_dbm,}
 \DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_pio_dco}{PioDco}}\ *pdco,\ uint32\_t\ dial\_freq\_hz,\ uint32\_t\ shift\_freq\_hz,}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ gpio,\ \ uint8\_t\ start\_minute);}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ gpio,\ \ uint8\_t\ start\_minute,\ \ uint8\_t\ id13\ ,\ \ uint8\_t\ suffix);}
 \DoxyCodeLine{00095\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_w_s_p_rbeacon_8h_aa1689bc64306333d4793925c3bd99dc7}{WSPRbeaconSetDialFreq}}(\mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeaconContext}}\ *pctx,\ uint32\_t\ freq\_hz);}
 \DoxyCodeLine{00096\ }
 \DoxyCodeLine{00097\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_w_s_p_rbeacon_8h_a627715ae59a40d64e2f12e35cee22e1f}{WSPRbeaconCreatePacket}}(\mbox{\hyperlink{struct_w_s_p_rbeacon_context}{WSPRbeaconContext}}\ *pctx,\textcolor{keywordtype}{int}\ packet\_type);}

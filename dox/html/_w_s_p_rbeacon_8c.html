@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>pico-WSPRer: WSPRbeacon/WSPRbeacon.c File Reference</title>
+<title>pico-WSPRer: C:/Users/serych/SVN/Bastleni/HAB/pico-WSPRer/WSPRbeacon/WSPRbeacon.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -88,9 +88,9 @@ $(function() {
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ac3c9dc08cb6d8cb3eac8f4d35d68918b" id="r_ac3c9dc08cb6d8cb3eac8f4d35d68918b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_w_s_p_rbeacon_context.html">WSPRbeaconContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3c9dc08cb6d8cb3eac8f4d35d68918b">WSPRbeaconInit</a> (const char *pcallsign, const char *pgridsquare, int txpow_dbm, <a class="el" href="struct_pio_dco.html">PioDco</a> *pdco, uint32_t dial_freq_hz, uint32_t shift_freq_hz, int gpio, uint8_t start_minute)</td></tr>
-<tr class="memdesc:ac3c9dc08cb6d8cb3eac8f4d35d68918b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new WSPR beacon context.  <br /></td></tr>
-<tr class="separator:ac3c9dc08cb6d8cb3eac8f4d35d68918b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af02dc9e0f37c96a17d2a35ed4b5b88e4" id="r_af02dc9e0f37c96a17d2a35ed4b5b88e4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_w_s_p_rbeacon_context.html">WSPRbeaconContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af02dc9e0f37c96a17d2a35ed4b5b88e4">WSPRbeaconInit</a> (const char *pcallsign, const char *pgridsquare, int txpow_dbm, <a class="el" href="struct_pio_dco.html">PioDco</a> *pdco, uint32_t dial_freq_hz, uint32_t shift_freq_hz, int gpio, uint8_t start_minute, uint8_t id13, uint8_t suffix)</td></tr>
+<tr class="memdesc:af02dc9e0f37c96a17d2a35ed4b5b88e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new WSPR beacon context.  <br /></td></tr>
+<tr class="separator:af02dc9e0f37c96a17d2a35ed4b5b88e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1689bc64306333d4793925c3bd99dc7" id="r_aa1689bc64306333d4793925c3bd99dc7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa1689bc64306333d4793925c3bd99dc7">WSPRbeaconSetDialFreq</a> (<a class="el" href="struct_w_s_p_rbeacon_context.html">WSPRbeaconContext</a> *pctx, uint32_t freq_hz)</td></tr>
 <tr class="memdesc:aa1689bc64306333d4793925c3bd99dc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets dial (baseband minima) freq.  <br /></td></tr>
 <tr class="separator:aa1689bc64306333d4793925c3bd99dc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -233,8 +233,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ac3c9dc08cb6d8cb3eac8f4d35d68918b" name="ac3c9dc08cb6d8cb3eac8f4d35d68918b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3c9dc08cb6d8cb3eac8f4d35d68918b">&#9670;&#160;</a></span>WSPRbeaconInit()</h2>
+<a id="af02dc9e0f37c96a17d2a35ed4b5b88e4" name="af02dc9e0f37c96a17d2a35ed4b5b88e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af02dc9e0f37c96a17d2a35ed4b5b88e4">&#9670;&#160;</a></span>WSPRbeaconInit()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -277,7 +277,17 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>start_minute</em></span>&#160;)</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>start_minute</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>id13</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>suffix</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -296,6 +306,10 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Ptr to the new context. </dd></dl>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000001">Bug</a></b></dt><dd><p class="startdd">The function sets schedule hardcoded to minutes 1, 2 and 3. It may lead to </p>
+<p class="enddd">out of schedule transmits if the device is switched on around minute 0 <br  />
+ </p>
+</dd></dl>
 
 </div>
 </div>

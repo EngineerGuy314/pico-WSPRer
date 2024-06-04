@@ -1,16 +1,16 @@
 var searchData=
 [
-  ['false_0',['FALSE',['../defines_8h.html#aa93f0eb578d23995850d61f7d61c55c1',1,'FALSE:&#160;defines.h'],['../hf-oscillator_2defines_8h.html#aa93f0eb578d23995850d61f7d61c55c1',1,'FALSE:&#160;defines.h']]],
-  ['feedback_1',['Feedback',['../md_hf-oscillator_2_r_e_a_d_m_e.html#autotoc_md10',1,'']]],
-  ['final_2',['final',['../nhash_8c.html#ab4646d77540701d2eb2c877effbe5739',1,'nhash.c']]],
-  ['flash_5ftarget_5foffset_3',['FLASH_TARGET_OFFSET',['../main_8c.html#a21df7978a7e635eaa5037d4c853cd15d',1,'main.c']]],
-  ['flashmem_2eh_4',['flashmem.h',['../flashmem_8h.html',1,'']]],
-  ['flashmemcontext_5',['FlashMemContext',['../struct_flash_mem_context.html',1,'']]],
-  ['for_20raspberry_20pi_20pico_6',['Digital controlled radio frequency oscillator for Raspberry Pi Pico',['../md_hf-oscillator_2_r_e_a_d_m_e.html',1,'']]],
-  ['for_20what_7',['For what?',['../md_hf-oscillator_2_r_e_a_d_m_e.html#autotoc_md9',1,'']]],
-  ['force_5fxmit_5ffor_5ftesting_8',['force_xmit_for_testing',['../struct_w_s_p_rbeacon_schedule.html#ae75147abf94fcf2456334c563bd71318',1,'WSPRbeaconSchedule']]],
-  ['forced_5fxmit_5fon_9',['forced_XMIT_on',['../struct_g_p_stime_context.html#a29cb96f0e376b5bbd7c4666c0fb2c769',1,'GPStimeContext']]],
-  ['frequency_20correction_20optional_20since_20v_200_209_10',['GPS reference frequency correction (optional) since v.0.9',['../md_hf-oscillator_2_r_e_a_d_m_e.html#autotoc_md4',1,'']]],
-  ['frequency_20oscillator_20for_20raspberry_20pi_20pico_11',['Digital controlled radio frequency oscillator for Raspberry Pi Pico',['../md_hf-oscillator_2_r_e_a_d_m_e.html',1,'']]],
-  ['frequency_20resolution_12',['Precise frequency resolution',['../md_hf-oscillator_2_r_e_a_d_m_e.html#autotoc_md1',1,'']]]
+  ['hash_5flittle_5fendian_0',['HASH_LITTLE_ENDIAN',['../nhash_8c.html#a8c49a94782a573ded31a7bb1949cbf47',1,'nhash.c']]],
+  ['hashmask_1',['hashmask',['../nhash_8c.html#aacd6ed104463685849b2550389d05ff3',1,'nhash.c']]],
+  ['hashsize_2',['hashsize',['../nhash_8c.html#a86173ca25b300cf3276b088d3fc6bdaf',1,'nhash.c']]],
+  ['hfconsole_2ec_3',['hfconsole.c',['../hfconsole_8c.html',1,'']]],
+  ['hfconsole_2eh_4',['hfconsole.h',['../hfconsole_8h.html',1,'']]],
+  ['hfconsoleclear_5',['HFconsoleClear',['../hfconsole_8c.html#a85f89c2689bab2ba00095b4597933663',1,'HFconsoleClear(HFconsoleContext *pc):&#160;hfconsole.c'],['../hfconsole_8h.html#a85f89c2689bab2ba00095b4597933663',1,'HFconsoleClear(HFconsoleContext *pc):&#160;hfconsole.c']]],
+  ['hfconsolecontext_6',['HFconsoleContext',['../struct_h_fconsole_context.html',1,'']]],
+  ['hfconsoledestroy_7',['HFconsoleDestroy',['../hfconsole_8c.html#a111cbad5f44ac4f73ce21dc3a9fddd9f',1,'HFconsoleDestroy(HFconsoleContext **pp):&#160;hfconsole.c'],['../hfconsole_8h.html#a111cbad5f44ac4f73ce21dc3a9fddd9f',1,'HFconsoleDestroy(HFconsoleContext **pp):&#160;hfconsole.c']]],
+  ['hfconsoleemitcommand_8',['HFconsoleEmitCommand',['../hfconsole_8c.html#a9dbd00375df6f8e589b96b382e083660',1,'HFconsoleEmitCommand(HFconsoleContext *pc):&#160;hfconsole.c'],['../hfconsole_8h.html#a9dbd00375df6f8e589b96b382e083660',1,'HFconsoleEmitCommand(HFconsoleContext *pc):&#160;hfconsole.c']]],
+  ['hfconsoleinit_9',['HFconsoleInit',['../hfconsole_8c.html#aa65819b7c854d9ccea0ee4bf27aa59c8',1,'HFconsoleInit(int uart_id, int baud):&#160;hfconsole.c'],['../hfconsole_8h.html#aa65819b7c854d9ccea0ee4bf27aa59c8',1,'HFconsoleInit(int uart_id, int baud):&#160;hfconsole.c']]],
+  ['hfconsoleprocess_10',['HFconsoleProcess',['../hfconsole_8c.html#ac4fc46a1827a57ae863950ef67d60d0e',1,'HFconsoleProcess(HFconsoleContext *p, int ms):&#160;hfconsole.c'],['../hfconsole_8h.html#ac4fc46a1827a57ae863950ef67d60d0e',1,'HFconsoleProcess(HFconsoleContext *p, int ms):&#160;hfconsole.c']]],
+  ['hfconsolesetwrapper_11',['HFconsoleSetWrapper',['../hfconsole_8c.html#acba363b08920d04d7eff81247ba43d89',1,'HFconsoleSetWrapper(HFconsoleContext *pc, void *pfwrapper):&#160;hfconsole.c'],['../hfconsole_8h.html#acba363b08920d04d7eff81247ba43d89',1,'HFconsoleSetWrapper(HFconsoleContext *pc, void *pfwrapper):&#160;hfconsole.c']]],
+  ['hour_12',['HOUR',['../defines_8h.html#a4698ae12cf6a8acb5886fffd0ec897e6',1,'defines.h']]]
 ];

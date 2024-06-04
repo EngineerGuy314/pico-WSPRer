@@ -44,7 +44,7 @@ var searchData=
   ['_5fu32_5fdialfreqhz_41',['_u32_dialfreqhz',['../struct_tx_channel_context.html#a714905920e5988eaa36a0ccd131268db',1,'TxChannelContext']]],
   ['_5fu32_5fnmea_5fgprmc_5fcount_42',['_u32_nmea_gprmc_count',['../struct_g_p_stime_data.html#a6d8f9f4457ebe07375b7912fbefe5475',1,'GPStimeData']]],
   ['_5fu32_5futime_5fnmea_5flast_43',['_u32_utime_nmea_last',['../struct_g_p_stime_data.html#ab5f959bdd22de156276aacecb64ae73c',1,'GPStimeData']]],
-  ['_5fu64_5fpps_5fperiod_5f1m_44',['_u64_pps_period_1M',['../struct_g_p_stime_data.html#ab2ccdf7ce74f4e6d7124c278045fce4c',1,'GPStimeData']]],
+  ['_5fu64_5fpps_5fperiod_5f1m_44',['_u64_pps_period_1M',['../struct_g_p_stime_data.html#a998c173a295ceb37a8af631b00bde006',1,'GPStimeData']]],
   ['_5fu64_5fsysclk_5fnmea_5flast_45',['_u64_sysclk_nmea_last',['../struct_g_p_stime_data.html#a4cecb958d0d4d153171baeec9e723953',1,'GPStimeData']]],
   ['_5fu64_5fsysclk_5fpps_5flast_46',['_u64_sysclk_pps_last',['../struct_g_p_stime_data.html#a944881d29f8aad29bc0fce7b72abbffd',1,'GPStimeData']]],
   ['_5fu8_5fis_5fsolution_5factive_47',['_u8_is_solution_active',['../struct_g_p_stime_data.html#a5bc6af34052603048e1ae2b1340b1e59',1,'GPStimeData']]],

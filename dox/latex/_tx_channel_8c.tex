@@ -1,19 +1,19 @@
-\doxysection{Tx\+Channel/\+Tx\+Channel.c File Reference}
-\hypertarget{_tx_channel_8c}{}\label{_tx_channel_8c}\index{TxChannel/TxChannel.c@{TxChannel/TxChannel.c}}
+\doxysection{C\+:/\+Users/serych/\+SVN/\+Bastleni/\+HAB/pico-\/\+WSPRer/\+Tx\+Channel/\+Tx\+Channel.c File Reference}
+\hypertarget{_tx_channel_8c}{}\label{_tx_channel_8c}\index{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/TxChannel/TxChannel.c@{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/TxChannel/TxChannel.c}}
 {\ttfamily \#include "{}Tx\+Channel.\+h"{}}\newline
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{struct_tx_channel_context}{Tx\+Channel\+Context}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_tx_channel_8c_a526789f3145eada8db1897ce759b9532}{Tx\+Channel\+Init}} (const uint32\+\_\+t bit\+\_\+period\+\_\+us, uint8\+\_\+t timer\+\_\+alarm\+\_\+num, \mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}p\+DCO)
-\begin{DoxyCompactList}\small\item\em Initializes a Tx\+Channel context. Starts ISR. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Initializes a Tx\+Channel context. Starts timer alarm ISR. \end{DoxyCompactList}\item 
 uint8\+\_\+t \mbox{\hyperlink{_tx_channel_8c_a91224c417af35bc6ad43268d047f5842}{Tx\+Channel\+Pending}} (\mbox{\hyperlink{struct_tx_channel_context}{Tx\+Channel\+Context}} \texorpdfstring{$\ast$}{*}pctx)
-\begin{DoxyCompactList}\small\item\em Gets a count of bytes to send. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Gets a count of remaining bytes to send. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{_tx_channel_8c_ab19ec46c4de859dacfa243878ffdf078}{Tx\+Channel\+Push}} (\mbox{\hyperlink{struct_tx_channel_context}{Tx\+Channel\+Context}} \texorpdfstring{$\ast$}{*}pctx, uint8\+\_\+t \texorpdfstring{$\ast$}{*}psrc, int n)
-\begin{DoxyCompactList}\small\item\em Push a number of bytes to the output FIFO. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Push a number of bytes to the transmission buffer. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{_tx_channel_8c_a99f29e81a3070d9ee80b1af46ab7d36c}{Tx\+Channel\+Pop}} (\mbox{\hyperlink{struct_tx_channel_context}{Tx\+Channel\+Context}} \texorpdfstring{$\ast$}{*}pctx, uint8\+\_\+t \texorpdfstring{$\ast$}{*}pdst)
 \begin{DoxyCompactList}\small\item\em Retrieves a next byte from FIFO. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{_tx_channel_8c_aa0f611ac0d1bc011b9ba1335f008bf28}{Tx\+Channel\+Clear}} (\mbox{\hyperlink{struct_tx_channel_context}{Tx\+Channel\+Context}} \texorpdfstring{$\ast$}{*}pctx)
-\begin{DoxyCompactList}\small\item\em Clears FIFO completely. Sets write\&read indexes to 0. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Clears transmission buffer completely by setting write \& read indexes to 0. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
@@ -25,7 +25,7 @@ void \mbox{\hyperlink{_tx_channel_8c_aa0f611ac0d1bc011b9ba1335f008bf28}{Tx\+Chan
 
 
 
-Clears FIFO completely. Sets write\&read indexes to 0. 
+Clears transmission buffer completely by setting write \& read indexes to 0. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -40,7 +40,7 @@ Clears FIFO completely. Sets write\&read indexes to 0.
 
 
 
-Initializes a Tx\+Channel context. Starts ISR. 
+Initializes a Tx\+Channel context. Starts timer alarm ISR. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -62,7 +62,7 @@ the Context.
 
 
 
-Gets a count of bytes to send. 
+Gets a count of remaining bytes to send. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -100,7 +100,7 @@ Retrieves a next byte from FIFO.
 
 
 
-Push a number of bytes to the output FIFO. 
+Push a number of bytes to the transmission buffer. 
 
 
 \begin{DoxyParams}{Parameters}

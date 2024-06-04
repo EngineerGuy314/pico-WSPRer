@@ -8,10 +8,7 @@ var searchData=
   ['piodcosetmode_5',['PioDCOSetMode',['../piodco_8c.html#a9264e94db7474897d13b75952ca95b93',1,'PioDCOSetMode(PioDco *pdco, enum PioDcoMode emode):&#160;piodco.c'],['../piodco_8h.html#a9264e94db7474897d13b75952ca95b93',1,'PioDCOSetMode(PioDco *pdco, enum PioDcoMode emode):&#160;piodco.c']]],
   ['piodcostart_6',['PioDCOStart',['../piodco_8c.html#a02d18c5e5c4f60230bb4f065152facaa',1,'PioDCOStart(PioDco *pdco):&#160;piodco.c'],['../piodco_8h.html#a02d18c5e5c4f60230bb4f065152facaa',1,'PioDCOStart(PioDco *pdco):&#160;piodco.c']]],
   ['piodcostop_7',['PioDCOStop',['../piodco_8c.html#ac29ab5dd136565b4a53390d1079bfc7c',1,'PioDCOStop(PioDco *pdco):&#160;piodco.c'],['../piodco_8h.html#ac29ab5dd136565b4a53390d1079bfc7c',1,'PioDCOStop(PioDco *pdco):&#160;piodco.c']]],
-  ['piodcoworker_8',['PioDCOWorker',['../piodco_8c.html#a447a27f78d68d184bc154bcc940ef3af',1,'PioDCOWorker(PioDco *pDCO):&#160;piodco.c'],['../piodco_8h.html#a447a27f78d68d184bc154bcc940ef3af',1,'PioDCOWorker(PioDco *pDCO):&#160;piodco.c']]],
-  ['piodcoworker2_9',['PioDCOWorker2',['../piodco_8c.html#a41f252dde25c5fbe603a899a7c8395a9',1,'PioDCOWorker2(PioDco *pDCO):&#160;piodco.c'],['../piodco_8h.html#a41f252dde25c5fbe603a899a7c8395a9',1,'PioDCOWorker2(PioDco *pDCO):&#160;piodco.c']]],
-  ['print_5fbuf_10',['print_buf',['../main_8c.html#a7392bf1330f30af30dee26b3f0ac29b0',1,'main.c']]],
-  ['prn32_11',['PRN32',['../utility_8h.html#a265a2aa6cce4c56af8e779ce3cfa7a82',1,'utility.h']]],
-  ['pusherrormessage_12',['PushErrorMessage',['../conswrapper_8c.html#a88721f95560c600b313a5585379f41aa',1,'PushErrorMessage(int id):&#160;conswrapper.c'],['../hf-oscillator_2protos_8h.html#a88721f95560c600b313a5585379f41aa',1,'PushErrorMessage(int id):&#160;conswrapper.c']]],
-  ['pushstatusmessage_13',['PushStatusMessage',['../conswrapper_8c.html#ae7bd3f4eb52ab22e07032551dfa9edd9',1,'PushStatusMessage(void):&#160;conswrapper.c'],['../hf-oscillator_2protos_8h.html#ae7bd3f4eb52ab22e07032551dfa9edd9',1,'PushStatusMessage(void):&#160;conswrapper.c']]]
+  ['piodcoworker2_8',['PioDCOWorker2',['../piodco_8c.html#a41f252dde25c5fbe603a899a7c8395a9',1,'PioDCOWorker2(PioDco *pDCO):&#160;piodco.c'],['../piodco_8h.html#a41f252dde25c5fbe603a899a7c8395a9',1,'PioDCOWorker2(PioDco *pDCO):&#160;piodco.c']]],
+  ['print_5fbuf_9',['print_buf',['../main_8c.html#a7392bf1330f30af30dee26b3f0ac29b0',1,'main.c']]],
+  ['prn32_10',['PRN32',['../utility_8h.html#a265a2aa6cce4c56af8e779ce3cfa7a82',1,'utility.h']]]
 ];

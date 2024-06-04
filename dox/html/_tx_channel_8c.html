@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>pico-WSPRer: TxChannel/TxChannel.c File Reference</title>
+<title>pico-WSPRer: C:/Users/serych/SVN/Bastleni/HAB/pico-WSPRer/TxChannel/TxChannel.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -86,19 +86,19 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a526789f3145eada8db1897ce759b9532" id="r_a526789f3145eada8db1897ce759b9532"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_tx_channel_context.html">TxChannelContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a526789f3145eada8db1897ce759b9532">TxChannelInit</a> (const uint32_t bit_period_us, uint8_t timer_alarm_num, <a class="el" href="struct_pio_dco.html">PioDco</a> *pDCO)</td></tr>
-<tr class="memdesc:a526789f3145eada8db1897ce759b9532"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a TxChannel context. Starts ISR.  <br /></td></tr>
+<tr class="memdesc:a526789f3145eada8db1897ce759b9532"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a TxChannel context. Starts timer alarm ISR.  <br /></td></tr>
 <tr class="separator:a526789f3145eada8db1897ce759b9532"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91224c417af35bc6ad43268d047f5842" id="r_a91224c417af35bc6ad43268d047f5842"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a91224c417af35bc6ad43268d047f5842">TxChannelPending</a> (<a class="el" href="struct_tx_channel_context.html">TxChannelContext</a> *pctx)</td></tr>
-<tr class="memdesc:a91224c417af35bc6ad43268d047f5842"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a count of bytes to send.  <br /></td></tr>
+<tr class="memdesc:a91224c417af35bc6ad43268d047f5842"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a count of remaining bytes to send.  <br /></td></tr>
 <tr class="separator:a91224c417af35bc6ad43268d047f5842"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab19ec46c4de859dacfa243878ffdf078" id="r_ab19ec46c4de859dacfa243878ffdf078"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab19ec46c4de859dacfa243878ffdf078">TxChannelPush</a> (<a class="el" href="struct_tx_channel_context.html">TxChannelContext</a> *pctx, uint8_t *psrc, int n)</td></tr>
-<tr class="memdesc:ab19ec46c4de859dacfa243878ffdf078"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push a number of bytes to the output FIFO.  <br /></td></tr>
+<tr class="memdesc:ab19ec46c4de859dacfa243878ffdf078"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push a number of bytes to the transmission buffer.  <br /></td></tr>
 <tr class="separator:ab19ec46c4de859dacfa243878ffdf078"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99f29e81a3070d9ee80b1af46ab7d36c" id="r_a99f29e81a3070d9ee80b1af46ab7d36c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99f29e81a3070d9ee80b1af46ab7d36c">TxChannelPop</a> (<a class="el" href="struct_tx_channel_context.html">TxChannelContext</a> *pctx, uint8_t *pdst)</td></tr>
 <tr class="memdesc:a99f29e81a3070d9ee80b1af46ab7d36c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves a next byte from FIFO.  <br /></td></tr>
 <tr class="separator:a99f29e81a3070d9ee80b1af46ab7d36c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0f611ac0d1bc011b9ba1335f008bf28" id="r_aa0f611ac0d1bc011b9ba1335f008bf28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0f611ac0d1bc011b9ba1335f008bf28">TxChannelClear</a> (<a class="el" href="struct_tx_channel_context.html">TxChannelContext</a> *pctx)</td></tr>
-<tr class="memdesc:aa0f611ac0d1bc011b9ba1335f008bf28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears FIFO completely. Sets write&amp;read indexes to 0.  <br /></td></tr>
+<tr class="memdesc:aa0f611ac0d1bc011b9ba1335f008bf28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears transmission buffer completely by setting write &amp; read indexes to 0.  <br /></td></tr>
 <tr class="separator:aa0f611ac0d1bc011b9ba1335f008bf28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
@@ -117,7 +117,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Clears FIFO completely. Sets write&amp;read indexes to 0. </p>
+<p>Clears transmission buffer completely by setting write &amp; read indexes to 0. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pctx</td><td>Context. </td></tr>
@@ -151,7 +151,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initializes a TxChannel context. Starts ISR. </p>
+<p>Initializes a TxChannel context. Starts timer alarm ISR. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">bit_period_us</td><td>Period of data bits, BPS speed = 1e6/bit_period_us. </td></tr>
@@ -179,7 +179,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Gets a count of bytes to send. </p>
+<p>Gets a count of remaining bytes to send. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pctx</td><td>Context. </td></tr>
@@ -245,7 +245,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Push a number of bytes to the output FIFO. </p>
+<p>Push a number of bytes to the transmission buffer. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pctx</td><td>Context. </td></tr>
