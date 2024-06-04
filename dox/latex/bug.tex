@@ -1,0 +1,13 @@
+\chapter{Bug List}
+\hypertarget{bug}{}\label{bug}\index{Bug List@{Bug List}}
+
+\begin{DoxyRefList}
+\item[Global \doxylink{_w_s_p_rbeacon_8h_af02dc9e0f37c96a17d2a35ed4b5b88e4}{WSPRbeacon\+Init} (const char \texorpdfstring{$\ast$}{*}pcallsign, const char \texorpdfstring{$\ast$}{*}pgridsquare, int txpow\+\_\+dbm, \doxylink{struct_pio_dco}{Pio\+Dco} \texorpdfstring{$\ast$}{*}pdco, uint32\+\_\+t dial\+\_\+freq\+\_\+hz, uint32\+\_\+t shift\+\_\+freq\+\_\+hz, int gpio, uint8\+\_\+t start\+\_\+minute, uint8\+\_\+t id13, uint8\+\_\+t suffix)]\label{bug__bug000001}%
+\Hypertarget{bug__bug000001}%
+The function sets schedule hardcoded to minutes 1, 2 and 3. It may lead to 
+
+
+
+out of schedule transmits if the device is switched on around minute 0 ~\newline
+ 
+\end{DoxyRefList}

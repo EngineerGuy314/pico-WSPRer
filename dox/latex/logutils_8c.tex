@@ -1,0 +1,62 @@
+\doxysection{C\+:/\+Users/serych/\+SVN/\+Bastleni/\+HAB/pico-\/\+WSPRer/debug/logutils.c File Reference}
+\hypertarget{logutils_8c}{}\label{logutils_8c}\index{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/debug/logutils.c@{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/debug/logutils.c}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$stdarg.\+h$>$}\newline
+{\ttfamily \#include "{}hardware/clocks.\+h"{}}\newline
+{\ttfamily \#include "{}pico/stdlib.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{logutils_8c_a6b20d41d6252e9871430c242cb1a56e7}{BUFFER\+\_\+\+SIZE}}~256
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{logutils_8c_a56a068e6108f44623c3e966d0c627446}{Stamp\+Printf}} (const char \texorpdfstring{$\ast$}{*}pformat,...)
+\begin{DoxyCompactList}\small\item\em Buffers the log information to the log buffer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{logutils_8c_af832893d5967715c80c65a7352e2cc95}{Do\+Log\+Print}} ()
+\begin{DoxyCompactList}\small\item\em Outputs the content of the log buffer to stdio (UART and/or USB) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{logutils_8c_a6b20d41d6252e9871430c242cb1a56e7}\label{logutils_8c_a6b20d41d6252e9871430c242cb1a56e7} 
+\index{logutils.c@{logutils.c}!BUFFER\_SIZE@{BUFFER\_SIZE}}
+\index{BUFFER\_SIZE@{BUFFER\_SIZE}!logutils.c@{logutils.c}}
+\doxysubsubsection{\texorpdfstring{BUFFER\_SIZE}{BUFFER\_SIZE}}
+{\footnotesize\ttfamily \#define BUFFER\+\_\+\+SIZE~256}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{logutils_8c_af832893d5967715c80c65a7352e2cc95}\label{logutils_8c_af832893d5967715c80c65a7352e2cc95} 
+\index{logutils.c@{logutils.c}!DoLogPrint@{DoLogPrint}}
+\index{DoLogPrint@{DoLogPrint}!logutils.c@{logutils.c}}
+\doxysubsubsection{\texorpdfstring{DoLogPrint()}{DoLogPrint()}}
+{\footnotesize\ttfamily void Do\+Log\+Print (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Outputs the content of the log buffer to stdio (UART and/or USB) 
+
+Direct output to UART is very slow so we will do it in CPU idle times
+
+and not in time critical functions \Hypertarget{logutils_8c_a56a068e6108f44623c3e966d0c627446}\label{logutils_8c_a56a068e6108f44623c3e966d0c627446} 
+\index{logutils.c@{logutils.c}!StampPrintf@{StampPrintf}}
+\index{StampPrintf@{StampPrintf}!logutils.c@{logutils.c}}
+\doxysubsubsection{\texorpdfstring{StampPrintf()}{StampPrintf()}}
+{\footnotesize\ttfamily void Stamp\+Printf (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{pformat,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Buffers the log information to the log buffer. 
+
+it is much faster than direct UART output 
+\begin{DoxyParams}{Parameters}
+{\em pformat} & printf style format \\
+\hline
+{\em ...} & argument list to print ~\newline
+ \\
+\hline
+\end{DoxyParams}

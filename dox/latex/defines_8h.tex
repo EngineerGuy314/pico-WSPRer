@@ -1,0 +1,343 @@
+\doxysection{C\+:/\+Users/serych/\+SVN/\+Bastleni/\+HAB/pico-\/\+WSPRer/defines.h File Reference}
+\hypertarget{defines_8h}{}\label{defines_8h}\index{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/defines.h@{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/defines.h}}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{defines_8h_ad72dbcf6d0153db1b8d8a58001feed83}{DEBUG}}
+\item 
+\#define \mbox{\hyperlink{defines_8h_a2597d7eeeb4e70d8e239d994805b877d}{DEBUGPRINTF}}(x)~\mbox{\hyperlink{logutils_8c_a56a068e6108f44623c3e966d0c627446}{Stamp\+Printf}}(x);
+\item 
+\#define \mbox{\hyperlink{defines_8h_a529c17f7c567ea2baf4f5784228c8a0c}{PLL\+\_\+\+SYS\+\_\+\+MHZ}}~115UL
+\item 
+\#define \mbox{\hyperlink{defines_8h_aa93f0eb578d23995850d61f7d61c55c1}{FALSE}}~0                                     /\texorpdfstring{$\ast$}{*} Something is false. \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{defines_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}}~1                                       /\texorpdfstring{$\ast$}{*} Something is true. \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{defines_8h_afd3fc9004925132db4faf607ebbf9db7}{BAD}}~0                                         /\texorpdfstring{$\ast$}{*} Something is bad. \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{defines_8h_a4adf7c6105c54a1608753548236d1387}{GOOD}}~1                                       /\texorpdfstring{$\ast$}{*} Something is good. \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{defines_8h_adf770fe2eec438e3758ffe905dbae208}{INVALID}}~0                                 /\texorpdfstring{$\ast$}{*} Something is invalid. \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{defines_8h_ad47ac60ff0cfac53148a07bc32fc7585}{VALID}}~1                                     /\texorpdfstring{$\ast$}{*} Something is valid. \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{defines_8h_a996bde01ecac342918f0a2c4e7ce7bd5}{NO}}~0                                          /\texorpdfstring{$\ast$}{*} The answer is no. \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{defines_8h_a7ebc9a785e5ab85457c98595aac81589}{YES}}~1                                        /\texorpdfstring{$\ast$}{*} The answer is yes. \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{defines_8h_a29e413f6725b2ba32d165ffaa35b01e5}{OFF}}~0                                       /\texorpdfstring{$\ast$}{*} Turn something off. \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{defines_8h_ad76d1750a6cdeebd506bfcd6752554d2}{ON}}~1                                         /\texorpdfstring{$\ast$}{*} Turn something on. \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{defines_8h_ac328e551bde3d39b6d7b8cc9e048d941}{ZERO}}~0                                 /\texorpdfstring{$\ast$}{*} Something in zero state. \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}}~\+\_\+\+\_\+not\+\_\+in\+\_\+flash\+\_\+func         /\texorpdfstring{$\ast$}{*} Place time-\/critical func in RAM \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{defines_8h_a1f6d0c25f4aa72268cecf2dc2087c3bc}{RAM\+\_\+A}}~\+\_\+\+\_\+not\+\_\+in\+\_\+flash("{}A"{})        /\texorpdfstring{$\ast$}{*} Place time-\/critical var in \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{defines_8h_ab867dab5b80b429cdb739a53155a38ae}{i\+SAR32}}(arg,  rcount)~(((int32\+\_\+t)(arg)) $>$$>$ (rcount))
+\item 
+\#define \mbox{\hyperlink{defines_8h_a679b48d2e9b36ba07b60a32a23b53274}{i\+SAR64}}(arg,  rcount)~(((int64\+\_\+t)(arg)) $>$$>$ (rcount))
+\item 
+\#define \mbox{\hyperlink{defines_8h_ac6afabdc09a49a433ee19d8a9486056d}{min}}(a,  b)~((a)$<$(b)?(a)\+:(b))
+\item 
+\#define \mbox{\hyperlink{defines_8h_affe776513b24d84b39af8ab0930fef7f}{max}}(a,  b)~((a)$>$(b)?(a)\+:(b))
+\item 
+\#define \mbox{\hyperlink{defines_8h_ab97e9b3b29932283551e8d06c1b7eb88}{i\+MUL32\+ASM}}(a,  b)~\+\_\+\+\_\+mul\+\_\+instruction((int32\+\_\+t)(a), (int32\+\_\+t)(b))
+\item 
+\#define \mbox{\hyperlink{defines_8h_a3f0e718c39a3847ee3550b6be123cd6b}{i\+Square32\+ASM}}(x)~(\mbox{\hyperlink{defines_8h_ab97e9b3b29932283551e8d06c1b7eb88}{i\+MUL32\+ASM}}((x), (x)))
+\item 
+\#define \mbox{\hyperlink{defines_8h_a996f7be338ccb40d1a2a5abc1ad61759}{ABS}}(x)~((x) $>$ 0 ? (x) \+: -\/(x))
+\item 
+\#define \mbox{\hyperlink{defines_8h_a8fa4e9388cbdfd3d342bfb6904d3ce0a}{INVERSE}}(x)~((x) = -\/(x))
+\item 
+\#define \mbox{\hyperlink{defines_8h_a8772ce0df6a4b5211e877bc4acec1ace}{asizeof}}(a)~(sizeof (a) / sizeof ((a)\mbox{[}0\mbox{]}))
+\item 
+\#define \mbox{\hyperlink{defines_8h_a94212be2394d2d37d9dfd33d07d82dba}{SECOND}}~1                                                  /\texorpdfstring{$\ast$}{*} Time. \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{defines_8h_ac1454fa04f41c693f39425697a137d82}{MINUTE}}~(60 \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{defines_8h_a94212be2394d2d37d9dfd33d07d82dba}{SECOND}})
+\item 
+\#define \mbox{\hyperlink{defines_8h_a4698ae12cf6a8acb5886fffd0ec897e6}{HOUR}}~(60 \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{defines_8h_ac1454fa04f41c693f39425697a137d82}{MINUTE}})
+\item 
+\#define \mbox{\hyperlink{defines_8h_a599a1ece15a5eff312b9ceb732596226}{k\+Hz}}~1000\+UL                                                /\texorpdfstring{$\ast$}{*} Freq. \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{defines_8h_a978be084da4a9180ba3bd85c0d385ce2}{MHz}}~1000000\+UL
+\item 
+\#define \mbox{\hyperlink{defines_8h_a029380e2d7086f3afbb7d654005a4af2}{WSPR\+\_\+\+FREQ\+\_\+\+STEP\+\_\+\+MILHZ}}~2930\+UL     /\texorpdfstring{$\ast$}{*} FSK freq.\+bin (\texorpdfstring{$\ast$}{*}2 this time). \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{defines_8h_a958b6e6af9e335655c76ea4efa2d899c}{WSPR\+\_\+\+MAX\+\_\+\+GPS\+\_\+\+DISCONNECT\+\_\+\+TM}}~        (6 \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{defines_8h_a4698ae12cf6a8acb5886fffd0ec897e6}{HOUR}})                      /\texorpdfstring{$\ast$}{*} How long is active without GPS. \texorpdfstring{$\ast$}{*}/
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{defines_8h_a1cd0ac559fb276d78fdba0dc0b6f944c}{read\+\_\+\+NVRAM}} (void)
+\item 
+void \mbox{\hyperlink{defines_8h_a7f9afff0be649c60b3b591ae7eb89383}{write\+\_\+\+NVRAM}} (void)
+\begin{DoxyCompactList}\small\item\em Writes the user entered data into NVRAM. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{defines_8h_aae241d4e645b81fce29ef421dca104cf}{check\+\_\+data\+\_\+validity}} (void)
+\item 
+void \mbox{\hyperlink{defines_8h_a2197acd436dd50dc315aec635f97e2c3}{user\+\_\+interface}} (void)
+\begin{DoxyCompactList}\small\item\em Function that implements simple user interface via UART. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{defines_8h_a4271ca948bbd6d1cdc24a4bcc775ac27}{show\+\_\+values}} (void)
+\begin{DoxyCompactList}\small\item\em Function that writes out the current set values of parameters. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{defines_8h_a45b2896ed990b3928bbdd95e88fdfa7e}{convert\+To\+Upper\+Case}} (char \texorpdfstring{$\ast$}{*}str)
+\begin{DoxyCompactList}\small\item\em Converts string to upper case. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{defines_8h_a996f7be338ccb40d1a2a5abc1ad61759}\label{defines_8h_a996f7be338ccb40d1a2a5abc1ad61759} 
+\index{defines.h@{defines.h}!ABS@{ABS}}
+\index{ABS@{ABS}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{ABS}{ABS}}
+{\footnotesize\ttfamily \#define ABS(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~((x) $>$ 0 ? (x) \+: -\/(x))}
+
+\Hypertarget{defines_8h_a8772ce0df6a4b5211e877bc4acec1ace}\label{defines_8h_a8772ce0df6a4b5211e877bc4acec1ace} 
+\index{defines.h@{defines.h}!asizeof@{asizeof}}
+\index{asizeof@{asizeof}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{asizeof}{asizeof}}
+{\footnotesize\ttfamily \#define asizeof(\begin{DoxyParamCaption}\item[{}]{a }\end{DoxyParamCaption})~(sizeof (a) / sizeof ((a)\mbox{[}0\mbox{]}))}
+
+\Hypertarget{defines_8h_afd3fc9004925132db4faf607ebbf9db7}\label{defines_8h_afd3fc9004925132db4faf607ebbf9db7} 
+\index{defines.h@{defines.h}!BAD@{BAD}}
+\index{BAD@{BAD}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{BAD}{BAD}}
+{\footnotesize\ttfamily \#define BAD~0                                         /\texorpdfstring{$\ast$}{*} Something is bad. \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{defines_8h_ad72dbcf6d0153db1b8d8a58001feed83}\label{defines_8h_ad72dbcf6d0153db1b8d8a58001feed83} 
+\index{defines.h@{defines.h}!DEBUG@{DEBUG}}
+\index{DEBUG@{DEBUG}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{DEBUG}{DEBUG}}
+{\footnotesize\ttfamily \#define DEBUG}
+
+\Hypertarget{defines_8h_a2597d7eeeb4e70d8e239d994805b877d}\label{defines_8h_a2597d7eeeb4e70d8e239d994805b877d} 
+\index{defines.h@{defines.h}!DEBUGPRINTF@{DEBUGPRINTF}}
+\index{DEBUGPRINTF@{DEBUGPRINTF}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{DEBUGPRINTF}{DEBUGPRINTF}}
+{\footnotesize\ttfamily \#define DEBUGPRINTF(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~\mbox{\hyperlink{logutils_8c_a56a068e6108f44623c3e966d0c627446}{Stamp\+Printf}}(x);}
+
+\Hypertarget{defines_8h_aa93f0eb578d23995850d61f7d61c55c1}\label{defines_8h_aa93f0eb578d23995850d61f7d61c55c1} 
+\index{defines.h@{defines.h}!FALSE@{FALSE}}
+\index{FALSE@{FALSE}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{FALSE}{FALSE}}
+{\footnotesize\ttfamily \#define FALSE~0                                     /\texorpdfstring{$\ast$}{*} Something is false. \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{defines_8h_a4adf7c6105c54a1608753548236d1387}\label{defines_8h_a4adf7c6105c54a1608753548236d1387} 
+\index{defines.h@{defines.h}!GOOD@{GOOD}}
+\index{GOOD@{GOOD}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{GOOD}{GOOD}}
+{\footnotesize\ttfamily \#define GOOD~1                                       /\texorpdfstring{$\ast$}{*} Something is good. \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{defines_8h_a4698ae12cf6a8acb5886fffd0ec897e6}\label{defines_8h_a4698ae12cf6a8acb5886fffd0ec897e6} 
+\index{defines.h@{defines.h}!HOUR@{HOUR}}
+\index{HOUR@{HOUR}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{HOUR}{HOUR}}
+{\footnotesize\ttfamily \#define HOUR~(60 \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{defines_8h_ac1454fa04f41c693f39425697a137d82}{MINUTE}})}
+
+\Hypertarget{defines_8h_ab97e9b3b29932283551e8d06c1b7eb88}\label{defines_8h_ab97e9b3b29932283551e8d06c1b7eb88} 
+\index{defines.h@{defines.h}!iMUL32ASM@{iMUL32ASM}}
+\index{iMUL32ASM@{iMUL32ASM}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{iMUL32ASM}{iMUL32ASM}}
+{\footnotesize\ttfamily \#define i\+MUL32\+ASM(\begin{DoxyParamCaption}\item[{}]{a,  }\item[{}]{b }\end{DoxyParamCaption})~\+\_\+\+\_\+mul\+\_\+instruction((int32\+\_\+t)(a), (int32\+\_\+t)(b))}
+
+\Hypertarget{defines_8h_adf770fe2eec438e3758ffe905dbae208}\label{defines_8h_adf770fe2eec438e3758ffe905dbae208} 
+\index{defines.h@{defines.h}!INVALID@{INVALID}}
+\index{INVALID@{INVALID}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{INVALID}{INVALID}}
+{\footnotesize\ttfamily \#define INVALID~0                                 /\texorpdfstring{$\ast$}{*} Something is invalid. \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{defines_8h_a8fa4e9388cbdfd3d342bfb6904d3ce0a}\label{defines_8h_a8fa4e9388cbdfd3d342bfb6904d3ce0a} 
+\index{defines.h@{defines.h}!INVERSE@{INVERSE}}
+\index{INVERSE@{INVERSE}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{INVERSE}{INVERSE}}
+{\footnotesize\ttfamily \#define INVERSE(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~((x) = -\/(x))}
+
+\Hypertarget{defines_8h_ab867dab5b80b429cdb739a53155a38ae}\label{defines_8h_ab867dab5b80b429cdb739a53155a38ae} 
+\index{defines.h@{defines.h}!iSAR32@{iSAR32}}
+\index{iSAR32@{iSAR32}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{iSAR32}{iSAR32}}
+{\footnotesize\ttfamily \#define i\+SAR32(\begin{DoxyParamCaption}\item[{}]{arg,  }\item[{}]{rcount }\end{DoxyParamCaption})~(((int32\+\_\+t)(arg)) $>$$>$ (rcount))}
+
+\Hypertarget{defines_8h_a679b48d2e9b36ba07b60a32a23b53274}\label{defines_8h_a679b48d2e9b36ba07b60a32a23b53274} 
+\index{defines.h@{defines.h}!iSAR64@{iSAR64}}
+\index{iSAR64@{iSAR64}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{iSAR64}{iSAR64}}
+{\footnotesize\ttfamily \#define i\+SAR64(\begin{DoxyParamCaption}\item[{}]{arg,  }\item[{}]{rcount }\end{DoxyParamCaption})~(((int64\+\_\+t)(arg)) $>$$>$ (rcount))}
+
+\Hypertarget{defines_8h_a3f0e718c39a3847ee3550b6be123cd6b}\label{defines_8h_a3f0e718c39a3847ee3550b6be123cd6b} 
+\index{defines.h@{defines.h}!iSquare32ASM@{iSquare32ASM}}
+\index{iSquare32ASM@{iSquare32ASM}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{iSquare32ASM}{iSquare32ASM}}
+{\footnotesize\ttfamily \#define i\+Square32\+ASM(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(\mbox{\hyperlink{defines_8h_ab97e9b3b29932283551e8d06c1b7eb88}{i\+MUL32\+ASM}}((x), (x)))}
+
+\Hypertarget{defines_8h_a599a1ece15a5eff312b9ceb732596226}\label{defines_8h_a599a1ece15a5eff312b9ceb732596226} 
+\index{defines.h@{defines.h}!kHz@{kHz}}
+\index{kHz@{kHz}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{kHz}{kHz}}
+{\footnotesize\ttfamily \#define k\+Hz~1000\+UL                                                /\texorpdfstring{$\ast$}{*} Freq. \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{defines_8h_affe776513b24d84b39af8ab0930fef7f}\label{defines_8h_affe776513b24d84b39af8ab0930fef7f} 
+\index{defines.h@{defines.h}!max@{max}}
+\index{max@{max}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{max}{max}}
+{\footnotesize\ttfamily \#define max(\begin{DoxyParamCaption}\item[{}]{a,  }\item[{}]{b }\end{DoxyParamCaption})~((a)$>$(b)?(a)\+:(b))}
+
+\Hypertarget{defines_8h_a978be084da4a9180ba3bd85c0d385ce2}\label{defines_8h_a978be084da4a9180ba3bd85c0d385ce2} 
+\index{defines.h@{defines.h}!MHz@{MHz}}
+\index{MHz@{MHz}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{MHz}{MHz}}
+{\footnotesize\ttfamily \#define MHz~1000000\+UL}
+
+\Hypertarget{defines_8h_ac6afabdc09a49a433ee19d8a9486056d}\label{defines_8h_ac6afabdc09a49a433ee19d8a9486056d} 
+\index{defines.h@{defines.h}!min@{min}}
+\index{min@{min}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{min}{min}}
+{\footnotesize\ttfamily \#define min(\begin{DoxyParamCaption}\item[{}]{a,  }\item[{}]{b }\end{DoxyParamCaption})~((a)$<$(b)?(a)\+:(b))}
+
+\Hypertarget{defines_8h_ac1454fa04f41c693f39425697a137d82}\label{defines_8h_ac1454fa04f41c693f39425697a137d82} 
+\index{defines.h@{defines.h}!MINUTE@{MINUTE}}
+\index{MINUTE@{MINUTE}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{MINUTE}{MINUTE}}
+{\footnotesize\ttfamily \#define MINUTE~(60 \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{defines_8h_a94212be2394d2d37d9dfd33d07d82dba}{SECOND}})}
+
+\Hypertarget{defines_8h_a996bde01ecac342918f0a2c4e7ce7bd5}\label{defines_8h_a996bde01ecac342918f0a2c4e7ce7bd5} 
+\index{defines.h@{defines.h}!NO@{NO}}
+\index{NO@{NO}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{NO}{NO}}
+{\footnotesize\ttfamily \#define NO~0                                          /\texorpdfstring{$\ast$}{*} The answer is no. \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{defines_8h_a29e413f6725b2ba32d165ffaa35b01e5}\label{defines_8h_a29e413f6725b2ba32d165ffaa35b01e5} 
+\index{defines.h@{defines.h}!OFF@{OFF}}
+\index{OFF@{OFF}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{OFF}{OFF}}
+{\footnotesize\ttfamily \#define OFF~0                                       /\texorpdfstring{$\ast$}{*} Turn something off. \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{defines_8h_ad76d1750a6cdeebd506bfcd6752554d2}\label{defines_8h_ad76d1750a6cdeebd506bfcd6752554d2} 
+\index{defines.h@{defines.h}!ON@{ON}}
+\index{ON@{ON}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{ON}{ON}}
+{\footnotesize\ttfamily \#define ON~1                                         /\texorpdfstring{$\ast$}{*} Turn something on. \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{defines_8h_a529c17f7c567ea2baf4f5784228c8a0c}\label{defines_8h_a529c17f7c567ea2baf4f5784228c8a0c} 
+\index{defines.h@{defines.h}!PLL\_SYS\_MHZ@{PLL\_SYS\_MHZ}}
+\index{PLL\_SYS\_MHZ@{PLL\_SYS\_MHZ}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{PLL\_SYS\_MHZ}{PLL\_SYS\_MHZ}}
+{\footnotesize\ttfamily \#define PLL\+\_\+\+SYS\+\_\+\+MHZ~115UL}
+
+\Hypertarget{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}\label{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8} 
+\index{defines.h@{defines.h}!RAM@{RAM}}
+\index{RAM@{RAM}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{RAM}{RAM}}
+{\footnotesize\ttfamily \#define RAM~\+\_\+\+\_\+not\+\_\+in\+\_\+flash\+\_\+func         /\texorpdfstring{$\ast$}{*} Place time-\/critical func in RAM \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{defines_8h_a1f6d0c25f4aa72268cecf2dc2087c3bc}\label{defines_8h_a1f6d0c25f4aa72268cecf2dc2087c3bc} 
+\index{defines.h@{defines.h}!RAM\_A@{RAM\_A}}
+\index{RAM\_A@{RAM\_A}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{RAM\_A}{RAM\_A}}
+{\footnotesize\ttfamily \#define RAM\+\_\+A~\+\_\+\+\_\+not\+\_\+in\+\_\+flash("{}A"{})        /\texorpdfstring{$\ast$}{*} Place time-\/critical var in \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{defines_8h_a94212be2394d2d37d9dfd33d07d82dba}\label{defines_8h_a94212be2394d2d37d9dfd33d07d82dba} 
+\index{defines.h@{defines.h}!SECOND@{SECOND}}
+\index{SECOND@{SECOND}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{SECOND}{SECOND}}
+{\footnotesize\ttfamily \#define SECOND~1                                                  /\texorpdfstring{$\ast$}{*} Time. \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{defines_8h_aa8cecfc5c5c054d2875c03e77b7be15d}\label{defines_8h_aa8cecfc5c5c054d2875c03e77b7be15d} 
+\index{defines.h@{defines.h}!TRUE@{TRUE}}
+\index{TRUE@{TRUE}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{TRUE}{TRUE}}
+{\footnotesize\ttfamily \#define TRUE~1                                       /\texorpdfstring{$\ast$}{*} Something is true. \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{defines_8h_ad47ac60ff0cfac53148a07bc32fc7585}\label{defines_8h_ad47ac60ff0cfac53148a07bc32fc7585} 
+\index{defines.h@{defines.h}!VALID@{VALID}}
+\index{VALID@{VALID}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{VALID}{VALID}}
+{\footnotesize\ttfamily \#define VALID~1                                     /\texorpdfstring{$\ast$}{*} Something is valid. \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{defines_8h_a029380e2d7086f3afbb7d654005a4af2}\label{defines_8h_a029380e2d7086f3afbb7d654005a4af2} 
+\index{defines.h@{defines.h}!WSPR\_FREQ\_STEP\_MILHZ@{WSPR\_FREQ\_STEP\_MILHZ}}
+\index{WSPR\_FREQ\_STEP\_MILHZ@{WSPR\_FREQ\_STEP\_MILHZ}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{WSPR\_FREQ\_STEP\_MILHZ}{WSPR\_FREQ\_STEP\_MILHZ}}
+{\footnotesize\ttfamily \#define WSPR\+\_\+\+FREQ\+\_\+\+STEP\+\_\+\+MILHZ~2930\+UL     /\texorpdfstring{$\ast$}{*} FSK freq.\+bin (\texorpdfstring{$\ast$}{*}2 this time). \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{defines_8h_a958b6e6af9e335655c76ea4efa2d899c}\label{defines_8h_a958b6e6af9e335655c76ea4efa2d899c} 
+\index{defines.h@{defines.h}!WSPR\_MAX\_GPS\_DISCONNECT\_TM@{WSPR\_MAX\_GPS\_DISCONNECT\_TM}}
+\index{WSPR\_MAX\_GPS\_DISCONNECT\_TM@{WSPR\_MAX\_GPS\_DISCONNECT\_TM}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{WSPR\_MAX\_GPS\_DISCONNECT\_TM}{WSPR\_MAX\_GPS\_DISCONNECT\_TM}}
+{\footnotesize\ttfamily \#define WSPR\+\_\+\+MAX\+\_\+\+GPS\+\_\+\+DISCONNECT\+\_\+\+TM~        (6 \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{defines_8h_a4698ae12cf6a8acb5886fffd0ec897e6}{HOUR}})                      /\texorpdfstring{$\ast$}{*} How long is active without GPS. \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{defines_8h_a7ebc9a785e5ab85457c98595aac81589}\label{defines_8h_a7ebc9a785e5ab85457c98595aac81589} 
+\index{defines.h@{defines.h}!YES@{YES}}
+\index{YES@{YES}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{YES}{YES}}
+{\footnotesize\ttfamily \#define YES~1                                        /\texorpdfstring{$\ast$}{*} The answer is yes. \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{defines_8h_ac328e551bde3d39b6d7b8cc9e048d941}\label{defines_8h_ac328e551bde3d39b6d7b8cc9e048d941} 
+\index{defines.h@{defines.h}!ZERO@{ZERO}}
+\index{ZERO@{ZERO}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{ZERO}{ZERO}}
+{\footnotesize\ttfamily \#define ZERO~0                                 /\texorpdfstring{$\ast$}{*} Something in zero state. \texorpdfstring{$\ast$}{*}/}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{defines_8h_aae241d4e645b81fce29ef421dca104cf}\label{defines_8h_aae241d4e645b81fce29ef421dca104cf} 
+\index{defines.h@{defines.h}!check\_data\_validity@{check\_data\_validity}}
+\index{check\_data\_validity@{check\_data\_validity}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{check\_data\_validity()}{check\_data\_validity()}}
+{\footnotesize\ttfamily void check\+\_\+data\+\_\+validity (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{defines_8h_a45b2896ed990b3928bbdd95e88fdfa7e}\label{defines_8h_a45b2896ed990b3928bbdd95e88fdfa7e} 
+\index{defines.h@{defines.h}!convertToUpperCase@{convertToUpperCase}}
+\index{convertToUpperCase@{convertToUpperCase}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{convertToUpperCase()}{convertToUpperCase()}}
+{\footnotesize\ttfamily void convert\+To\+Upper\+Case (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{str }\end{DoxyParamCaption})}
+
+
+
+Converts string to upper case. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & string to convert \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+No return value, string is converted directly in the parameter \texorpdfstring{$\ast$}{*}str ~\newline
+ 
+\end{DoxyReturn}
+\Hypertarget{defines_8h_a1cd0ac559fb276d78fdba0dc0b6f944c}\label{defines_8h_a1cd0ac559fb276d78fdba0dc0b6f944c} 
+\index{defines.h@{defines.h}!read\_NVRAM@{read\_NVRAM}}
+\index{read\_NVRAM@{read\_NVRAM}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{read\_NVRAM()}{read\_NVRAM()}}
+{\footnotesize\ttfamily void read\+\_\+\+NVRAM (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{defines_8h_a4271ca948bbd6d1cdc24a4bcc775ac27}\label{defines_8h_a4271ca948bbd6d1cdc24a4bcc775ac27} 
+\index{defines.h@{defines.h}!show\_values@{show\_values}}
+\index{show\_values@{show\_values}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{show\_values()}{show\_values()}}
+{\footnotesize\ttfamily void show\+\_\+values (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Function that writes out the current set values of parameters. 
+
+\Hypertarget{defines_8h_a2197acd436dd50dc315aec635f97e2c3}\label{defines_8h_a2197acd436dd50dc315aec635f97e2c3} 
+\index{defines.h@{defines.h}!user\_interface@{user\_interface}}
+\index{user\_interface@{user\_interface}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{user\_interface()}{user\_interface()}}
+{\footnotesize\ttfamily void user\+\_\+interface (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Function that implements simple user interface via UART. 
+
+\Hypertarget{defines_8h_a7f9afff0be649c60b3b591ae7eb89383}\label{defines_8h_a7f9afff0be649c60b3b591ae7eb89383} 
+\index{defines.h@{defines.h}!write\_NVRAM@{write\_NVRAM}}
+\index{write\_NVRAM@{write\_NVRAM}!defines.h@{defines.h}}
+\doxysubsubsection{\texorpdfstring{write\_NVRAM()}{write\_NVRAM()}}
+{\footnotesize\ttfamily void write\+\_\+\+NVRAM (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Writes the user entered data into NVRAM. 
+

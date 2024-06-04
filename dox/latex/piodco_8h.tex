@@ -1,0 +1,196 @@
+\doxysection{C\+:/\+Users/serych/\+SVN/\+Bastleni/\+HAB/pico-\/\+WSPRer/hf-\/oscillator/piodco/piodco.h File Reference}
+\hypertarget{piodco_8h}{}\label{piodco_8h}\index{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/hf-\/oscillator/piodco/piodco.h@{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/hf-\/oscillator/piodco/piodco.h}}
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}pico/stdlib.\+h"{}}\newline
+{\ttfamily \#include "{}hardware/pio.\+h"{}}\newline
+{\ttfamily \#include "{}defines.\+h"{}}\newline
+{\ttfamily \#include "{}../gpstime/\+GPStime.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{piodco_8h_af87c63ca4eaf4a0b418df10b2eeb1366}{Pio\+Dco\+Mode}} \{ \mbox{\hyperlink{piodco_8h_af87c63ca4eaf4a0b418df10b2eeb1366a052c65f80b4c15cb56f3e3e6e5b6de3f}{e\+DCOMODE\+\_\+\+IDLE}} = 0
+, \mbox{\hyperlink{piodco_8h_af87c63ca4eaf4a0b418df10b2eeb1366a71afefc5375d98bf576af257bd86ea2a}{e\+DCOMODE\+\_\+\+GPS\+\_\+\+COMPENSATED}} = 2
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{piodco_8h_acaf6bb82f9de9d9eca483afffeab1f9d}{Pio\+DCOInit}} (\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}pdco, int gpio, int cpuclkhz)
+\begin{DoxyCompactList}\small\item\em Initializes DCO context and prepares PIO hardware. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{piodco_8h_a23fec7beedc544fb48cb3a5198b454f5}{Pio\+DCOSet\+Freq}} (\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}pdco, uint32\+\_\+t u32\+\_\+frq\+\_\+hz, int32\+\_\+t u32\+\_\+frq\+\_\+millihz)
+\begin{DoxyCompactList}\small\item\em Sets DCO working frequency in Hz\+: Fout = ui32\+\_\+frq\+\_\+hz + ui32\+\_\+frq\+\_\+millihz \texorpdfstring{$\ast$}{*} 1e-\/3. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{piodco_8h_a574085e2e9610a0c25e021ff43d37c67}{Pio\+DCOGet\+Freq\+Shift\+Milli\+Hertz}} (const \mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}pdco, uint64\+\_\+t u64\+\_\+desired\+\_\+frq\+\_\+millihz)
+\begin{DoxyCompactList}\small\item\em Obtains the frequency shift \mbox{[}milli\+Hz\mbox{]} which is calculated for a given frequency. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{piodco_8h_a02d18c5e5c4f60230bb4f065152facaa}{Pio\+DCOStart}} (\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}pdco)
+\begin{DoxyCompactList}\small\item\em Starts the DCO. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{piodco_8h_ac29ab5dd136565b4a53390d1079bfc7c}{Pio\+DCOStop}} (\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}pdco)
+\begin{DoxyCompactList}\small\item\em Stops the DCO. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{piodco_8h_a9264e94db7474897d13b75952ca95b93}{Pio\+DCOSet\+Mode}} (\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}pdco, enum \mbox{\hyperlink{piodco_8h_af87c63ca4eaf4a0b418df10b2eeb1366}{Pio\+Dco\+Mode}} emode)
+\begin{DoxyCompactList}\small\item\em Sets DCO running mode. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} \mbox{\hyperlink{piodco_8h_a41f252dde25c5fbe603a899a7c8395a9}{Pio\+DCOWorker2}} (\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}p\+DCO)
+\begin{DoxyCompactList}\small\item\em Main worker task of DCO V.\+2. It is time critical, so it ought to be run on. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{piodco_8h_af87c63ca4eaf4a0b418df10b2eeb1366}\label{piodco_8h_af87c63ca4eaf4a0b418df10b2eeb1366} 
+\index{piodco.h@{piodco.h}!PioDcoMode@{PioDcoMode}}
+\index{PioDcoMode@{PioDcoMode}!piodco.h@{piodco.h}}
+\doxysubsubsection{\texorpdfstring{PioDcoMode}{PioDcoMode}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{piodco_8h_af87c63ca4eaf4a0b418df10b2eeb1366}{Pio\+Dco\+Mode}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eDCOMODE\_IDLE@{eDCOMODE\_IDLE}!piodco.h@{piodco.h}}\index{piodco.h@{piodco.h}!eDCOMODE\_IDLE@{eDCOMODE\_IDLE}}}\Hypertarget{piodco_8h_af87c63ca4eaf4a0b418df10b2eeb1366a052c65f80b4c15cb56f3e3e6e5b6de3f}\label{piodco_8h_af87c63ca4eaf4a0b418df10b2eeb1366a052c65f80b4c15cb56f3e3e6e5b6de3f} 
+e\+DCOMODE\+\_\+\+IDLE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eDCOMODE\_GPS\_COMPENSATED@{eDCOMODE\_GPS\_COMPENSATED}!piodco.h@{piodco.h}}\index{piodco.h@{piodco.h}!eDCOMODE\_GPS\_COMPENSATED@{eDCOMODE\_GPS\_COMPENSATED}}}\Hypertarget{piodco_8h_af87c63ca4eaf4a0b418df10b2eeb1366a71afefc5375d98bf576af257bd86ea2a}\label{piodco_8h_af87c63ca4eaf4a0b418df10b2eeb1366a71afefc5375d98bf576af257bd86ea2a} 
+e\+DCOMODE\+\_\+\+GPS\+\_\+\+COMPENSATED&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{piodco_8h_a574085e2e9610a0c25e021ff43d37c67}\label{piodco_8h_a574085e2e9610a0c25e021ff43d37c67} 
+\index{piodco.h@{piodco.h}!PioDCOGetFreqShiftMilliHertz@{PioDCOGetFreqShiftMilliHertz}}
+\index{PioDCOGetFreqShiftMilliHertz@{PioDCOGetFreqShiftMilliHertz}!piodco.h@{piodco.h}}
+\doxysubsubsection{\texorpdfstring{PioDCOGetFreqShiftMilliHertz()}{PioDCOGetFreqShiftMilliHertz()}}
+{\footnotesize\ttfamily int32\+\_\+t Pio\+DCOGet\+Freq\+Shift\+Milli\+Hertz (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}}]{pdco,  }\item[{uint64\+\_\+t}]{u64\+\_\+desired\+\_\+frq\+\_\+millihz }\end{DoxyParamCaption})}
+
+
+
+Obtains the frequency shift \mbox{[}milli\+Hz\mbox{]} which is calculated for a given frequency. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdco} & Ptr to Context. \\
+\hline
+{\em u64\+\_\+desired\+\_\+frq\+\_\+millihz} & The frequency for which we want to calculate correction. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value of correction we need to subtract from desired freq. to compensate 
+
+Pico\textquotesingle{}s reference clock shift. 2854974. 
+\end{DoxyReturn}
+\Hypertarget{piodco_8h_acaf6bb82f9de9d9eca483afffeab1f9d}\label{piodco_8h_acaf6bb82f9de9d9eca483afffeab1f9d} 
+\index{piodco.h@{piodco.h}!PioDCOInit@{PioDCOInit}}
+\index{PioDCOInit@{PioDCOInit}!piodco.h@{piodco.h}}
+\doxysubsubsection{\texorpdfstring{PioDCOInit()}{PioDCOInit()}}
+{\footnotesize\ttfamily int Pio\+DCOInit (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}}]{pdco,  }\item[{int}]{gpio,  }\item[{int}]{cpuclkhz }\end{DoxyParamCaption})}
+
+
+
+Initializes DCO context and prepares PIO hardware. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdco} & Ptr to DCO context. \\
+\hline
+{\em gpio} & The GPIO of DCO output. \\
+\hline
+{\em cpuclkhz} & The system CPU clock freq., Hz. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if OK. 
+\end{DoxyReturn}
+\Hypertarget{piodco_8h_a23fec7beedc544fb48cb3a5198b454f5}\label{piodco_8h_a23fec7beedc544fb48cb3a5198b454f5} 
+\index{piodco.h@{piodco.h}!PioDCOSetFreq@{PioDCOSetFreq}}
+\index{PioDCOSetFreq@{PioDCOSetFreq}!piodco.h@{piodco.h}}
+\doxysubsubsection{\texorpdfstring{PioDCOSetFreq()}{PioDCOSetFreq()}}
+{\footnotesize\ttfamily int Pio\+DCOSet\+Freq (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}}]{pdco,  }\item[{uint32\+\_\+t}]{ui32\+\_\+frq\+\_\+hz,  }\item[{int32\+\_\+t}]{ui32\+\_\+frq\+\_\+millihz }\end{DoxyParamCaption})}
+
+
+
+Sets DCO working frequency in Hz\+: Fout = ui32\+\_\+frq\+\_\+hz + ui32\+\_\+frq\+\_\+millihz \texorpdfstring{$\ast$}{*} 1e-\/3. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdco} & Ptr to DCO context. \\
+\hline
+{\em i32\+\_\+frq\+\_\+hz} & The {\ttfamily coarse} part of frequency \mbox{[}Hz\mbox{]}. Might be negative. \\
+\hline
+{\em ui32\+\_\+frq\+\_\+millihz} & The {\ttfamily fine} part of frequency \mbox{[}Hz\mbox{]}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if OK. -\/1 invalid freq. 
+\end{DoxyReturn}
+\begin{DoxyAttention}{Attention}
+The func can be called while DCO running. 
+\end{DoxyAttention}
+\Hypertarget{piodco_8h_a9264e94db7474897d13b75952ca95b93}\label{piodco_8h_a9264e94db7474897d13b75952ca95b93} 
+\index{piodco.h@{piodco.h}!PioDCOSetMode@{PioDCOSetMode}}
+\index{PioDCOSetMode@{PioDCOSetMode}!piodco.h@{piodco.h}}
+\doxysubsubsection{\texorpdfstring{PioDCOSetMode()}{PioDCOSetMode()}}
+{\footnotesize\ttfamily void Pio\+DCOSet\+Mode (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}}]{pdco,  }\item[{enum \mbox{\hyperlink{piodco_8h_af87c63ca4eaf4a0b418df10b2eeb1366}{Pio\+Dco\+Mode}}}]{emode }\end{DoxyParamCaption})}
+
+
+
+Sets DCO running mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdco} & Ptr to DCO context. \\
+\hline
+{\em emode} & Desired mode. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyAttention}{Attention}
+Not actual so far. User-\/independent freq. correction not impl\textquotesingle{}d yet. !\+FIXME! 
+\end{DoxyAttention}
+\Hypertarget{piodco_8h_a02d18c5e5c4f60230bb4f065152facaa}\label{piodco_8h_a02d18c5e5c4f60230bb4f065152facaa} 
+\index{piodco.h@{piodco.h}!PioDCOStart@{PioDCOStart}}
+\index{PioDCOStart@{PioDCOStart}!piodco.h@{piodco.h}}
+\doxysubsubsection{\texorpdfstring{PioDCOStart()}{PioDCOStart()}}
+{\footnotesize\ttfamily void Pio\+DCOStart (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}}]{pdco }\end{DoxyParamCaption})}
+
+
+
+Starts the DCO. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdco} & Ptr to DCO context. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{piodco_8h_ac29ab5dd136565b4a53390d1079bfc7c}\label{piodco_8h_ac29ab5dd136565b4a53390d1079bfc7c} 
+\index{piodco.h@{piodco.h}!PioDCOStop@{PioDCOStop}}
+\index{PioDCOStop@{PioDCOStop}!piodco.h@{piodco.h}}
+\doxysubsubsection{\texorpdfstring{PioDCOStop()}{PioDCOStop()}}
+{\footnotesize\ttfamily void Pio\+DCOStop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}}]{pdco }\end{DoxyParamCaption})}
+
+
+
+Stops the DCO. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pdco} & Ptr to DCO context. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{piodco_8h_a41f252dde25c5fbe603a899a7c8395a9}\label{piodco_8h_a41f252dde25c5fbe603a899a7c8395a9} 
+\index{piodco.h@{piodco.h}!PioDCOWorker2@{PioDCOWorker2}}
+\index{PioDCOWorker2@{PioDCOWorker2}!piodco.h@{piodco.h}}
+\doxysubsubsection{\texorpdfstring{PioDCOWorker2()}{PioDCOWorker2()}}
+{\footnotesize\ttfamily void \mbox{\hyperlink{defines_8h_a60a6bc58d166c2eefc6a59b6c0d172e8}{RAM}} Pio\+DCOWorker2 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}}]{p\+DCO }\end{DoxyParamCaption})}
+
+
+
+Main worker task of DCO V.\+2. It is time critical, so it ought to be run on. 
+
+the dedicated pi pico core. 
+\begin{DoxyParams}{Parameters}
+{\em p\+DCO} & Ptr to DCO context. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+No return. It spins forever. 
+\end{DoxyReturn}

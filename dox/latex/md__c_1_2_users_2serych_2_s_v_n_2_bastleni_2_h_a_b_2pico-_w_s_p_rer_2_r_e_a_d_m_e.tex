@@ -1,0 +1,44 @@
+\chapter{pico balloon WSPR tracker}
+\hypertarget{md__c_1_2_users_2serych_2_s_v_n_2_bastleni_2_h_a_b_2pico-_w_s_p_rer_2_r_e_a_d_m_e}{}\label{md__c_1_2_users_2serych_2_s_v_n_2_bastleni_2_h_a_b_2pico-_w_s_p_rer_2_r_e_a_d_m_e}\index{pico balloon WSPR tracker@{pico balloon WSPR tracker}}
+\label{md__c_1_2_users_2serych_2_s_v_n_2_bastleni_2_h_a_b_2pico-_w_s_p_rer_2_r_e_a_d_m_e_autotoc_md0}%
+\Hypertarget{md__c_1_2_users_2serych_2_s_v_n_2_bastleni_2_h_a_b_2pico-_w_s_p_rer_2_r_e_a_d_m_e_autotoc_md0}%
+Implements an extremely low-\/cost WSPR tracker for HAB (high altitude balloons) using only a Raspberry Pi Pico and a cheap GPS module such as a generic ATGM336H as shown (approx \$4 as of April 2024). RF power in the 14Mhz (20 meter) band is generated directly by the Pi Pico. Two gpio pins are driven out of phase to feed a half wave dipole antenna trimmed for 20M. This generates approximately 10 to 20mW of power total.
+
+The RF synthesis and basic WSPR code is based on Roman Piksaykin\textquotesingle{}s excellent work at \href{https://github.com/RPiks/pico-WSPR-tx}{\texttt{ https\+://github.\+com/\+RPiks/pico-\/\+WSPR-\/tx}} ~\newline
+
+
+The altitude and full 6 character maidenhead grid are calculated from the GPS location data and transmitted along with the callsign. Solar array voltage and rp2040 temperature are also sent as telemetry when utilizing the U4\+B/\+Traquito protocol. If you specify a callsign suffix, it can ALSO/\+INSTEAD transmit WSPR Type 3 messages every ten minutes. These include the 6 character maidenhead grid and the altitude encoded using the Zachtek protocol. Type 3 messaging is arguably more robust than U4B, but less detailed.
+
+The user\textquotesingle{}s callsign and telemetry encoding details are configurable via the pico\textquotesingle{}s USB port and a simple terminal program (ie Putty).
+
+There is an issue with the RP2040 locking up if its input voltage is raised too gradually (as would happen during sunrise). To combat this I have a simple voltage dividor of two resistors across ground and the input voltage. The output if this voltage divider is tied to the RUN input on Pi Pico. The GPS unit stays on during transmission to provide continual frequency shift correction. However, a generic MOSFET or NPN transistor must be included to allow the pico to keep the GPS powered off during initial sunrise boot. See schematic below.
+
+With the original code the Pico was being overclocked to 270Mhz, so the total power draw of the Pico and GPS module was around 100mA at 4 volts. But this version I have the speed down to 135Mhz, which reduces power consumption but is still fine for transmitting on 20M (14Mhz).
+
+We managed to optimize the code of the PIODCO oscillator, so that 115 MHz CPU clock is enough for 20m band. In the /build directory you will find both versions translated (for 115 and 135 MHz CPU clock) ~\newline
+\hypertarget{md__c_1_2_users_2serych_2_s_v_n_2_bastleni_2_h_a_b_2pico-_w_s_p_rer_2_r_e_a_d_m_e_autotoc_md1}{}\doxysection{\texorpdfstring{Quick-\/start}{Quick-\/start}}\label{md__c_1_2_users_2serych_2_s_v_n_2_bastleni_2_h_a_b_2pico-_w_s_p_rer_2_r_e_a_d_m_e_autotoc_md1}
+0. Download \href{https://github.com/EngineerGuy314/pico-WSPRer/blob/main/build/pico-WSPRer-115.uf2}{\texttt{ https\+://github.\+com/\+Engineer\+Guy314/pico-\/\+WSPRer/blob/main/build/pico-\/\+WSPRer-\/115.\+uf2}} and skip to step 6 (or follow steps 1-\/5 to compile it yourself)
+\begin{DoxyEnumerate}
+\item Install Raspberry Pi Pico SDK. Configure environment variables. Test whether it is built successfully.
+\item git clone \href{https://github.com/EngineerGuy314/pico-WSPRer}{\texttt{ https\+://github.\+com/\+Engineer\+Guy314/pico-\/\+WSPRer}}
+\item cd pico-\/\+WSPRer. In \doxylink{defines_8h}{defines.\+h} you can change CPU clock frequency (\#define PLL\+\_\+\+SYS\+\_\+\+MHZ)
+\item ./build.sh
+\item Check whether output file ./build/pico-\/\+WSPRer.uf2 appears.
+\item power up pico with BOOTSEL held, copy the .uf2 file into the Pico when it shows up as a jumpdrive.
+\item If you want to use the U4B protocol, go to \href{https://traquito.github.io/channelmap/}{\texttt{ https\+://traquito.\+github.\+io/channelmap/}} to find an open channel and make note of id13 (column header), minute and lane (frequency).
+\item Connect to pico with a USB cable and a terminal program such as Putty. Hit any key to access setup menu. Configure your callsign and telemetry channel details from step 7.
+\item You can use either one (or both) U4B and Zachtek protocol. If you only use one protocol its first message is sent on the starting-\/minute you enterred in step 8. If you are using both protocols, it starts the U4B messages on the starting minute, will then pause for two minutes and do the Zachtek messages (each protocol uses 4 minutes total). For Zachtek protocol (at this time) you must specify a numeric suffix that will be appended to your callsign. Enter dash (-\/) for the Suffix if you only want to use U4B protocol. Enter double dash (--) for Id13 if you only want to use Type3 (zachtek) protocol.
+\item If the pico is plugged into a computer via USB while running it will appear as a COM port and basic diagnostic messages can be viewed at 115200 baud. The amount of messages shown depends on the Verbosity setting in the user config menu.   Alternate schematic that omits the MOSFET and low-\/side drives the GPS module with 3 outputs in parallel. This exceeds current spec of the rp2040, use at your own risk  Shows ATGM336H GPS receiver and the Pi Pico board after trimming excess weight.
+\end{DoxyEnumerate}
+
+ Completed V3 unit before flight. GPS receiver is flipped over and glued to the RP2040. Total weight including GPS antenna 3.\+5g.
+
+ Tracker mounted beneath solar array, before first succesful flight. This GPS module had a small battery and EEPROM, later version used bare module instead.
+
+ V2 was launched and circumnavigated the world in 13 days.
+
+ Typical solar powered tracker and balloon before launch. Balloon is deliberately under-\/filled with hydrogen to allow room for expansion at high altitude. 12-\/13km altitude is typicaly reached.
+
+ Global tracking with such low powered transmissions are possible thanks to the extensive network of WSPR receive stations.
+
+DISCLAIMER\+: This project transmits on the 20 meter ham radio band\+: you must have an appropriate amatuer radio license to do so legally. Also, toggling a microcontroller IO pin theoretically generates a square wave, which theoretically has an infinite number of high order harmonics. However, RP2040 io pin circuitry is not particularly efficient at generating very high RF energy. Furthermore, the dipole antenna is trimmed to be resonant at 14.\+1\+Mhz and does not do a very good job at radiating anything else. During my testing the amount of RF energy actually emitted outside of the passband was well within limits. You are encouraged to perform your own testing and utilize additionall filtering as needed to meet your local regulations. 

@@ -1,0 +1,126 @@
+\doxysection{C\+:/\+Users/serych/\+SVN/\+Bastleni/\+HAB/pico-\/\+WSPRer/\+Tx\+Channel/\+Tx\+Channel.h File Reference}
+\hypertarget{_tx_channel_8h}{}\label{_tx_channel_8h}\index{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/TxChannel/TxChannel.h@{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/TxChannel/TxChannel.h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include "{}hardware/clocks.\+h"{}}\newline
+{\ttfamily \#include "{}pico/stdlib.\+h"{}}\newline
+{\ttfamily \#include "{}../hf-\/oscillator/lib/assert.\+h"{}}\newline
+{\ttfamily \#include $<$piodco.\+h$>$}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_tx_channel_context}{Tx\+Channel\+Context}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_tx_channel_context}{Tx\+Channel\+Context}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_tx_channel_8h_a526789f3145eada8db1897ce759b9532}{Tx\+Channel\+Init}} (const uint32\+\_\+t bit\+\_\+period\+\_\+us, uint8\+\_\+t timer\+\_\+alarm\+\_\+num, \mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}p\+DCO)
+\begin{DoxyCompactList}\small\item\em Initializes a Tx\+Channel context. Starts timer alarm ISR. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{_tx_channel_8h_a91224c417af35bc6ad43268d047f5842}{Tx\+Channel\+Pending}} (\mbox{\hyperlink{struct_tx_channel_context}{Tx\+Channel\+Context}} \texorpdfstring{$\ast$}{*}pctx)
+\begin{DoxyCompactList}\small\item\em Gets a count of remaining bytes to send. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_tx_channel_8h_ab19ec46c4de859dacfa243878ffdf078}{Tx\+Channel\+Push}} (\mbox{\hyperlink{struct_tx_channel_context}{Tx\+Channel\+Context}} \texorpdfstring{$\ast$}{*}pctx, uint8\+\_\+t \texorpdfstring{$\ast$}{*}psrc, int n)
+\begin{DoxyCompactList}\small\item\em Push a number of bytes to the transmission buffer. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_tx_channel_8h_a99f29e81a3070d9ee80b1af46ab7d36c}{Tx\+Channel\+Pop}} (\mbox{\hyperlink{struct_tx_channel_context}{Tx\+Channel\+Context}} \texorpdfstring{$\ast$}{*}pctx, uint8\+\_\+t \texorpdfstring{$\ast$}{*}pdst)
+\begin{DoxyCompactList}\small\item\em Retrieves a next byte from FIFO. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_tx_channel_8h_aa0f611ac0d1bc011b9ba1335f008bf28}{Tx\+Channel\+Clear}} (\mbox{\hyperlink{struct_tx_channel_context}{Tx\+Channel\+Context}} \texorpdfstring{$\ast$}{*}pctx)
+\begin{DoxyCompactList}\small\item\em Clears transmission buffer completely by setting write \& read indexes to 0. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{_tx_channel_8h_aa0f611ac0d1bc011b9ba1335f008bf28}\label{_tx_channel_8h_aa0f611ac0d1bc011b9ba1335f008bf28} 
+\index{TxChannel.h@{TxChannel.h}!TxChannelClear@{TxChannelClear}}
+\index{TxChannelClear@{TxChannelClear}!TxChannel.h@{TxChannel.h}}
+\doxysubsubsection{\texorpdfstring{TxChannelClear()}{TxChannelClear()}}
+{\footnotesize\ttfamily void Tx\+Channel\+Clear (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_tx_channel_context}{Tx\+Channel\+Context}} \texorpdfstring{$\ast$}{*}}]{pctx }\end{DoxyParamCaption})}
+
+
+
+Clears transmission buffer completely by setting write \& read indexes to 0. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pctx} & Context. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{_tx_channel_8h_a526789f3145eada8db1897ce759b9532}\label{_tx_channel_8h_a526789f3145eada8db1897ce759b9532} 
+\index{TxChannel.h@{TxChannel.h}!TxChannelInit@{TxChannelInit}}
+\index{TxChannelInit@{TxChannelInit}!TxChannel.h@{TxChannel.h}}
+\doxysubsubsection{\texorpdfstring{TxChannelInit()}{TxChannelInit()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_tx_channel_context}{Tx\+Channel\+Context}} \texorpdfstring{$\ast$}{*} Tx\+Channel\+Init (\begin{DoxyParamCaption}\item[{const uint32\+\_\+t}]{bit\+\_\+period\+\_\+us,  }\item[{uint8\+\_\+t}]{timer\+\_\+alarm\+\_\+num,  }\item[{\mbox{\hyperlink{struct_pio_dco}{Pio\+Dco}} \texorpdfstring{$\ast$}{*}}]{p\+DCO }\end{DoxyParamCaption})}
+
+
+
+Initializes a Tx\+Channel context. Starts timer alarm ISR. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bit\+\_\+period\+\_\+us} & Period of data bits, BPS speed = 1e6/bit\+\_\+period\+\_\+us. \\
+\hline
+{\em timer\+\_\+alarm\+\_\+num} & Pico-\/specific hardware timer resource id. \\
+\hline
+{\em p\+DCO} & Ptr to oscillator. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the Context. 
+\end{DoxyReturn}
+\Hypertarget{_tx_channel_8h_a91224c417af35bc6ad43268d047f5842}\label{_tx_channel_8h_a91224c417af35bc6ad43268d047f5842} 
+\index{TxChannel.h@{TxChannel.h}!TxChannelPending@{TxChannelPending}}
+\index{TxChannelPending@{TxChannelPending}!TxChannel.h@{TxChannel.h}}
+\doxysubsubsection{\texorpdfstring{TxChannelPending()}{TxChannelPending()}}
+{\footnotesize\ttfamily uint8\+\_\+t Tx\+Channel\+Pending (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_tx_channel_context}{Tx\+Channel\+Context}} \texorpdfstring{$\ast$}{*}}]{pctx }\end{DoxyParamCaption})}
+
+
+
+Gets a count of remaining bytes to send. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pctx} & Context. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A count of bytes. 
+\end{DoxyReturn}
+\Hypertarget{_tx_channel_8h_a99f29e81a3070d9ee80b1af46ab7d36c}\label{_tx_channel_8h_a99f29e81a3070d9ee80b1af46ab7d36c} 
+\index{TxChannel.h@{TxChannel.h}!TxChannelPop@{TxChannelPop}}
+\index{TxChannelPop@{TxChannelPop}!TxChannel.h@{TxChannel.h}}
+\doxysubsubsection{\texorpdfstring{TxChannelPop()}{TxChannelPop()}}
+{\footnotesize\ttfamily int Tx\+Channel\+Pop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_tx_channel_context}{Tx\+Channel\+Context}} \texorpdfstring{$\ast$}{*}}]{pctx,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{pdst }\end{DoxyParamCaption})}
+
+
+
+Retrieves a next byte from FIFO. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pctx} & Context. \\
+\hline
+{\em pdst} & Ptr to write a byte. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if a byte has been retrived, or 0. 
+\end{DoxyReturn}
+\Hypertarget{_tx_channel_8h_ab19ec46c4de859dacfa243878ffdf078}\label{_tx_channel_8h_ab19ec46c4de859dacfa243878ffdf078} 
+\index{TxChannel.h@{TxChannel.h}!TxChannelPush@{TxChannelPush}}
+\index{TxChannelPush@{TxChannelPush}!TxChannel.h@{TxChannel.h}}
+\doxysubsubsection{\texorpdfstring{TxChannelPush()}{TxChannelPush()}}
+{\footnotesize\ttfamily int Tx\+Channel\+Push (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_tx_channel_context}{Tx\+Channel\+Context}} \texorpdfstring{$\ast$}{*}}]{pctx,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{psrc,  }\item[{int}]{n }\end{DoxyParamCaption})}
+
+
+
+Push a number of bytes to the transmission buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pctx} & Context. \\
+\hline
+{\em psrc} & Ptr to buffer to send. \\
+\hline
+{\em n} & A count of bytes to send. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A count of bytes has been sent (might be lower than n). 
+\end{DoxyReturn}

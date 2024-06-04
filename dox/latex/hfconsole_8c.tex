@@ -1,0 +1,57 @@
+\doxysection{C\+:/\+Users/serych/\+SVN/\+Bastleni/\+HAB/pico-\/\+WSPRer/hf-\/oscillator/hfconsole/hfconsole.c File Reference}
+\hypertarget{hfconsole_8c}{}\label{hfconsole_8c}\index{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/hf-\/oscillator/hfconsole/hfconsole.c@{C:/Users/serych/SVN/Bastleni/HAB/pico-\/WSPRer/hf-\/oscillator/hfconsole/hfconsole.c}}
+{\ttfamily \#include "{}hfconsole.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_h_fconsole_context}{HFconsole\+Context}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{hfconsole_8c_aa65819b7c854d9ccea0ee4bf27aa59c8}{HFconsole\+Init}} (int uart\+\_\+id, int baud)
+\item 
+void \mbox{\hyperlink{hfconsole_8c_a111cbad5f44ac4f73ce21dc3a9fddd9f}{HFconsole\+Destroy}} (\mbox{\hyperlink{struct_h_fconsole_context}{HFconsole\+Context}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}pp)
+\item 
+void \mbox{\hyperlink{hfconsole_8c_a85f89c2689bab2ba00095b4597933663}{HFconsole\+Clear}} (\mbox{\hyperlink{struct_h_fconsole_context}{HFconsole\+Context}} \texorpdfstring{$\ast$}{*}pc)
+\item 
+int \mbox{\hyperlink{hfconsole_8c_ac4fc46a1827a57ae863950ef67d60d0e}{HFconsole\+Process}} (\mbox{\hyperlink{struct_h_fconsole_context}{HFconsole\+Context}} \texorpdfstring{$\ast$}{*}p, int ms)
+\item 
+int \mbox{\hyperlink{hfconsole_8c_a9dbd00375df6f8e589b96b382e083660}{HFconsole\+Emit\+Command}} (\mbox{\hyperlink{struct_h_fconsole_context}{HFconsole\+Context}} \texorpdfstring{$\ast$}{*}pc)
+\item 
+void \mbox{\hyperlink{hfconsole_8c_acba363b08920d04d7eff81247ba43d89}{HFconsole\+Set\+Wrapper}} (\mbox{\hyperlink{struct_h_fconsole_context}{HFconsole\+Context}} \texorpdfstring{$\ast$}{*}pc, void \texorpdfstring{$\ast$}{*}pfwrapper)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{hfconsole_8c_a85f89c2689bab2ba00095b4597933663}\label{hfconsole_8c_a85f89c2689bab2ba00095b4597933663} 
+\index{hfconsole.c@{hfconsole.c}!HFconsoleClear@{HFconsoleClear}}
+\index{HFconsoleClear@{HFconsoleClear}!hfconsole.c@{hfconsole.c}}
+\doxysubsubsection{\texorpdfstring{HFconsoleClear()}{HFconsoleClear()}}
+{\footnotesize\ttfamily void HFconsole\+Clear (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_h_fconsole_context}{HFconsole\+Context}} \texorpdfstring{$\ast$}{*}}]{pc }\end{DoxyParamCaption})}
+
+\Hypertarget{hfconsole_8c_a111cbad5f44ac4f73ce21dc3a9fddd9f}\label{hfconsole_8c_a111cbad5f44ac4f73ce21dc3a9fddd9f} 
+\index{hfconsole.c@{hfconsole.c}!HFconsoleDestroy@{HFconsoleDestroy}}
+\index{HFconsoleDestroy@{HFconsoleDestroy}!hfconsole.c@{hfconsole.c}}
+\doxysubsubsection{\texorpdfstring{HFconsoleDestroy()}{HFconsoleDestroy()}}
+{\footnotesize\ttfamily void HFconsole\+Destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_h_fconsole_context}{HFconsole\+Context}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{pp }\end{DoxyParamCaption})}
+
+\Hypertarget{hfconsole_8c_a9dbd00375df6f8e589b96b382e083660}\label{hfconsole_8c_a9dbd00375df6f8e589b96b382e083660} 
+\index{hfconsole.c@{hfconsole.c}!HFconsoleEmitCommand@{HFconsoleEmitCommand}}
+\index{HFconsoleEmitCommand@{HFconsoleEmitCommand}!hfconsole.c@{hfconsole.c}}
+\doxysubsubsection{\texorpdfstring{HFconsoleEmitCommand()}{HFconsoleEmitCommand()}}
+{\footnotesize\ttfamily int HFconsole\+Emit\+Command (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_h_fconsole_context}{HFconsole\+Context}} \texorpdfstring{$\ast$}{*}}]{pc }\end{DoxyParamCaption})}
+
+\Hypertarget{hfconsole_8c_aa65819b7c854d9ccea0ee4bf27aa59c8}\label{hfconsole_8c_aa65819b7c854d9ccea0ee4bf27aa59c8} 
+\index{hfconsole.c@{hfconsole.c}!HFconsoleInit@{HFconsoleInit}}
+\index{HFconsoleInit@{HFconsoleInit}!hfconsole.c@{hfconsole.c}}
+\doxysubsubsection{\texorpdfstring{HFconsoleInit()}{HFconsoleInit()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_h_fconsole_context}{HFconsole\+Context}} \texorpdfstring{$\ast$}{*} HFconsole\+Init (\begin{DoxyParamCaption}\item[{int}]{uart\+\_\+id,  }\item[{int}]{baud }\end{DoxyParamCaption})}
+
+\Hypertarget{hfconsole_8c_ac4fc46a1827a57ae863950ef67d60d0e}\label{hfconsole_8c_ac4fc46a1827a57ae863950ef67d60d0e} 
+\index{hfconsole.c@{hfconsole.c}!HFconsoleProcess@{HFconsoleProcess}}
+\index{HFconsoleProcess@{HFconsoleProcess}!hfconsole.c@{hfconsole.c}}
+\doxysubsubsection{\texorpdfstring{HFconsoleProcess()}{HFconsoleProcess()}}
+{\footnotesize\ttfamily int HFconsole\+Process (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_h_fconsole_context}{HFconsole\+Context}} \texorpdfstring{$\ast$}{*}}]{p,  }\item[{int}]{ms }\end{DoxyParamCaption})}
+
+\Hypertarget{hfconsole_8c_acba363b08920d04d7eff81247ba43d89}\label{hfconsole_8c_acba363b08920d04d7eff81247ba43d89} 
+\index{hfconsole.c@{hfconsole.c}!HFconsoleSetWrapper@{HFconsoleSetWrapper}}
+\index{HFconsoleSetWrapper@{HFconsoleSetWrapper}!hfconsole.c@{hfconsole.c}}
+\doxysubsubsection{\texorpdfstring{HFconsoleSetWrapper()}{HFconsoleSetWrapper()}}
+{\footnotesize\ttfamily void HFconsole\+Set\+Wrapper (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_h_fconsole_context}{HFconsole\+Context}} \texorpdfstring{$\ast$}{*}}]{pc,  }\item[{void \texorpdfstring{$\ast$}{*}}]{pfwrapper }\end{DoxyParamCaption})}
+
