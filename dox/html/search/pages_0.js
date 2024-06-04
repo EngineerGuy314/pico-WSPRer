@@ -1,4 +1,0 @@
-var searchData=
-[
-  ['balloon_20wspr_20tracker_0',['pico balloon WSPR tracker',['../md__r_e_a_d_m_e.html',1,'']]]
-];
