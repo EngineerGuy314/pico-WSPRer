@@ -15,7 +15,7 @@
 #include <defines.h>
 #include <piodco.h>
 #include <WSPRbeacon.h>
-#include <logutils.h>
+#include "debug/logutils.h"
 #include <protos.h>
 #include "pico/stdlib.h"
 #include "hardware/gpio.h"
@@ -94,14 +94,15 @@ int main()
     pWSPR = pWB;
     pWB->_txSched.force_xmit_for_testing = d_force_xmit_for_testing;
 	pWB->_txSched.led_mode = 0;  //waiting for GPS
-	pWB->_txSched.Xmission_In_Process = 0;  //prolly not used anymore
+	pWB->_txSched.Xmission_In_Process = 0;  //probably not used anymore
 	pWB->_txSched.output_number_toEnable_GPS = GPS_ENABLE_PIN;
 	pWB->_txSched.verbosity=(uint8_t)_verbosity[0]-'0';       /**< convert ASCI digit to int  */
 	pWB->_txSched.suffix=(uint8_t)_suffix[0]-'0';    /**< convert ASCI digit to int (value 253 if dash was entered) */
 	strcpy(pWB->_txSched.id13,_id13);
 
 	multicore_launch_core1(Core1Entry);
-    StampPrintf("RF oscillator started.");
+    StampPrintf("RF oscillator initialized.");
+
 
 	gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output output
 	gpio_put(GPS_ENABLE_PIN, 1); 									   // to power up GPS unit
@@ -109,6 +110,7 @@ int main()
 	gpio_init(9); gpio_set_dir(9, GPIO_OUT); 
 	gpio_init(10); gpio_set_dir(10, GPIO_OUT);
 	
+
     DCO._pGPStime = GPStimeInit(0, 9600, GPS_PPS_PIN); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
     assert_(DCO._pGPStime);
 	DCO._pGPStime->user_setup_menu_active=0;
@@ -137,7 +139,7 @@ int main()
 				 WSPRbeaconDumpContext(pWB);
 		}
 
-		stdio_set_driver_enabled(&stdio_uart, false);  //prevents bytes from GPS causing problems	
+		// stdio_set_driver_enabled(&stdio_uart, false);  //prevents bytes from GPS causing problems	
 
 		if (getchar_timeout_us(0)>0)   //looks for input on USB serial port only
 		{
@@ -160,7 +162,7 @@ int main()
 		if (pWB->_txSched.verbosity>=1)
 		{
 				if(0 == ++tick2 % 4)      //every ~2 sec
-				printf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Satellite count: %d\n", (tempC*(9.0f/5.0f))+32,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count );
+				StampPrintf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Satellite count: %d\n", (tempC*(9.0f/5.0f))+32,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count );
 		
 		}
 
@@ -171,6 +173,7 @@ int main()
 		if (pWB->_txSched.led_mode==0)
 		{
 		sleep_ms(20);
+		DoLogPrint();
 		gpio_put(PICO_DEFAULT_LED_PIN, 0);
 		sleep_ms(440);
 		}
@@ -236,7 +239,7 @@ void user_interface(void)
     char c;
 	char str[10];
 
-	stdio_set_driver_enabled(&stdio_uart, false);  //prevents bytes from GPS causing problems during nvram config	
+	// stdio_set_driver_enabled(&stdio_uart, false);  //prevents bytes from GPS causing problems during nvram config	
     gpio_put(GPS_ENABLE_PIN, 0);                   //shutoff gps to prevent serial input  (probably not needed anymore due to previous line)
 	sleep_ms(100);
 	gpio_put(PICO_DEFAULT_LED_PIN, 1); //LED on.	

@@ -21,6 +21,7 @@ static int at_least_one_slot_has_elapsed;
 static int at_least_one_GPS_fixed_has_been_obtained;
 static uint8_t _callsign_with_suffix[12];
 static 	uint8_t  altitude_as_power_fine;
+
 /// @brief Initializes a new WSPR beacon context.
 /// @param pcallsign HAM radio callsign, 12 chr max.
 /// @param pgridsquare Maidenhead locator, 7 chr max.
@@ -30,6 +31,8 @@ static 	uint8_t  altitude_as_power_fine;
 /// @param shift_freq_hz The shift of tx freq. relative to dial_freq_hz.
 /// @param gpio Pico's GPIO pin of RF output.
 /// @return Ptr to the new context.
+/// @bug The function sets schedule hardcoded to minutes 1, 2 and 3. It may lead to 
+/// @bug out of schedule transmits if the device is switched on around minute 0  
 WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare, int txpow_dbm,
                                   PioDco *pdco, uint32_t dial_freq_hz, uint32_t shift_freq_hz,
                                   int gpio,  uint8_t start_minute, uint8_t id13, uint8_t suffix)
@@ -269,9 +272,9 @@ int WSPRbeaconSendPacket(const WSPRbeaconContext *pctx)
     assert_(pctx);
     assert_(pctx->_pTX);
     assert_(pctx->_pTX->_u32_dialfreqhz > 500 * kHz);
-    TxChannelClear(pctx->_pTX);
+    TxChannelClear(pctx->_pTX); 
     memcpy(pctx->_pTX->_pbyte_buffer, pctx->_pu8_outbuf, WSPR_SYMBOL_COUNT);  //162
-    pctx->_pTX->_ix_input = WSPR_SYMBOL_COUNT;
+    pctx->_pTX->_ix_input = WSPR_SYMBOL_COUNT;  //set count of bytes to send
     return 0;
 }
 //******************************************************************************************************************************

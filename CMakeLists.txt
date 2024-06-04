@@ -42,7 +42,7 @@ target_sources(pico-WSPRer PUBLIC
 pico_set_program_name(pico-WSPRer "pico-WSPRer")
 pico_set_program_version(pico-WSPRer "0.5")
 
-pico_enable_stdio_uart(pico-WSPRer 1)
+pico_enable_stdio_uart(pico-WSPRer 0) # disable stdio to UART
 pico_enable_stdio_usb(pico-WSPRer 1)
 
 # Add the standard include files to the build
