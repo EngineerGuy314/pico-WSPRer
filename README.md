@@ -46,7 +46,7 @@ Typical solar powered tracker and balloon before launch. Balloon is deliberately
 ![initial spots](https://github.com/EngineerGuy314/pico-WSPRer/assets/123671395/ee4be0e1-1591-4dc4-9fc2-510bcd0ae6cd)
 Global tracking with such low powered transmissions are possible thanks to the extensive network of WSPR receive stations.
 
-We are trying to document the code using Doxygen. [Take a look here](https://github.com/EngineerGuy314/pico-WSPRer/dox/html/blob/main/index.html)
+We are trying to document the code using Doxygen. Take a look at /pico-WSPRer/dox/html/index.html 
 
 DISCLAIMER: This project transmits on the 20 meter ham radio band: you must have an appropriate amatuer radio license to do so legally. Also, toggling a microcontroller IO pin theoretically generates a square wave, which theoretically has an infinite number of high order harmonics. However, RP2040 io pin circuitry is not particularly efficient at generating very high RF energy. Furthermore, the dipole antenna is trimmed to be resonant at 14.1Mhz and does not do a very good job at radiating anything else. During my testing the amount of RF energy actually emitted outside of the passband was well within limits. You are encouraged to perform your own testing and utilize additionall filtering as needed to meet your local regulations.
 
