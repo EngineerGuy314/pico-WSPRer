@@ -56,7 +56,7 @@
 #define DEBUGPRINTF(x) { }
 #endif
 
-// #define FARENHEIT
+#define FARENHEIT
 
 #ifdef FARENHEIT
 #define tempU (tempC*(9.0f/5.0f))+32

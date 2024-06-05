@@ -328,7 +328,7 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 	{
 		for (int i=0;i < 10;i++) oneshots[i]=0;
 		at_least_one_slot_has_elapsed=1;  
-		if (pctx->_txSched.oscillatorOff && schedule[(current_minute+9)%10]==-1)    // if we want  switch oscillator off and are in non sheduled interval 
+		if (pctx->_txSched.oscillatorOff && schedule[(current_minute+9)%10]==-1)    // if we want to switch oscillator off and are in non sheduled interval 
 		{
 			pctx->_txSched.led_mode = 1; 	// LED status transmitter off
 			PioDCOStop(pctx->_pTX->_p_oscillator);	// Stop the oscilator
