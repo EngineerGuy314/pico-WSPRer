@@ -322,12 +322,17 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 			if (pctx->_txSched.verbosity>=1) StampPrintf("Gps was available, but no valid 3d Fix. ledmode %d XMIT status %d",pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);
 		}
 
-		current_minute = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_last_digit_minutes - 48;  //convert from char to int
+		current_minute = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_last_digit_minutes - '0';  //convert from char to int
 	
 	if (schedule[current_minute]==-1)        //if the current minute is an odd minute or a non-scheduled minute
 	{
 		for (int i=0;i < 10;i++) oneshots[i]=0;
 		at_least_one_slot_has_elapsed=1;  
+		if (pctx->_txSched.oscillatorOff && schedule[(current_minute+9)%10]==-1)    // if we want to switch oscillator off and are in non sheduled interval 
+		{
+			pctx->_txSched.led_mode = 1; 	// LED status transmitter off
+			PioDCOStop(pctx->_pTX->_p_oscillator);	// Stop the oscilator
+		}
 	}
 	
 	else if (is_GPS_available && at_least_one_slot_has_elapsed 
@@ -341,7 +346,7 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 			WSPRbeaconCreatePacket(pctx, schedule[current_minute] ); //the schedule determines packet type (1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd)
 			sleep_ms(50);
 			WSPRbeaconSendPacket(pctx); 
-			pctx->_txSched.led_mode = 2;  //xmitting		. with current setup this will remain on forever to keep temperature stable	
+			pctx->_txSched.led_mode = 2;  // LED status trasmitter on	
 		}
 
    return 0;
