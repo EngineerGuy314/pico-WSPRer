@@ -42,6 +42,7 @@ char _start_minute[2];
 char _lane[2];
 char _suffix[2];
 char _verbosity[2];
+char _oscillator[2];
 
 int main()
 {
@@ -137,9 +138,7 @@ int main()
 		{
 				if(0 == ++tick % 20)      //every ~20 secs dumps context.  
 				 WSPRbeaconDumpContext(pWB);
-		}
-
-		// stdio_set_driver_enabled(&stdio_uart, false);  //prevents bytes from GPS causing problems	
+		}	
 
 		if (getchar_timeout_us(0)>0)   //looks for input on USB serial port only
 		{
@@ -194,6 +193,12 @@ int main()
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @brief Prints out hex listing of the settings NVRAM to stdio
+ * 
+ * @param buf Address of NVRAM to list
+ * @param len Length of storage to list
+ */
 void print_buf(const uint8_t *buf, size_t len) {
     for (size_t i = 0; i < len; ++i) {
         printf("%02x", buf[i]);
@@ -204,22 +209,35 @@ void print_buf(const uint8_t *buf, size_t len) {
     }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-	void read_NVRAM(void)
-	{
-	const uint8_t *flash_target_contents = (const uint8_t *) (XIP_BASE + FLASH_TARGET_OFFSET); //a pointer to a safe place after the program memory
-	
-	print_buf(flash_target_contents, FLASH_PAGE_SIZE); //256
 
-	strncpy(_callsign, flash_target_contents, 6);
-	strncpy(_id13, flash_target_contents+6, 2);
-	strncpy(_start_minute, flash_target_contents+8, 1);
-	strncpy(_lane, flash_target_contents+9, 1);
-	strncpy(_suffix, flash_target_contents+10, 1);
-	strncpy(_verbosity, flash_target_contents+11, 1);
-						
-    check_data_validity();
-	}
+/**
+ * @brief Reads part of the program memory where the user settings are saved
+ * prints hexa listing of data and calls function which check data validity
+ * 
+ */
+void read_NVRAM(void)
+{
+const uint8_t *flash_target_contents = (const uint8_t *) (XIP_BASE + FLASH_TARGET_OFFSET); //a pointer to a safe place after the program memory
+
+print_buf(flash_target_contents, FLASH_PAGE_SIZE); //256
+
+strncpy(_callsign, flash_target_contents, 6);
+strncpy(_id13, flash_target_contents+6, 2);
+strncpy(_start_minute, flash_target_contents+8, 1);
+strncpy(_lane, flash_target_contents+9, 1);
+strncpy(_suffix, flash_target_contents+10, 1);
+strncpy(_verbosity, flash_target_contents+11, 1);
+strncpy(_oscillator, flash_target_contents+12, 1);
+					
+check_data_validity();
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @brief Checks validity of user settings and if something is wrong, it sets "factory defaults"
+ * and writes it back to NVRAM
+ * 
+ */
 void check_data_validity(void)
 {
 //do some basic plausibility checking on data							
@@ -229,7 +247,9 @@ void check_data_validity(void)
 	if ( (_start_minute[0]!='0') && (_start_minute[0]!='2') && (_start_minute[0]!='4')&& (_start_minute[0]!='6')&& (_start_minute[0]!='8')) {_start_minute[0]='0'; write_NVRAM();}
 	if ( (_lane[0]!='1') && (_lane[0]!='2') && (_lane[0]!='3')&& (_lane[0]!='4')) {_lane[0]='2'; write_NVRAM();}
 	if ( (_verbosity[0]<'0') || (_verbosity[0]>'9')) {_verbosity[0]='1'; write_NVRAM();} //set default verbosity to 1
+	if ( (_oscillator[0]<'0') || (_oscillator[0]>'1')) {_oscillator[0]='1'; write_NVRAM();} //set default oscillator to switch off after the trasmission
 }
+
 /**
  * @brief Function that implements simple user interface via UART
  * 
@@ -239,7 +259,6 @@ void user_interface(void)
     char c;
 	char str[10];
 
-	// stdio_set_driver_enabled(&stdio_uart, false);  //prevents bytes from GPS causing problems during nvram config	
     gpio_put(GPS_ENABLE_PIN, 0);                   //shutoff gps to prevent serial input  (probably not needed anymore due to previous line)
 	sleep_ms(100);
 	gpio_put(PICO_DEFAULT_LED_PIN, 1); //LED on.	
@@ -265,6 +284,7 @@ show_values();
 			case 'M':printf("Enter starting Minute: ");  scanf(" %s", _start_minute); _start_minute[1]=0; write_NVRAM(); break;
 			case 'L':printf("Enter Lane (1,2,3,4): ");   scanf(" %s", _lane);_lane[1]=0;  write_NVRAM();break;
 			case 'V':printf("Verbosity level (0-9): ");   scanf(" %s", _verbosity);_verbosity[1]=0;  write_NVRAM();break;
+			case 'O':printf("Oscillator off (0,1): ");   scanf(" %s", _oscillator);_oscillator[1]=0;  write_NVRAM();break;
 			case 13:  break;
 			case 10:  break;
 			default: printf("\n\n\n\n\n\n\nyou pressed %c %02x , INVALID choice!! ",c,c);show_values();break;		
@@ -273,14 +293,19 @@ show_values();
 		show_values();
 	}
 }
+
 /**
  * @brief Function that writes out the current set values of parameters
  * 
  */
 void show_values(void)
 {
-printf("\n\nCurrent values:\n\tCallsign:%s\n\tSuffix:%s\n\tId13:%s\n\tMinute:%s\n\tLane:%s\n\tVerbosity:%s\n\n",_callsign,_suffix,_id13,_start_minute,_lane,_verbosity);
-printf("VALID commands: \n\n\tX: eXit configuraiton and reboot\n\tC: change Callsign (6 char max)\n\tS: change Suffix (added to callsign for WSPR3) enter '-' to disable WSPR3\n\tI: change Id13 (two alpha numeric chars, ie Q8) enter '--' to disable U4B\n\tM: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\tV: Verbosity level (0 for no messages, 9 for too many) \n\n");
+printf("\n\nCurrent values:\n\tCallsign:%s\n\tSuffix:%s\n\tId13:%s\n\tMinute:%s\n\tLane:%s\n\tVerbosity:%s\n\tOscillator Off:%s\n\n",_callsign,_suffix,_id13,_start_minute,_lane,_verbosity, _oscillator);
+printf("VALID commands: \n\n\tX: eXit configuraiton and reboot\n\tC: change Callsign (6 char max)\n\t");
+printf("S: change Suffix (added to callsign for WSPR3) enter '-' to disable WSPR3\n\t");
+printf("I: change Id13 (two alpha numeric chars, ie Q8) enter '--' to disable U4B\n\t");
+printf("M: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\t");
+printf("V: Verbosity level (0 for no messages, 9 for too many) \n\tO: Oscillator off after trasmission (0,1)\n\n");
 
 }
 /**
@@ -297,6 +322,7 @@ void write_NVRAM(void)
 	strncpy(data_chunk+9,_lane, 1);
 	strncpy(data_chunk+10,_suffix, 1);
 	strncpy(data_chunk+11,_verbosity, 1);
+	strncpy(data_chunk+12,_oscillator, 1);
 
 	uint32_t ints = save_and_disable_interrupts();
     flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);
