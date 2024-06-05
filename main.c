@@ -162,7 +162,7 @@ int main()
 		if (pWB->_txSched.verbosity>=1)
 		{
 				if(0 == ++tick2 % 4)      //every ~2 sec
-				StampPrintf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Satellite count: %d\n", (tempC*(9.0f/5.0f))+32,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count );
+				StampPrintf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Satellite count: %d\n", tempU,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count );
 		
 		}
 

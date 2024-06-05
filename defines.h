@@ -56,6 +56,14 @@
 #define DEBUGPRINTF(x) { }
 #endif
 
+// #define FARENHEIT
+
+#ifdef FARENHEIT
+#define tempU (tempC*(9.0f/5.0f))+32
+#else
+#define tempU tempC
+#endif
+
 #define PLL_SYS_MHZ 115UL // This sets CPU speed. Roman originally had 270UL. 
       // After improvement od PIODCO we are now on 115 MHz (for 20m band) :-)      
 
