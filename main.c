@@ -99,6 +99,7 @@ int main()
 	pWB->_txSched.output_number_toEnable_GPS = GPS_ENABLE_PIN;
 	pWB->_txSched.verbosity=(uint8_t)_verbosity[0]-'0';       /**< convert ASCI digit to int  */
 	pWB->_txSched.suffix=(uint8_t)_suffix[0]-'0';    /**< convert ASCI digit to int (value 253 if dash was entered) */
+	pWB->_txSched.oscillatorOff=(uint8_t)_oscillator[0]-'0';
 	strcpy(pWB->_txSched.id13,_id13);
 
 	multicore_launch_core1(Core1Entry);

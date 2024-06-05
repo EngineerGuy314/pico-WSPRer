@@ -76,6 +76,7 @@ typedef struct
     int8_t temp_in_Celsius;
 	int8_t verbosity;
     double voltage;
+    int8_t oscillatorOff;
 } WSPRbeaconSchedule;
 
 typedef struct
