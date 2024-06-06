@@ -1,5 +1,5 @@
 # pico balloon WSPR tracker
-Implements an extremely low-cost WSPR tracker for HAB (high altitude balloons) using only a Raspberry Pi Pico and a cheap GPS module such as a generic ATGM336H as shown (approx $4 as of April 2024). RF power in the 14Mhz (20 meter) band is generated directly by the Pi Pico. Two gpio pins are driven out of phase to feed a half wave dipole antenna trimmed for 20M. This generates approximately 10 to 20mW of power total. 
+Implements an extremely low-cost WSPR tracker for HAB (high altitude balloons) using only a RP2040 board (such as Raspberry Pi Pico) and a cheap GPS module such as a generic ATGM336H (available for less than $4 as of April 2024). RF power in the 14Mhz (20 meter) band is generated directly by the RP2040. Two gpio pins are driven out of phase to feed a half wave dipole antenna trimmed for 20M. This generates approximately 10 to 20mW of power total. 
 
 The RF synthesis and basic WSPR code is based on Roman Piksaykin's excellent work at https://github.com/RPiks/pico-WSPR-tx  
 
