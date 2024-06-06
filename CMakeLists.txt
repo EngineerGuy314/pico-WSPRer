@@ -34,6 +34,7 @@ target_sources(pico-WSPRer PUBLIC
                ${CMAKE_CURRENT_LIST_DIR}/WSPRbeacon/thirdparty/maidenhead.c
                ${CMAKE_CURRENT_LIST_DIR}/WSPRbeacon/WSPRbeacon.c
                ${CMAKE_CURRENT_LIST_DIR}/debug/logutils.c
+               ${CMAKE_CURRENT_LIST_DIR}/utilities.c
                ${CMAKE_CURRENT_LIST_DIR}/init.c
                ${CMAKE_CURRENT_LIST_DIR}/core1.c
                ${CMAKE_CURRENT_LIST_DIR}/main.c

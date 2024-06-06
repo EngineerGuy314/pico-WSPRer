@@ -1,3 +1,4 @@
 build-dev/
 dox-dev/ 
+.vscode/
 CMakeCache.txt
