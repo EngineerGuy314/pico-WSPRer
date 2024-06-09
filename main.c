@@ -31,7 +31,7 @@
 #define RFOUT_PIN 6            /* RF output PIN. (THE FOLLOWING PIN WILL ALSO BE RF, 180deg OUT OF PHASE!!!) */                                 //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico
 //            Pin (RFOUT_PIN+1) will also be RF out (inverted value of first pin)
 #define GPS_ENABLE_PIN 5       /* GPS_ENABLE pin - high to enable GPS (needs a MOSFET ie 2N7000 on low side drive */    //its not actually PIN 5, its GPIO 5, which is physical pin 7 on pico
-	//GPS_ENABLE_ALT, 8,9,10   /* GPS_ENABLE pins, (alternate). hardcoded for now, GPIO 8 9 and 10, wired in parallel, to directly low-side-drive the GPS module instead of using a MOSFET */	
+#define GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN 8 //8 /* GPS_ENABLE pins, (alternate). GPIO 8 9 and 10, wired in parallel, to directly low-side-drive the GPS module instead of using a MOSFET */	
 #define FLASH_TARGET_OFFSET (256 * 1024) //leaves 256k of space for the program
 #define CONFIG_LOCATOR4 "AA22AB"       	       //gets overwritten by gps data anyway
 
@@ -110,10 +110,10 @@ int main()
 
 	gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output output
 	gpio_put(GPS_ENABLE_PIN, 1); 									   // to power up GPS unit
-	gpio_init(11); gpio_set_dir(11, GPIO_OUT); //alternate way to enable the GPS is to pull down its ground (aka low-side drive) using 3 GPIO in parallel (no mosfet needed). 2 do: make these non-hardcoded
-	gpio_init(12); gpio_set_dir(12, GPIO_OUT); //no need to actually write a value to these outputs. Just enabling them as outputs is fine, they default to the off state when this is done. perhaps thats a dangerous assumption? 
-	gpio_init(13); gpio_set_dir(13, GPIO_OUT);
-	//gpio_put(8, 0); gpio_put(9, 0); gpio_put(10, 0); 
+	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN, GPIO_OUT); //alternate way to enable the GPS is to pull down its ground (aka low-side drive) using 3 GPIO in parallel (no mosfet needed). 2 do: make these non-hardcoded
+	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+1); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+1, GPIO_OUT); //no need to actually write a value to these outputs. Just enabling them as outputs is fine, they default to the off state when this is done. perhaps thats a dangerous assumption? 
+	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2, GPIO_OUT);
+
 
     DCO._pGPStime = GPStimeInit(0, 9600, GPS_PPS_PIN); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
     assert_(DCO._pGPStime);

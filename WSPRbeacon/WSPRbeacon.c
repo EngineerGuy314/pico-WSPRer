@@ -15,6 +15,7 @@ static int itx_trigger2 = 0;
 static int forced_xmit_in_process = 0;
 static int transmitter_status = 0;	
 static absolute_time_t start_time;
+static absolute_time_t time_of_last_serial_packet;
 static int current_minute;
 static int oneshots[10];
 static int schedule[10];  //array index is minute, (odd minutes are unused) value is -1 for NONE or 1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd
@@ -22,6 +23,7 @@ static int at_least_one_slot_has_elapsed;
 static int at_least_one_GPS_fixed_has_been_obtained;
 static uint8_t _callsign_with_suffix[12];
 static 	uint8_t  altitude_as_power_fine;
+static uint32_t previous_msg_count;
 
 /// @brief Initializes a new WSPR beacon context.
 /// @param pcallsign HAM radio callsign, 12 chr max.
@@ -287,7 +289,7 @@ int WSPRbeaconSendPacket(const WSPRbeaconContext *pctx)
 int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called every half second from Main.c
 {
 	assert_(pctx);                 	
-    const uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;  //on if there ever were any serial data received from a GPS unit
+    uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;  //on if there ever were any serial data received from a GPS unit
     const uint32_t is_GPS_active = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;  //on if valid 3d fix
 
 		 if(is_GPS_active) at_least_one_GPS_fixed_has_been_obtained=1;
@@ -300,7 +302,7 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 								//WSPRbeaconCreatePacket(pctx,0);    If this is disabled, the packet is all zeroes, and it xmits an unmodulated steady frequency. but if you didnt power cycle since enabling Force_xmition there will still be data stuck in the buffer...
 								sleep_ms(100);
 								WSPRbeaconSendPacket(pctx);
-								start_time = get_absolute_time();
+								start_time = get_absolute_time();       
 								forced_xmit_in_process=1;
 							}
 								else if(absolute_time_diff_us( start_time, get_absolute_time()) > 120000000ULL) 
@@ -312,10 +314,10 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 								}								
 				return -1;
 		 }
- 
+  
 		 if(!is_GPS_available)
 		{
-			if (pctx->_txSched.verbosity>=1) StampPrintf(" Waiting for GPS receiver to start communicating...");
+			if (pctx->_txSched.verbosity>=1) StampPrintf(" Waiting for GPS receiver to start communicating, or, serial comms interrupted");
 			pctx->_txSched.led_mode = 0;  //waiting for GPS
 			return -1;
 		}
@@ -355,8 +357,19 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 				2 - Valid GPS, waiting for time to transmitt
 				3 - Valid GPS, transmitting
 				4 - no valid GPS, but (still) transmitting anyway */
-			if (!is_GPS_active & transmitter_status) pctx->_txSched.led_mode = 4; else
+			if (!is_GPS_active && transmitter_status) pctx->_txSched.led_mode = 4; else
 			pctx->_txSched.led_mode = 1 + is_GPS_active + transmitter_status;
+
+			if (previous_msg_count!=is_GPS_available)
+			{
+			previous_msg_count=is_GPS_available;
+			time_of_last_serial_packet= get_absolute_time();
+			}
+
+			 if(absolute_time_diff_us(time_of_last_serial_packet, get_absolute_time()) > 3000000ULL) //if more than one or two serial packets are missed something is wrong
+			 {
+				pctx->_txSched.led_mode = 0;  //no GPS serial Comms
+			 }
 
    return 0;
 }
