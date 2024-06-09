@@ -17,6 +17,7 @@
 #include <WSPRbeacon.h>
 #include "debug/logutils.h"
 #include <protos.h>
+#include <utilities.h>
 #include "pico/stdlib.h"
 #include "hardware/gpio.h"
 #include "hardware/adc.h"   
@@ -272,23 +273,25 @@ printf("consult https://traquito.github.io/channelmap/ to find an open channel \
 show_values();
 
     for(;;)
-	{		
+	{	
+		printf("Enter the command (X,C,S,I,M,L,V,O): ");	
 		c=getchar_timeout_us(60000000);		   //just in case user setup menu was enterred during flight, this will reboot after 60 secs
+		printf("%c\n", c);
 		if (c==255) {printf("\n\n TIMEOUT WAITING FOR INPUT, REBOOTING FOR YOUR OWN GOOD!!");watchdog_enable(100, 1);for(;;)	{}}
 		if (c>90) c-=32; //make it capital either way
 		switch(c)
 		{
 			case 'X': printf("\n\nGOODBYE");watchdog_enable(100, 1);for(;;)	{}
-			case 'C':printf("Enter callsign: ");		 scanf(" %s", _callsign); _callsign[6]=0;convertToUpperCase(_callsign); write_NVRAM();break;
-			case 'S':printf("Enter single digit numeric suffix: "); scanf(" %s", _suffix); _suffix[1]=0; write_NVRAM();break;
-			case 'I':printf("Enter id13: ");			 scanf(" %s", _id13);_id13[2]=0; convertToUpperCase(_id13); write_NVRAM();break;
-			case 'M':printf("Enter starting Minute: ");  scanf(" %s", _start_minute); _start_minute[1]=0; write_NVRAM(); break;
-			case 'L':printf("Enter Lane (1,2,3,4): ");   scanf(" %s", _lane);_lane[1]=0;  write_NVRAM();break;
-			case 'V':printf("Verbosity level (0-9): ");   scanf(" %s", _verbosity);_verbosity[1]=0;  write_NVRAM();break;
-			case 'O':printf("Oscillator off (0,1): ");   scanf(" %s", _oscillator);_oscillator[1]=0;  write_NVRAM();break;
+			case 'C':get_user_input("Enter callsign: ",_callsign,sizeof(_callsign)); convertToUpperCase(_callsign); write_NVRAM(); break;
+			case 'S':get_user_input("Enter single digit numeric suffix: ", _suffix, sizeof(_suffix)); write_NVRAM(); break;
+			case 'I':get_user_input("Enter id13: ", _id13,sizeof(_id13)); convertToUpperCase(_id13); write_NVRAM(); break;
+			case 'M':get_user_input("Enter starting Minute: ", _start_minute, sizeof(_start_minute)); write_NVRAM(); break;
+			case 'L':get_user_input("Enter Lane (1,2,3,4): ", _lane, sizeof(_lane)); write_NVRAM(); break;
+			case 'V':get_user_input("Verbosity level (0-9): ", _verbosity, sizeof(_verbosity)); write_NVRAM(); break;
+			case 'O':get_user_input("Oscillator off (0,1): ", _oscillator, sizeof(_oscillator)); write_NVRAM(); break;
 			case 13:  break;
 			case 10:  break;
-			default: printf("\n\n\n\n\n\n\nyou pressed %c %02x , INVALID choice!! ",c,c);show_values();break;		
+			default: printf("\nYou pressed: %c - 0x%02x , INVALID choice!! ",c,c);sleep_ms(2000);break;		
 		}
 		check_data_validity();
 		show_values();
