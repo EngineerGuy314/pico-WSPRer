@@ -193,9 +193,22 @@ CMakeFiles/pico-WSPRer.dir/debug/logutils.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/pico-WSPRer.dir/debug/logutils.c.s"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rob/pico-WSPRer/debug/logutils.c -o CMakeFiles/pico-WSPRer.dir/debug/logutils.c.s
 
+CMakeFiles/pico-WSPRer.dir/utilities.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
+CMakeFiles/pico-WSPRer.dir/utilities.c.obj: ../utilities.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/pico-WSPRer.dir/utilities.c.obj"
+	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/utilities.c.obj -c /home/rob/pico-WSPRer/utilities.c
+
+CMakeFiles/pico-WSPRer.dir/utilities.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/pico-WSPRer.dir/utilities.c.i"
+	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/rob/pico-WSPRer/utilities.c > CMakeFiles/pico-WSPRer.dir/utilities.c.i
+
+CMakeFiles/pico-WSPRer.dir/utilities.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/pico-WSPRer.dir/utilities.c.s"
+	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rob/pico-WSPRer/utilities.c -o CMakeFiles/pico-WSPRer.dir/utilities.c.s
+
 CMakeFiles/pico-WSPRer.dir/init.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/init.c.obj: ../init.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/pico-WSPRer.dir/init.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/pico-WSPRer.dir/init.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/init.c.obj -c /home/rob/pico-WSPRer/init.c
 
 CMakeFiles/pico-WSPRer.dir/init.c.i: cmake_force
@@ -208,7 +221,7 @@ CMakeFiles/pico-WSPRer.dir/init.c.s: cmake_force
 
 CMakeFiles/pico-WSPRer.dir/core1.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/core1.c.obj: ../core1.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/pico-WSPRer.dir/core1.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/pico-WSPRer.dir/core1.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/core1.c.obj -c /home/rob/pico-WSPRer/core1.c
 
 CMakeFiles/pico-WSPRer.dir/core1.c.i: cmake_force
@@ -221,7 +234,7 @@ CMakeFiles/pico-WSPRer.dir/core1.c.s: cmake_force
 
 CMakeFiles/pico-WSPRer.dir/main.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/main.c.obj: ../main.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/pico-WSPRer.dir/main.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/pico-WSPRer.dir/main.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/main.c.obj -c /home/rob/pico-WSPRer/main.c
 
 CMakeFiles/pico-WSPRer.dir/main.c.i: cmake_force
@@ -234,7 +247,7 @@ CMakeFiles/pico-WSPRer.dir/main.c.s: cmake_force
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj -c /home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.i: cmake_force
@@ -247,7 +260,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj -c /home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.i: cmake_force
@@ -260,7 +273,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.obj -c /home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.i: cmake_force
@@ -273,7 +286,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_platform/platfo
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj -c /home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.i: cmake_force
@@ -286,7 +299,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj -c /home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c.i: cmake_force
@@ -299,7 +312,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj -c /home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.i: cmake_force
@@ -312,12 +325,12 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.s
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq_handler_chain.S.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq_handler_chain.S.obj: /home/rob/pico-sdk/src/rp2_common/hardware_irq/irq_handler_chain.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq_handler_chain.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq_handler_chain.S.obj"
 	/usr/bin/arm-none-eabi-gcc $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq_handler_chain.S.obj   -c /home/rob/pico-sdk/src/rp2_common/hardware_irq/irq_handler_chain.S
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/sem.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/sem.c.obj: /home/rob/pico-sdk/src/common/pico_sync/sem.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/sem.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/sem.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/sem.c.obj -c /home/rob/pico-sdk/src/common/pico_sync/sem.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/sem.c.i: cmake_force
@@ -330,7 +343,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/sem.c.s: cmake
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/lock_core.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/lock_core.c.obj: /home/rob/pico-sdk/src/common/pico_sync/lock_core.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/lock_core.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/lock_core.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/lock_core.c.obj -c /home/rob/pico-sdk/src/common/pico_sync/lock_core.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/lock_core.c.i: cmake_force
@@ -343,7 +356,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/lock_core.c.s:
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/mutex.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/mutex.c.obj: /home/rob/pico-sdk/src/common/pico_sync/mutex.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/mutex.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/mutex.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/mutex.c.obj -c /home/rob/pico-sdk/src/common/pico_sync/mutex.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/mutex.c.i: cmake_force
@@ -356,7 +369,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/mutex.c.s: cma
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/critical_section.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/critical_section.c.obj: /home/rob/pico-sdk/src/common/pico_sync/critical_section.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/critical_section.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/critical_section.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/critical_section.c.obj -c /home/rob/pico-sdk/src/common/pico_sync/critical_section.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/critical_section.c.i: cmake_force
@@ -369,7 +382,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/critical_secti
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj: /home/rob/pico-sdk/src/common/pico_time/time.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj -c /home/rob/pico-sdk/src/common/pico_time/time.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.i: cmake_force
@@ -382,7 +395,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.s: cmak
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/timeout_helper.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/timeout_helper.c.obj: /home/rob/pico-sdk/src/common/pico_time/timeout_helper.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/timeout_helper.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/timeout_helper.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/timeout_helper.c.obj -c /home/rob/pico-sdk/src/common/pico_time/timeout_helper.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/timeout_helper.c.i: cmake_force
@@ -395,7 +408,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/timeout_helper
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj -c /home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.i: cmake_force
@@ -408,7 +421,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/datetime.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/datetime.c.obj: /home/rob/pico-sdk/src/common/pico_util/datetime.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/datetime.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/datetime.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/datetime.c.obj -c /home/rob/pico-sdk/src/common/pico_util/datetime.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/datetime.c.i: cmake_force
@@ -421,7 +434,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/datetime.c.s: 
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj: /home/rob/pico-sdk/src/common/pico_util/pheap.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj -c /home/rob/pico-sdk/src/common/pico_util/pheap.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.i: cmake_force
@@ -434,7 +447,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.s: cma
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/queue.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/queue.c.obj: /home/rob/pico-sdk/src/common/pico_util/queue.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/queue.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/queue.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/queue.c.obj -c /home/rob/pico-sdk/src/common/pico_util/queue.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/queue.c.i: cmake_force
@@ -447,7 +460,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/queue.c.s: cma
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_uart/uart.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj -c /home/rob/pico-sdk/src/rp2_common/hardware_uart/uart.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_uart/uart.c.i: cmake_force
@@ -460,7 +473,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_uart/uart.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj -c /home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.i: cmake_force
@@ -473,7 +486,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_clocks/cloc
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_pll/pll.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj -c /home/rob/pico-sdk/src/rp2_common/hardware_pll/pll.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pll/pll.c.i: cmake_force
@@ -486,7 +499,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pll/pll.c.s
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_vreg/vreg.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_vreg/vreg.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_vreg/vreg.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_vreg/vreg.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_vreg/vreg.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_vreg/vreg.c.obj -c /home/rob/pico-sdk/src/rp2_common/hardware_vreg/vreg.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_vreg/vreg.c.i: cmake_force
@@ -499,7 +512,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_vreg/vreg.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj -c /home/rob/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.i: cmake_force
@@ -512,7 +525,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_watchdog/wa
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_xosc/xosc.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj -c /home/rob/pico-sdk/src/rp2_common/hardware_xosc/xosc.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.i: cmake_force
@@ -525,12 +538,12 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_xosc/xosc.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_divider/divider.S.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_divider/divider.S.obj: /home/rob/pico-sdk/src/rp2_common/hardware_divider/divider.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_divider/divider.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_divider/divider.S.obj"
 	/usr/bin/arm-none-eabi-gcc $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_divider/divider.S.obj   -c /home/rob/pico-sdk/src/rp2_common/hardware_divider/divider.S
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj -c /home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.i: cmake_force
@@ -543,7 +556,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj -c /home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.i: cmake_force
@@ -556,12 +569,12 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj: /home/rob/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj"
 	/usr/bin/arm-none-eabi-gcc $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj   -c /home/rob/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj -c /home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.i: cmake_force
@@ -574,17 +587,17 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_divider/divider.S.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_divider/divider.S.obj: /home/rob/pico-sdk/src/rp2_common/pico_divider/divider.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_divider/divider.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_divider/divider.S.obj"
 	/usr/bin/arm-none-eabi-gcc $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_divider/divider.S.obj   -c /home/rob/pico-sdk/src/rp2_common/pico_divider/divider.S
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj: /home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj"
 	/usr/bin/arm-none-eabi-gcc $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj   -c /home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj -c /home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.i: cmake_force
@@ -597,7 +610,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_i
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c.obj -c /home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c.i: cmake_force
@@ -610,22 +623,22 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_m
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj: /home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj"
 	/usr/bin/arm-none-eabi-gcc $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj   -c /home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj: /home/rob/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj"
 	/usr/bin/arm-none-eabi-gcc $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj   -c /home/rob/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj: /home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj"
 	/usr/bin/arm-none-eabi-gcc $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj   -c /home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj -c /home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.i: cmake_force
@@ -638,7 +651,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_ini
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_math.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_math.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_float/float_math.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_math.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_math.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_math.c.obj -c /home/rob/pico-sdk/src/rp2_common/pico_float/float_math.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_math.c.i: cmake_force
@@ -651,12 +664,12 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_mat
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj: /home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj"
 	/usr/bin/arm-none-eabi-gcc $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj   -c /home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj -c /home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.i: cmake_force
@@ -669,17 +682,17 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_mal
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj: /home/rob/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_53) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj"
 	/usr/bin/arm-none-eabi-gcc $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj   -c /home/rob/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj: /home/rob/pico-sdk/src/rp2_common/pico_standard_link/crt0.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_53) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_54) "Building ASM object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj"
 	/usr/bin/arm-none-eabi-gcc $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj   -c /home/rob/pico-sdk/src/rp2_common/pico_standard_link/crt0.S
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj: /home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_54) "Building CXX object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_55) "Building CXX object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj"
 	/usr/bin/arm-none-eabi-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj -c /home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.i: cmake_force
@@ -692,7 +705,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/n
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_55) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_56) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj -c /home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.i: cmake_force
@@ -705,7 +718,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/b
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_56) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_57) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj -c /home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.i: cmake_force
@@ -715,19 +728,6 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.i
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.s"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.s
-
-CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
-CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_57) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.obj"
-	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.obj -c /home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c
-
-CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.i"
-	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c > CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.i
-
-CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.s"
-	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.s
 
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c
@@ -1091,6 +1091,7 @@ pico__WSPRer_OBJECTS = \
 "CMakeFiles/pico-WSPRer.dir/WSPRbeacon/thirdparty/maidenhead.c.obj" \
 "CMakeFiles/pico-WSPRer.dir/WSPRbeacon/WSPRbeacon.c.obj" \
 "CMakeFiles/pico-WSPRer.dir/debug/logutils.c.obj" \
+"CMakeFiles/pico-WSPRer.dir/utilities.c.obj" \
 "CMakeFiles/pico-WSPRer.dir/init.c.obj" \
 "CMakeFiles/pico-WSPRer.dir/core1.c.obj" \
 "CMakeFiles/pico-WSPRer.dir/main.c.obj" \
@@ -1138,7 +1139,6 @@ pico__WSPRer_OBJECTS = \
 "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj" \
 "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj" \
 "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj" \
-"CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.obj" \
 "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj" \
 "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj" \
 "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj" \
@@ -1179,6 +1179,7 @@ pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/WSPRbeacon/thirdparty/nhash.c.obj
 pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/WSPRbeacon/thirdparty/maidenhead.c.obj
 pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/WSPRbeacon/WSPRbeacon.c.obj
 pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/debug/logutils.c.obj
+pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/utilities.c.obj
 pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/init.c.obj
 pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/core1.c.obj
 pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/main.c.obj
@@ -1226,7 +1227,6 @@ pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pic
 pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj
 pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
 pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
-pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.obj
 pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
 pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
 pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj

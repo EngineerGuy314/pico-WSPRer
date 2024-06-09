@@ -12,7 +12,8 @@
 
 static int itx_trigger = 0;
 static int itx_trigger2 = 0;		
-static int forced_xmit_in_process = 0;	
+static int forced_xmit_in_process = 0;
+static int transmitter_status = 0;	
 static absolute_time_t start_time;
 static int current_minute;
 static int oneshots[10];
@@ -69,6 +70,7 @@ else
 			}
 	}
 	at_least_one_GPS_fixed_has_been_obtained=0;
+	transmitter_status=0;
  return p;
 }
 
@@ -282,7 +284,7 @@ int WSPRbeaconSendPacket(const WSPRbeaconContext *pctx)
 /// @brief It works only if GPS receiver available (for now).
 /// @param pctx Ptr to Context.
 /// @return 0 if OK, -1 if NO GPS received available
-int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called every second from Main.c
+int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called every half second from Main.c
 {
 	assert_(pctx);                 	
     const uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;  //on if there ever were any serial data received from a GPS unit
@@ -293,7 +295,7 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 		 if (pctx->_txSched.force_xmit_for_testing) {            
 							if(forced_xmit_in_process==0)
 							{
-								StampPrintf("> FORCING XMISSION! for debugging   <"); pctx->_txSched.led_mode = 2;
+								StampPrintf("> FORCING XMISSION! for debugging   <"); pctx->_txSched.led_mode = 4; 
 								PioDCOStart(pctx->_pTX->_p_oscillator);
 								//WSPRbeaconCreatePacket(pctx,0);    If this is disabled, the packet is all zeroes, and it xmits an unmodulated steady frequency. but if you didnt power cycle since enabling Force_xmition there will still be data stuck in the buffer...
 								sleep_ms(100);
@@ -330,7 +332,7 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 		at_least_one_slot_has_elapsed=1;  
 		if (pctx->_txSched.oscillatorOff && schedule[(current_minute+9)%10]==-1)    // if we want to switch oscillator off and are in non sheduled interval 
 		{
-			pctx->_txSched.led_mode = 1; 	// LED status transmitter off
+			transmitter_status=0;
 			PioDCOStop(pctx->_pTX->_p_oscillator);	// Stop the oscilator
 		}
 	}
@@ -343,11 +345,18 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 			oneshots[current_minute]=1;	
 			if (pctx->_txSched.verbosity>=3) printf("\nStarting TX. current minute: %i Schedule Value (packet type): %i\n",current_minute,schedule[current_minute]);
 			PioDCOStart(pctx->_pTX->_p_oscillator); 
+			transmitter_status=1;
 			WSPRbeaconCreatePacket(pctx, schedule[current_minute] ); //the schedule determines packet type (1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd)
 			sleep_ms(50);
 			WSPRbeaconSendPacket(pctx); 
-			pctx->_txSched.led_mode = 2;  // LED status trasmitter on	
 		}
+
+/*				1 - No valid GPS, not transmitting
+				2 - Valid GPS, waiting for time to transmitt
+				3 - Valid GPS, transmitting
+				4 - no valid GPS, but (still) transmitting anyway */
+			if (!is_GPS_active & transmitter_status) pctx->_txSched.led_mode = 4; else
+			pctx->_txSched.led_mode = 1 + is_GPS_active + transmitter_status;
 
    return 0;
 }

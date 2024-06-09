@@ -34,11 +34,9 @@ nhash.h
 
 ../WSPRbeacon/thirdparty/nhash.h
 
+../debug/logutils.h
+
 ../defines.h
-
-../hf-oscillator/debug/logutils.h
-
-../hf-oscillator/defines.h
 
 ../hf-oscillator/gpstime/GPStime.h
 stdint.h
@@ -109,8 +107,8 @@ string.h
 -
 TxChannel.h
 -
-logutils.h
--
+../../debug/logutils.h
+/home/rob/debug/logutils.h
 
 /home/rob/pico-sdk/src/boards/include/boards/pico.h
 
@@ -333,12 +331,6 @@ pico/types.h
 /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio.h
 pico.h
 /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/pico.h
-
-/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/include/pico/stdio_uart.h
-pico/stdio.h
-/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/include/pico/pico/stdio.h
-hardware/uart.h
-/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/include/pico/hardware/uart.h
 
 /home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h
 pico/stdio.h

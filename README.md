@@ -13,6 +13,8 @@ With the original code the Pico was being overclocked to 270Mhz, so the total po
 
 We managed to optimize the code of the PIODCO oscillator, so that 115 MHz CPU clock is enough for 20m band. In the /build directory you will find both versions translated (for 115 and 135 MHz CPU clock)   
 
+Onboard LED behavior: blinks for ~three seconds on powerup (before powering up GPS module). Then does a very rapid blink until GPS has established serial comms with the pico. Once cams established, it does 1,2,3 or 4 blinks then pauses. 1= no GPS fix, not transmitting. 2=valid GPS location not yet transmitting. 3=valid GPS location, transmission in process. 4= gps fix has been lasted, but transmitting anyway
+
 # Quick-start
 0. Download https://github.com/EngineerGuy314/pico-WSPRer/blob/main/build/pico-WSPRer-115.uf2 and skip to step 6 (or follow steps 1-5 to compile it yourself)
 1. Install Raspberry Pi Pico SDK. Configure environment variables. Test whether it is built successfully.

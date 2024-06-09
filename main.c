@@ -31,7 +31,7 @@
 #define RFOUT_PIN 6            /* RF output PIN. (THE FOLLOWING PIN WILL ALSO BE RF, 180deg OUT OF PHASE!!!) */                                 //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico
 //            Pin (RFOUT_PIN+1) will also be RF out (inverted value of first pin)
 #define GPS_ENABLE_PIN 5       /* GPS_ENABLE pin - high to enable GPS (needs a MOSFET ie 2N7000 on low side drive */    //its not actually PIN 5, its GPIO 5, which is physical pin 7 on pico
-
+	//GPS_ENABLE_ALT, 8,9,10   /* GPS_ENABLE pins, (alternate). hardcoded for now, GPIO 8 9 and 10, wired in parallel, to directly low-side-drive the GPS module instead of using a MOSFET */	
 #define FLASH_TARGET_OFFSET (256 * 1024) //leaves 256k of space for the program
 #define CONFIG_LOCATOR4 "AA22AB"       	       //gets overwritten by gps data anyway
 
@@ -44,6 +44,7 @@ char _lane[2];
 char _suffix[2];
 char _verbosity[2];
 char _oscillator[2];
+static absolute_time_t LED_sequence_start_time;
 
 int main()
 {
@@ -95,7 +96,7 @@ int main()
     assert_(pWB);
     pWSPR = pWB;
     pWB->_txSched.force_xmit_for_testing = d_force_xmit_for_testing;
-	pWB->_txSched.led_mode = 0;  //waiting for GPS
+	pWB->_txSched.led_mode = 0;  //0 means no serial comms from  GPS (critical fault if it remains that way)
 	pWB->_txSched.Xmission_In_Process = 0;  //probably not used anymore
 	pWB->_txSched.output_number_toEnable_GPS = GPS_ENABLE_PIN;
 	pWB->_txSched.verbosity=(uint8_t)_verbosity[0]-'0';       /**< convert ASCI digit to int  */
@@ -109,10 +110,10 @@ int main()
 
 	gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output output
 	gpio_put(GPS_ENABLE_PIN, 1); 									   // to power up GPS unit
-	gpio_init(8); gpio_set_dir(8, GPIO_OUT); //alternate way to enable the GPS is to pull down its ground (aka low-side drive) using 3 GPIO in parallel (no mosfet needed)
-	gpio_init(9); gpio_set_dir(9, GPIO_OUT); 
-	gpio_init(10); gpio_set_dir(10, GPIO_OUT);
-	
+	gpio_init(11); gpio_set_dir(11, GPIO_OUT); //alternate way to enable the GPS is to pull down its ground (aka low-side drive) using 3 GPIO in parallel (no mosfet needed). 2 do: make these non-hardcoded
+	gpio_init(12); gpio_set_dir(12, GPIO_OUT); //no need to actually write a value to these outputs. Just enabling them as outputs is fine, they default to the off state when this is done. perhaps thats a dangerous assumption? 
+	gpio_init(13); gpio_set_dir(13, GPIO_OUT);
+	//gpio_put(8, 0); gpio_put(9, 0); gpio_put(10, 0); 
 
     DCO._pGPStime = GPStimeInit(0, 9600, GPS_PPS_PIN); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
     assert_(DCO._pGPStime);
@@ -120,7 +121,8 @@ int main()
 	DCO._pGPStime->forced_XMIT_on=d_force_xmit_for_testing;
 	DCO._pGPStime->verbosity=(uint8_t)_verbosity[0]-'0'; 
     int tick = 0;int tick2 = 0;  //used for timing various messages
-
+	LED_sequence_start_time = get_absolute_time();
+	
     for(;;)   //loop every ~ half second
     {
 		//GET MAIDENHEAD       - this code in original fork wasnt working due to error in WSPRbeacon.c
@@ -168,33 +170,54 @@ int main()
 		}
 
 			//////////////////////// LED HANDLING /////////////////////////////////////////////////////////
-			//orig code had a 900mS pause here, i handle it by waiting for led times
-			
-		gpio_put(PICO_DEFAULT_LED_PIN, 1); //LED on. how long it stays on depends on "mode"0,1,2 ~= no gps, waiting for slot, xmitting
-		if (pWB->_txSched.led_mode==0)
-		{
-		sleep_ms(20);
-		DoLogPrint();
-		gpio_put(PICO_DEFAULT_LED_PIN, 0);
-		sleep_ms(440);
-		}
-		if (pWB->_txSched.led_mode==1)
-		{
-		sleep_ms(260);
-		gpio_put(PICO_DEFAULT_LED_PIN, 0);
-		sleep_ms(260);
-		}
-		if (pWB->_txSched.led_mode==2)
-		{
-		sleep_ms(440);
-		gpio_put(PICO_DEFAULT_LED_PIN, 0);
-		sleep_ms(30);
-		}
-	
+			//orig code had a 900mS pause here. I only pause a total of 500ms, and spend it polling the time to handle LED state
+			/*
+			LED MODE:
+				0 - no serial comms to GPS module
+				1 - No valid GPS, not transmitting
+				2 - Valid GPS, waiting for time to transmitt
+				3 - Valid GPS, transmitting
+				4 - no valid GPS, but (still) transmitting anyway
+			x rapid pulses to indicate mode, followed by pause. 0 is special case, continous rapid blink
+			*/
+		
+		for (int i=0;i < 10;i++)
+			{
+				handle_LED(pWB->_txSched.led_mode);
+				sleep_ms(50);
+			}
+		DoLogPrint(); //  ????? previously was only called if led_mode==0 			
 	}
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////
+void handle_LED(int led_state)
+/**
+ * @brief Handles setting LED to display mode.
+ * 
+ * @param led_state 1,2,3 or 4 to indicate the number of LED pulses. 0 is a special case indicating serial comm failure to GPS
+ */
+{
+ static int tik;
+ uint64_t t = absolute_time_diff_us(LED_sequence_start_time, get_absolute_time());
+ int i = t / 400000ULL;     //400mS total period of a LED flash
 
+  if (led_state==0) 						//special case indicating serial comm failure to GPS. blink as rapidly as possible 
+		  {
+			if(0 == ++tik % 2) gpio_put(PICO_DEFAULT_LED_PIN, 1); else gpio_put(PICO_DEFAULT_LED_PIN, 0);     //every ~2 sec
+		  }
+  else
+  {
+		  if (i<(led_state+1))
+				{
+				 if(t -(i*400000ULL) < 50000ULL)           //400mS total period of a LED flash, 50mS on pulse duration
+							gpio_put(PICO_DEFAULT_LED_PIN, 1);
+				 else 
+							gpio_put(PICO_DEFAULT_LED_PIN, 0);
+				}
+		  if (t > 2500000ULL) 	LED_sequence_start_time = get_absolute_time();     //resets every 2.5 secs (total repeat length of led sequence).
+  }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * @brief Prints out hex listing of the settings NVRAM to stdio
  * 
@@ -261,13 +284,14 @@ void user_interface(void)
     char c;
 	char str[10];
 
-    gpio_put(GPS_ENABLE_PIN, 0);                   //shutoff gps to prevent serial input  (probably not needed anymore due to previous line)
+    gpio_put(GPS_ENABLE_PIN, 0);                   //shutoff gps to prevent serial input  (probably not needed anymore)
 	sleep_ms(100);
 	gpio_put(PICO_DEFAULT_LED_PIN, 1); //LED on.	
 printf("\n\n\n\n\n\n\n\n\n\n\n\n");
 printf("Pico-WSPRer (pico whisper-er) by KC3LBR,  version: %s %s\n",__DATE__ ,__TIME__);
 printf("https://github.com/EngineerGuy314/pico-WSPRer\n");
 printf("forked from: https://github.com/RPiks/pico-WSPR-tx\n\n");
+printf("additional functionality, fixes and documention added by https://github.com/serych\n\n");
 printf("consult https://traquito.github.io/channelmap/ to find an open channel \nand make note of id13 (column headers), minute and lane (frequency)\n");
 
 show_values();

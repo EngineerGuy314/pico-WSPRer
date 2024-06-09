@@ -115,4 +115,5 @@ void check_data_validity(void);
 void user_interface(void);
 void show_values(void);
 void convertToUpperCase(char *str);
+void handle_LED(int led_state);
 #endif

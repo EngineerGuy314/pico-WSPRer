@@ -2087,33 +2087,6 @@ home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.s
 .PHONY : home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.s
 
-home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.obj: home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.obj
-
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.obj
-
-# target to build an object file
-home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.obj
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.obj
-
-home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.i: home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.i
-
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.i
-
-# target to preprocess a source file
-home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.i
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.i
-
-home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.s: home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.s
-
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.s
-
-# target to generate assembly for a file
-home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.s
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.s
-
 home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.obj: home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
 
 .PHONY : home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.obj
@@ -2302,6 +2275,33 @@ main.s: main.c.s
 main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/main.c.s
 .PHONY : main.c.s
+
+utilities.obj: utilities.c.obj
+
+.PHONY : utilities.obj
+
+# target to build an object file
+utilities.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/utilities.c.obj
+.PHONY : utilities.c.obj
+
+utilities.i: utilities.c.i
+
+.PHONY : utilities.i
+
+# target to preprocess a source file
+utilities.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/utilities.c.i
+.PHONY : utilities.c.i
+
+utilities.s: utilities.c.s
+
+.PHONY : utilities.s
+
+# target to generate assembly for a file
+utilities.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/utilities.c.s
+.PHONY : utilities.c.s
 
 # Help Target
 help:
@@ -2525,9 +2525,6 @@ help:
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.s"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.obj"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.i"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.s"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.s"
@@ -2549,6 +2546,9 @@ help:
 	@echo "... main.obj"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... utilities.obj"
+	@echo "... utilities.i"
+	@echo "... utilities.s"
 .PHONY : help
 
 
