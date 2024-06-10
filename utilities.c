@@ -79,13 +79,16 @@ void InitPicoPins(void)
     adc_init();
     adc_set_temp_sensor_enabled(true); 	//Enable the onboard temperature sensor
 
-    // trying to set RF pins power to maximum (Chapter 2.19.6.3. Pad Control - User Bank in the RP2040 datasheet)
+    // RF pins are initialised in /hf-oscillator/dco2.pio. Here is only pads setting
+    // trying to set the power of RF pads to maximum and slew rate to fast (Chapter 2.19.6.3. Pad Control - User Bank in the RP2040 datasheet)
+    // possible values: PADS_BANK0_GPIO0_DRIVE_VALUE_12MA, ..._8MA, ..._4MA, ..._2MA
+    // values of constants are the same for all the pins, so doesn't matter if we use PADS_BANK0_GPIO6_DRIVE_VALUE_12MA or ..._GPIO0_DRIVE...
     hw_write_masked(&padsbank0_hw->io[RFOUT_PIN],
-                PADS_BANK0_GPIO0_DRIVE_VALUE_12MA << PADS_BANK0_GPIO0_DRIVE_LSB,
-                PADS_BANK0_GPIO0_DRIVE_BITS);           // first RF pin
+                (PADS_BANK0_GPIO0_DRIVE_VALUE_12MA << PADS_BANK0_GPIO0_DRIVE_LSB) || PADS_BANK0_GPIO0_SLEWFAST_FAST,
+                PADS_BANK0_GPIO0_DRIVE_BITS || PADS_BANK0_GPIO0_SLEWFAST_BITS);           // first RF pin 
     hw_write_masked(&padsbank0_hw->io[RFOUT_PIN+1],
-                PADS_BANK0_GPIO0_DRIVE_VALUE_12MA << PADS_BANK0_GPIO0_DRIVE_LSB,
-                PADS_BANK0_GPIO0_DRIVE_BITS);           // second RF pin
+                (PADS_BANK0_GPIO0_DRIVE_VALUE_12MA << PADS_BANK0_GPIO0_DRIVE_LSB) || PADS_BANK0_GPIO0_SLEWFAST_FAST,
+                PADS_BANK0_GPIO0_DRIVE_BITS || PADS_BANK0_GPIO0_SLEWFAST_BITS);           // second RF pin
 
 	gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output output
 	gpio_put(GPS_ENABLE_PIN, 1); 									   // to power up GPS unit
