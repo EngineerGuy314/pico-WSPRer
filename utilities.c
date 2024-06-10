@@ -70,19 +70,27 @@ void InitPicoClock(void)
  */
 void InitPicoPins(void)
 {
-gpio_init(LED_PIN); 
+    gpio_init(LED_PIN); 
 	gpio_set_dir(LED_PIN, GPIO_OUT); //initialize LED output
+
     gpio_init(PICO_VSYS_PIN);  		//Prepare ADC to read Vsys
 	gpio_set_dir(PICO_VSYS_PIN, GPIO_IN);
 	gpio_set_pulls(PICO_VSYS_PIN,0,0);
     adc_init();
     adc_set_temp_sensor_enabled(true); 	//Enable the onboard temperature sensor
 
+    // trying to set RF pins power to maximum (Chapter 2.19.6.3. Pad Control - User Bank in the RP2040 datasheet)
+    hw_write_masked(&padsbank0_hw->io[RFOUT_PIN],
+                PADS_BANK0_GPIO0_DRIVE_VALUE_12MA << PADS_BANK0_GPIO0_DRIVE_LSB,
+                PADS_BANK0_GPIO0_DRIVE_BITS);           // first RF pin
+    hw_write_masked(&padsbank0_hw->io[RFOUT_PIN+1],
+                PADS_BANK0_GPIO0_DRIVE_VALUE_12MA << PADS_BANK0_GPIO0_DRIVE_LSB,
+                PADS_BANK0_GPIO0_DRIVE_BITS);           // second RF pin
+
 	gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output output
 	gpio_put(GPS_ENABLE_PIN, 1); 									   // to power up GPS unit
 	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN, GPIO_OUT); //alternate way to enable the GPS is to pull down its ground (aka low-side drive) using 3 GPIO in parallel (no mosfet needed). 2 do: make these non-hardcoded
 	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+1); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+1, GPIO_OUT); //no need to actually write a value to these outputs. Just enabling them as outputs is fine, they default to the off state when this is done. perhaps thats a dangerous assumption? 
 	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2, GPIO_OUT);
-
 
 }
