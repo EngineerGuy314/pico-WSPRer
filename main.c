@@ -32,6 +32,7 @@
 //            Pin (RFOUT_PIN+1) will also be RF out (inverted value of first pin)
 #define GPS_ENABLE_PIN 5       /* GPS_ENABLE pin - high to enable GPS (needs a MOSFET ie 2N7000 on low side drive */    //its not actually PIN 5, its GPIO 5, which is physical pin 7 on pico
 #define GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN 8 //8 /* GPS_ENABLE pins, (alternate). GPIO 8 9 and 10, wired in parallel, to directly low-side-drive the GPS module instead of using a MOSFET */	
+#define LED_PIN  25 /* 25 for pi pico, 13 for Waveshare rp2040-zero  */
 #define FLASH_TARGET_OFFSET (256 * 1024) //leaves 256k of space for the program
 #define CONFIG_LOCATOR4 "AA22AB"       	       //gets overwritten by gps data anyway
 
@@ -49,8 +50,8 @@ static absolute_time_t LED_sequence_start_time;
 int main()
 {
 	
-    gpio_init(PICO_DEFAULT_LED_PIN); 
-	gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT); //initialize LED output
+    gpio_init(LED_PIN); 
+	gpio_set_dir(LED_PIN, GPIO_OUT); //initialize LED output
     gpio_init(PICO_VSYS_PIN);  		//Prepare ADC to read Vsys
 	gpio_set_dir(PICO_VSYS_PIN, GPIO_IN);
 	gpio_set_pulls(PICO_VSYS_PIN,0,0);
@@ -60,9 +61,9 @@ int main()
 	
 	for (int i=0;i < 20;i++)     //do some blinkey on startup, allows time for power supply to stabilize before GPS unit enabled
 	{
-        gpio_put(PICO_DEFAULT_LED_PIN, 1);
+        gpio_put(LED_PIN, 1);
         sleep_ms(100);
-        gpio_put(PICO_DEFAULT_LED_PIN, 0);
+        gpio_put(LED_PIN, 0);
 		sleep_ms(100);
 	}
 
@@ -203,16 +204,16 @@ void handle_LED(int led_state)
 
   if (led_state==0) 						//special case indicating serial comm failure to GPS. blink as rapidly as possible 
 		  {
-			if(0 == ++tik % 2) gpio_put(PICO_DEFAULT_LED_PIN, 1); else gpio_put(PICO_DEFAULT_LED_PIN, 0);     //every ~2 sec
+			if(0 == ++tik % 2) gpio_put(LED_PIN, 1); else gpio_put(LED_PIN, 0);     //every ~2 sec
 		  }
   else
   {
 		  if (i<(led_state+1))
 				{
 				 if(t -(i*400000ULL) < 50000ULL)           //400mS total period of a LED flash, 50mS on pulse duration
-							gpio_put(PICO_DEFAULT_LED_PIN, 1);
+							gpio_put(LED_PIN, 1);
 				 else 
-							gpio_put(PICO_DEFAULT_LED_PIN, 0);
+							gpio_put(LED_PIN, 0);
 				}
 		  if (t > 2500000ULL) 	LED_sequence_start_time = get_absolute_time();     //resets every 2.5 secs (total repeat length of led sequence).
   }
@@ -286,7 +287,7 @@ void user_interface(void)
 
     gpio_put(GPS_ENABLE_PIN, 0);                   //shutoff gps to prevent serial input  (probably not needed anymore)
 	sleep_ms(100);
-	gpio_put(PICO_DEFAULT_LED_PIN, 1); //LED on.	
+	gpio_put(LED_PIN, 1); //LED on.	
 printf("\n\n\n\n\n\n\n\n\n\n\n\n");
 printf("Pico-WSPRer (pico whisper-er) by KC3LBR,  version: %s %s\n",__DATE__ ,__TIME__);
 printf("https://github.com/EngineerGuy314/pico-WSPRer\n");
