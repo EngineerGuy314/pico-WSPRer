@@ -19,22 +19,8 @@
 #include <protos.h>
 #include <utilities.h>
 #include "pico/stdlib.h"
-#include "hardware/gpio.h"
-#include "hardware/adc.h"   
 #include "hardware/watchdog.h"
 #include "hardware/uart.h"
-
-#define d_force_xmit_for_testing NO
-
-// Serial data from GPS module wired to UART0 RX, GPIO 1 (pin 2 on pico), 
-#define GPS_PPS_PIN 2          /* GPS time mark PIN. (labeled PPS on GPS module)*/ //its not actually PIN 2, its GPIO 2, which is physical pin 4 on pico
-#define RFOUT_PIN 6            /* RF output PIN. (THE FOLLOWING PIN WILL ALSO BE RF, 180deg OUT OF PHASE!!!) */                                 //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico
-//            Pin (RFOUT_PIN+1) will also be RF out (inverted value of first pin)
-#define GPS_ENABLE_PIN 5       /* GPS_ENABLE pin - high to enable GPS (needs a MOSFET ie 2N7000 on low side drive */    //its not actually PIN 5, its GPIO 5, which is physical pin 7 on pico
-#define GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN 8 //8 /* GPS_ENABLE pins, (alternate). GPIO 8 9 and 10, wired in parallel, to directly low-side-drive the GPS module instead of using a MOSFET */	
-#define LED_PIN  25 /* 25 for pi pico, 13 for Waveshare rp2040-zero  */
-#define FLASH_TARGET_OFFSET (256 * 1024) //leaves 256k of space for the program
-#define CONFIG_LOCATOR4 "AA22AB"       	       //gets overwritten by gps data anyway
 
 WSPRbeaconContext *pWSPR;
 
@@ -49,14 +35,9 @@ static absolute_time_t LED_sequence_start_time;
 
 int main()
 {
-	
-    gpio_init(LED_PIN); 
-	gpio_set_dir(LED_PIN, GPIO_OUT); //initialize LED output
-    gpio_init(PICO_VSYS_PIN);  		//Prepare ADC to read Vsys
-	gpio_set_dir(PICO_VSYS_PIN, GPIO_IN);
-	gpio_set_pulls(PICO_VSYS_PIN,0,0);
-    adc_init();
-    adc_set_temp_sensor_enabled(true); 	//Enable the onboard temperature sensor
+	InitPicoClock();			// Sets the system clock generator
+    InitPicoPins();				// Sets GPIO pins roles and directions and also ADC for voltage and temperature measurements
+
 	StampPrintf("\n");
 	
 	for (int i=0;i < 20;i++)     //do some blinkey on startup, allows time for power supply to stabilize before GPS unit enabled
@@ -69,7 +50,6 @@ int main()
 
 	read_NVRAM();	//reads values of _callsign ... _verbosity from NVRAM
     StampPrintf("pico-WSPRer version: %s %s\n",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
-    InitPicoClock();
     PioDco DCO = {0};
 	StampPrintf("WSPR beacon init...");
 	uint32_t XMIT_FREQUENCY;
@@ -107,14 +87,6 @@ int main()
 
 	multicore_launch_core1(Core1Entry);
     StampPrintf("RF oscillator initialized.");
-
-
-	gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output output
-	gpio_put(GPS_ENABLE_PIN, 1); 									   // to power up GPS unit
-	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN, GPIO_OUT); //alternate way to enable the GPS is to pull down its ground (aka low-side drive) using 3 GPIO in parallel (no mosfet needed). 2 do: make these non-hardcoded
-	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+1); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+1, GPIO_OUT); //no need to actually write a value to these outputs. Just enabling them as outputs is fine, they default to the off state when this is done. perhaps thats a dangerous assumption? 
-	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2, GPIO_OUT);
-
 
     DCO._pGPStime = GPStimeInit(0, 9600, GPS_PPS_PIN); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
     assert_(DCO._pGPStime);

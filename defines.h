@@ -64,9 +64,23 @@
 #define tempU tempC
 #endif
 
+//////////////// Hardware related defines ////////////////////////////
 #define PLL_SYS_MHZ 115UL // This sets CPU speed. Roman originally had 270UL. 
-      // After improvement od PIODCO we are now on 115 MHz (for 20m band) :-)      
+      // After improvement od PIODCO we are now on 115 MHz (for 20m band) :-)     
 
+#define d_force_xmit_for_testing NO
+
+// Serial data from GPS module wired to UART0 RX, GPIO 1 (pin 2 on pico), 
+#define GPS_PPS_PIN 2          /* GPS time mark PIN. (labeled PPS on GPS module)*/ //its not actually PIN 2, its GPIO 2, which is physical pin 4 on pico
+#define RFOUT_PIN 6            /* RF output PIN. (THE FOLLOWING PIN WILL ALSO BE RF, 180deg OUT OF PHASE!!!) */                                 //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico
+//            Pin (RFOUT_PIN+1) will also be RF out (inverted value of first pin)
+#define GPS_ENABLE_PIN 5       /* GPS_ENABLE pin - high to enable GPS (needs a MOSFET ie 2N7000 on low side drive */    //its not actually PIN 5, its GPIO 5, which is physical pin 7 on pico
+#define GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN 8 //8 /* GPS_ENABLE pins, (alternate). GPIO 8 9 and 10, wired in parallel, to directly low-side-drive the GPS module instead of using a MOSFET */	
+#define LED_PIN  25 /* 25 for pi pico, 13 for Waveshare rp2040-zero  */
+#define FLASH_TARGET_OFFSET (256 * 1024) //leaves 256k of space for the program
+#define CONFIG_LOCATOR4 "AA22AB"       	       //gets overwritten by gps data anyway       
+
+//////////////// Other defines ////////////////////////////
 #define FALSE 0                                     /* Something is false. */
 #define TRUE 1                                       /* Something is true. */
 #define BAD 0                                         /* Something is bad. */
@@ -82,8 +96,7 @@
 #define RAM __not_in_flash_func         /* Place time-critical func in RAM */
 #define RAM_A __not_in_flash("A")        /* Place time-critical var in RAM */
 
-     /* A macros for arithmetic right shifts, with casting of the argument. */
-//#define iSAR(arg, rcount) (((int32_t)(arg)) >> (rcount))
+/* A macros for arithmetic right shifts, with casting of the argument. */
 #define iSAR32(arg, rcount) (((int32_t)(arg)) >> (rcount))
 #define iSAR64(arg, rcount) (((int64_t)(arg)) >> (rcount))
 
