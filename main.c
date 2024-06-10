@@ -69,7 +69,7 @@ int main()
 
 	read_NVRAM();	//reads values of _callsign ... _verbosity from NVRAM
     StampPrintf("pico-WSPRer version: %s %s\n",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
-    InitPicoHW();
+    InitPicoClock();
     PioDco DCO = {0};
 	StampPrintf("WSPR beacon init...");
 	uint32_t XMIT_FREQUENCY;

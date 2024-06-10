@@ -8,6 +8,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <defines.h>
+#include "pico/stdlib.h"
+#include "hardware/clocks.h"
 
 /**
  * @brief Improoved user input function
@@ -44,4 +47,17 @@ void get_user_input(const char *prompt, char *input_variable, int max_length) {
 
     input_variable[index] = '\0';  // Null-terminate the string
     printf("\n");
+}
+
+/// @brief Initializes Pi pico clock.
+void InitPicoClock(void)
+{
+
+    const uint32_t clkhz = PLL_SYS_MHZ * 1000000L;
+    set_sys_clock_khz(clkhz / kHz, true);
+
+    clock_configure(clk_peri, 0,
+                    CLOCKS_CLK_PERI_CTRL_AUXSRC_VALUE_CLKSRC_PLL_SYS,
+                    PLL_SYS_MHZ * MHZ,
+                    PLL_SYS_MHZ * MHZ);
 }
