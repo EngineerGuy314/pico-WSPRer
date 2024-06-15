@@ -32,6 +32,7 @@ char _suffix[2];
 char _verbosity[2];
 char _oscillator[2];
 static absolute_time_t LED_sequence_start_time;
+int force_transmit = 0;
 
 PioDco DCO = {0};
 
@@ -78,7 +79,7 @@ int main()
         );
     assert_(pWB);
     pWSPR = pWB;
-    pWB->_txSched.force_xmit_for_testing = d_force_xmit_for_testing;
+    pWB->_txSched.force_xmit_for_testing = force_transmit;
 	pWB->_txSched.led_mode = 0;  //0 means no serial comms from  GPS (critical fault if it remains that way)
 	pWB->_txSched.Xmission_In_Process = 0;  //probably not used anymore
 	pWB->_txSched.output_number_toEnable_GPS = GPS_ENABLE_PIN;
@@ -93,7 +94,7 @@ int main()
     DCO._pGPStime = GPStimeInit(0, 9600, GPS_PPS_PIN); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
     assert_(DCO._pGPStime);
 	DCO._pGPStime->user_setup_menu_active=0;
-	DCO._pGPStime->forced_XMIT_on=d_force_xmit_for_testing;
+	DCO._pGPStime->forced_XMIT_on=force_transmit;
 	DCO._pGPStime->verbosity=(uint8_t)_verbosity[0]-'0'; 
     int tick = 0;int tick2 = 0;  //used for timing various messages
 	LED_sequence_start_time = get_absolute_time();
@@ -294,11 +295,13 @@ show_values();
 				float frequency;
 				while(1)
 				{
-					get_user_input("Frequency to generate (MHz): ", _tuning_freq, sizeof(_tuning_freq));
+					get_user_input("Frequency to generate (MHz): ", _tuning_freq, sizeof(_tuning_freq));  //blocking until next input
 					frequency = atof(_tuning_freq);
 					if (!frequency) {break;}
 					printf("Generating %.3f MHz\n", frequency);
-					StartForceTransmit((uint32_t)frequency * MHZ);
+					pWSPR->_pTX->_u32_dialfreqhz = (uint32_t)frequency * MHZ;
+					pWSPR->_txSched.force_xmit_for_testing = YES;
+					return;  // returns to main loop
 				}
 			case 13:  break;
 			case 10:  break;

@@ -20,5 +20,4 @@
 void get_user_input(const char *prompt, char *input_variable, int max_length);
 void InitPicoClock(void);
 void InitPicoPins(void);
-void StartForceTransmit(uint32_t freq);
 #endif

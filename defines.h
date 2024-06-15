@@ -68,7 +68,6 @@
 #define PLL_SYS_MHZ 115UL // This sets CPU speed. Roman originally had 270UL. 
       // After improvement od PIODCO we are now on 115 MHz (for 20m band) :-)     
 
-#define d_force_xmit_for_testing NO
 
 // Serial data from GPS module wired to UART0 RX, GPIO 1 (pin 2 on pico), 
 #define GPS_PPS_PIN 2          /* GPS time mark PIN. (labeled PPS on GPS module)*/ //its not actually PIN 2, its GPIO 2, which is physical pin 4 on pico

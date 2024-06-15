@@ -103,6 +103,3 @@ void InitPicoPins(void)
 	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2, GPIO_OUT);
 
 }
-void StartForceTransmit(uint32_t freq){
-    
-}
