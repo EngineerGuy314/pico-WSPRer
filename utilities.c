@@ -13,6 +13,10 @@
 #include "hardware/clocks.h"
 #include "hardware/gpio.h"
 #include "hardware/adc.h"   
+#include <piodco.h>
+#include "TxChannel.h"
+
+static TxChannelContext *spOsc = NULL;
 
 /**
  * @brief Improoved user input function
@@ -98,4 +102,7 @@ void InitPicoPins(void)
 	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+1); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+1, GPIO_OUT); //no need to actually write a value to these outputs. Just enabling them as outputs is fine, they default to the off state when this is done. perhaps thats a dangerous assumption? 
 	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2, GPIO_OUT);
 
+}
+void StartForceTransmit(uint32_t freq){
+    
 }

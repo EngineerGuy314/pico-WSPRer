@@ -33,6 +33,8 @@ char _verbosity[2];
 char _oscillator[2];
 static absolute_time_t LED_sequence_start_time;
 
+PioDco DCO = {0};
+
 int main()
 {
 	InitPicoClock();			// Sets the system clock generator
@@ -50,7 +52,7 @@ int main()
 
 	read_NVRAM();	//reads values of _callsign ... _verbosity from NVRAM
     StampPrintf("pico-WSPRer version: %s %s\n",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
-    PioDco DCO = {0};
+   
 	StampPrintf("WSPR beacon init...");
 	uint32_t XMIT_FREQUENCY;
 	switch(_lane[0])                                     //following lines set lane frequencies for 20M u4b operation. The center freuency for Zactkep (wspr 3) xmitions is hard set in WSPRBeacon.c to 14097100UL
@@ -271,7 +273,7 @@ show_values();
 
     for(;;)
 	{	
-		printf("Enter the command (X,C,S,I,M,L,V,O): ");	
+		printf("Enter the command (X,C,S,I,M,L,V,O,T): ");	
 		c=getchar_timeout_us(60000000);		   //just in case user setup menu was enterred during flight, this will reboot after 60 secs
 		printf("%c\n", c);
 		if (c==255) {printf("\n\n TIMEOUT WAITING FOR INPUT, REBOOTING FOR YOUR OWN GOOD!!");watchdog_enable(100, 1);for(;;)	{}}
@@ -286,6 +288,18 @@ show_values();
 			case 'L':get_user_input("Enter Lane (1,2,3,4): ", _lane, sizeof(_lane)); write_NVRAM(); break;
 			case 'V':get_user_input("Verbosity level (0-9): ", _verbosity, sizeof(_verbosity)); write_NVRAM(); break;
 			case 'O':get_user_input("Oscillator off (0,1): ", _oscillator, sizeof(_oscillator)); write_NVRAM(); break;
+			case 'T':
+				printf("Antenna tuning mode. Enter frequency (for example 14.097) or 0 for exit.\n\t");
+				char _tuning_freq[7];
+				float frequency;
+				while(1)
+				{
+					get_user_input("Frequency to generate (MHz): ", _tuning_freq, sizeof(_tuning_freq));
+					frequency = atof(_tuning_freq);
+					if (!frequency) {break;}
+					printf("Generating %.3f MHz\n", frequency);
+					StartForceTransmit((uint32_t)frequency * MHZ);
+				}
 			case 13:  break;
 			case 10:  break;
 			default: printf("\nYou pressed: %c - 0x%02x , INVALID choice!! ",c,c);sleep_ms(2000);break;		
@@ -306,7 +320,7 @@ printf("VALID commands: \n\n\tX: eXit configuraiton and reboot\n\tC: change Call
 printf("S: change Suffix (added to callsign for WSPR3) enter '-' to disable WSPR3\n\t");
 printf("I: change Id13 (two alpha numeric chars, ie Q8) enter '--' to disable U4B\n\t");
 printf("M: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\t");
-printf("V: Verbosity level (0 for no messages, 9 for too many) \n\tO: Oscillator off after trasmission (0,1)\n\n");
+printf("V: Verbosity level (0 for no messages, 9 for too many) \n\tO: Oscillator off after trasmission (0,1)\n\tT: Antenna tuning mode (freq)\n");
 
 }
 /**
