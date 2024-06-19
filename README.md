@@ -13,6 +13,8 @@ With the original code the Pico was being overclocked to 270Mhz, so the total po
 
 We managed to optimize the code of the PIODCO oscillator, so that 115 MHz CPU clock is enough for 20m band. In the /build directory you will find both versions translated (for 115 and 135 MHz CPU clock)   
 
+Adding a new experimental software based TCXO mode. (option T in setup menu). 0: default mode using only GPS timing to adjust clock frequency. 1: Uses value from onboard temperature sensor (in ADDITION to trim from GPS) to correct frequency. This is possibly more responsive to rapidly fluctuating temperature when flyin over clouds. 2: comparision mode that uses GPS only compensation during even hours, and temperature/GPS mode during odd hours.
+
 Onboard LED behavior: blinks for ~three seconds on powerup (before powering up GPS module). Then does a very rapid blink until GPS has established serial comms with the pico. Once comms established, it does 1,2,3 or 4 blinks then pauses. 1= no GPS fix, not transmitting. 2=valid GPS location not yet transmitting. 3=valid GPS location, transmission in process. 4= gps fix has been lost, but transmitting anyway
 
 # Quick-start
