@@ -7,7 +7,7 @@ The altitude and full 6 character maidenhead grid are calculated from the GPS lo
 
 The user's callsign and telemetry encoding details are configurable via the pico's USB port and a simple terminal program (ie Putty).
 
-There is an issue with the RP2040 locking up if its input voltage is raised too gradually (as would happen during sunrise). To combat this I have a simple voltage dividor of two resistors across ground and the input voltage. The output if this voltage divider is tied to the RUN input on Pi Pico. The GPS unit stays on during transmission to provide continual frequency shift correction. However, a generic MOSFET or NPN transistor must be included to allow the pico to keep the GPS powered off during initial sunrise boot. See schematic below.
+There is an issue with the RP2040 locking up if its input voltage is raised too gradually (as would happen during sunrise). To combat this I have a simple voltage dividor of two resistors across ground and the input voltage. The output if this voltage divider is tied to the RUN input on Pi Pico. The GPS unit stays on during transmission to provide continual frequency shift correction. However, a generic MOSFET or NPN transistor must be included to allow the pico to keep the GPS powered off during initial sunrise boot. See schematic below. Alternatively, 3 IO in parallel can low-side drive the GPS module without a MOSFET.
 
 With the original code the Pico was being overclocked to 270Mhz, so the total power draw of the Pico and GPS module was around 100mA at 4 volts. But this version I have the speed down to 135Mhz, which reduces power consumption but is still fine for transmitting on 20M (14Mhz). 
 
