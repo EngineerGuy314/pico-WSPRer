@@ -10,6 +10,9 @@
 static GPStimeContext *spGPStimeContext = NULL;
 static GPStimeData *spGPStimeData = NULL;
 static uint16_t byte_count;
+int    use_software_TCXO;
+int64_t error_ppb_temp_vs_gps;
+int64_t GPS_based_freq_shift_ppb;
 
 /// @brief Initializes GPS time module Context.
 /// @param uart_id UART id to which GPS receiver is connected, 0 OR 1.
@@ -29,6 +32,7 @@ GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio)
     GPStimeContext *pgt = calloc(1, sizeof(GPStimeContext));
     ASSERT_(pgt);
 
+	pgt->_time_data._temp_based_freq_compensation_trimmed_offset=11383434; //11383434;  /* the "y intercept" used to linearly interpolate freq_shift_ppb from temperature. initially set to 11383434.722366, this gets trimmed by GPS timing for long term correction*/
     pgt->_uart_id = uart_id;
     pgt->_uart_baudrate = uart_baud;
     pgt->_pps_gpio = pps_gpio;
@@ -78,11 +82,9 @@ void RAM (GPStimePPScallback)(uint gpio, uint32_t events)
         spGPStimeData->_u64_sysclk_pps_last = tm64;   //set pps_last = tm64 = uptime 
         ++spGPStimeData->_ix_last;                    //increment ix_last
         spGPStimeData->_ix_last %= eSlidingLen;       //rollover ix_last to zero at 32 (SlidingLen)
-
         const int64_t dt_per_window = tm64 - spGPStimeData->_pu64_sliding_pps_tm[spGPStimeData->_ix_last]; //sets dt_per_window to elapsed time since 32 cycles ago
         spGPStimeData->_pu64_sliding_pps_tm[spGPStimeData->_ix_last] = tm64;
     
-		if ((spGPStimeContext->verbosity>=6)&&(spGPStimeContext->user_setup_menu_active==0 )) printf("Error value: %llu\n",(ABS((dt_per_window - eCLKperTimeMark * eSlidingLen)-eMaxCLKdevPPM * eSlidingLen)));    
 		if(ABS(dt_per_window - eCLKperTimeMark * eSlidingLen) < eMaxCLKdevPPM * eSlidingLen)   // only if dt_per_window within +/-250 ppm of 32 seconds
         {      
 			if(spGPStimeData->_u64_pps_period_1M)   //only if pps_per_1m != 0
@@ -90,23 +92,44 @@ void RAM (GPStimePPScallback)(uint gpio, uint32_t events)
                 spGPStimeData->_u64_pps_period_1M += iSAR64((int64_t)eDtUpscale * dt_per_window   //pp_period incremented by error (of last 32sec period), but also add 2 and divide by4 (via bitshift)      pps_per_1m +=  1mill*dt_per_window - pps_per_1m+2 , divided by 4 (bit shift 2 to the right with iSAR64)
 														    - spGPStimeData->_u64_pps_period_1M + 2, 2);          // - spGPStimeData->_u64_pps_period_1M + 2, 2);
 															
-                spGPStimeData->_i32_freq_shift_ppb = (spGPStimeData->_u64_pps_period_1M           //set the frequency compensation value here, pretty much from pps_period (lots zeroes and nums that cancel out in this calc)
+					//this calcs compensation based on original, GPS only code from Roman
+			 GPS_based_freq_shift_ppb = (spGPStimeData->_u64_pps_period_1M           //set the frequency compensation value here, pretty much from pps_period (lots zeroes and nums that cancel out in this calc)
                                                       - (int64_t)eDtUpscale * eCLKperTimeMark * eSlidingLen
                                                       + (eSlidingLen >> 1)) / eSlidingLen;
+			
+			spGPStimeData->_temp_based_freq_compensation_ppb=(-193586.691312384*(float)spGPStimeData->_average_temperature_in_C)+spGPStimeData->_temp_based_freq_compensation_trimmed_offset;     //wuz2
+			
+			error_ppb_temp_vs_gps = GPS_based_freq_shift_ppb-spGPStimeData->_temp_based_freq_compensation_ppb;
+			spGPStimeData->_temp_based_freq_compensation_trimmed_offset += (0.005)*(float)error_ppb_temp_vs_gps; //*gradually* bring temp based comp in line with GPS based comp
+		
+																	//now decide which compensation to use
+				if (spGPStimeData->tcxo_mode==0) use_software_TCXO=0;
+				if (spGPStimeData->tcxo_mode==1) use_software_TCXO=1;
+				if (spGPStimeData->tcxo_mode==2)
+					{
+						if ((int)(spGPStimeData->_u8_last_digit_hour - '0')%2) use_software_TCXO=0; // ODD hours do GPS only, EVEN hours do temperature
+							else use_software_TCXO=1;
+					}
+			if (!use_software_TCXO)
+				spGPStimeData->_i32_freq_shift_ppb = GPS_based_freq_shift_ppb;
+			else			
+			  spGPStimeData->_i32_freq_shift_ppb=spGPStimeData->_temp_based_freq_compensation_ppb;
+							
 			}
-            else
-            {
-                spGPStimeData->_u64_pps_period_1M = (int64_t)eDtUpscale * dt_per_window;  //if pps_per_1m was zero, initialize it to ~ 32 secs
-            }
+        else
+         {
+           spGPStimeData->_u64_pps_period_1M = (int64_t)eDtUpscale * dt_per_window;  //if pps_per_1m was zero, initialize it to ~ 32 secs
+         }
         }
 
+	if ((spGPStimeContext->verbosity>=1)&&(spGPStimeContext->user_setup_menu_active==0))   printf(" Orig, temp based,  error and updated OFFSET and pecetage \n%lld\n%lld\n%lld\n%lld  %0.4f\n",GPS_based_freq_shift_ppb,spGPStimeData->_temp_based_freq_compensation_ppb,error_ppb_temp_vs_gps,spGPStimeData->_temp_based_freq_compensation_trimmed_offset, spGPStimeData->_temp_based_freq_compensation_trimmed_offset/(float)11383434);
 		if ((spGPStimeContext->verbosity>=6)&&(spGPStimeContext->user_setup_menu_active==0))   //show some data for debugging
 		{
         const int64_t dt_1M = (dt_per_window + (eSlidingLen >> 1)) / eSlidingLen;
         const uint64_t tmp = (spGPStimeData->_u64_pps_period_1M + (eSlidingLen >> 1)) / eSlidingLen;
 	    GPStimeDump(spGPStimeData);
 	    }
-	 if ((spGPStimeContext->verbosity>=6)&&(spGPStimeContext->user_setup_menu_active==0 )) printf("PPS went on at: %.3f secs\n",((uint32_t)(to_us_since_boot(get_absolute_time()) / 1000ULL)/1000.0f ));
+		if ((spGPStimeContext->verbosity>=6)&&(spGPStimeContext->user_setup_menu_active==0 )) printf("PPS went on at: %.3f secs\n",((uint32_t)(to_us_since_boot(get_absolute_time()) / 1000ULL)/1000.0f ));
 	}
 	
 }
@@ -209,6 +232,7 @@ int GPStimeProcNMEAsentence(GPStimeContext *pg)
         }
 		
 		pg->_time_data._u8_last_digit_minutes= *(prmc + u8ixcollector[0] + 3);
+		pg->_time_data._u8_last_digit_hour= *(prmc + u8ixcollector[0] + 1);		
         pg->_time_data._u8_is_solution_active = (prmc[u8ixcollector[5]]>48);   //numeric 0 for no fix, 1 2 or 3 for various fix types //printf("char is: %c\n",prmc[u8ixcollector[5]]);
 		pg->_time_data.sat_count = atoi((const char *)prmc + u8ixcollector[6]); 
 		

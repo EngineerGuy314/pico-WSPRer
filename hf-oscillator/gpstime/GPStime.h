@@ -87,19 +87,22 @@ typedef struct
 {
     uint8_t _u8_is_solution_active;             /* A navigation solution is valid. */
 	uint8_t sat_count;
-    char _u8_last_digit_minutes;             // First digit of the minutes. Really, this is the only thing i care about. 
-    uint32_t _u32_utime_nmea_last;              /* The last unix time received from GPS. */
+    char _u8_last_digit_minutes;                /* First digit of the minutes. Really, this is the only thing needed to sequence messages. */
+    char _u8_last_digit_hour;  
+	uint32_t _u32_utime_nmea_last;              /* The last unix time received from GPS. */
     uint64_t _u64_sysclk_nmea_last;             /* The sysclk of the last unix time received. */
     int64_t _i64_lat_100k, _i64_lon_100k;       /* The lat, lon, degrees, multiplied by 1e5. */
     uint32_t _u32_nmea_gprmc_count;             /* The count of $GPRMC sentences received */
-
     uint64_t _u64_sysclk_pps_last;              /* The sysclk of the last rising edge of PPS. */
     int64_t _u64_pps_period_1M;                /* The PPS avg. period *1e6, filtered. */ 
     uint64_t _pu64_sliding_pps_tm[eSlidingLen]; /* A sliding window to store PPS periods. */
     uint8_t _ix_last;                           /* An index of last write to sliding window. */
-
     int64_t _i32_freq_shift_ppb;                /* Calcd frequency shift, parts per billion. */
-
+    float _average_temperature_in_C;     		 /* used for software based TCXO mode*/
+	int8_t tcxo_mode;                			 /*0: default mode using only GPS timing to adjust clock frequency. 1: Uses value from onboard temperature sensor (in ADDITION to trim from GPS) to correct frequency. This is possibly more responsive to rapidly fluctuating temperature when flyin over clouds. 2: comparision mode that uses GPS only compensation during even hours, and temperature/GPS mode during odd hours.*/
+	int64_t _temp_based_freq_compensation_ppb;   /* equivalent to _i32_freq_shift_ppb, but based primarily on temperature*/
+	int64_t _temp_based_freq_compensation_trimmed_offset;  /* the "y intercept" used to linearly interpolate freq_shift_ppb from temperature. initially set to 11383434.722366, this gets trimmed by GPS timing for long term correction*/
+	
 } GPStimeData;
 
 typedef struct

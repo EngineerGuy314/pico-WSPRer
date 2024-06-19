@@ -24,6 +24,7 @@ static int at_least_one_GPS_fixed_has_been_obtained;
 static uint8_t _callsign_with_suffix[12];
 static 	uint8_t  altitude_as_power_fine;
 static uint32_t previous_msg_count;
+static int tikk;
 
 /// @brief Initializes a new WSPR beacon context.
 /// @param pcallsign HAM radio callsign, 12 chr max.
@@ -92,7 +93,12 @@ void WSPRbeaconSetDialFreq(WSPRbeaconContext *pctx, uint32_t freq_hz)
 //******************************************************************************************************************************
 int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd
 {
-    assert_(pctx);
+        if(0 == ++tikk % 2)    //turns a fan on via GPIO 18 every other packet. this forces temperature swings for testing TCXO stability   
+		gpio_put(18, 1);
+       if(0 == (tikk+1) % 2)
+		gpio_put(18, 0);
+
+	assert_(pctx);
   const int8_t valid_dbm[19] =
     {0, 3, 7, 10, 13, 17, 20, 23, 27, 30, 33, 37, 40,
      43, 47, 50, 53, 57, 60};    

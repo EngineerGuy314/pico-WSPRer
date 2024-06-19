@@ -2222,33 +2222,6 @@ home/rob/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.s
 .PHONY : home/rob/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.s
 
-init.obj: init.c.obj
-
-.PHONY : init.obj
-
-# target to build an object file
-init.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/init.c.obj
-.PHONY : init.c.obj
-
-init.i: init.c.i
-
-.PHONY : init.i
-
-# target to preprocess a source file
-init.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/init.c.i
-.PHONY : init.c.i
-
-init.s: init.c.s
-
-.PHONY : init.s
-
-# target to generate assembly for a file
-init.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/init.c.s
-.PHONY : init.c.s
-
 main.obj: main.c.obj
 
 .PHONY : main.obj
@@ -2540,9 +2513,6 @@ help:
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_unique_id/unique_id.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_unique_id/unique_id.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_unique_id/unique_id.s"
-	@echo "... init.obj"
-	@echo "... init.i"
-	@echo "... init.s"
 	@echo "... main.obj"
 	@echo "... main.i"
 	@echo "... main.s"

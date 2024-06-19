@@ -74,6 +74,8 @@ void InitPicoClock(void)
  */
 void InitPicoPins(void)
 {
+    gpio_init(18); 
+	gpio_set_dir(18, GPIO_OUT); //GPIO 18 used for fan control when testing TCXO stability
     gpio_init(LED_PIN); 
 	gpio_set_dir(LED_PIN, GPIO_OUT); //initialize LED output
 

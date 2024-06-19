@@ -198,7 +198,6 @@ set(CMAKE_DEPENDS_CHECK_C
   "/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c" "/home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj"
   "/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c" "/home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj"
   "/home/rob/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c" "/home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj"
-  "/home/rob/pico-WSPRer/init.c" "/home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer.dir/init.c.obj"
   "/home/rob/pico-WSPRer/main.c" "/home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer.dir/main.c.obj"
   "/home/rob/pico-WSPRer/utilities.c" "/home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer.dir/utilities.c.obj"
   )
