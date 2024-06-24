@@ -9,11 +9,13 @@ The user's callsign and telemetry encoding details are configurable via the pico
 
 There is an issue with the RP2040 locking up if its input voltage is raised too gradually (as would happen during sunrise). To combat this I have a simple voltage dividor of two resistors across ground and the input voltage. The output if this voltage divider is tied to the RUN input on Pi Pico. The GPS unit stays on during transmission to provide continual frequency shift correction. However, a generic MOSFET or NPN transistor must be included to allow the pico to keep the GPS powered off during initial sunrise boot. See schematic below. Alternatively, 3 IO in parallel can low-side drive the GPS module without a MOSFET.
 
-With the original code the Pico was being overclocked to 270Mhz, so the total power draw of the Pico and GPS module was around 100mA at 4 volts. But this version I have the speed down to 135Mhz, which reduces power consumption but is still fine for transmitting on 20M (14Mhz). 
+With the original code the Pico was being overclocked to 270Mhz, so the total power draw of the Pico and GPS module was around 100mA at 4 volts. The speed was initially reduced down to 135Mhz, which reduced power consumption and was still fine for transmitting on 20M (14Mhz). 
 
-We managed to optimize the code of the PIODCO oscillator, so that 115 MHz CPU clock is enough for 20m band. In the /build directory you will find both versions translated (for 115 and 135 MHz CPU clock)   
+After further optimization to the code of the PIODCO oscillator, a 115 MHz CPU clock is now enough for 20m band. You can increase the clock speed in defines.h, but it should not be neccesary.
 
-Adding a new experimental software-TCXO Frequency compensation mode. (option F in setup menu). 0: default mode using only GPS timing to adjust clock frequency. 1: Uses value from onboard temperature sensor (in ADDITION to trim from GPS) to correct frequency. This is possibly more responsive to rapidly fluctuating temperature when flying over clouds. 2: comparision mode that uses GPS only compensation during even hours, and temperature/GPS mode during odd hours.
+Frequency compensation code now uses the second PIO state machine to implement a high resolution timer. Allows less filtering, and therefore much faster response to frequency deviation ie from temperature change.
+
+~~Adding a new experimental software-TCXO Frequency compensation mode. (option F in setup menu). 0: default mode using only GPS timing to adjust clock frequency. 1: Uses value from onboard temperature sensor (in ADDITION to trim from GPS) to correct frequency. This is possibly more responsive to rapidly fluctuating temperature when flying over clouds. 2: comparision mode that uses GPS only compensation during even hours, and temperature/GPS mode during odd hours.~~
 
 Onboard LED behavior: blinks for ~three seconds on powerup (before powering up GPS module). Then does a very rapid blink until GPS has established serial comms with the pico. Once comms established, it does 1,2,3 or 4 blinks then pauses. 1= no GPS fix, not transmitting. 2=valid GPS location not yet transmitting. 3=valid GPS location, transmission in process. 4= gps fix has been lost, but transmitting anyway
 
