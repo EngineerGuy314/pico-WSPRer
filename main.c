@@ -234,7 +234,7 @@ strncpy(_lane, flash_target_contents+9, 1);
 strncpy(_suffix, flash_target_contents+10, 1);
 strncpy(_verbosity, flash_target_contents+11, 1);
 strncpy(_oscillator, flash_target_contents+12, 1);
-strncpy(_tcxo_mode, flash_target_contents+13, 1);
+//strncpy(_tcxo_mode, flash_target_contents+13, 1);
 
 check_data_validity();
 }
@@ -255,7 +255,7 @@ void check_data_validity(void)
 	if ( (_lane[0]!='1') && (_lane[0]!='2') && (_lane[0]!='3')&& (_lane[0]!='4')) {_lane[0]='2'; write_NVRAM();}
 	if ( (_verbosity[0]<'0') || (_verbosity[0]>'9')) {_verbosity[0]='1'; write_NVRAM();} //set default verbosity to 1
 	if ( (_oscillator[0]<'0') || (_oscillator[0]>'1')) {_oscillator[0]='1'; write_NVRAM();} //set default oscillator to switch off after the trasmission
-	if ( (_tcxo_mode[0]<'0') || (_tcxo_mode[0]>'2')) {_tcxo_mode[0]='0'; write_NVRAM();} 
+//	if ( (_tcxo_mode[0]<'0') || (_tcxo_mode[0]>'2')) {_tcxo_mode[0]='0'; write_NVRAM();} 
 }
 
 /**
@@ -281,7 +281,7 @@ show_values();
 
     for(;;)
 	{	
-		printf("Enter the command (X,C,S,I,M,L,V,O,F,T): ");	
+		printf("Enter the command (X,C,S,I,M,L,V,O,T): ");	
 		c=getchar_timeout_us(60000000);		   //just in case user setup menu was enterred during flight, this will reboot after 60 secs
 		printf("%c\n", c);
 		if (c==255) {printf("\n\n TIMEOUT WAITING FOR INPUT, REBOOTING FOR YOUR OWN GOOD!!");watchdog_enable(100, 1);for(;;)	{}}
@@ -296,7 +296,7 @@ show_values();
 			case 'L':get_user_input("Enter Lane (1,2,3,4): ", _lane, sizeof(_lane)); write_NVRAM(); break;
 			case 'V':get_user_input("Verbosity level (0-9): ", _verbosity, sizeof(_verbosity)); write_NVRAM(); break;
 			case 'O':get_user_input("Oscillator off (0,1): ", _oscillator, sizeof(_oscillator)); write_NVRAM(); break;
-			case 'F':get_user_input("Frequency comp mode (0,1,2): ", _tcxo_mode, sizeof(_tcxo_mode)); write_NVRAM(); break;
+			//case 'F':get_user_input("Frequency comp mode (0,1,2): ", _tcxo_mode, sizeof(_tcxo_mode)); write_NVRAM(); break;
 			case 'T':
 				printf("Antenna tuning mode. Enter frequency (for example 14.097) or 0 for exit.\n\t");
 				char _tuning_freq[7];
@@ -326,12 +326,13 @@ show_values();
  */
 void show_values(void)
 {
-printf("\n\nCurrent values:\n\tCallsign:%s\n\tSuffix:%s\n\tId13:%s\n\tMinute:%s\n\tLane:%s\n\tVerbosity:%s\n\tOscillator Off:%s\n\tFreq comp mode:%s\n\n",_callsign,_suffix,_id13,_start_minute,_lane,_verbosity, _oscillator,_tcxo_mode);
+printf("\n\nCurrent values:\n\tCallsign:%s\n\tSuffix:%s\n\tId13:%s\n\tMinute:%s\n\tLane:%s\n\tVerbosity:%s\n\tOscillator Off:%s\n\n",_callsign,_suffix,_id13,_start_minute,_lane,_verbosity, _oscillator);
 printf("VALID commands: \n\n\tX: eXit configuraiton and reboot\n\tC: change Callsign (6 char max)\n\t");
 printf("S: change Suffix (added to callsign for WSPR3) enter '-' to disable WSPR3\n\t");
 printf("I: change Id13 (two alpha numeric chars, ie Q8) enter '--' to disable U4B\n\t");
 printf("M: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\t");
-printf("V: Verbosity level (0 for no messages, 9 for too many) \n\tO: Oscillator off after trasmission (0,1) \n\tF: Frequency comp mode (0,1,2) 0:normal GPS disciplined 1:temperature based w/GPS trim 2: switch every hour\n\tT: antenna Tuning mode (freq)\n");
+//printf("V: Verbosity level (0 for no messages, 9 for too many) \n\tO: Oscillator off after trasmission (0,1) \n\tF: Frequency comp mode (0,1,2) 0:normal GPS disciplined 1:temperature based w/GPS trim 2: switch every hour\n\tT: antenna Tuning mode (freq)\n");
+printf("V: Verbosity level (0 for no messages, 9 for too many) \n\tO: Oscillator off after trasmission (0,1) \n\tT: antenna Tuning mode (constant freq output)\n");
 
 }
 /**

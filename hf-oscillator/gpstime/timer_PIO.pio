@@ -1,0 +1,40 @@
+
+.program timer_PIO
+
+;						state machine used for high resolution timing of duration between PPS pulses
+;						at 115Mhz clock speed each instruction in PIO takes 1/115M = 8.69565E-09 seconds
+;						the majority of the PIO loop takes executes 2 instructions each count cycle, which is 3 X 8.69565E-09 = 1.73913E-08 secs
+;						so the resolution of the timer is about 17.39130435 nanoSeconds per tick
+.wrap_target
+start:
+    mov y ~NULL         ; start with the value 0xFFFFFFFF
+    mov x ~NULL         ; start with the value 0xFFFFFFFF
+    wait 0 pin 0        ; wait for a 0
+    wait 1 pin 0        ; wait for a 1, now we really have the rising edge
+timer_hp:               ; loop for high period
+    jmp y-- test        ; count down for pulse width
+    jmp start           ; timer has reached 0, stop count down of pulse, restart
+test:
+    jmp pin timer_hp    ; test if the pin is still 1, if so, continue counting down
+timer_lp:               ; loop for low period
+    jmp pin timerstop   ; if the pin has become 1, the period is over, stop count down
+    jmp x-- timer_lp    ; if not: count down
+    jmp start           ; timer has reached 0, stop count down of low period, restart
+timerstop:
+    mov ISR ~y          ; move the value ~y to the ISR: the high period (pulsewidth) (0xFFFFFFFF-y)
+    push noblock        ; push the ISR into the Rx FIFO
+    mov ISR ~x          ; move the value ~x to the ISR: the low period (0xFFFFFFFF-x)
+    push noblock        ; push the ISR into the Rx FIFO
+.wrap
+
+
+% c-sdk {
+static inline void timer_PIO_program_init(PIO pio, uint sm, uint offset) {
+	pio_sm_config c = timer_PIO_program_get_default_config(offset);
+	sm_config_set_in_pins(&c, 2);  // Use GPIO 2 for input (PPS)
+	sm_config_set_jmp_pin(&c, 2);  // Use GPIO 2 for input (PPS)
+    pio_sm_set_consecutive_pindirs(pio, sm, 2, 1, false);  // Set pin 2 as input
+	pio_sm_init(pio, sm, offset, &c);
+	pio_sm_set_enabled(pio, sm, true);
+}
+%}

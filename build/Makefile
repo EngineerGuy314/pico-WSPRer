@@ -156,6 +156,19 @@ pico-WSPRer_dco2_pio_h/fast:
 .PHONY : pico-WSPRer_dco2_pio_h/fast
 
 #=============================================================================
+# Target rules for targets named pico-WSPRer_timer_PIO_pio_h
+
+# Build rule for target.
+pico-WSPRer_timer_PIO_pio_h: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico-WSPRer_timer_PIO_pio_h
+.PHONY : pico-WSPRer_timer_PIO_pio_h
+
+# fast build rule for target.
+pico-WSPRer_timer_PIO_pio_h/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer_timer_PIO_pio_h.dir/build.make CMakeFiles/pico-WSPRer_timer_PIO_pio_h.dir/build
+.PHONY : pico-WSPRer_timer_PIO_pio_h/fast
+
+#=============================================================================
 # Target rules for targets named pico-WSPRer
 
 # Build rule for target.
@@ -2290,6 +2303,7 @@ help:
 	@echo "... bs2_default_padded_checksummed_asm"
 	@echo "... cyw43_driver_picow_cyw43_bus_pio_spi_pio_h"
 	@echo "... pico-WSPRer_dco2_pio_h"
+	@echo "... pico-WSPRer_timer_PIO_pio_h"
 	@echo "... bs2_default"
 	@echo "... pico-WSPRer"
 	@echo "... TxChannel/TxChannel.obj"

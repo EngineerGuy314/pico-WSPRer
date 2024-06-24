@@ -23,7 +23,7 @@ project(pico-WSPRer C CXX ASM)
 pico_sdk_init()
 add_executable(pico-WSPRer)
 pico_generate_pio_header(pico-WSPRer ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/piodco/dco2.pio)
-
+pico_generate_pio_header(pico-WSPRer ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/gpstime/timer_PIO.pio)
 target_sources(pico-WSPRer PUBLIC
 	           ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/lib/assert.c
                ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/piodco/piodco.c

@@ -6,6 +6,7 @@
 //  https://github.com/RPiks/pico-WSPR-tx
 ///////////////////////////////////////////////////////////////////////////////
 #include "GPStime.h"
+#include "timer_PIO.pio.h"
 
 static GPStimeContext *spGPStimeContext = NULL;
 static GPStimeData *spGPStimeData = NULL;
@@ -14,6 +15,15 @@ int    use_software_TCXO;
 int64_t error_ppb_temp_vs_gps;
 int64_t GPS_based_freq_shift_ppb;
 
+static 	PIO timer_PIO;  /*state machine used for high resolution timing of duration between PPS pulses
+						at 115Mhz clock speed each instruction in PIO takes 1/115M = 8.69565E-09 seconds
+						the majority of the PIO loop executes 2 instructions each count cycle, which is 2 X 8.69565E-09 = 1.73913E-08 secs
+						so the resolution of the timer is about 17.39130435 nanoSeconds per tick
+						*/
+static int sm;
+static uint offset;
+static int32_t PIO_counts_per_PPS;
+static int32_t	elapsed_PIO_ticks_FILTERED= 57500000; //preload ideal value to reduce initial filtering lock time. 
 /// @brief Initializes GPS time module Context.
 /// @param uart_id UART id to which GPS receiver is connected, 0 OR 1.
 /// @param uart_baud UART baudrate, 115200 max.
@@ -21,7 +31,13 @@ int64_t GPS_based_freq_shift_ppb;
 /// @return the new GPS time Context.
 GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio)
 {
-    ASSERT_(0 == uart_id || 1 == uart_id);
+  
+	timer_PIO = pio1;    //instantiate pio1 for the timer, pio0 already used for WSPR generation
+	sm = 0;			     //each of the two PIOs has 4 state machines (sm) available. use the 1st one 
+    offset = pio_add_program( timer_PIO, &timer_PIO_program);
+    timer_PIO_program_init(timer_PIO, sm, offset);
+
+	ASSERT_(0 == uart_id || 1 == uart_id);
     ASSERT_(uart_baud <= 115200);
     ASSERT_(pps_gpio < 29);
     // Set up our UART with the required speed & assign pins.
@@ -32,7 +48,6 @@ GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio)
     GPStimeContext *pgt = calloc(1, sizeof(GPStimeContext));
     ASSERT_(pgt);
 
-	pgt->_time_data._temp_based_freq_compensation_trimmed_offset=11383434; //11383434;  /* the "y intercept" used to linearly interpolate freq_shift_ppb from temperature. initially set to 11383434.722366, this gets trimmed by GPS timing for long term correction*/
     pgt->_uart_id = uart_id;
     pgt->_uart_baudrate = uart_baud;
     pgt->_pps_gpio = pps_gpio;
@@ -60,78 +75,30 @@ void GPStimeDestroy(GPStimeContext **pp)
 {
     ASSERT_(pp);
     ASSERT_(*pp);
-
     spGPStimeContext = NULL;    /* Detach global context Ptr. */
     spGPStimeData = NULL;
-
     uart_deinit((*pp)->_uart_id ? uart1 : uart0);
     free(*pp);
     *pp = NULL;
 }
 
-/// @brief The PPS interrupt service subroutine.
+/// @brief The PPS interrupt service subroutine. Once a second it recalculates the frequency compensation needed based on time seen between PPS from GPS
 /// @param  gpio The GPIO pin of Pico which is connected to PPS output of GPS rec.
-
-
 
 void RAM (GPStimePPScallback)(uint gpio, uint32_t events)
 {   
-    const uint64_t tm64 = GetUptime64();
-    if(spGPStimeData)
-    {
-        spGPStimeData->_u64_sysclk_pps_last = tm64;   //set pps_last = tm64 = uptime 
-        ++spGPStimeData->_ix_last;                    //increment ix_last
-        spGPStimeData->_ix_last %= eSlidingLen;       //rollover ix_last to zero at 32 (SlidingLen)
-        const int64_t dt_per_window = tm64 - spGPStimeData->_pu64_sliding_pps_tm[spGPStimeData->_ix_last]; //sets dt_per_window to elapsed time since 32 cycles ago
-        spGPStimeData->_pu64_sliding_pps_tm[spGPStimeData->_ix_last] = tm64;
-    
-		if(ABS(dt_per_window - eCLKperTimeMark * eSlidingLen) < eMaxCLKdevPPM * eSlidingLen)   // only if dt_per_window within +/-250 ppm of 32 seconds
-        {      
-			if(spGPStimeData->_u64_pps_period_1M)   //only if pps_per_1m != 0
-            {
-                spGPStimeData->_u64_pps_period_1M += iSAR64((int64_t)eDtUpscale * dt_per_window   //pp_period incremented by error (of last 32sec period), but also add 2 and divide by4 (via bitshift)      pps_per_1m +=  1mill*dt_per_window - pps_per_1m+2 , divided by 4 (bit shift 2 to the right with iSAR64)
-														    - spGPStimeData->_u64_pps_period_1M + 2, 2);          // - spGPStimeData->_u64_pps_period_1M + 2, 2);
-															
-					//this calcs compensation based on original, GPS only code from Roman
-			 GPS_based_freq_shift_ppb = (spGPStimeData->_u64_pps_period_1M           //set the frequency compensation value here, pretty much from pps_period (lots zeroes and nums that cancel out in this calc)
-                                                      - (int64_t)eDtUpscale * eCLKperTimeMark * eSlidingLen
-                                                      + (eSlidingLen >> 1)) / eSlidingLen;
-			
-			spGPStimeData->_temp_based_freq_compensation_ppb=(-193586.691312384*(float)spGPStimeData->_average_temperature_in_C)+spGPStimeData->_temp_based_freq_compensation_trimmed_offset;     //wuz2
-			
-			error_ppb_temp_vs_gps = GPS_based_freq_shift_ppb-spGPStimeData->_temp_based_freq_compensation_ppb;
-			spGPStimeData->_temp_based_freq_compensation_trimmed_offset += (0.005)*(float)error_ppb_temp_vs_gps; //*gradually* bring temp based comp in line with GPS based comp
-		
-																	//now decide which compensation to use
-				if (spGPStimeData->tcxo_mode==0) use_software_TCXO=0;
-				if (spGPStimeData->tcxo_mode==1) use_software_TCXO=1;
-				if (spGPStimeData->tcxo_mode==2)
-					{
-						if ((int)(spGPStimeData->_u8_last_digit_hour - '0')%2) use_software_TCXO=0; // ODD hours do GPS only, EVEN hours do temperature
-							else use_software_TCXO=1;
-					}
-			if (!use_software_TCXO)
-				spGPStimeData->_i32_freq_shift_ppb = GPS_based_freq_shift_ppb;
-			else			
-			  spGPStimeData->_i32_freq_shift_ppb=spGPStimeData->_temp_based_freq_compensation_ppb;
-							
-			}
-        else
-         {
-           spGPStimeData->_u64_pps_period_1M = (int64_t)eDtUpscale * dt_per_window;  //if pps_per_1m was zero, initialize it to ~ 32 secs
-         }
-        }
+        if (pio_sm_get_rx_fifo_level(timer_PIO, sm) >= 2) 	//make sure at least two values are waiting to be read from the PIO           
+			PIO_counts_per_PPS = pio_sm_get(timer_PIO, sm)+ pio_sm_get(timer_PIO, sm);   //read and add 2 values from the PIO's output FIFO, representing tick count of ON and OFF pulse duration. each tick takes ~17.39nS
 
-	if ((spGPStimeContext->verbosity>=1)&&(spGPStimeContext->user_setup_menu_active==0))   printf(" Orig, temp based,  error and updated OFFSET and pecetage \n%lld\n%lld\n%lld\n%lld  %0.4f\n",GPS_based_freq_shift_ppb,spGPStimeData->_temp_based_freq_compensation_ppb,error_ppb_temp_vs_gps,spGPStimeData->_temp_based_freq_compensation_trimmed_offset, spGPStimeData->_temp_based_freq_compensation_trimmed_offset/(float)11383434);
-		if ((spGPStimeContext->verbosity>=6)&&(spGPStimeContext->user_setup_menu_active==0))   //show some data for debugging
+		if (PIO_counts_per_PPS>10000000) //make sure data is somewhat reasoable
 		{
-        const int64_t dt_1M = (dt_per_window + (eSlidingLen >> 1)) / eSlidingLen;
-        const uint64_t tmp = (spGPStimeData->_u64_pps_period_1M + (eSlidingLen >> 1)) / eSlidingLen;
-	    GPStimeDump(spGPStimeData);
-	    }
-		if ((spGPStimeContext->verbosity>=6)&&(spGPStimeContext->user_setup_menu_active==0 )) printf("PPS went on at: %.3f secs\n",((uint32_t)(to_us_since_boot(get_absolute_time()) / 1000ULL)/1000.0f ));
-	}
-	
+		elapsed_PIO_ticks_FILTERED=0.5*elapsed_PIO_ticks_FILTERED + 0.5*PIO_counts_per_PPS; 			    //a mild IIR lowpass filter to smooth the tick count from PIO
+		spGPStimeData->_i32_freq_shift_ppb=(elapsed_PIO_ticks_FILTERED-(int64_t)57500000)*(int64_t)17391;  //57500000 is the ideal (exact) number of ticks in one second and 17391 comes from nano_secs_per_tick = 17.39130435 (scaled by a 1000 because of reasons. ask Roman. because we need parts per *billion*? for scaling reasons elsewhere?)
+		}
+		
+		if ((spGPStimeContext->verbosity>=3)&&(spGPStimeContext->user_setup_menu_active==0)) printf(" elapsed PIO tick  %d and FILTERED %d   FRQ correction ppb:  %lli  \n",PIO_counts_per_PPS,elapsed_PIO_ticks_FILTERED,spGPStimeData->_i32_freq_shift_ppb);
+		if ((spGPStimeContext->verbosity>=6)&&(spGPStimeContext->user_setup_menu_active==0)) GPStimeDump(spGPStimeData);
+		if ((spGPStimeContext->verbosity>=6)&&(spGPStimeContext->user_setup_menu_active==0 )) printf("PPS went on at: %.3f secs\n",((uint32_t)(to_us_since_boot(get_absolute_time()) / 1000ULL)/1000.0f ));	
 }
 
 /// @brief Calculates current unixtime using data available.

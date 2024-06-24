@@ -422,12 +422,14 @@ CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-s
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/io_bank0.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/m0plus.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/pads_bank0.h
+CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/pio.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/sio.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/timer.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/uart.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/interp.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/iobank0.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/padsbank0.h
+CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/pio.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/sio.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/timer.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/uart.h
@@ -435,6 +437,8 @@ CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-s
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_base/include/hardware/address_mapped.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_gpio/include/hardware/gpio.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_irq/include/hardware/irq.h
+CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_pio/include/hardware/pio.h
+CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_pio/include/hardware/pio_instructions.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_timer/include/hardware/timer.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_uart/include/hardware/uart.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_platform/include/pico/platform.h
@@ -442,6 +446,7 @@ CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-s
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: generated/pico_base/pico/config_autogen.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: generated/pico_base/pico/version.h
+CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj: timer_PIO.pio.h
 
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/lib/assert.c.obj: ../hf-oscillator/lib/assert.c
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/lib/assert.c.obj: ../hf-oscillator/lib/assert.h

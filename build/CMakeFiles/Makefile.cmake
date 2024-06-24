@@ -242,6 +242,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/ELF2UF2Build.dir/DependInfo.cmake"
   "CMakeFiles/pico-WSPRer_dco2_pio_h.dir/DependInfo.cmake"
+  "CMakeFiles/pico-WSPRer_timer_PIO_pio_h.dir/DependInfo.cmake"
   "CMakeFiles/pico-WSPRer.dir/DependInfo.cmake"
   "pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/DependInfo.cmake"
   "pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/DependInfo.cmake"

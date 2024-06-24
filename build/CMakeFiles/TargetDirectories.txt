@@ -2,6 +2,7 @@
 /home/rob/pico-WSPRer/build/CMakeFiles/ELF2UF2Build.dir
 /home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer_dco2_pio_h.dir
 /home/rob/pico-WSPRer/build/CMakeFiles/rebuild_cache.dir
+/home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer_timer_PIO_pio_h.dir
 /home/rob/pico-WSPRer/build/CMakeFiles/pico-WSPRer.dir
 /home/rob/pico-WSPRer/build/pico-sdk/CMakeFiles/rebuild_cache.dir
 /home/rob/pico-WSPRer/build/pico-sdk/CMakeFiles/edit_cache.dir
