@@ -65,7 +65,7 @@
 #endif
 
 //////////////// Hardware related defines ////////////////////////////
-#define PLL_SYS_MHZ 115UL // This sets CPU speed. Roman originally had 270UL. 
+#define PLL_SYS_MHZ 115UL//115UL // This sets CPU speed. Roman originally had 270UL. 
       // After improvement od PIODCO we are now on 115 MHz (for 20m band) :-)     
 
 

@@ -93,10 +93,10 @@ void WSPRbeaconSetDialFreq(WSPRbeaconContext *pctx, uint32_t freq_hz)
 //******************************************************************************************************************************
 int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd
 {
-        if(0 == ++tikk % 2)    //turns a fan on via GPIO 18 every other packet. this forces temperature swings for testing TCXO stability   
+   /*     if(0 == ++tikk % 2)    //turns a fan on via GPIO 18 every other packet. this forces temperature swings for testing TCXO stability   
 		gpio_put(18, 1);
        if(0 == (tikk+1) % 2)
-		gpio_put(18, 0);
+		gpio_put(18, 0);  */
 
 	assert_(pctx);
   const int8_t valid_dbm[19] =

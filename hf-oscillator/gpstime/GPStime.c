@@ -23,13 +23,16 @@ static 	PIO timer_PIO;  /*state machine used for high resolution timing of durat
 static int sm;
 static uint offset;
 static int32_t PIO_counts_per_PPS;
-static int32_t	elapsed_PIO_ticks_FILTERED= 57500000; //preload ideal value to reduce initial filtering lock time. 
+static int32_t	elapsed_PIO_ticks_FILTERED;
+static int32_t tics_per_second;
+static int32_t nanosecs_per_tick;
+
 /// @brief Initializes GPS time module Context.
 /// @param uart_id UART id to which GPS receiver is connected, 0 OR 1.
 /// @param uart_baud UART baudrate, 115200 max.
 /// @param pps_gpio GPIO pin of PPS (second pulse) from GPS receiver.
 /// @return the new GPS time Context.
-GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio)
+GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio, uint32_t clock_speed)
 {
   
 	timer_PIO = pio1;    //instantiate pio1 for the timer, pio0 already used for WSPR generation
@@ -66,6 +69,13 @@ GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio)
     irq_set_enabled(uart_id ? UART1_IRQ : UART0_IRQ, true);
     uart_set_irq_enables(uart_id ? uart1 : uart0, true, false);
 
+
+		nanosecs_per_tick= 2000000 / clock_speed;  //because two instructions cycle are used per cycle of the PIO, also adds a million scaling factor 
+		tics_per_second = 1000000 * clock_speed / 2;
+		printf("<>>>>>>>>>>>>>>>>>>>>>>  clock speed %d  nanosecs per tick Scaled %d tics per sec %d\n",clock_speed, nanosecs_per_tick,tics_per_second);
+
+
+	elapsed_PIO_ticks_FILTERED= tics_per_second; //preload ideal value to reduce initial filtering lock time. 
     return pgt;
 }
 
@@ -93,7 +103,7 @@ void RAM (GPStimePPScallback)(uint gpio, uint32_t events)
 		if (PIO_counts_per_PPS>10000000) //make sure data is somewhat reasoable
 		{
 		elapsed_PIO_ticks_FILTERED=0.5*elapsed_PIO_ticks_FILTERED + 0.5*PIO_counts_per_PPS; 			    //a mild IIR lowpass filter to smooth the tick count from PIO
-		spGPStimeData->_i32_freq_shift_ppb=(elapsed_PIO_ticks_FILTERED-(int64_t)57500000)*(int64_t)17391;  //57500000 is the ideal (exact) number of ticks in one second and 17391 comes from nano_secs_per_tick = 17.39130435 (scaled by a 1000 because of reasons. ask Roman. because we need parts per *billion*? for scaling reasons elsewhere?)
+		spGPStimeData->_i32_freq_shift_ppb=(elapsed_PIO_ticks_FILTERED-(int64_t)tics_per_second)*(int64_t)nanosecs_per_tick;  //57500000 is the ideal (exact) number of ticks in one second and 17391 comes from nano_secs_per_tick = 17.39130435 (scaled by a 1000 because of reasons. ask Roman. because we need parts per *billion*? for scaling reasons elsewhere?)
 		}
 		
 		if ((spGPStimeContext->verbosity>=3)&&(spGPStimeContext->user_setup_menu_active==0)) printf(" elapsed PIO tick  %d and FILTERED %d   FRQ correction ppb:  %lli  \n",PIO_counts_per_PPS,elapsed_PIO_ticks_FILTERED,spGPStimeData->_i32_freq_shift_ppb);

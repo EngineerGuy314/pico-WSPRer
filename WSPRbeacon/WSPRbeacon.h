@@ -72,7 +72,6 @@ typedef struct
 //    uint8_t start_minute;  had to change this to an input param of the init function for reasons
 	uint8_t suffix;
     char id13[3];
-    int8_t output_number_toEnable_GPS;
     int8_t temp_in_Celsius;
 	int8_t verbosity;
     double voltage;

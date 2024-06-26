@@ -31,7 +31,7 @@ char _lane[2];
 char _suffix[2];
 char _verbosity[2];
 char _oscillator[2];
-char _tcxo_mode[2];
+char _tcxo_mode[2];                                              // change to PCB board mode!!
 static absolute_time_t LED_sequence_start_time;
 int force_transmit = 0;
 
@@ -84,7 +84,6 @@ int main()
     pWB->_txSched.force_xmit_for_testing = force_transmit;
 	pWB->_txSched.led_mode = 0;  //0 means no serial comms from  GPS (critical fault if it remains that way)
 	pWB->_txSched.Xmission_In_Process = 0;  //probably not used anymore
-	pWB->_txSched.output_number_toEnable_GPS = GPS_ENABLE_PIN;
 	pWB->_txSched.verbosity=(uint8_t)_verbosity[0]-'0';       /**< convert ASCI digit to int  */
 	pWB->_txSched.suffix=(uint8_t)_suffix[0]-'0';    /**< convert ASCI digit to int (value 253 if dash was entered) */
 	pWB->_txSched.oscillatorOff=(uint8_t)_oscillator[0]-'0';
@@ -94,7 +93,7 @@ int main()
 	multicore_launch_core1(Core1Entry);
     StampPrintf("RF oscillator initialized.");
 
-    DCO._pGPStime = GPStimeInit(0, 9600, GPS_PPS_PIN); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
+    DCO._pGPStime = GPStimeInit(0, 9600, GPS_PPS_PIN, PLL_SYS_MHZ); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
     assert_(DCO._pGPStime);
 	DCO._pGPStime->_time_data.tcxo_mode=(uint8_t)_tcxo_mode[0]-'0';
 	DCO._pGPStime->user_setup_menu_active=0;

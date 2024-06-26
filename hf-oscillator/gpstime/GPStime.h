@@ -125,7 +125,7 @@ typedef struct
 
 } GPStimeContext;
 
-GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio);
+GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio, uint32_t clock_speed);
 void GPStimeDestroy(GPStimeContext **pp);
 
 int GPStimeProcNMEAsentence(GPStimeContext *pg);
