@@ -11,9 +11,6 @@
 static GPStimeContext *spGPStimeContext = NULL;
 static GPStimeData *spGPStimeData = NULL;
 static uint16_t byte_count;
-int    use_software_TCXO;
-int64_t error_ppb_temp_vs_gps;
-int64_t GPS_based_freq_shift_ppb;
 
 static 	PIO timer_PIO;  /*state machine used for high resolution timing of duration between PPS pulses
 						at 115Mhz clock speed each instruction in PIO takes 1/115M = 8.69565E-09 seconds
@@ -69,12 +66,9 @@ GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio, uint32_t c
     irq_set_enabled(uart_id ? UART1_IRQ : UART0_IRQ, true);
     uart_set_irq_enables(uart_id ? uart1 : uart0, true, false);
 
-
-		nanosecs_per_tick= 2000000 / clock_speed;  //because two instructions cycle are used per cycle of the PIO, also adds a million scaling factor 
-		tics_per_second = 1000000 * clock_speed / 2;
-		printf("<>>>>>>>>>>>>>>>>>>>>>>  clock speed %d  nanosecs per tick Scaled %d tics per sec %d\n",clock_speed, nanosecs_per_tick,tics_per_second);
-
-
+	nanosecs_per_tick= 2000000 / clock_speed;  //because two instructions cycle are used per cycle of the PIO, also adds a million scaling factor 
+	tics_per_second = 1000000 * clock_speed / 2;
+	printf(" clock speed %d  nanosecs per tick Scaled %d tics per sec %d\n",clock_speed, nanosecs_per_tick,tics_per_second);
 	elapsed_PIO_ticks_FILTERED= tics_per_second; //preload ideal value to reduce initial filtering lock time. 
     return pgt;
 }
@@ -103,7 +97,7 @@ void RAM (GPStimePPScallback)(uint gpio, uint32_t events)
 		if (PIO_counts_per_PPS>10000000) //make sure data is somewhat reasoable
 		{
 		elapsed_PIO_ticks_FILTERED=0.5*elapsed_PIO_ticks_FILTERED + 0.5*PIO_counts_per_PPS; 			    //a mild IIR lowpass filter to smooth the tick count from PIO
-		spGPStimeData->_i32_freq_shift_ppb=(elapsed_PIO_ticks_FILTERED-(int64_t)tics_per_second)*(int64_t)nanosecs_per_tick;  //57500000 is the ideal (exact) number of ticks in one second and 17391 comes from nano_secs_per_tick = 17.39130435 (scaled by a 1000 because of reasons. ask Roman. because we need parts per *billion*? for scaling reasons elsewhere?)
+		spGPStimeData->_i32_freq_shift_ppb=(elapsed_PIO_ticks_FILTERED-(int64_t)tics_per_second)*(int64_t)nanosecs_per_tick;  //57500000 is the ideal (exact) number of ticks-per-second and 17391 comes from nano_secs_per_tick = 17.39130435 (scaled by a 1000 because of reasons. ask Roman. because we need parts per *billion*? for scaling reasons elsewhere?)
 		}
 		
 		if ((spGPStimeContext->verbosity>=3)&&(spGPStimeContext->user_setup_menu_active==0)) printf(" elapsed PIO tick  %d and FILTERED %d   FRQ correction ppb:  %lli  \n",PIO_counts_per_PPS,elapsed_PIO_ticks_FILTERED,spGPStimeData->_i32_freq_shift_ppb);
@@ -111,39 +105,8 @@ void RAM (GPStimePPScallback)(uint gpio, uint32_t events)
 		if ((spGPStimeContext->verbosity>=6)&&(spGPStimeContext->user_setup_menu_active==0 )) printf("PPS went on at: %.3f secs\n",((uint32_t)(to_us_since_boot(get_absolute_time()) / 1000ULL)/1000.0f ));	
 }
 
-/// @brief Calculates current unixtime using data available.
-/// @param pg Ptr to the context.
-/// @param u32_tmdst Ptr to destination unixtime val.
-/// @return 0 if OK.
-/// @return -1 There was NO historical GPS fixes.
-/// @return -2 The fix was expired (24hrs or more time ago).
-int GPStimeGetTime(const GPStimeContext *pg, uint32_t *u32_tmdst)
-{
-    assert_(pg);
-    assert(u32_tmdst);
-
-    /* If there has been no fix, it's no way to get any time data... */
-    if(!pg->_time_data._u32_utime_nmea_last)
-    {
-        return -1;
-    }
-
-    const uint64_t tm64 = GetUptime64();
-    const uint64_t dt = tm64 - pg->_time_data._u64_sysclk_nmea_last;
-    const uint32_t dt_sec = PicoU64timeToSeconds(dt);
-
-    /* If expired. */
-    if(dt_sec > 86400)
-    {
-        return -2;
-    }
-
-    *u32_tmdst = pg->_time_data._u32_utime_nmea_last + dt_sec;
-
-    return 0;
-}
-
 /// @brief UART FIFO ISR. Processes another N chars received from GPS receiver
+
 void RAM (GPStimeUartRxIsr)()
 {
     if((spGPStimeContext))
@@ -166,7 +129,7 @@ void RAM (GPStimeUartRxIsr)()
 			spGPStimeContext->_u8_ixw = 0;     
 														if ((spGPStimeContext->verbosity>=8)&&(spGPStimeContext->user_setup_menu_active==0 ))  printf("dump ALL RAW FIFO: %s",(char *)spGPStimeContext->_pbytebuff);           
             spGPStimeContext->_is_sentence_ready =0;
-			spGPStimeContext->_i32_error_count -= GPStimeProcNMEAsentence(spGPStimeContext);
+			spGPStimeContext->_i32_error_count -= parse_GPS_data(spGPStimeContext);
         }
     }
 }
@@ -178,7 +141,7 @@ void RAM (GPStimeUartRxIsr)()
 /// @return -3 Error: bad lon format.
 /// @return -4 Error: no final '*' char ere checksum value.
 /// @attention Checksum validation is not implemented so far. !FIXME!
-int GPStimeProcNMEAsentence(GPStimeContext *pg)
+int parse_GPS_data(GPStimeContext *pg)
 {                                               //"$GxGGA has time, locations, altitude and sat count! unlike $prmc it does NOT have date, but so what
     assert_(pg);
     uint8_t *prmc = (uint8_t *)strnstr((char *)pg->_pbytebuff, "$GPGGA,", sizeof(pg->_pbytebuff));
@@ -247,9 +210,7 @@ int GPStimeProcNMEAsentence(GPStimeContext *pg)
             {
                 return -3;
             }
-			pg->_time_data._u64_sysclk_nmea_last = tm_fix;
-			
-
+	
 			float f;
 			f = (float)atof((char *)prmc+u8ixcollector[8]);  
 			pg->_altitude=f;
@@ -263,30 +224,6 @@ int GPStimeProcNMEAsentence(GPStimeContext *pg)
     return 0;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////
-
-/// @brief Converts GPS time and date strings to unix time.
-/// @param pdate Date string, 6 chars in work.
-/// @param ptime Time string, 6 chars in work.
-/// @return Unix timestamp (epoch). 0 if bad imput format.
-uint32_t GPStime2UNIX(const char *pdate, const char *ptime)
-{
-
-    assert_(ptime);
-
-    if(strlen(pdate) == 6 && strlen(ptime) > 5)
-    {
-        struct tm ltm = {0};
-
-        ltm.tm_hour = DecimalStr2ToNumber(ptime);
-        ltm.tm_min = DecimalStr2ToNumber(ptime + 2);
-        ltm.tm_sec = DecimalStr2ToNumber(ptime + 4);
-
-        return mktime(&ltm);
-    }
-
-    return 0;
-}
 
 /// @brief Dumps the GPS data struct to stdio.
 /// @param pd Ptr to Context.
@@ -297,7 +234,5 @@ void GPStimeDump(const GPStimeData *pd)
     printf("\nGPS solution is active:%u\n", pd->_u8_is_solution_active);
     printf("GxGGA count:%lu\n", pd->_u32_nmea_gprmc_count);
     printf("GPS Latitude:%lld Longtitude:%lld\n", pd->_i64_lat_100k, pd->_i64_lon_100k);
- //   printf("PPS sysclock last:%llu\n", pd->_u64_sysclk_pps_last);
- //   printf("PPS period *1e6:%llu\n", (pd->_u64_pps_period_1M + (eSlidingLen>>1)) / eSlidingLen);
     printf(" FRQ correction ppb:%lld  ", pd->_i32_freq_shift_ppb);
 }

@@ -31,16 +31,20 @@ char _lane[2];
 char _suffix[2];
 char _verbosity[2];
 char _oscillator[2];
-char _tcxo_mode[2];                                              // change to PCB board mode!!
-static absolute_time_t LED_sequence_start_time;
-int force_transmit = 0;
+char _custom_PCB[2];        
 
+static absolute_time_t LED_sequence_start_time;
+static int GPS_PPS_PIN;     //these get set based on values in defines.h
+static int RFOUT_PIN;
+static int GPS_ENABLE_PIN;
+int force_transmit = 0;
 
 PioDco DCO = {0};
 
 int main()
 {
 	InitPicoClock();			// Sets the system clock generator
+	read_NVRAM();				//reads values of _callsign ... _verbosity from NVRAM
     InitPicoPins();				// Sets GPIO pins roles and directions and also ADC for voltage and temperature measurements
 
 	StampPrintf("\n");
@@ -52,11 +56,9 @@ int main()
         gpio_put(LED_PIN, 0);
 		sleep_ms(100);
 	}
+ 
+    StampPrintf("pico-WSPRer version: %s %s\nWSPR beacon init...",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
 
-	read_NVRAM();	//reads values of _callsign ... _verbosity from NVRAM
-    StampPrintf("pico-WSPRer version: %s %s\n",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
-   
-	StampPrintf("WSPR beacon init...");
 	uint32_t XMIT_FREQUENCY;
 	switch(_lane[0])                                     //following lines set lane frequencies for 20M u4b operation. The center freuency for Zactkep (wspr 3) xmitions is hard set in WSPRBeacon.c to 14097100UL
 		{
@@ -66,7 +68,8 @@ int main()
 			case '4':XMIT_FREQUENCY=14097180UL;break;
 			default: XMIT_FREQUENCY=14097100UL;        //in case an invalid lane was read from EEPROM
 		}	
-    
+
+   
 	WSPRbeaconContext *pWB = WSPRbeaconInit(
         _callsign,/** the Callsign. */
         CONFIG_LOCATOR4,/**< the default QTH locator if GPS isn't used. */
@@ -83,19 +86,19 @@ int main()
     pWSPR = pWB;
     pWB->_txSched.force_xmit_for_testing = force_transmit;
 	pWB->_txSched.led_mode = 0;  //0 means no serial comms from  GPS (critical fault if it remains that way)
-	pWB->_txSched.Xmission_In_Process = 0;  //probably not used anymore
 	pWB->_txSched.verbosity=(uint8_t)_verbosity[0]-'0';       /**< convert ASCI digit to int  */
 	pWB->_txSched.suffix=(uint8_t)_suffix[0]-'0';    /**< convert ASCI digit to int (value 253 if dash was entered) */
 	pWB->_txSched.oscillatorOff=(uint8_t)_oscillator[0]-'0';
 	strcpy(pWB->_txSched.id13,_id13);
 
-
 	multicore_launch_core1(Core1Entry);
     StampPrintf("RF oscillator initialized.");
 
-    DCO._pGPStime = GPStimeInit(0, 9600, GPS_PPS_PIN, PLL_SYS_MHZ); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
+	int uart_number=(uint8_t)_custom_PCB[0]-'0';  //custom PCB uses Uart 1 if selected, otherwise uart 0
+    DCO._pGPStime = GPStimeInit(uart_number, 9600, GPS_PPS_PIN, PLL_SYS_MHZ); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
     assert_(DCO._pGPStime);
-	DCO._pGPStime->_time_data.tcxo_mode=(uint8_t)_tcxo_mode[0]-'0';
+
+
 	DCO._pGPStime->user_setup_menu_active=0;
 	DCO._pGPStime->forced_XMIT_on=force_transmit;
 	DCO._pGPStime->verbosity=(uint8_t)_verbosity[0]-'0'; 
@@ -103,16 +106,14 @@ int main()
 	LED_sequence_start_time = get_absolute_time();
 	
     for(;;)   //loop every ~ half second
-    {
-		//GET MAIDENHEAD       - this code in original fork wasnt working due to error in WSPRbeacon.c
+    {		
         if(WSPRbeaconIsGPSsolutionActive(pWB))
         {
-            const char *pgps_qth = WSPRbeaconGetLastQTHLocator(pWB);
+            const char *pgps_qth = WSPRbeaconGetLastQTHLocator(pWB);  //GET MAIDENHEAD       - this code in original fork wasnt working due to error in WSPRbeacon.c
             if(pgps_qth)
             {
                 strncpy(pWB->_pu8_locator, pgps_qth, 6);     //does full 6 char maidenhead 				
-//		        strcpy(pWB->_pu8_locator,"FN12AB");                                                     //DEBUGGING FORCE LOCATOR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				
+//		        strcpy(pWB->_pu8_locator,"AA1ABC");          //DEBUGGING TO FORCE LOCATOR VALUE				
             }
         }        
         WSPRbeaconTxScheduler(pWB, YES);   
@@ -134,10 +135,9 @@ int main()
 		float tempC = 27.0f - (adc - 0.706f) / 0.001721f;
 		pWB->_txSched.temp_in_Celsius=tempC;           
 		DCO._pGPStime->temp_in_Celsius=tempC;
-		DCO._pGPStime->_time_data._average_temperature_in_C=(DCO._pGPStime->_time_data._average_temperature_in_C*0.9) +(tempC*0.1);  //does some simple low-pass filtering on the temperature. used for TCXO compensation
 		
 		adc_select_input(3);  //if setup correctly, ADC3 reads Vsys   // read voltage
-		float volts = 3*(float)adc_read() * conversionFactor;         //times 3 because thats what it said to do on the internet
+		float volts = 3*(float)adc_read() * conversionFactor;         //times 3 because of onboard voltage divider
 			if (volts < 3.00) { volts += 1.95; }			          //wrap around for overflow, per U4B protocol
 			if (volts > 4.95) { volts -= 1.95; }
 		pWB->_txSched.voltage=volts;
@@ -166,7 +166,7 @@ int main()
 				handle_LED(pWB->_txSched.led_mode);
 				sleep_ms(50);
 			}
-		DoLogPrint(); //  ????? previously was only called if led_mode==0 			
+		DoLogPrint(); 	
 	}
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -183,7 +183,7 @@ void handle_LED(int led_state)
 
   if (led_state==0) 						//special case indicating serial comm failure to GPS. blink as rapidly as possible 
 		  {
-			if(0 == ++tik % 2) gpio_put(LED_PIN, 1); else gpio_put(LED_PIN, 0);     //every ~2 sec
+			if(0 == ++tik % 2) gpio_put(LED_PIN, 1); else gpio_put(LED_PIN, 0);     //very rapid
 		  }
   else
   {
@@ -205,7 +205,8 @@ void handle_LED(int led_state)
  * @param len Length of storage to list
  */
 void print_buf(const uint8_t *buf, size_t len) {
-    for (size_t i = 0; i < len; ++i) {
+		printf("\nNVRAM dump:\n");
+ for (size_t i = 0; i < len; ++i) {
         printf("%02x", buf[i]);
         if (i % 16 == 15)
             printf("\n");
@@ -233,7 +234,7 @@ strncpy(_lane, flash_target_contents+9, 1);
 strncpy(_suffix, flash_target_contents+10, 1);
 strncpy(_verbosity, flash_target_contents+11, 1);
 strncpy(_oscillator, flash_target_contents+12, 1);
-//strncpy(_tcxo_mode, flash_target_contents+13, 1);
+strncpy(_custom_PCB, flash_target_contents+13, 1);
 
 check_data_validity();
 }
@@ -254,7 +255,7 @@ void check_data_validity(void)
 	if ( (_lane[0]!='1') && (_lane[0]!='2') && (_lane[0]!='3')&& (_lane[0]!='4')) {_lane[0]='2'; write_NVRAM();}
 	if ( (_verbosity[0]<'0') || (_verbosity[0]>'9')) {_verbosity[0]='1'; write_NVRAM();} //set default verbosity to 1
 	if ( (_oscillator[0]<'0') || (_oscillator[0]>'1')) {_oscillator[0]='1'; write_NVRAM();} //set default oscillator to switch off after the trasmission
-//	if ( (_tcxo_mode[0]<'0') || (_tcxo_mode[0]>'2')) {_tcxo_mode[0]='0'; write_NVRAM();} 
+	if ( (_custom_PCB[0]<'0') || (_custom_PCB[0]>'1')) {_custom_PCB[0]='0'; write_NVRAM();} 
 }
 
 /**
@@ -266,9 +267,10 @@ void user_interface(void)
     char c;
 	char str[10];
 
-    gpio_put(GPS_ENABLE_PIN, 0);                   //shutoff gps to prevent serial input  (probably not needed anymore)
-	sleep_ms(100);
-	gpio_put(LED_PIN, 1); //LED on.	
+gpio_put(GPS_ENABLE_PIN, 0);                   //shutoff gps to prevent serial input  (probably not needed anymore)
+sleep_ms(100);
+gpio_put(LED_PIN, 1); //LED on.	
+
 printf("\n\n\n\n\n\n\n\n\n\n\n\n");
 printf("Pico-WSPRer (pico whisper-er) by KC3LBR,  version: %s %s\n",__DATE__ ,__TIME__);
 printf("https://github.com/EngineerGuy314/pico-WSPRer\n");
@@ -280,7 +282,7 @@ show_values();
 
     for(;;)
 	{	
-		printf("Enter the command (X,C,S,I,M,L,V,O,T): ");	
+		printf("Enter the command (X,C,S,I,M,L,V,O,P,T): ");	
 		c=getchar_timeout_us(60000000);		   //just in case user setup menu was enterred during flight, this will reboot after 60 secs
 		printf("%c\n", c);
 		if (c==255) {printf("\n\n TIMEOUT WAITING FOR INPUT, REBOOTING FOR YOUR OWN GOOD!!");watchdog_enable(100, 1);for(;;)	{}}
@@ -295,7 +297,7 @@ show_values();
 			case 'L':get_user_input("Enter Lane (1,2,3,4): ", _lane, sizeof(_lane)); write_NVRAM(); break;
 			case 'V':get_user_input("Verbosity level (0-9): ", _verbosity, sizeof(_verbosity)); write_NVRAM(); break;
 			case 'O':get_user_input("Oscillator off (0,1): ", _oscillator, sizeof(_oscillator)); write_NVRAM(); break;
-			//case 'F':get_user_input("Frequency comp mode (0,1,2): ", _tcxo_mode, sizeof(_tcxo_mode)); write_NVRAM(); break;
+			case 'P':get_user_input("custom Pcb mode (0,1): ", _custom_PCB, sizeof(_custom_PCB)); write_NVRAM(); break;
 			case 'T':
 				printf("Antenna tuning mode. Enter frequency (for example 14.097) or 0 for exit.\n\t");
 				char _tuning_freq[7];
@@ -325,13 +327,12 @@ show_values();
  */
 void show_values(void)
 {
-printf("\n\nCurrent values:\n\tCallsign:%s\n\tSuffix:%s\n\tId13:%s\n\tMinute:%s\n\tLane:%s\n\tVerbosity:%s\n\tOscillator Off:%s\n\n",_callsign,_suffix,_id13,_start_minute,_lane,_verbosity, _oscillator);
+printf("\n\nCurrent values:\n\tCallsign:%s\n\tSuffix:%s\n\tId13:%s\n\tMinute:%s\n\tLane:%s\n\tVerbosity:%s\n\tOscillator Off:%s\n\tcustom Pcb IO mappings:%s\n\n",_callsign,_suffix,_id13,_start_minute,_lane,_verbosity,_oscillator,_custom_PCB);
 printf("VALID commands: \n\n\tX: eXit configuraiton and reboot\n\tC: change Callsign (6 char max)\n\t");
 printf("S: change Suffix (added to callsign for WSPR3) enter '-' to disable WSPR3\n\t");
 printf("I: change Id13 (two alpha numeric chars, ie Q8) enter '--' to disable U4B\n\t");
 printf("M: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\t");
-//printf("V: Verbosity level (0 for no messages, 9 for too many) \n\tO: Oscillator off after trasmission (0,1) \n\tF: Frequency comp mode (0,1,2) 0:normal GPS disciplined 1:temperature based w/GPS trim 2: switch every hour\n\tT: antenna Tuning mode (freq)\n");
-printf("V: Verbosity level (0 for no messages, 9 for too many) \n\tO: Oscillator off after trasmission (0,1) \n\tT: antenna Tuning mode (constant freq output)\n");
+printf("V: Verbosity level (0 for no messages, 9 for too many) \n\tO: Oscillator off after trasmission (0,1) \n\tP: custom Pcb mode IO mappings (0,1)\n\tT: antenna Tuning mode (freq)\n");
 
 }
 /**
@@ -349,7 +350,7 @@ void write_NVRAM(void)
 	strncpy(data_chunk+10,_suffix, 1);
 	strncpy(data_chunk+11,_verbosity, 1);
 	strncpy(data_chunk+12,_oscillator, 1);
-	strncpy(data_chunk+13,_tcxo_mode, 1);
+	strncpy(data_chunk+13,_custom_PCB, 1);
 
 	uint32_t ints = save_and_disable_interrupts();
     flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);
@@ -368,6 +369,58 @@ void convertToUpperCase(char *str) {
         *str = toupper((unsigned char)*str);
         str++;
     }
+}
+/**
+ * @brief Initializes Pico pins
+ * 
+ */
+void InitPicoPins(void)
+{
+/*  gpio_init(18); 
+	gpio_set_dir(18, GPIO_OUT); //GPIO 18 used for fan control when testing TCXO stability */
+
+	int use_custom_PCB_mappings=(uint8_t)_custom_PCB[0]-'0'; 
+	if (use_custom_PCB_mappings==0)                            //do not use parallel IO low-side drive if using custom PCB
+	{		
+	GPS_PPS_PIN = GPS_PPS_PIN_default;
+	RFOUT_PIN = RFOUT_PIN_default;
+	GPS_ENABLE_PIN = GPS_ENABLE_PIN_default;
+	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN, GPIO_OUT); //alternate way to enable the GPS is to pull down its ground (aka low-side drive) using 3 GPIO in parallel (no mosfet needed). 2 do: make these non-hardcoded
+	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+1); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+1, GPIO_OUT); //no need to actually write a value to these outputs. Just enabling them as outputs is fine, they default to the off state when this is done. perhaps thats a dangerous assumption? 
+	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2, GPIO_OUT);
+	}
+		else
+		{
+			GPS_PPS_PIN = GPS_PPS_PIN_pcb;
+			RFOUT_PIN = RFOUT_PIN_pcb;
+			GPS_ENABLE_PIN = GPS_ENABLE_PIN_pcb;
+		}
+
+    gpio_init(LED_PIN); 
+	gpio_set_dir(LED_PIN, GPIO_OUT); //initialize LED output
+
+    gpio_init(PICO_VSYS_PIN);  		//Prepare ADC to read Vsys
+	gpio_set_dir(PICO_VSYS_PIN, GPIO_IN);
+	gpio_set_pulls(PICO_VSYS_PIN,0,0);
+    adc_init();
+    adc_set_temp_sensor_enabled(true); 	//Enable the onboard temperature sensor
+
+	gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output 
+	gpio_put(GPS_ENABLE_PIN, 1); 									   // to power up GPS unit
+
+    // RF pins are initialised in /hf-oscillator/dco2.pio. Here is only pads setting
+    // trying to set the power of RF pads to maximum and slew rate to fast (Chapter 2.19.6.3. Pad Control - User Bank in the RP2040 datasheet)
+    // possible values: PADS_BANK0_GPIO0_DRIVE_VALUE_12MA, ..._8MA, ..._4MA, ..._2MA
+    // values of constants are the same for all the pins, so doesn't matter if we use PADS_BANK0_GPIO6_DRIVE_VALUE_12MA or ..._GPIO0_DRIVE...
+    /*  Measurements have shown that the drive value and slew rate settings do not affect the output power. Therefore, the lines are commented out.
+    hw_write_masked(&padsbank0_hw->io[RFOUT_PIN],
+                (PADS_BANK0_GPIO0_DRIVE_VALUE_12MA << PADS_BANK0_GPIO0_DRIVE_LSB) || PADS_BANK0_GPIO0_SLEWFAST_FAST,
+                PADS_BANK0_GPIO0_DRIVE_BITS || PADS_BANK0_GPIO0_SLEWFAST_BITS);           // first RF pin 
+    hw_write_masked(&padsbank0_hw->io[RFOUT_PIN+1],
+                (PADS_BANK0_GPIO0_DRIVE_VALUE_12MA << PADS_BANK0_GPIO0_DRIVE_LSB) || PADS_BANK0_GPIO0_SLEWFAST_FAST,
+                PADS_BANK0_GPIO0_DRIVE_BITS || PADS_BANK0_GPIO0_SLEWFAST_BITS);           // second RF pin
+    */            
+
 }
 
 

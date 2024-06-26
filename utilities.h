@@ -19,5 +19,5 @@
 
 void get_user_input(const char *prompt, char *input_variable, int max_length);
 void InitPicoClock(void);
-void InitPicoPins(void);
+
 #endif

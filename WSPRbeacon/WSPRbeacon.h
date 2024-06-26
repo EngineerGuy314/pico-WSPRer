@@ -59,17 +59,9 @@
 
 typedef struct
 {
-    uint8_t _u8_tx_slot_skip;           /* 0=1tx0skip, 1=1tx1skip, 2=1tx2skip, ... */
-    uint8_t _u8_tx_GPS_mandatory;       /* No tx when no active GPS solution. */
-    uint8_t _u8_tx_GPS_past_time;       /* Override _u8_tx_GPS_mandatory if there 
-                                           was solution in the past. */
-    uint8_t _u8_tx_heating_pause_min;   /* No tx during this interval from start. */
  
-     /* Inside of WSPRbeaconSchedule, which is in WSPRbeaconContext as _txSched, is where I hide goodies that i need global access to. there is surely a better way, but idk */
 	uint8_t force_xmit_for_testing;
     uint8_t led_mode;
-    uint8_t Xmission_In_Process;
-//    uint8_t start_minute;  had to change this to an input param of the init function for reasons
 	uint8_t suffix;
     char id13[3];
     int8_t temp_in_Celsius;
@@ -93,16 +85,12 @@ WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare
                                   PioDco *pdco, uint32_t dial_freq_hz, uint32_t shift_freq_hz,
                                   int gpio,  uint8_t start_minute,  uint8_t id13 ,  uint8_t suffix);
 void WSPRbeaconSetDialFreq(WSPRbeaconContext *pctx, uint32_t freq_hz);
-
 int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type);
 char* add_brackets(const char * call);
-
 int WSPRbeaconSendPacket(const WSPRbeaconContext *pctx);
 char EncodeBase36(uint8_t val);
 int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose);
-
 void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx);
-
 char *WSPRbeaconGetLastQTHLocator(const WSPRbeaconContext *pctx);
 uint8_t WSPRbeaconIsGPSsolutionActive(const WSPRbeaconContext *pctx);
 

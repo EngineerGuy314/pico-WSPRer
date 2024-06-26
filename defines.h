@@ -68,15 +68,21 @@
 #define PLL_SYS_MHZ 115UL//115UL // This sets CPU speed. Roman originally had 270UL. 
       // After improvement od PIODCO we are now on 115 MHz (for 20m band) :-)     
 
+// Serial data from GPS module wired to UART0 RX, GPIO 1 (pin 2 on pico). on custom PCB its uart1, GPIO9. taken care of in main.c
 
-// Serial data from GPS module wired to UART0 RX, GPIO 1 (pin 2 on pico), 
-#define GPS_PPS_PIN 2          /* GPS time mark PIN. (labeled PPS on GPS module)*/ //its not actually PIN 2, its GPIO 2, which is physical pin 4 on pico
-#define RFOUT_PIN 6            /* RF output PIN. (THE FOLLOWING PIN WILL ALSO BE RF, 180deg OUT OF PHASE!!!) */                                 //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico
-//            Pin (RFOUT_PIN+1) will also be RF out (inverted value of first pin)
-#define PADS_BANK0_GPIO0_SLEWFAST_FAST 1u // value for fast slewrate of pad
-#define GPS_ENABLE_PIN 5       /* GPS_ENABLE pin - high to enable GPS (needs a MOSFET ie 2N7000 on low side drive */    //its not actually PIN 5, its GPIO 5, which is physical pin 7 on pico
+		/* default pin definition when building on a Pico */
+#define GPS_PPS_PIN_default 2          /* GPS time mark PIN. (labeled PPS on GPS module)*/ //its not actually PIN 2, its GPIO 2, which is physical pin 4 on pico
+#define RFOUT_PIN_default 6            /* RF output PIN. (THE FOLLOWING PIN WILL ALSO BE RF, 180deg OUT OF PHASE!!!) */  //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico//Pin (RFOUT_PIN+1) will also be RF out (inverted value of first pin)
+#define GPS_ENABLE_PIN_default 5       /* GPS_ENABLE pin - high to enable GPS (needs a MOSFET ie 2N7000 on low side drive */    //its not actually PIN 5, its GPIO 5, which is physical pin 7 on pico
+
+		/* pin definitions when using custom PCB board */
+#define GPS_PPS_PIN_pcb 17          /* GPS time mark PIN. (labeled PPS on GPS module)*/ //its not actually PIN 2, its GPIO 2, which is physical pin 4 on pico
+#define RFOUT_PIN_pcb 14            /* RF output PIN. (THE FOLLOWING PIN WILL ALSO BE RF, 180deg OUT OF PHASE!!!) */  //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico//Pin (RFOUT_PIN+1) will also be RF out (inverted value of first pin)
+#define GPS_ENABLE_PIN_pcb 16       /* GPS_ENABLE pin - high to enable GPS (needs a MOSFET ie 2N7000 on low side drive */    //its not actually PIN 5, its GPIO 5, which is physical pin 7 on pico
+
 #define GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN 8 //8 /* GPS_ENABLE pins, (alternate). GPIO 8 9 and 10, wired in parallel, to directly low-side-drive the GPS module instead of using a MOSFET */	
 #define LED_PIN  25 /* 25 for pi pico, 13 for Waveshare rp2040-zero  */
+#define PADS_BANK0_GPIO0_SLEWFAST_FAST 1u // value for fast slewrate of pad
 #define FLASH_TARGET_OFFSET (256 * 1024) //leaves 256k of space for the program
 #define CONFIG_LOCATOR4 "AA22AB"       	       //gets overwritten by gps data anyway       
 
@@ -129,4 +135,5 @@ void user_interface(void);
 void show_values(void);
 void convertToUpperCase(char *str);
 void handle_LED(int led_state);
+void InitPicoPins(void);
 #endif

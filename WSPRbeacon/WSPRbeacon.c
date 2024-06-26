@@ -388,8 +388,6 @@ void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx)  //called ~ every 20 s
     assert_(pctx->_pTX);
 
     const uint64_t u64tmnow = GetUptime64();
-    const uint64_t u64_GPS_last_age_sec 
-        = (u64tmnow - pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u64_sysclk_nmea_last) / 1000000ULL;
 
     StampPrintf("__________________");
    /* StampPrintf("=TxChannelContext=");
@@ -409,7 +407,6 @@ void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx)  //called ~ every 20 s
     StampPrintf("age:%llu", u64_GPS_last_age_sec);
     StampPrintf("utm:%lu", u32_unixtime_now);      
     StampPrintf("rmc:%lu", pGPS->_time_data._u32_nmea_gprmc_count); */ 
-    StampPrintf("pps:%llu", pGPS->_time_data._u64_sysclk_pps_last);
     StampPrintf("ppb:%lld", pGPS->_time_data._i32_freq_shift_ppb); 
 
 	StampPrintf("LED Mode: %d",pctx->_txSched.led_mode);
