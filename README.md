@@ -20,7 +20,7 @@ Frequency compensation code now uses the second PIO state machine to implement a
 Onboard LED behavior: blinks for ~three seconds on powerup (before powering up GPS module). Then does a very rapid blink until GPS has established serial comms with the pico. Once comms established, it does 1,2,3 or 4 blinks then pauses. 1= no GPS fix, not transmitting. 2=valid GPS location not yet transmitting. 3=valid GPS location, transmission in process. 4= gps fix has been lost, but transmitting anyway
 
 # Quick-start
-0. Download https://github.com/EngineerGuy314/pico-WSPRer/blob/main/build/pico-WSPRer-115.uf2 and skip to step 6 (or follow steps 1-5 to compile it yourself)
+0. Download https://github.com/EngineerGuy314/pico-WSPRer/blob/main/build/pico-WSPRer.uf2 and skip to step 6 (or follow steps 1-5 to compile it yourself)
 1. Install Raspberry Pi Pico SDK. Configure environment variables. Test whether it is built successfully.
 2. git clone  https://github.com/EngineerGuy314/pico-WSPRer 
 3. cd pico-WSPRer. In defines.h you can change CPU clock frequency (#define PLL_SYS_MHZ)
