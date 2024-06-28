@@ -29,11 +29,11 @@ timerstop:
 
 
 % c-sdk {
-static inline void timer_PIO_program_init(PIO pio, uint sm, uint offset) {
+static inline void timer_PIO_program_init(PIO pio, uint sm, uint offset, uint pps_gpio) {
 	pio_sm_config c = timer_PIO_program_get_default_config(offset);
-	sm_config_set_in_pins(&c, 2);  // Use GPIO 2 for input (PPS)
-	sm_config_set_jmp_pin(&c, 2);  // Use GPIO 2 for input (PPS)
-    pio_sm_set_consecutive_pindirs(pio, sm, 2, 1, false);  // Set pin 2 as input
+	sm_config_set_in_pins(&c, pps_gpio);  // Use GPIO 2 for input (PPS)
+	sm_config_set_jmp_pin(&c, pps_gpio);  // Use GPIO 2 for input (PPS)
+    pio_sm_set_consecutive_pindirs(pio, sm, pps_gpio, 1, false);  // Set pin 2 as input
 	pio_sm_init(pio, sm, offset, &c);
 	pio_sm_set_enabled(pio, sm, true);
 }

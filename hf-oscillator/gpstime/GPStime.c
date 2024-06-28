@@ -35,7 +35,7 @@ GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio, uint32_t c
 	timer_PIO = pio1;    //instantiate pio1 for the timer, pio0 already used for WSPR generation
 	sm = 0;			     //each of the two PIOs has 4 state machines (sm) available. use the 1st one 
     offset = pio_add_program( timer_PIO, &timer_PIO_program);
-    timer_PIO_program_init(timer_PIO, sm, offset);
+    timer_PIO_program_init(timer_PIO, sm, offset,pps_gpio);
 
 	ASSERT_(0 == uart_id || 1 == uart_id);
     ASSERT_(uart_baud <= 115200);
