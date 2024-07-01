@@ -8,6 +8,7 @@
 #include "GPStime.h"
 #include "timer_PIO.pio.h"
 
+
 static GPStimeContext *spGPStimeContext = NULL;
 static GPStimeData *spGPStimeData = NULL;
 static uint16_t byte_count;
@@ -42,6 +43,8 @@ GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio, uint32_t c
     ASSERT_(pps_gpio < 29);
     // Set up our UART with the required speed & assign pins.
     uart_init(uart_id ? uart1 : uart0, uart_baud);
+printf("\nThe value of THE UART id and the literal uart1 %d   %d \n",uart_id,uart1);
+printf("\and uart0 actually is %d \n",uart0);
     gpio_set_function(uart_id ? 8 : 0, GPIO_FUNC_UART);
     gpio_set_function(uart_id ? 9 : 1, GPIO_FUNC_UART);
     
@@ -187,7 +190,7 @@ int parse_GPS_data(GPStimeContext *pg)
 			int dd_lat= atoi(firstTwo);
 			pg->_time_data._i64_lat_100k = (int64_t)(.5f + 1e5 * ( (100*dd_lat) + atof((const char *)prmc + u8ixcollector[1]+2)/0.6)          ); 
             if('N' == prmc[u8ixcollector[2]]) { }
-            else if('S' == prmc[u8ixcollector[3]])
+            else if('S' == prmc[u8ixcollector[2]])  //Thanks Ross!
             {
                 INVERSE(pg->_time_data._i64_lat_100k);
             }

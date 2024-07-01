@@ -45,9 +45,7 @@ int main()
 {
 	InitPicoClock();			// Sets the system clock generator
 	read_NVRAM();				//reads values of _callsign ... _verbosity from NVRAM
-    InitPicoPins();				// Sets GPIO pins roles and directions and also ADC for voltage and temperature measurements
-
-	StampPrintf("\n");
+    InitPicoPins();				// Sets GPIO pins roles and directions and also ADC for voltage and temperature measurements (NVRAM must be read BEFORE this, otherwise dont know how to map IO)
 	
 	for (int i=0;i < 20;i++)     //do some blinkey on startup, allows time for power supply to stabilize before GPS unit enabled
 	{
@@ -57,7 +55,9 @@ int main()
 		sleep_ms(100);
 	}
  
-    StampPrintf("pico-WSPRer version: %s %s\nWSPR beacon init...",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
+    printf("\npico-WSPRer version: %s %s\nWSPR beacon init...",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
+	
+	gpio_put(GPS_ENABLE_PIN, 1); 									   // power up GPS unit   THIS MUST BE DONE ONLY AFTER THE INITIAL LED BLINKING DELAY!!!!
 
 	uint32_t XMIT_FREQUENCY;
 	switch(_lane[0])                                     //following lines set lane frequencies for 20M u4b operation. The center freuency for Zactkep (wspr 3) xmitions is hard set in WSPRBeacon.c to 14097100UL
@@ -285,7 +285,7 @@ show_values();
 		printf("Enter the command (X,C,S,I,M,L,V,O,P,T): ");	
 		c=getchar_timeout_us(60000000);		   //just in case user setup menu was enterred during flight, this will reboot after 60 secs
 		printf("%c\n", c);
-		if (c==255) {printf("\n\n TIMEOUT WAITING FOR INPUT, REBOOTING FOR YOUR OWN GOOD!!");watchdog_enable(100, 1);for(;;)	{}}
+		if (c==255) {printf("\n\n TIMEOUT WAITING FOR INPUT, REBOOTING FOR YOUR OWN GOOD!!");sleep_ms(100);watchdog_enable(100, 1);for(;;)	{}}
 		if (c>90) c-=32; //make it capital either way
 		switch(c)
 		{
@@ -391,6 +391,7 @@ void InitPicoPins(void)
 	}
 		else
 		{
+			printf(" using IO for custom PCB !!! \n");
 			GPS_PPS_PIN = GPS_PPS_PIN_pcb;
 			RFOUT_PIN = RFOUT_PIN_pcb;
 			GPS_ENABLE_PIN = GPS_ENABLE_PIN_pcb;
@@ -398,15 +399,13 @@ void InitPicoPins(void)
 
     gpio_init(LED_PIN); 
 	gpio_set_dir(LED_PIN, GPIO_OUT); //initialize LED output
-
+	gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output 
     gpio_init(PICO_VSYS_PIN);  		//Prepare ADC to read Vsys
 	gpio_set_dir(PICO_VSYS_PIN, GPIO_IN);
 	gpio_set_pulls(PICO_VSYS_PIN,0,0);
     adc_init();
     adc_set_temp_sensor_enabled(true); 	//Enable the onboard temperature sensor
 
-	gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output 
-	gpio_put(GPS_ENABLE_PIN, 1); 									   // to power up GPS unit
 
     // RF pins are initialised in /hf-oscillator/dco2.pio. Here is only pads setting
     // trying to set the power of RF pads to maximum and slew rate to fast (Chapter 2.19.6.3. Pad Control - User Bank in the RP2040 datasheet)
