@@ -44,7 +44,7 @@ PioDco DCO = {0};
 int main()
 {
 	InitPicoClock();			// Sets the system clock generator
-	StampPrintf("\n");DoLogPrint();//seems to be needed to wake up the USB port asap?
+	StampPrintf("\n");DoLogPrint(); // needed asap to wake up the USB stdio port 
 	
 	gpio_init(LED_PIN); 
 	gpio_set_dir(LED_PIN, GPIO_OUT); //initialize LED output
@@ -392,13 +392,17 @@ void InitPicoPins(void)
 	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+1); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+1, GPIO_OUT); //no need to actually write a value to these outputs. Just enabling them as outputs is fine, they default to the off state when this is done. perhaps thats a dangerous assumption? 
 	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2, GPIO_OUT);
 	}
-		else
+		else                          //if using custom PCB
 		{	
 			GPS_PPS_PIN = GPS_PPS_PIN_pcb;
 			RFOUT_PIN = RFOUT_PIN_pcb;
 			GPS_ENABLE_PIN = GPS_ENABLE_PIN_pcb;
-			gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output (INVERSE LOGIC on custom PCB, so just initialize it, leave it at zero state)
-		}
+			gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output (INVERSE LOGIC on custom PCB, so just initialize it, leave it at zero state)	
+
+			gpio_init(6); gpio_set_dir(6, GPIO_OUT);gpio_put(6, 1); //these are required ONLY for v0.1 of custom PCB (ON/OFF and nReset of GPS module, which later are just left disconnected)
+			gpio_init(5); gpio_set_dir(5, GPIO_OUT);gpio_put(5, 1); //these are required ONLY for v0.1 of custom PCB (ON/OFF and nReset of GPS module, which later are just left disconnected)
+
+	}
 
 	gpio_init(PICO_VSYS_PIN);  		//Prepare ADC to read Vsys
 	gpio_set_dir(PICO_VSYS_PIN, GPIO_IN);

@@ -43,8 +43,6 @@ GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio, uint32_t c
     ASSERT_(pps_gpio < 29);
     // Set up our UART with the required speed & assign pins.
     uart_init(uart_id ? uart1 : uart0, uart_baud);
-printf("\nThe value of THE UART id and the literal uart1 %d   %d \n",uart_id,uart1);
-printf("\and uart0 actually is %d \n",uart0);
     gpio_set_function(uart_id ? 8 : 0, GPIO_FUNC_UART);
     gpio_set_function(uart_id ? 9 : 1, GPIO_FUNC_UART);
     
@@ -95,12 +93,12 @@ void GPStimeDestroy(GPStimeContext **pp)
 void RAM (GPStimePPScallback)(uint gpio, uint32_t events)
 {   
         if (pio_sm_get_rx_fifo_level(timer_PIO, sm) >= 2) 	//make sure at least two values are waiting to be read from the PIO           
-			PIO_counts_per_PPS = pio_sm_get(timer_PIO, sm)+ pio_sm_get(timer_PIO, sm);   //read and add 2 values from the PIO's output FIFO, representing tick count of ON and OFF pulse duration. each tick takes ~17.39nS
+			PIO_counts_per_PPS = pio_sm_get(timer_PIO, sm)+ pio_sm_get(timer_PIO, sm);   //read and add 2 values from the PIO's output FIFO, representing tick count of ON and OFF pulse duration. each tick takes ~17.39nS @115Mhz clock speed
 
-		if (PIO_counts_per_PPS>10000000) //make sure data is somewhat reasoable
+		if (PIO_counts_per_PPS>10000000) //make sure data is somewhat reasonable
 		{
 		elapsed_PIO_ticks_FILTERED=0.5*elapsed_PIO_ticks_FILTERED + 0.5*PIO_counts_per_PPS; 			    //a mild IIR lowpass filter to smooth the tick count from PIO
-		spGPStimeData->_i32_freq_shift_ppb=(elapsed_PIO_ticks_FILTERED-(int64_t)tics_per_second)*(int64_t)nanosecs_per_tick;  //57500000 is the ideal (exact) number of ticks-per-second and 17391 comes from nano_secs_per_tick = 17.39130435 (scaled by a 1000 because of reasons. ask Roman. because we need parts per *billion*? for scaling reasons elsewhere?)
+		spGPStimeData->_i32_freq_shift_ppb=(elapsed_PIO_ticks_FILTERED-(int64_t)tics_per_second)*(int64_t)nanosecs_per_tick;  //ticks-per-second = is the ideal (exact) number of ticks (57500000) and nano_secs_per_tick = 17.39130435 (scaled by a 1000 because of reasons. ask Roman. because we need parts per *billion*? for scaling reasons elsewhere?)
 		}
 		
 		if ((spGPStimeContext->verbosity>=3)&&(spGPStimeContext->user_setup_menu_active==0)) printf(" elapsed PIO tick  %d and FILTERED %d   FRQ correction ppb:  %lli  \n",PIO_counts_per_PPS,elapsed_PIO_ticks_FILTERED,spGPStimeData->_i32_freq_shift_ppb);
@@ -168,12 +166,9 @@ int parse_GPS_data(GPStimeContext *pg)
                 *p = 0;
                 u8ixcollector[i++] = u8ix + 1;
                 if('*' == *p || 12 == i)
-                {
                     break;
-                }
             }
-        }
-		
+        }		
 		pg->_time_data._u8_last_digit_minutes= *(prmc + u8ixcollector[0] + 3);
 		pg->_time_data._u8_last_digit_hour= *(prmc + u8ixcollector[0] + 1);		
         pg->_time_data._u8_is_solution_active = (prmc[u8ixcollector[5]]>48);   //numeric 0 for no fix, 1 2 or 3 for various fix types //printf("char is: %c\n",prmc[u8ixcollector[5]]);
@@ -195,9 +190,7 @@ int parse_GPS_data(GPStimeContext *pg)
                 INVERSE(pg->_time_data._i64_lat_100k);
             }
             else
-            {
                 return -2;
-            }
 			
 			char firstThree[4]; // Array to hold the first two characters
 			strncpy(firstThree, (const char *)prmc + u8ixcollector[3], 3);
@@ -212,17 +205,13 @@ int parse_GPS_data(GPStimeContext *pg)
             else
             {
                 return -3;
-            }
-	
+            }	
 			float f;
 			f = (float)atof((char *)prmc+u8ixcollector[8]);  
-			pg->_altitude=f;
-    	
-			//pg->_altitude=12500;     //FORCING A SPECIFIC ALTITUDE for debugging
-		
+			pg->_altitude=f;    	
+			//pg->_altitude=12500;     //FORCING A SPECIFIC ALTITUDE for debugging		
 		}
     }
-
 
     return 0;
 }
@@ -233,7 +222,6 @@ int parse_GPS_data(GPStimeContext *pg)
 void GPStimeDump(const GPStimeData *pd)
 {
     assert_(pd);
-
     printf("\nGPS solution is active:%u\n", pd->_u8_is_solution_active);
     printf("GxGGA count:%lu\n", pd->_u32_nmea_gprmc_count);
     printf("GPS Latitude:%lld Longtitude:%lld\n", pd->_i64_lat_100k, pd->_i64_lon_100k);
