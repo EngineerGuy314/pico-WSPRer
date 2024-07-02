@@ -44,21 +44,24 @@ PioDco DCO = {0};
 int main()
 {
 	InitPicoClock();			// Sets the system clock generator
-	read_NVRAM();				//reads values of _callsign ... _verbosity from NVRAM
-    InitPicoPins();				// Sets GPIO pins roles and directions and also ADC for voltage and temperature measurements (NVRAM must be read BEFORE this, otherwise dont know how to map IO)
+	StampPrintf("\n");DoLogPrint();//seems to be needed to wake up the USB port asap?
+	
+	gpio_init(LED_PIN); 
+	gpio_set_dir(LED_PIN, GPIO_OUT); //initialize LED output
 	
 	for (int i=0;i < 20;i++)     //do some blinkey on startup, allows time for power supply to stabilize before GPS unit enabled
 	{
-        gpio_put(LED_PIN, 1);
+        gpio_put(LED_PIN, 1); 
         sleep_ms(100);
         gpio_put(LED_PIN, 0);
 		sleep_ms(100);
 	}
- 
+
+	read_NVRAM();				//reads values of _callsign ... _verbosity from NVRAM
+    InitPicoPins();				// Sets GPIO pins roles and directions and also ADC for voltage and temperature measurements (NVRAM must be read BEFORE this, otherwise dont know how to map IO)
+
     printf("\npico-WSPRer version: %s %s\nWSPR beacon init...",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
 	
-	gpio_put(GPS_ENABLE_PIN, 1); 									   // power up GPS unit   THIS MUST BE DONE ONLY AFTER THE INITIAL LED BLINKING DELAY!!!!
-
 	uint32_t XMIT_FREQUENCY;
 	switch(_lane[0])                                     //following lines set lane frequencies for 20M u4b operation. The center freuency for Zactkep (wspr 3) xmitions is hard set in WSPRBeacon.c to 14097100UL
 		{
@@ -145,10 +148,8 @@ int main()
 		if (pWB->_txSched.verbosity>=1)
 		{
 				if(0 == ++tick2 % 4)      //every ~2 sec
-				StampPrintf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Satellite count: %d\n", tempU,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count );
-		
+				StampPrintf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Satellite count: %d\n", tempU,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count );		
 		}
-
 			//////////////////////// LED HANDLING /////////////////////////////////////////////////////////
 			//orig code had a 900mS pause here. I only pause a total of 500ms, and spend it polling the time to handle LED state
 			/*
@@ -385,22 +386,21 @@ void InitPicoPins(void)
 	GPS_PPS_PIN = GPS_PPS_PIN_default;
 	RFOUT_PIN = RFOUT_PIN_default;
 	GPS_ENABLE_PIN = GPS_ENABLE_PIN_default;
+	gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output 
+	gpio_put(GPS_ENABLE_PIN, 1);   //turn on output to enable the MOSFET
 	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN, GPIO_OUT); //alternate way to enable the GPS is to pull down its ground (aka low-side drive) using 3 GPIO in parallel (no mosfet needed). 2 do: make these non-hardcoded
 	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+1); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+1, GPIO_OUT); //no need to actually write a value to these outputs. Just enabling them as outputs is fine, they default to the off state when this is done. perhaps thats a dangerous assumption? 
 	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2, GPIO_OUT);
 	}
 		else
-		{
-			printf(" using IO for custom PCB !!! \n");
+		{	
 			GPS_PPS_PIN = GPS_PPS_PIN_pcb;
 			RFOUT_PIN = RFOUT_PIN_pcb;
 			GPS_ENABLE_PIN = GPS_ENABLE_PIN_pcb;
+			gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output (INVERSE LOGIC on custom PCB, so just initialize it, leave it at zero state)
 		}
 
-    gpio_init(LED_PIN); 
-	gpio_set_dir(LED_PIN, GPIO_OUT); //initialize LED output
-	gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output 
-    gpio_init(PICO_VSYS_PIN);  		//Prepare ADC to read Vsys
+	gpio_init(PICO_VSYS_PIN);  		//Prepare ADC to read Vsys
 	gpio_set_dir(PICO_VSYS_PIN, GPIO_IN);
 	gpio_set_pulls(PICO_VSYS_PIN,0,0);
     adc_init();
@@ -421,7 +421,6 @@ void InitPicoPins(void)
     */            
 
 }
-
 
 /**
 * @note:

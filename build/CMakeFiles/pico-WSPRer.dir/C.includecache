@@ -108,46 +108,8 @@ hardware/adc.h
 
 /home/rob/pico-WSPRer/debug/logutils.h
 
-/home/rob/pico-WSPRer/hf-oscillator/gpstime/GPStime.c
-GPStime.h
-/home/rob/pico-WSPRer/hf-oscillator/gpstime/GPStime.h
-timer_PIO.pio.h
-/home/rob/pico-WSPRer/hf-oscillator/gpstime/timer_PIO.pio.h
-
-/home/rob/pico-WSPRer/hf-oscillator/gpstime/GPStime.h
-stdint.h
--
-stdio.h
--
-stdlib.h
--
-string.h
--
-time.h
--
-pico/stdlib.h
-/home/rob/pico-WSPRer/hf-oscillator/gpstime/pico/stdlib.h
-hardware/uart.h
-/home/rob/pico-WSPRer/hf-oscillator/gpstime/hardware/uart.h
-../defines.h
-/home/rob/pico-WSPRer/hf-oscillator/defines.h
-../lib/assert.h
-/home/rob/pico-WSPRer/hf-oscillator/lib/assert.h
-../lib/utility.h
-/home/rob/pico-WSPRer/hf-oscillator/lib/utility.h
-../lib/thirdparty/strnstr.h
-/home/rob/pico-WSPRer/hf-oscillator/lib/thirdparty/strnstr.h
-
 /home/rob/pico-WSPRer/hf-oscillator/lib/assert.h
 stdbool.h
--
-pico/stdlib.h
-/home/rob/pico-WSPRer/hf-oscillator/lib/pico/stdlib.h
-
-/home/rob/pico-WSPRer/hf-oscillator/lib/thirdparty/strnstr.h
-
-/home/rob/pico-WSPRer/hf-oscillator/lib/utility.h
-stdint.h
 -
 pico/stdlib.h
 /home/rob/pico-WSPRer/hf-oscillator/lib/pico/stdlib.h
@@ -185,6 +147,28 @@ hardware/watchdog.h
 /home/rob/pico-WSPRer/hardware/watchdog.h
 hardware/uart.h
 /home/rob/pico-WSPRer/hardware/uart.h
+
+/home/rob/pico-WSPRer/utilities.c
+stdio.h
+-
+string.h
+-
+ctype.h
+-
+defines.h
+-
+pico/stdlib.h
+/home/rob/pico-WSPRer/pico/stdlib.h
+hardware/clocks.h
+/home/rob/pico-WSPRer/hardware/clocks.h
+hardware/gpio.h
+/home/rob/pico-WSPRer/hardware/gpio.h
+hardware/adc.h
+/home/rob/pico-WSPRer/hardware/adc.h
+piodco.h
+-
+TxChannel.h
+/home/rob/pico-WSPRer/TxChannel.h
 
 /home/rob/pico-sdk/src/boards/include/boards/pico.h
 
@@ -497,8 +481,4 @@ generated/pico_base/pico/config_autogen.h
 -
 
 generated/pico_base/pico/version.h
-
-timer_PIO.pio.h
-hardware/pio.h
-hardware/pio.h
 
