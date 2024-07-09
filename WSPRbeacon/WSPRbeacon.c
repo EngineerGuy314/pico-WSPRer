@@ -18,13 +18,14 @@ static absolute_time_t start_time;
 static absolute_time_t time_of_last_serial_packet;
 static int current_minute;
 static int oneshots[10];
-static int schedule[10];  //array index is minute, (odd minutes are unused) value is -1 for NONE or 1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd
+static int schedule[10];  //array index is minute, (odd minutes are unused) value is -1 for NONE or 1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd, and #5 for extended TELEN
 static int at_least_one_slot_has_elapsed;
 static int at_least_one_GPS_fixed_has_been_obtained;
 static uint8_t _callsign_with_suffix[12];
 static 	uint8_t  altitude_as_power_fine;
 static uint32_t previous_msg_count;
 static int tikk;
+static int tester;
 
 /// @brief Initializes a new WSPR beacon context.
 /// @param pcallsign HAM radio callsign, 12 chr max.
@@ -53,10 +54,10 @@ WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare
     assert_(p->_pTX);
     p->_pTX->_u32_dialfreqhz = dial_freq_hz + shift_freq_hz;
     p->_pTX->_i_tx_gpio = gpio;
- 
+ 	srand(3333);
 	at_least_one_slot_has_elapsed=0;
 	for (int i=0;i < 10;i++) schedule[i]=-1;
-
+	tester=0;
 	if (id13==253)              //if U4B protocol disabled,  we will ONLY do Type3 (zachtek) at the specified minute
 	{
 		schedule[start_minute]=3;           
@@ -66,6 +67,8 @@ else
 	{
 		schedule[start_minute]=1;          //do U4b at selected minute 
 		schedule[(start_minute+2)%10]=2;
+		schedule[(start_minute+4)%10]=5;  //for now, ALWAYS does #5 (TELEN) extended telemetry as part of U4B. eventially should make this optional
+
 		if (suffix != 253)    // if Suffix enabled, Do zachtek messages 4 mins BEFORE (ie 6 minutes in future) of u4b (because minus (-) after char to decimal conversion is 253)
 			{
 				schedule[(start_minute+6)%10]=3;          
@@ -74,6 +77,7 @@ else
 	}
 	at_least_one_GPS_fixed_has_been_obtained=0;
 	transmitter_status=0;
+
  return p;
 }
 
@@ -180,7 +184,7 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-4 for U
         val *= 40; val += voltageNum;
         val *= 42; val += speedKnotsNum;
         val *=  2; val += gpsValidNum;
-        val *=  2; val += 1;                // standard telemetry
+        val *=  2; val += 1;                // standard telemetry (1 means normal standard, 0 is special TELEN?)
         // unshift big number into output radix values
         uint8_t powerVal = val % 19; val = val / 19;
         uint8_t g4Val    = val % 10; val = val / 10;
@@ -258,7 +262,6 @@ if (packet_type==3)   //1st Zachtek (WSPR type 1 message)
 			if (fine_altitude>1140) altitude_as_power_fine=57;
 			if (fine_altitude>1200) altitude_as_power_fine=60;
 
-
 				if (pctx->_txSched.verbosity>=3) printf("Raw altitude: %0.3f rough: %d fine: %d\n",pctx->_pTX->_p_oscillator->_pGPStime->_altitude,altitude_as_power_rough,altitude_as_power_fine);
 
 	wspr_encode(_callsign_with_suffix, pctx->_pu8_locator, altitude_as_power_rough, pctx->_pu8_outbuf,pctx->_txSched.verbosity);  
@@ -269,9 +272,70 @@ if (packet_type==4)   //2nd Zachtek (WSPR type 3 message)
 	if (pctx->_txSched.verbosity>=3) printf("creating Zachtek packet 2 (WSPR type 3)\n");
 	wspr_encode(add_brackets(_callsign_with_suffix), pctx->_pu8_locator, altitude_as_power_fine, pctx->_pu8_outbuf,pctx->_txSched.verbosity);  			
    }
+
+if (packet_type==5)   //TELEN #1 extended telemetry, gets sent right after the two U4B packets
+   {	
+	if (pctx->_txSched.verbosity>=3) printf("creating TELEN packet 1\n");
+	char _4_char_version_of_locator[5];
+	char _callsign[7];
+
+	uint32_t telen_val1=pctx->_txSched.TELEN_val1;  //gets values for TELEN from global vars
+	uint32_t telen_val2=pctx->_txSched.TELEN_val2;
+	char telen_chars[8];
+	uint8_t telen_power;
+
+	encode_telen(telen_val1,telen_val2,telen_chars, &telen_power); //converts two 32bit ints into 8 characters and one byte to be transmitted
 	
+        _callsign[0] =  pctx->_txSched.id13[0];   //string{ id13[0], id2, id13[1], id4, id5, id6 };
+		_callsign[1] =  telen_chars[0];
+		_callsign[2] =  pctx->_txSched.id13[1];	
+		_callsign[3] =  telen_chars[1];
+		_callsign[4] =  telen_chars[2];
+		_callsign[5] =  telen_chars[3];
+	_4_char_version_of_locator[0]=telen_chars[4];
+	_4_char_version_of_locator[1]=telen_chars[5];
+	_4_char_version_of_locator[2]=telen_chars[6];
+	_4_char_version_of_locator[3]=telen_chars[7];
+	_4_char_version_of_locator[4]=0;  //add null terminator
+
+	wspr_encode(_callsign, _4_char_version_of_locator, telen_power, pctx->_pu8_outbuf, pctx->_txSched.verbosity);   // look in WSPRutility.c for wspr_encode
+   }
 	return 0;
 }
+////////////////////////////////////////////////////////////////////
+//******************************************************************************************************************************
+/// @brief encodes data for extended telemetry (TELEN)
+/// @param telen_val1,telen_val2: the values to encode, telen_chars: the output characters, telen_power: output power (in dbm)
+//******************************************************************************************************************************
+void encode_telen(uint32_t telen_val1,uint32_t telen_val2,char * telen_chars,uint8_t * telen_power)  
+{
+	// TELEN#1, (3rd packet)  which has value 1 and value 2 (remember, value 2 != telen 2). TELEN #2 i dont know yet, (is it fourth packet, or does 1 and 2 take turns as 3rd packet that why some are bold on pedro site?). TELES (string) doesnt get displayed on lu7aa, only qrp-labs
+	// first value  gets encoded into the callsign (1st char is alphannumeric, and last three chars are alpha). Full callsign will be ID1, telen_char[0], ID3, telen_CHar[1],  telen_CHar[2], telen_CHar[3]. 
+	// 2nd value gets encoded into GRID and power. grid = telen_CHar[4,5,6,7]. power = telen_power
+	// max val of 1st one ~= 632k (per dave) [19 bits] i had originally thought 651,013 (if first char Z, which ~=35, times 17565(26^3). base 26 used, not base 36, because other chars must be only alpha, not alphanumeric because of Ham callsign conventions)
+	// max val of 2nd one ~= 153k (per dave) [17 bits] i had thought over 200k....
+
+  const int8_t valid_dbm[19] =
+    {0, 3, 7, 10, 13, 17, 20, 23, 27, 30, 33, 37, 40,
+     43, 47, 50, 53, 57, 60};   	
+
+	uint32_t tem=telen_val1;						
+	telen_chars[0]= '0'+floor(tem / 17576); tem-=(telen_chars[0]-'0')*17576; if  (telen_chars[0] > '9') telen_chars[0]+=7; //shift up from numeric to alpha (there are 7 ascii codes between 9 and A)
+	telen_chars[1]= 'A'+floor(tem / 676); tem-=(telen_chars[1]-'A')*676;
+	telen_chars[2]= 'A'+floor(tem / 26); tem-=(telen_chars[2]-'A')*26;
+	telen_chars[3]= 'A'+tem;
+	double temf=telen_val2;
+	telen_chars[4]= 'A'+floor(temf / 8550); temf-=(telen_chars[4]-'A')*8550;   
+	telen_chars[5]= 'A'+floor(temf / 475); temf-=(telen_chars[5]-'A')*475;  
+	telen_chars[6]= '0'+floor(temf / 47.5); temf-=(telen_chars[6]-'0')*47.5;
+	telen_chars[7]= '0'+floor(temf / 4.75); temf-=((telen_chars[7]-'0')*4.75);  
+	int i=round(temf/0.25);  // there are 19 possible dbm values. And 4.75/19=0.25
+	*telen_power = valid_dbm[i]; 
+
+    printf(" val1: %d val2: %d the chars: %s and the power:(as dmb: %d)\n",telen_val1,telen_val2,telen_chars,*telen_power);
+	telen_chars[8]=0; //null terminate
+}
+////////////////////////////////////////////////////////////////////
 //******************************************************************************************************************************
 /// @brief Sends a prepared WSPR packet using TxChannel.
 /// @param pctx Context.
@@ -295,7 +359,7 @@ int WSPRbeaconSendPacket(const WSPRbeaconContext *pctx)
 int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called every half second from Main.c
 {
 	assert_(pctx);                 	
-    uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;  //on if there ever were any serial data received from a GPS unit
+	uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;  //on if there ever were any serial data received from a GPS unit
     const uint32_t is_GPS_active = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;  //on if valid 3d fix
 
 		 if(is_GPS_active) at_least_one_GPS_fixed_has_been_obtained=1;

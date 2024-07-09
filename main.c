@@ -135,7 +135,10 @@ int main()
 		const float conversionFactor = 3.3f / (1 << 12);          //read temperature
 		adc_select_input(4);	
 		float adc = (float)adc_read() * conversionFactor;
-		float tempC = 27.0f - (adc - 0.706f) / 0.001721f;
+		float tempC = 27.0f - (adc - 0.706f) / 0.001721f;		
+		if (tempC < -50) { tempC  += 89; }			          //wrap around for overflow, per U4B protocol
+		if (tempC > 39) { tempC  -= 89; }
+
 		pWB->_txSched.temp_in_Celsius=tempC;           
 		DCO._pGPStime->temp_in_Celsius=tempC;
 		
@@ -145,6 +148,9 @@ int main()
 			if (volts > 4.95) { volts -= 1.95; }
 		pWB->_txSched.voltage=volts;
 
+		pWB->_txSched.TELEN_val1=rand() % 630000;   //the values  in TELEN_val1 and TELEN_val2 will get sent as TELEN #1 (extended Telemetry) (a third packet in the U4B protocol)
+		pWB->_txSched.TELEN_val2=rand() % 153000;	// max values are 630k and 153k
+		
 		if (pWB->_txSched.verbosity>=1)
 		{
 				if(0 == ++tick2 % 4)      //every ~2 sec

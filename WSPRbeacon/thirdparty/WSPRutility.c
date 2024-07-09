@@ -86,7 +86,7 @@ void wspr_message_prep(char * call, char * loc, int8_t dbm)
 	uint8_t i;
    if (_verbos>=4) printf(" wsprs MSG prep callsign: %s and its length is %i\n",call,strlen(call));
    if (_verbos>=4) printf(" wsprs MSG prep POWER: %s and its length is %i and dbm %i\n",loc,strlen(loc),dbm);
-   
+
   for(i = 0; i < 12; i++)  //puts all letters in callsign uppercase
 	{
 		if(call[i] != '/' && call[i] != '<' && call[i] != '>')
@@ -178,9 +178,10 @@ void wspr_bit_packing(uint8_t * c)
 	char* slash_avail = strchr(callsign, (int)'/');
 	if(callsign[0] == '<')
 	{
+		//printf("BIT Packing Type 3 \n");
 		// Type 3 message
 		char base_call[13];
-    memset(base_call, 0, 13);
+		memset(base_call, 0, 13);
 		uint32_t init_val = 146;
 		char* bracket_avail = strchr(callsign, (int)'>');
 		int call_len = bracket_avail - callsign - 1;
@@ -210,6 +211,7 @@ void wspr_bit_packing(uint8_t * c)
 	else if(slash_avail == (void *)0)
 	{
 		// Type 1 message
+		//printf("BIT Packing type 1 \n");
 		pad_callsign(callsign);
 		n = wspr_code(callsign[0]);
 		n = n * 36 + wspr_code(callsign[1]);
@@ -217,7 +219,7 @@ void wspr_bit_packing(uint8_t * c)
 		n = n * 27 + (wspr_code(callsign[3]) - 10);
 		n = n * 27 + (wspr_code(callsign[4]) - 10);
 		n = n * 27 + (wspr_code(callsign[5]) - 10);
-		
+				
 		m = ((179 - 10 * (locator[0] - 'A') - (locator[2] - '0')) * 180) +   
 			(10 * (locator[1] - 'A')) + (locator[3] - '0');
 		m = (m * 128) + power + 64;
@@ -231,6 +233,7 @@ void wspr_bit_packing(uint8_t * c)
 		// Determine prefix or suffix
 		if(callsign[slash_pos + 2] == ' ' || callsign[slash_pos + 2] == 0)
 		{
+			//printf("BIT Packing single suffix \n");
 			// Single character suffix
 			char base_call[7];
       memset(base_call, 0, 7);
@@ -273,6 +276,7 @@ void wspr_bit_packing(uint8_t * c)
 		else if(callsign[slash_pos + 3] == ' ' || callsign[slash_pos + 3] == 0)
 		{
 			// Two-digit numerical suffix
+			//printf("bit packingtwo digi t siffice \n");
 			char base_call[7];
       memset(base_call, 0, 7);
 			strncpy(base_call, callsign, slash_pos);
@@ -301,6 +305,7 @@ void wspr_bit_packing(uint8_t * c)
 		else
 		{
 			// Prefix
+			//printf("BIT Packing this is prefix \n");
 			char prefix[4];
 			char base_call[7];
             memset(prefix, 0, 4);
