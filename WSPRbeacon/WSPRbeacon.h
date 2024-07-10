@@ -68,8 +68,10 @@ typedef struct
 	int8_t verbosity;
     double voltage;
     int8_t oscillatorOff;
-	uint32_t TELEN_val1;
-	uint32_t TELEN_val2;
+	uint32_t TELEN1_val1;
+	uint32_t TELEN1_val2;
+	uint32_t TELEN2_val1;
+	uint32_t TELEN2_val2;
 } WSPRbeaconSchedule;
 
 typedef struct

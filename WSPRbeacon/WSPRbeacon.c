@@ -26,6 +26,9 @@ static 	uint8_t  altitude_as_power_fine;
 static uint32_t previous_msg_count;
 static int tikk;
 static int tester;
+const int8_t valid_dbm[19] =
+    {0, 3, 7, 10, 13, 17, 20, 23, 27, 30, 33, 37, 40,
+     43, 47, 50, 53, 57, 60};  
 
 /// @brief Initializes a new WSPR beacon context.
 /// @param pcallsign HAM radio callsign, 12 chr max.
@@ -65,9 +68,10 @@ WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare
 	}
 else
 	{
-		schedule[start_minute]=1;          //do U4b at selected minute 
-		schedule[(start_minute+2)%10]=2;
-		schedule[(start_minute+4)%10]=5;  //for now, ALWAYS does #5 (TELEN) extended telemetry as part of U4B. eventially should make this optional
+		schedule[start_minute]=1;          //do 1st U4b packet at selected minute 
+		schedule[(start_minute+2)%10]=2;   //do second U4B packet 2 minutes later
+		schedule[(start_minute+4)%10]=5;  //for now, ALWAYS does #5 (TELEN 1) extended telemetry as part of U4B. eventially should make this optional
+		schedule[(start_minute+6)%10]=6;  //for now, ALWAYS does #6 (TELEN 2) extended telemetry as part of U4B. eventially should make this optional (must NOT use zachtek protocol with Telen#2 for instance)
 
 		if (suffix != 253)    // if Suffix enabled, Do zachtek messages 4 mins BEFORE (ie 6 minutes in future) of u4b (because minus (-) after char to decimal conversion is 253)
 			{
@@ -95,17 +99,14 @@ void WSPRbeaconSetDialFreq(WSPRbeaconContext *pctx, uint32_t freq_hz)
 /// @param pctx Context
 /// @return 0 if OK.
 //******************************************************************************************************************************
-int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd
+int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-6.  1: U4B 1st msg,U4B 2: 2nd msg, 3: Zachtek 1st, 4: Zachtek 2nd 5:U4B telen 1, 6:U4B telen 2
 {
    /*     if(0 == ++tikk % 2)    //turns a fan on via GPIO 18 every other packet. this forces temperature swings for testing TCXO stability   
 		gpio_put(18, 1);
        if(0 == (tikk+1) % 2)
 		gpio_put(18, 0);  */
 
-	assert_(pctx);
-  const int8_t valid_dbm[19] =
-    {0, 3, 7, 10, 13, 17, 20, 23, 27, 30, 33, 37, 40,
-     43, 47, 50, 53, 57, 60};    
+   assert_(pctx);
 
    if (packet_type==1)   //U4B first msg
    {
@@ -128,7 +129,7 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-4 for U
 			pctx->_txSched->id13
 			pctx->_txSched->voltage
 */	
-	        // pick apart inputs
+	  // pick apart inputs
         char grid5 = pctx->_pu8_locator[4];
         char grid6 = pctx->_pu8_locator[5];
 	        // convert inputs into components of a big number
@@ -179,7 +180,6 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-4 for U
         uint8_t gpsValidNum   = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;
         // shift inputs into a big number
         val = 0;
-
         val *= 90; val += tempCNum;
         val *= 40; val += voltageNum;
         val *= 42; val += speedKnotsNum;
@@ -273,20 +273,33 @@ if (packet_type==4)   //2nd Zachtek (WSPR type 3 message)
 	wspr_encode(add_brackets(_callsign_with_suffix), pctx->_pu8_locator, altitude_as_power_fine, pctx->_pu8_outbuf,pctx->_txSched.verbosity);  			
    }
 
-if (packet_type==5)   //TELEN #1 extended telemetry, gets sent right after the two U4B packets
+if ((packet_type==5)||(packet_type==6))   //TELEN #1 or #2 extended telemetry, gets sent right after the two U4B packets
    {	
 	if (pctx->_txSched.verbosity>=3) printf("creating TELEN packet 1\n");
 	char _4_char_version_of_locator[5];
 	char _callsign[7];
-
-	uint32_t telen_val1=pctx->_txSched.TELEN_val1;  //gets values for TELEN from global vars
-	uint32_t telen_val2=pctx->_txSched.TELEN_val2;
+	uint32_t telen_val1;
+	uint32_t telen_val2;
+	
+	if (packet_type==5)    //TELEN #1
+		{
+			telen_val1=pctx->_txSched.TELEN1_val1;  //gets values for TELEN from global vars
+			telen_val2=pctx->_txSched.TELEN1_val2;
+			printf("encoding TELEN #1\n");
+		}
+	  else		//TELEN #2
+		{
+			telen_val1=pctx->_txSched.TELEN2_val1;  //gets values for TELEN from global vars
+			telen_val2=pctx->_txSched.TELEN2_val2;
+			printf("encoding TELEN #2\n");
+		}
+				
 	char telen_chars[8];
 	uint8_t telen_power;
 
 	encode_telen(telen_val1,telen_val2,telen_chars, &telen_power); //converts two 32bit ints into 8 characters and one byte to be transmitted
 	
-        _callsign[0] =  pctx->_txSched.id13[0];   //string{ id13[0], id2, id13[1], id4, id5, id6 };
+        _callsign[0] =  pctx->_txSched.id13[0];   //callsign: id13[0], telen char0, id13[1], telen char1, telen char2, telen char3
 		_callsign[1] =  telen_chars[0];
 		_callsign[2] =  pctx->_txSched.id13[1];	
 		_callsign[3] =  telen_chars[1];
@@ -309,22 +322,18 @@ if (packet_type==5)   //TELEN #1 extended telemetry, gets sent right after the t
 //******************************************************************************************************************************
 void encode_telen(uint32_t telen_val1,uint32_t telen_val2,char * telen_chars,uint8_t * telen_power)  
 {
-	// TELEN#1, (3rd packet)  which has value 1 and value 2 (remember, value 2 != telen 2). TELEN #2 i dont know yet, (is it fourth packet, or does 1 and 2 take turns as 3rd packet that why some are bold on pedro site?). TELES (string) doesnt get displayed on lu7aa, only qrp-labs
+	// TELEN packet  which has value 1 and value 2 (this same routine used for both telen#1 and telen#2). 
 	// first value  gets encoded into the callsign (1st char is alphannumeric, and last three chars are alpha). Full callsign will be ID1, telen_char[0], ID3, telen_CHar[1],  telen_CHar[2], telen_CHar[3]. 
 	// 2nd value gets encoded into GRID and power. grid = telen_CHar[4,5,6,7]. power = telen_power
 	// max val of 1st one ~= 632k (per dave) [19 bits] i had originally thought 651,013 (if first char Z, which ~=35, times 17565(26^3). base 26 used, not base 36, because other chars must be only alpha, not alphanumeric because of Ham callsign conventions)
 	// max val of 2nd one ~= 153k (per dave) [17 bits] i had thought over 200k....
 
-  const int8_t valid_dbm[19] =
-    {0, 3, 7, 10, 13, 17, 20, 23, 27, 30, 33, 37, 40,
-     43, 47, 50, 53, 57, 60};   	
-
 	uint32_t tem=telen_val1;						
-	telen_chars[0]= '0'+floor(tem / 17576); tem-=(telen_chars[0]-'0')*17576; if  (telen_chars[0] > '9') telen_chars[0]+=7; //shift up from numeric to alpha (there are 7 ascii codes between 9 and A)
+	double temf=telen_val2;
+	telen_chars[0]= '0'+floor(tem / 17576); tem-=(telen_chars[0]-'0')*17576; if (telen_chars[0] > '9') telen_chars[0]+=7; //shift up from numeric to alpha (there are 7 ascii codes between 9 and A)
 	telen_chars[1]= 'A'+floor(tem / 676); tem-=(telen_chars[1]-'A')*676;
 	telen_chars[2]= 'A'+floor(tem / 26); tem-=(telen_chars[2]-'A')*26;
 	telen_chars[3]= 'A'+tem;
-	double temf=telen_val2;
 	telen_chars[4]= 'A'+floor(temf / 8550); temf-=(telen_chars[4]-'A')*8550;   
 	telen_chars[5]= 'A'+floor(temf / 475); temf-=(telen_chars[5]-'A')*475;  
 	telen_chars[6]= '0'+floor(temf / 47.5); temf-=(telen_chars[6]-'0')*47.5;

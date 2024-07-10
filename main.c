@@ -107,7 +107,7 @@ int main()
 	DCO._pGPStime->verbosity=(uint8_t)_verbosity[0]-'0'; 
     int tick = 0;int tick2 = 0;  //used for timing various messages
 	LED_sequence_start_time = get_absolute_time();
-	
+
     for(;;)   //loop every ~ half second
     {		
         if(WSPRbeaconIsGPSsolutionActive(pWB))
@@ -148,8 +148,14 @@ int main()
 			if (volts > 4.95) { volts -= 1.95; }
 		pWB->_txSched.voltage=volts;
 
-		pWB->_txSched.TELEN_val1=rand() % 630000;   //the values  in TELEN_val1 and TELEN_val2 will get sent as TELEN #1 (extended Telemetry) (a third packet in the U4B protocol)
-		pWB->_txSched.TELEN_val2=rand() % 153000;	// max values are 630k and 153k
+		//pWB->_txSched.TELEN1_val1=rand() % 630000;   //the values  in TELEN_val1 and TELEN_val2 will get sent as TELEN #1 (extended Telemetry) (a third packet in the U4B protocol)
+		//pWB->_txSched.TELEN1_val2=rand() % 153000;	// max values are 630k and 153k
+		
+		pWB->_txSched.TELEN1_val1=11111;   //the values  in TELEN_val1 and TELEN_val2 will get sent as TELEN #1 (extended Telemetry) (a third packet in the U4B protocol)
+		pWB->_txSched.TELEN1_val2=22222;	// max values are 630k and 153k
+		pWB->_txSched.TELEN2_val1=33333;   //the values  in TELEN_val1 and TELEN_val2 will get sent as TELEN #2 (extended Telemetry) (a FOURTH packet in the U4B protocol)
+		pWB->_txSched.TELEN2_val2=44444;	// max values are 630k and 153k
+		
 		
 		if (pWB->_txSched.verbosity>=1)
 		{
