@@ -1,3 +1,4 @@
+/*seems this code originated from https://github.com/sp6q/maidenhead */
 #include "maidenhead.h"
 #include <math.h>
 #include <stdio.h>
@@ -8,13 +9,16 @@ extern "C" {
 #endif
 
 char letterize(int x) {
-    return (char) x + 65;
+	if (x<24)
+    return (char) x + 65;  
+	else
+	return (char) 23 + 65; /*KC3LBR 07/23/24   an alternate/redundant fix to the one below, this clamps the returned characters at 'X' or lower. The original code sometimes returned a Y for 5th or 6 char, which is invalid*/
 }
 
 char* get_mh(double lat, double lon, int size) {
     static char locator[11];
-    double LON_F[]={20,2.0,0.083333,0.008333,0.0003472083333333333};
-    double LAT_F[]={10,1.0,0.0416665,0.004166,0.0001735833333333333};
+    double LON_F[]={20,2.0,0.0833333333,0.008333,0.0003472083333333333}; /*KC3LBR 07/23/24   increased resolution of 1/12 constant to prevent problems*/
+    double LAT_F[]={10,1.0,0.0416666667,0.004166,0.0001735833333333333}; /*KC3LBR 07/23/24   increased resolution of 1/24 constant to prevent problems*/
     int i;
     lon += 180;
     lat += 90;
