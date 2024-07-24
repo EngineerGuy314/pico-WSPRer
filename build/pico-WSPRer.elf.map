@@ -1252,9 +1252,9 @@ Discarded input sections
  .text          0x0000000000000000        0x0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.obj
  .data          0x0000000000000000        0x0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.obj
  .bss           0x0000000000000000        0x0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.obj
- .text          0x0000000000000000        0x0 /tmp/ccykGmmp.o
- .data          0x0000000000000000        0x0 /tmp/ccykGmmp.o
- .bss           0x0000000000000000        0x0 /tmp/ccykGmmp.o
+ .text          0x0000000000000000        0x0 /tmp/cctCWh3A.o
+ .data          0x0000000000000000        0x0 /tmp/cctCWh3A.o
+ .bss           0x0000000000000000        0x0 /tmp/cctCWh3A.o
  .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/8.3.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
  .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/8.3.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
  .text          0x0000000000000000       0x10 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-atexit.o)
@@ -1505,7 +1505,7 @@ LOAD /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp
 .boot2          0x0000000010000000      0x100
                 0x0000000010000000                __boot2_start__ = .
  *(.boot2)
- .boot2         0x0000000010000000      0x100 /tmp/ccykGmmp.o
+ .boot2         0x0000000010000000      0x100 /tmp/cctCWh3A.o
                 0x0000000010000100                __boot2_end__ = .
                 0x0000000000000001                ASSERT (((__boot2_end__ - __boot2_start__) == 0x100), ERROR: Pico second stage bootloader must be 256 bytes in size)
 
@@ -1658,904 +1658,905 @@ LOAD /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp
                 0x0000000010003868       0xe8 CMakeFiles/pico-WSPRer.dir/main.c.obj
                 0x0000000010003868                read_NVRAM
  .text.user_interface
-                0x0000000010003950      0x31c CMakeFiles/pico-WSPRer.dir/main.c.obj
+                0x0000000010003950      0x318 CMakeFiles/pico-WSPRer.dir/main.c.obj
                 0x0000000010003950                user_interface
  .text.InitPicoPins
-                0x0000000010003c6c       0xcc CMakeFiles/pico-WSPRer.dir/main.c.obj
-                0x0000000010003c6c                InitPicoPins
+                0x0000000010003c68       0xcc CMakeFiles/pico-WSPRer.dir/main.c.obj
+                0x0000000010003c68                InitPicoPins
  .text.startup.main
-                0x0000000010003d38      0x4f8 CMakeFiles/pico-WSPRer.dir/main.c.obj
-                0x0000000010003d38                main
+                0x0000000010003d34      0x4f8 CMakeFiles/pico-WSPRer.dir/main.c.obj
+                0x0000000010003d34                main
  .text.set_sys_clock_pll
-                0x0000000010004230       0x78 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj
-                0x0000000010004230                set_sys_clock_pll
+                0x000000001000422c       0x78 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj
+                0x000000001000422c                set_sys_clock_pll
  .text.check_sys_clock_khz
-                0x00000000100042a8      0x154 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj
-                0x00000000100042a8                check_sys_clock_khz
+                0x00000000100042a4      0x154 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj
+                0x00000000100042a4                check_sys_clock_khz
  .text.gpio_default_irq_handler
-                0x00000000100043fc      0x24c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
+                0x00000000100043f8      0x24c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
  .text.gpio_set_function
-                0x0000000010004648       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
-                0x0000000010004648                gpio_set_function
+                0x0000000010004644       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
+                0x0000000010004644                gpio_set_function
  .text.gpio_set_pulls
-                0x0000000010004678       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
-                0x0000000010004678                gpio_set_pulls
+                0x0000000010004674       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
+                0x0000000010004674                gpio_set_pulls
  .text.gpio_set_irq_enabled_with_callback
-                0x00000000100046a8       0xac CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
-                0x00000000100046a8                gpio_set_irq_enabled_with_callback
+                0x00000000100046a4       0xac CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
+                0x00000000100046a4                gpio_set_irq_enabled_with_callback
  .text.gpio_init
-                0x0000000010004754       0x3c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
-                0x0000000010004754                gpio_init
+                0x0000000010004750       0x3c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
+                0x0000000010004750                gpio_init
  .text.running_on_fpga
-                0x0000000010004790       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.obj
-                0x0000000010004790                running_on_fpga
+                0x000000001000478c       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.obj
+                0x000000001000478c                running_on_fpga
  .text.hw_claim_lock
-                0x00000000100047a0       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
-                0x00000000100047a0                hw_claim_lock
+                0x000000001000479c       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
+                0x000000001000479c                hw_claim_lock
  .text.hw_claim_unlock
-                0x00000000100047b8       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
-                0x00000000100047b8                hw_claim_unlock
+                0x00000000100047b4       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
+                0x00000000100047b4                hw_claim_unlock
  .text.hw_claim_or_assert
-                0x00000000100047cc       0x44 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
-                0x00000000100047cc                hw_claim_or_assert
+                0x00000000100047c8       0x44 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
+                0x00000000100047c8                hw_claim_or_assert
  .text.hw_claim_unused_from_range
-                0x0000000010004810       0x9c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
-                0x0000000010004810                hw_claim_unused_from_range
+                0x000000001000480c       0x9c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
+                0x000000001000480c                hw_claim_unused_from_range
  .text.spin_locks_reset
-                0x00000000100048ac       0x1c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj
-                0x00000000100048ac                spin_locks_reset
+                0x00000000100048a8       0x1c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj
+                0x00000000100048a8                spin_locks_reset
  .text.next_striped_spin_lock_num
-                0x00000000100048c8       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj
-                0x00000000100048c8                next_striped_spin_lock_num
+                0x00000000100048c4       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj
+                0x00000000100048c4                next_striped_spin_lock_num
  .text.spin_lock_claim_unused
-                0x00000000100048e0       0x20 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj
-                0x00000000100048e0                spin_lock_claim_unused
+                0x00000000100048dc       0x20 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj
+                0x00000000100048dc                spin_lock_claim_unused
  .text.irq_set_enabled
-                0x0000000010004900       0x24 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
-                0x0000000010004900                irq_set_enabled
+                0x00000000100048fc       0x24 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
+                0x00000000100048fc                irq_set_enabled
  .text.irq_is_enabled
-                0x0000000010004924       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
-                0x0000000010004924                irq_is_enabled
+                0x0000000010004920       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
+                0x0000000010004920                irq_is_enabled
  .text.irq_set_pending
-                0x000000001000493c       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
-                0x000000001000493c                irq_set_pending
+                0x0000000010004938       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
+                0x0000000010004938                irq_set_pending
  .text.irq_has_shared_handler
-                0x000000001000494c       0x2c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
-                0x000000001000494c                irq_has_shared_handler
+                0x0000000010004948       0x2c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
+                0x0000000010004948                irq_has_shared_handler
  .text.irq_get_vtable_handler
-                0x0000000010004978       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
-                0x0000000010004978                irq_get_vtable_handler
+                0x0000000010004974       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
+                0x0000000010004974                irq_get_vtable_handler
  .text.irq_set_exclusive_handler
-                0x0000000010004988       0x54 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
-                0x0000000010004988                irq_set_exclusive_handler
+                0x0000000010004984       0x54 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
+                0x0000000010004984                irq_set_exclusive_handler
  .text.irq_add_shared_handler
-                0x00000000100049dc      0x1c8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
-                0x00000000100049dc                irq_add_shared_handler
+                0x00000000100049d8      0x1c8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
+                0x00000000100049d8                irq_add_shared_handler
  .text.irq_remove_handler
-                0x0000000010004ba4      0x1b0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
-                0x0000000010004ba4                irq_remove_handler
+                0x0000000010004ba0      0x1b0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
+                0x0000000010004ba0                irq_remove_handler
  .text.irq_set_priority
-                0x0000000010004d54       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
-                0x0000000010004d54                irq_set_priority
+                0x0000000010004d50       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
+                0x0000000010004d50                irq_set_priority
  .text.irq_add_tail_to_free_list
-                0x0000000010004d7c       0xb4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
-                0x0000000010004d7c                irq_add_tail_to_free_list
+                0x0000000010004d78       0xb4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
+                0x0000000010004d78                irq_add_tail_to_free_list
  .text.irq_init_priorities
-                0x0000000010004e30       0x24 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
-                0x0000000010004e30                irq_init_priorities
+                0x0000000010004e2c       0x24 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
+                0x0000000010004e2c                irq_init_priorities
  .text.user_irq_claim_unused
-                0x0000000010004e54       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
-                0x0000000010004e54                user_irq_claim_unused
+                0x0000000010004e50       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
+                0x0000000010004e50                user_irq_claim_unused
  .text.lock_init
-                0x0000000010004e7c       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/lock_core.c.obj
-                0x0000000010004e7c                lock_init
+                0x0000000010004e78       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/lock_core.c.obj
+                0x0000000010004e78                lock_init
  .text.mutex_init
-                0x0000000010004e8c       0x1c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/mutex.c.obj
-                0x0000000010004e8c                mutex_init
+                0x0000000010004e88       0x1c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/mutex.c.obj
+                0x0000000010004e88                mutex_init
  .text.recursive_mutex_init
-                0x0000000010004ea8       0x1c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/mutex.c.obj
-                0x0000000010004ea8                recursive_mutex_init
+                0x0000000010004ea4       0x1c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/mutex.c.obj
+                0x0000000010004ea4                recursive_mutex_init
  .text.critical_section_init
-                0x0000000010004ec4       0x20 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/critical_section.c.obj
-                0x0000000010004ec4                critical_section_init
+                0x0000000010004ec0       0x20 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/critical_section.c.obj
+                0x0000000010004ec0                critical_section_init
  .text.critical_section_init_with_lock_num
-                0x0000000010004ee4       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/critical_section.c.obj
-                0x0000000010004ee4                critical_section_init_with_lock_num
+                0x0000000010004ee0       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_sync/critical_section.c.obj
+                0x0000000010004ee0                critical_section_init_with_lock_num
  .text.ph_merge_nodes
-                0x0000000010004ef8       0x5c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
+                0x0000000010004ef4       0x5c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
  .text.timer_pool_entry_comparator
-                0x0000000010004f54       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
-                0x0000000010004f54                timer_pool_entry_comparator
+                0x0000000010004f50       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
+                0x0000000010004f50                timer_pool_entry_comparator
  .text.sleep_until_callback
-                0x0000000010004f88       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
+                0x0000000010004f84       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
  .text.add_alarm_under_lock
-                0x0000000010004fb8       0xbc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
+                0x0000000010004fb4       0xbc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
  .text.alarm_pool_alarm_callback
-                0x0000000010005074      0x1c0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
+                0x0000000010005070      0x1c0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
  .text.alarm_pool_init_default
-                0x0000000010005234       0x6c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
-                0x0000000010005234                alarm_pool_init_default
+                0x0000000010005230       0x6c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
+                0x0000000010005230                alarm_pool_init_default
  .text.alarm_pool_get_default
-                0x00000000100052a0        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
-                0x00000000100052a0                alarm_pool_get_default
+                0x000000001000529c        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
+                0x000000001000529c                alarm_pool_get_default
  .text.alarm_pool_add_alarm_at
-                0x00000000100052a8      0x144 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
-                0x00000000100052a8                alarm_pool_add_alarm_at
+                0x00000000100052a4      0x144 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
+                0x00000000100052a4                alarm_pool_add_alarm_at
  .text.alarm_pool_core_num
-                0x00000000100053ec        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
-                0x00000000100053ec                alarm_pool_core_num
+                0x00000000100053e8        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
+                0x00000000100053e8                alarm_pool_core_num
  .text.sleep_until
-                0x00000000100053f0       0xc4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
-                0x00000000100053f0                sleep_until
+                0x00000000100053ec       0xc4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
+                0x00000000100053ec                sleep_until
  .text.sleep_ms
-                0x00000000100054b4       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
-                0x00000000100054b4                sleep_ms
+                0x00000000100054b0       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
+                0x00000000100054b0                sleep_ms
  .text.best_effort_wfe_or_timeout
-                0x00000000100054e8       0xd0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
-                0x00000000100054e8                best_effort_wfe_or_timeout
+                0x00000000100054e4       0xd0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_time/time.c.obj
+                0x00000000100054e4                best_effort_wfe_or_timeout
  .text.hardware_alarm_irq_handler
-                0x00000000100055b8       0xb4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
+                0x00000000100055b4       0xb4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
  .text.hardware_alarm_claim
-                0x000000001000566c       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
-                0x000000001000566c                hardware_alarm_claim
+                0x0000000010005668       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
+                0x0000000010005668                hardware_alarm_claim
  .text.time_us_64
-                0x0000000010005684       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
-                0x0000000010005684                time_us_64
+                0x0000000010005680       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
+                0x0000000010005680                time_us_64
  .text.busy_wait_us
-                0x000000001000569c       0x60 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
-                0x000000001000569c                busy_wait_us
+                0x0000000010005698       0x60 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
+                0x0000000010005698                busy_wait_us
  .text.busy_wait_until
-                0x00000000100056fc       0x20 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
-                0x00000000100056fc                busy_wait_until
+                0x00000000100056f8       0x20 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
+                0x00000000100056f8                busy_wait_until
  .text.hardware_alarm_set_callback
-                0x000000001000571c       0x8c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
-                0x000000001000571c                hardware_alarm_set_callback
+                0x0000000010005718       0x8c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
+                0x0000000010005718                hardware_alarm_set_callback
  .text.hardware_alarm_set_target
-                0x00000000100057a8       0xd8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
-                0x00000000100057a8                hardware_alarm_set_target
+                0x00000000100057a4       0xd8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
+                0x00000000100057a4                hardware_alarm_set_target
  .text.hardware_alarm_cancel
-                0x0000000010005880       0x40 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
-                0x0000000010005880                hardware_alarm_cancel
+                0x000000001000587c       0x40 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
+                0x000000001000587c                hardware_alarm_cancel
  .text.ph_merge_nodes
-                0x00000000100058c0       0x5c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj
+                0x00000000100058bc       0x5c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj
  .text.ph_post_alloc_init
-                0x000000001000591c      0x1b8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj
-                0x000000001000591c                ph_post_alloc_init
+                0x0000000010005918      0x1b8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj
+                0x0000000010005918                ph_post_alloc_init
  .text.ph_merge_two_pass
-                0x0000000010005ad4       0x4c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj
-                0x0000000010005ad4                ph_merge_two_pass
+                0x0000000010005ad0       0x4c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj
+                0x0000000010005ad0                ph_merge_two_pass
  .text.ph_remove_any_head
-                0x0000000010005b20      0x1c0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj
+                0x0000000010005b1c      0x1c0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj
  .text.ph_remove_head
-                0x0000000010005ce0      0x1c4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj
-                0x0000000010005ce0                ph_remove_head
+                0x0000000010005cdc      0x1c4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj
+                0x0000000010005cdc                ph_remove_head
  .text.ph_remove_and_free_node
-                0x0000000010005ea4       0x7c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj
-                0x0000000010005ea4                ph_remove_and_free_node
+                0x0000000010005ea0       0x7c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/pheap.c.obj
+                0x0000000010005ea0                ph_remove_and_free_node
  .text.uart_init
-                0x0000000010005f20      0x188 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj
-                0x0000000010005f20                uart_init
+                0x0000000010005f1c      0x188 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj
+                0x0000000010005f1c                uart_init
  .text.uart_set_format
-                0x00000000100060a8       0x7c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj
-                0x00000000100060a8                uart_set_format
+                0x00000000100060a4       0x7c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj
+                0x00000000100060a4                uart_set_format
  .text.uart_set_fifo_enabled
-                0x0000000010006124       0x68 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj
-                0x0000000010006124                uart_set_fifo_enabled
+                0x0000000010006120       0x68 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj
+                0x0000000010006120                uart_set_fifo_enabled
  .text.clock_configure
-                0x000000001000618c      0x14c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj
-                0x000000001000618c                clock_configure
+                0x0000000010006188      0x14c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj
+                0x0000000010006188                clock_configure
  .text.clocks_init
-                0x00000000100062d8      0x2d4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj
-                0x00000000100062d8                clocks_init
+                0x00000000100062d4      0x2d4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj
+                0x00000000100062d4                clocks_init
  .text.clock_get_hz
-                0x00000000100065ac        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj
-                0x00000000100065ac                clock_get_hz
+                0x00000000100065a8        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj
+                0x00000000100065a8                clock_get_hz
  .text.pll_init
-                0x00000000100065b8       0xa0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj
-                0x00000000100065b8                pll_init
+                0x00000000100065b4       0xa0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj
+                0x00000000100065b4                pll_init
  .text.watchdog_start_tick
-                0x0000000010006658       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj
-                0x0000000010006658                watchdog_start_tick
+                0x0000000010006654       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj
+                0x0000000010006654                watchdog_start_tick
  .text.watchdog_enable
-                0x0000000010006668       0x84 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj
-                0x0000000010006668                watchdog_enable
+                0x0000000010006664       0x84 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj
+                0x0000000010006664                watchdog_enable
  .text.watchdog_reboot
-                0x00000000100066ec       0x98 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj
-                0x00000000100066ec                watchdog_reboot
+                0x00000000100066e8       0x98 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj
+                0x00000000100066e8                watchdog_reboot
  .text.xosc_init
-                0x0000000010006784       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj
-                0x0000000010006784                xosc_init
+                0x0000000010006780       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj
+                0x0000000010006780                xosc_init
  .text.runtime_init
-                0x00000000100067ac       0xf4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
-                0x00000000100067ac                runtime_init
- .text._exit    0x00000000100068a0        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
-                0x00000000100068a0                _exit
- .text._sbrk    0x00000000100068a4       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
-                0x00000000100068a4                _sbrk
- .text.exit     0x00000000100068d8        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
-                0x00000000100068d8                exit
+                0x00000000100067a8       0xf4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
+                0x00000000100067a8                runtime_init
+ .text._exit    0x000000001000689c        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
+                0x000000001000689c                _exit
+ .text._sbrk    0x00000000100068a0       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
+                0x00000000100068a0                _sbrk
+ .text.exit     0x00000000100068d4        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
+                0x00000000100068d4                exit
  .text.__assert_func
-                0x00000000100068e0       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
-                0x00000000100068e0                __assert_func
- .text.panic    0x0000000010006914       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
-                0x0000000010006914                panic
+                0x00000000100068dc       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
+                0x00000000100068dc                __assert_func
+ .text.panic    0x0000000010006910       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
+                0x0000000010006910                panic
  .text.hard_assertion_failure
-                0x0000000010006944        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
-                0x0000000010006944                hard_assertion_failure
+                0x0000000010006940        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
+                0x0000000010006940                hard_assertion_failure
  .text._out_buffer
-                0x0000000010006950        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+                0x000000001000694c        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
  .text._out_null
-                0x0000000010006958        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+                0x0000000010006954        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
  .text._out_rev
-                0x000000001000695c       0x9c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+                0x0000000010006958       0x9c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
  .text._ntoa_format
-                0x00000000100069f8      0x1c8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+                0x00000000100069f4      0x1c8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
  .text._out_char
-                0x0000000010006bc0       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+                0x0000000010006bbc       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
  .text._out_fct
-                0x0000000010006bd0       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
- .text._etoa    0x0000000010006be0      0x45c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
- .text._ftoa    0x000000001000703c      0x4c0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+                0x0000000010006bcc       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+ .text._etoa    0x0000000010006bdc      0x45c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+ .text._ftoa    0x0000000010007038      0x4c0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
  .text._vsnprintf
-                0x00000000100074fc      0xad0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+                0x00000000100074f8      0xad0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
  .text.__wrap_snprintf
-                0x0000000010007fcc       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
-                0x0000000010007fcc                __wrap_snprintf
+                0x0000000010007fc8       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+                0x0000000010007fc8                __wrap_snprintf
  .text.__wrap_vsnprintf
-                0x0000000010007ff4       0x1c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
-                0x0000000010007ff4                __wrap_vsnprintf
+                0x0000000010007ff0       0x1c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+                0x0000000010007ff0                __wrap_vsnprintf
  .text.vfctprintf
-                0x0000000010008010       0x20 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
-                0x0000000010008010                vfctprintf
+                0x000000001000800c       0x20 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+                0x000000001000800c                vfctprintf
  .text.weak_raw_printf
-                0x0000000010008030       0x40 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
-                0x0000000010008030                weak_raw_printf
+                0x000000001000802c       0x40 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+                0x000000001000802c                weak_raw_printf
  .text.weak_raw_vprintf
-                0x0000000010008070       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
-                0x0000000010008070                weak_raw_vprintf
- .text          0x00000000100080a0       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj
+                0x000000001000806c       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+                0x000000001000806c                weak_raw_vprintf
+ .text          0x000000001000809c       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj
  .text.rom_func_lookup
-                0x00000000100080b0       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj
-                0x00000000100080b0                rom_func_lookup
+                0x00000000100080ac       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj
+                0x00000000100080ac                rom_func_lookup
  .text.rom_data_lookup
-                0x00000000100080c0       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj
-                0x00000000100080c0                rom_data_lookup
+                0x00000000100080bc       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj
+                0x00000000100080bc                rom_data_lookup
  .text.rom_funcs_lookup
-                0x00000000100080d0       0x3c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj
-                0x00000000100080d0                rom_funcs_lookup
+                0x00000000100080cc       0x3c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj
+                0x00000000100080cc                rom_funcs_lookup
  .text.__wrap___aeabi_idiv
-                0x000000001000810c       0x50 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
-                0x000000001000810c                __wrap___aeabi_idivmod
-                0x000000001000810c                divmod_s32s32
-                0x000000001000810c                div_s32s32
-                0x000000001000810c                __wrap___aeabi_idiv
-                0x0000000010008114                divmod_s32s32_unsafe
-                0x0000000010008140                divmod_s32s32_savestate
+                0x0000000010008108       0x50 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
+                0x0000000010008108                __wrap___aeabi_idivmod
+                0x0000000010008108                divmod_s32s32
+                0x0000000010008108                div_s32s32
+                0x0000000010008108                __wrap___aeabi_idiv
+                0x0000000010008110                divmod_s32s32_unsafe
+                0x000000001000813c                divmod_s32s32_savestate
  .text.__wrap___aeabi_uidiv
-                0x000000001000815c       0x4c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
-                0x000000001000815c                __wrap___aeabi_uidiv
-                0x000000001000815c                __wrap___aeabi_uidivmod
-                0x000000001000815c                div_u32u32
-                0x000000001000815c                divmod_u32u32
-                0x0000000010008164                divmod_u32u32_unsafe
-                0x000000001000818c                divmod_u32u32_savestate
+                0x0000000010008158       0x4c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
+                0x0000000010008158                __wrap___aeabi_uidiv
+                0x0000000010008158                __wrap___aeabi_uidivmod
+                0x0000000010008158                div_u32u32
+                0x0000000010008158                divmod_u32u32
+                0x0000000010008160                divmod_u32u32_unsafe
+                0x0000000010008188                divmod_u32u32_savestate
  .text.__wrap___aeabi_ldiv
-                0x00000000100081a8      0x424 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
-                0x00000000100081a8                div_s64s64
-                0x00000000100081a8                divmod_s64s64
-                0x00000000100081a8                __wrap___aeabi_ldivmod
-                0x00000000100081d8                div_u64u64
-                0x00000000100081d8                divmod_u64u64
-                0x00000000100081d8                __wrap___aeabi_uldivmod
-                0x00000000100081e8                divmod_u64u64_savestate
-                0x0000000010008208                divmod_s64s64_unsafe
-                0x0000000010008290                divmod_u64u64_unsafe
+                0x00000000100081a4      0x424 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
+                0x00000000100081a4                div_s64s64
+                0x00000000100081a4                divmod_s64s64
+                0x00000000100081a4                __wrap___aeabi_ldivmod
+                0x00000000100081d4                div_u64u64
+                0x00000000100081d4                divmod_u64u64
+                0x00000000100081d4                __wrap___aeabi_uldivmod
+                0x00000000100081e4                divmod_u64u64_savestate
+                0x0000000010008204                divmod_s64s64_unsafe
+                0x000000001000828c                divmod_u64u64_unsafe
  .text.__wrap___aeabi_darithmetic
-                0x00000000100085cc       0x80 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-                0x00000000100085cc                __wrap___aeabi_drsub
-                0x00000000100085d2                __wrap___aeabi_dsub
-                0x00000000100085e4                __wrap___aeabi_dadd
-                0x00000000100085f6                __wrap___aeabi_ddiv
-                0x0000000010008632                __wrap___aeabi_dmul
+                0x00000000100085c8       0x80 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+                0x00000000100085c8                __wrap___aeabi_drsub
+                0x00000000100085ce                __wrap___aeabi_dsub
+                0x00000000100085e0                __wrap___aeabi_dadd
+                0x00000000100085f2                __wrap___aeabi_ddiv
+                0x000000001000862e                __wrap___aeabi_dmul
  .text.__wrap___aeabi_cdcmple
-                0x000000001000864c       0x6c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-                0x000000001000864c                __wrap___aeabi_cdrcmple
-                0x000000001000865c                __wrap___aeabi_cdcmple
-                0x000000001000865c                __wrap___aeabi_cdcmpeq
+                0x0000000010008648       0x6c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+                0x0000000010008648                __wrap___aeabi_cdrcmple
+                0x0000000010008658                __wrap___aeabi_cdcmple
+                0x0000000010008658                __wrap___aeabi_cdcmpeq
  .text.__wrap___aeabi_dcmpeq
-                0x00000000100086b8       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-                0x00000000100086b8                __wrap___aeabi_dcmpeq
+                0x00000000100086b4       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+                0x00000000100086b4                __wrap___aeabi_dcmpeq
  .text.__wrap___aeabi_dcmplt
-                0x00000000100086c8        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-                0x00000000100086c8                __wrap___aeabi_dcmplt
+                0x00000000100086c4        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+                0x00000000100086c4                __wrap___aeabi_dcmplt
  .text.__wrap___aeabi_dcmple
-                0x00000000100086d4       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-                0x00000000100086d4                __wrap___aeabi_dcmple
+                0x00000000100086d0       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+                0x00000000100086d0                __wrap___aeabi_dcmple
  .text.__wrap___aeabi_dcmpge
-                0x00000000100086e4       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-                0x00000000100086e4                __wrap___aeabi_dcmpge
+                0x00000000100086e0       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+                0x00000000100086e0                __wrap___aeabi_dcmpge
  .text.__wrap___aeabi_dcmpgt
-                0x00000000100086f4        0xa CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-                0x00000000100086f4                __wrap___aeabi_dcmpgt
+                0x00000000100086f0        0xa CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+                0x00000000100086f0                __wrap___aeabi_dcmpgt
  .text.__wrap___aeabi_dcmpun
-                0x00000000100086fe       0x1c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-                0x00000000100086fe                __wrap___aeabi_dcmpun
- *fill*         0x000000001000871a        0x2 
+                0x00000000100086fa       0x1c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+                0x00000000100086fa                __wrap___aeabi_dcmpun
+ *fill*         0x0000000010008716        0x2 
  .text.__wrap___aeabi_i2d
-                0x000000001000871c       0x38 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-                0x000000001000871c                __wrap___aeabi_ui2d
-                0x0000000010008724                __wrap___aeabi_i2d
+                0x0000000010008718       0x38 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+                0x0000000010008718                __wrap___aeabi_ui2d
+                0x0000000010008720                __wrap___aeabi_i2d
  .text.__wrap___aeabi_d2iz
-                0x0000000010008754       0x48 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-                0x0000000010008754                __wrap___aeabi_d2iz
-                0x0000000010008754                double2int_z
+                0x0000000010008750       0x48 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+                0x0000000010008750                __wrap___aeabi_d2iz
+                0x0000000010008750                double2int_z
  .text.__wrap___aeabi_d2uiz
-                0x000000001000879c       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-                0x000000001000879c                double2uint
-                0x000000001000879c                __wrap___aeabi_d2uiz
+                0x0000000010008798       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+                0x0000000010008798                double2uint
+                0x0000000010008798                __wrap___aeabi_d2uiz
  .text.fix642double
-                0x00000000100087b4       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-                0x00000000100087b4                fix642double
+                0x00000000100087b0       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+                0x00000000100087b0                fix642double
  .text.__wrap___aeabi_l2d
-                0x00000000100087cc       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-                0x00000000100087cc                __wrap___aeabi_l2d
+                0x00000000100087c8       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+                0x00000000100087c8                __wrap___aeabi_l2d
  .text.__wrap___aeabi_d2lz
-                0x00000000100087e4       0x26 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-                0x00000000100087e4                __wrap___aeabi_d2lz
-                0x00000000100087e4                double2int64_z
- *fill*         0x000000001000880a        0x2 
+                0x00000000100087e0       0x26 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+                0x00000000100087e0                __wrap___aeabi_d2lz
+                0x00000000100087e0                double2int64_z
+ *fill*         0x0000000010008806        0x2 
  .text.double2int64
-                0x000000001000880c       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-                0x000000001000880c                double2int64
+                0x0000000010008808       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+                0x0000000010008808                double2int64
  .text.double2ufix64
-                0x0000000010008824       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-                0x0000000010008824                double2ufix64
+                0x0000000010008820       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+                0x0000000010008820                double2ufix64
  .text.__wrap___aeabi_d2f
-                0x000000001000883c       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-                0x000000001000883c                __wrap___aeabi_d2f
+                0x0000000010008838       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+                0x0000000010008838                __wrap___aeabi_d2f
  .text.__aeabi_double_init
-                0x0000000010008854       0xbc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj
-                0x0000000010008854                __aeabi_double_init
+                0x0000000010008850       0xbc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj
+                0x0000000010008850                __aeabi_double_init
  .text.__wrap_round
-                0x0000000010008910       0xa0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c.obj
-                0x0000000010008910                __wrap_round
+                0x000000001000890c       0xa0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c.obj
+                0x000000001000890c                __wrap_round
  .text.__wrap_floor
-                0x00000000100089b0       0x90 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c.obj
-                0x00000000100089b0                __wrap_floor
+                0x00000000100089ac       0x90 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c.obj
+                0x00000000100089ac                __wrap_floor
  .text.__wrap_fmod
-                0x0000000010008a40      0x17c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c.obj
-                0x0000000010008a40                __wrap_fmod
+                0x0000000010008a3c      0x17c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c.obj
+                0x0000000010008a3c                __wrap_fmod
  .text.double_table_shim_on_use_helper
-                0x0000000010008bbc       0x2c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
-                0x0000000010008bbc                double_table_shim_on_use_helper
+                0x0000000010008bb8       0x2c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+                0x0000000010008bb8                double_table_shim_on_use_helper
  .text.__wrap___aeabi_dsub
-                0x0000000010008be8       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
-                0x0000000010008be8                drsub_shim
-                0x0000000010008bee                dsub_shim
+                0x0000000010008be4       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+                0x0000000010008be4                drsub_shim
+                0x0000000010008bea                dsub_shim
  .text.dadd_shim
-                0x0000000010008bf8      0x15c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
-                0x0000000010008bf8                dadd_shim
+                0x0000000010008bf4      0x15c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+                0x0000000010008bf4                dadd_shim
  .text.dmul_shim
-                0x0000000010008d54      0x15c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
-                0x0000000010008d54                dmul_shim
+                0x0000000010008d50      0x15c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+                0x0000000010008d50                dmul_shim
  .text.ddiv_shim
-                0x0000000010008eb0      0x1b0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
-                0x0000000010008eb0                ddiv_shim
+                0x0000000010008eac      0x1b0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+                0x0000000010008eac                ddiv_shim
  .text.double2uint_shim
-                0x0000000010009060        0xe CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
-                0x0000000010009060                double2uint_shim
-                0x0000000010009062                double2ufix_shim
+                0x000000001000905c        0xe CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+                0x000000001000905c                double2uint_shim
+                0x000000001000905e                double2ufix_shim
  .text.double2int64_shim
-                0x000000001000906e       0x1a CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
-                0x000000001000906e                double2int64_shim
-                0x0000000010009070                double2fix64_shim
+                0x000000001000906a       0x1a CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+                0x000000001000906a                double2int64_shim
+                0x000000001000906c                double2fix64_shim
  .text.double2uint64_shim
-                0x0000000010009088       0x70 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
-                0x0000000010009088                double2uint64_shim
-                0x000000001000908a                double2ufix64_shim
-                0x00000000100090aa                d2fix_a
+                0x0000000010009084       0x70 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+                0x0000000010009084                double2uint64_shim
+                0x0000000010009086                double2ufix64_shim
+                0x00000000100090a6                d2fix_a
  .text.double2float_shim
-                0x00000000100090f8       0x5c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
-                0x00000000100090f8                double2float_shim
+                0x00000000100090f4       0x5c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+                0x00000000100090f4                double2float_shim
  .text.x2double_shims
-                0x0000000010009154       0x90 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
-                0x0000000010009154                uint2double_shim
-                0x0000000010009156                ufix2double_shim
-                0x000000001000915c                int2double_shim
-                0x000000001000915e                fix2double_shim
-                0x0000000010009164                uint642double_shim
-                0x0000000010009166                ufix642double_shim
-                0x000000001000916c                int642double_shim
-                0x000000001000916e                fix642double_shim
+                0x0000000010009150       0x90 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+                0x0000000010009150                uint2double_shim
+                0x0000000010009152                ufix2double_shim
+                0x0000000010009158                int2double_shim
+                0x000000001000915a                fix2double_shim
+                0x0000000010009160                uint642double_shim
+                0x0000000010009162                ufix642double_shim
+                0x0000000010009168                int642double_shim
+                0x000000001000916a                fix642double_shim
  .text.dunpacks
-                0x00000000100091e4       0x3c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
-                0x00000000100091e4                dunpacks
+                0x00000000100091e0       0x3c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+                0x00000000100091e0                dunpacks
  .text.__aeabi_lmul
-                0x0000000010009220       0x32 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj
-                0x0000000010009220                __wrap___aeabi_lmul
- *fill*         0x0000000010009252        0x2 
+                0x000000001000921c       0x32 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj
+                0x000000001000921c                __wrap___aeabi_lmul
+ *fill*         0x000000001000924e        0x2 
  .text.__wrap___aeabi_farithmetic
-                0x0000000010009254       0x48 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
-                0x0000000010009254                __wrap___aeabi_frsub
-                0x000000001000925a                __wrap___aeabi_fsub
-                0x0000000010009260                __wrap___aeabi_fadd
-                0x0000000010009266                __wrap___aeabi_fdiv
-                0x000000001000928e                __wrap___aeabi_fmul
+                0x0000000010009250       0x48 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+                0x0000000010009250                __wrap___aeabi_frsub
+                0x0000000010009256                __wrap___aeabi_fsub
+                0x000000001000925c                __wrap___aeabi_fadd
+                0x0000000010009262                __wrap___aeabi_fdiv
+                0x000000001000928a                __wrap___aeabi_fmul
  .text.__wrap___aeabi_cfcmple
-                0x000000001000929c       0x50 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
-                0x000000001000929c                __wrap___aeabi_cfrcmple
-                0x00000000100092a8                __wrap___aeabi_cfcmpeq
-                0x00000000100092a8                __wrap___aeabi_cfcmple
+                0x0000000010009298       0x50 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+                0x0000000010009298                __wrap___aeabi_cfrcmple
+                0x00000000100092a4                __wrap___aeabi_cfcmpeq
+                0x00000000100092a4                __wrap___aeabi_cfcmple
  .text.__wrap___aeabi_fcmpeq
-                0x00000000100092ec       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
-                0x00000000100092ec                __wrap___aeabi_fcmpeq
+                0x00000000100092e8       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+                0x00000000100092e8                __wrap___aeabi_fcmpeq
  .text.__wrap___aeabi_fcmplt
-                0x00000000100092fc        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
-                0x00000000100092fc                __wrap___aeabi_fcmplt
+                0x00000000100092f8        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+                0x00000000100092f8                __wrap___aeabi_fcmplt
  .text.__wrap___aeabi_fcmple
-                0x0000000010009308       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
-                0x0000000010009308                __wrap___aeabi_fcmple
+                0x0000000010009304       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+                0x0000000010009304                __wrap___aeabi_fcmple
  .text.__wrap___aeabi_fcmpgt
-                0x0000000010009318        0xa CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
-                0x0000000010009318                __wrap___aeabi_fcmpgt
+                0x0000000010009314        0xa CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+                0x0000000010009314                __wrap___aeabi_fcmpgt
  .text.__wrap___aeabi_fcmpun
-                0x0000000010009322       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
-                0x0000000010009322                __wrap___aeabi_fcmpun
+                0x000000001000931e       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+                0x000000001000931e                __wrap___aeabi_fcmpun
  .text.__wrap___aeabi_ui2f
-                0x000000001000933a        0xa CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
-                0x000000001000933a                __wrap___aeabi_ui2f
+                0x0000000010009336        0xa CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+                0x0000000010009336                __wrap___aeabi_ui2f
  .text.__wrap___aeabi_i2f
-                0x0000000010009344       0x44 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
-                0x0000000010009344                __wrap___aeabi_i2f
+                0x0000000010009340       0x44 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+                0x0000000010009340                __wrap___aeabi_i2f
  .text.__wrap___aeabi_f2iz
-                0x0000000010009388       0x4e CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
-                0x0000000010009388                __wrap___aeabi_f2iz
-                0x0000000010009388                float2int_z
- *fill*         0x00000000100093d6        0x2 
+                0x0000000010009384       0x4e CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+                0x0000000010009384                __wrap___aeabi_f2iz
+                0x0000000010009384                float2int_z
+ *fill*         0x00000000100093d2        0x2 
  .text.float2int
-                0x00000000100093d8       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
-                0x00000000100093d8                float2int
+                0x00000000100093d4       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+                0x00000000100093d4                float2int
  .text.__wrap___aeabi_f2uiz
-                0x00000000100093ec        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
-                0x00000000100093ec                __wrap___aeabi_f2uiz
+                0x00000000100093e8        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+                0x00000000100093e8                __wrap___aeabi_f2uiz
  .text.__wrap___aeabi_f2d
-                0x00000000100093f8       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
-                0x00000000100093f8                __wrap___aeabi_f2d
+                0x00000000100093f4       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+                0x00000000100093f4                __wrap___aeabi_f2d
  .text.__aeabi_float_init
-                0x000000001000940c       0x68 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj
-                0x000000001000940c                __aeabi_float_init
+                0x0000000010009408       0x68 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj
+                0x0000000010009408                __aeabi_float_init
  .text.float_table_shim_on_use_helper
-                0x0000000010009474       0x2c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
-                0x0000000010009474                float_table_shim_on_use_helper
+                0x0000000010009470       0x2c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
+                0x0000000010009470                float_table_shim_on_use_helper
  .text.float232_shims
-                0x00000000100094a0       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
-                0x00000000100094a0                float2int_shim
-                0x00000000100094a2                float2fix_shim
+                0x000000001000949c       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
+                0x000000001000949c                float2int_shim
+                0x000000001000949e                float2fix_shim
  .text.float2double_shim
-                0x00000000100094b8       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
-                0x00000000100094b8                float2double_shim
+                0x00000000100094b4       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
+                0x00000000100094b4                float2double_shim
  .text.__wrap_calloc
-                0x00000000100094e8       0x40 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj
-                0x00000000100094e8                __wrap_calloc
- .text          0x0000000010009528       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
-                0x0000000010009528                __aeabi_mem_init
- .text.memset   0x0000000010009538        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
-                0x0000000010009538                __wrap_memset
- .text.memcpy   0x0000000010009544        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
-                0x0000000010009544                __wrap___aeabi_memcpy
-                0x0000000010009544                __wrap_memcpy
+                0x00000000100094e4       0x40 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj
+                0x00000000100094e4                __wrap_calloc
+ .text          0x0000000010009524       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
+                0x0000000010009524                __aeabi_mem_init
+ .text.memset   0x0000000010009534        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
+                0x0000000010009534                __wrap_memset
+ .text.memcpy   0x0000000010009540        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
+                0x0000000010009540                __wrap___aeabi_memcpy
+                0x0000000010009540                __wrap_memcpy
  .text.stdio_out_chars_no_crlf
-                0x0000000010009550       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+                0x000000001000954c       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
  .text.stdio_out_chars_crlf
-                0x0000000010009560       0xac CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+                0x000000001000955c       0xac CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
  .text.stdio_stack_buffer_flush.part.1
-                0x000000001000960c       0xe8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+                0x0000000010009608       0xe8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
  .text.stdio_buffered_printer
-                0x00000000100096f4       0x20 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+                0x00000000100096f0       0x20 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
  .text.stdio_put_string
-                0x0000000010009714      0x104 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+                0x0000000010009710      0x104 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
  .text.__wrap_putchar
-                0x0000000010009818       0x98 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
-                0x0000000010009818                __wrap_putchar
+                0x0000000010009814       0x98 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+                0x0000000010009814                __wrap_putchar
  .text.__wrap_puts
-                0x00000000100098b0       0x3c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
-                0x00000000100098b0                __wrap_puts
- .text._read    0x00000000100098ec       0x94 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
-                0x00000000100098ec                _read
- .text._write   0x0000000010009980       0x24 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
-                0x0000000010009980                _write
- .text._close   0x00000000100099a4        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
-                0x00000000100099a4                _close
- .text._lseek   0x00000000100099ac        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
-                0x00000000100099ac                _lseek
+                0x00000000100098ac       0x3c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+                0x00000000100098ac                __wrap_puts
+ .text._read    0x00000000100098e8       0x94 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+                0x00000000100098e8                _read
+ .text._write   0x000000001000997c       0x24 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+                0x000000001000997c                _write
+ .text._close   0x00000000100099a0        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+                0x00000000100099a0                _close
+ .text._lseek   0x00000000100099a8        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+                0x00000000100099a8                _lseek
  .text.stdio_set_driver_enabled
-                0x00000000100099b4       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
-                0x00000000100099b4                stdio_set_driver_enabled
+                0x00000000100099b0       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+                0x00000000100099b0                stdio_set_driver_enabled
  .text.__wrap_vprintf
-                0x00000000100099e4       0x90 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
-                0x00000000100099e4                __wrap_vprintf
+                0x00000000100099e0       0x90 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+                0x00000000100099e0                __wrap_vprintf
  .text.__wrap_printf
-                0x0000000010009a74       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
-                0x0000000010009a74                __wrap_printf
+                0x0000000010009a70       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+                0x0000000010009a70                __wrap_printf
  .text.stdio_init_all
-                0x0000000010009a8c        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
-                0x0000000010009a8c                stdio_init_all
+                0x0000000010009a88        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+                0x0000000010009a88                stdio_init_all
  .text.__wrap_getchar
-                0x0000000010009a94       0x7c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
-                0x0000000010009a94                __wrap_getchar
+                0x0000000010009a90       0x7c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+                0x0000000010009a90                __wrap_getchar
  .text.getchar_timeout_us
-                0x0000000010009b10       0x9c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
-                0x0000000010009b10                getchar_timeout_us
+                0x0000000010009b0c       0x9c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+                0x0000000010009b0c                getchar_timeout_us
  .text.resetd_init
-                0x0000000010009bac        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
+                0x0000000010009ba8        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
  .text.resetd_reset
-                0x0000000010009bb0        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
+                0x0000000010009bac        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
  .text.resetd_open
-                0x0000000010009bbc       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
+                0x0000000010009bb8       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
  .text.resetd_xfer_cb
-                0x0000000010009be4        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
+                0x0000000010009be0        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
  .text.resetd_control_xfer_cb
-                0x0000000010009be8       0x64 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
+                0x0000000010009be4       0x64 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
  .text.usbd_app_driver_get_cb
-                0x0000000010009c4c        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
-                0x0000000010009c4c                usbd_app_driver_get_cb
+                0x0000000010009c48        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
+                0x0000000010009c48                usbd_app_driver_get_cb
  .text.tud_cdc_line_coding_cb
-                0x0000000010009c58       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
-                0x0000000010009c58                tud_cdc_line_coding_cb
+                0x0000000010009c54       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
+                0x0000000010009c54                tud_cdc_line_coding_cb
  .text.stdio_usb_set_chars_available_callback
-                0x0000000010009c8c       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
-                0x0000000010009c8c                stdio_usb_set_chars_available_callback
+                0x0000000010009c88       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+                0x0000000010009c88                stdio_usb_set_chars_available_callback
  .text.timer_task
-                0x0000000010009ca0       0x54 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
- .text.usb_irq  0x0000000010009cf4       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+                0x0000000010009c9c       0x54 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+ .text.usb_irq  0x0000000010009cf0       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
  .text.stdio_usb_in_chars
-                0x0000000010009d04       0x90 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
-                0x0000000010009d04                stdio_usb_in_chars
+                0x0000000010009d00       0x90 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+                0x0000000010009d00                stdio_usb_in_chars
  .text.stdio_usb_out_chars
-                0x0000000010009d94      0x110 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+                0x0000000010009d90      0x110 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
  .text.low_priority_worker_irq
-                0x0000000010009ea4       0xa8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+                0x0000000010009ea0       0xa8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
  .text.tud_cdc_rx_cb
-                0x0000000010009f4c       0x20 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
-                0x0000000010009f4c                tud_cdc_rx_cb
+                0x0000000010009f48       0x20 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+                0x0000000010009f48                tud_cdc_rx_cb
  .text.stdio_usb_init
-                0x0000000010009f6c       0xdc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
-                0x0000000010009f6c                stdio_usb_init
+                0x0000000010009f68       0xdc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+                0x0000000010009f68                stdio_usb_init
  .text.tud_descriptor_device_cb
-                0x000000001000a048        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
-                0x000000001000a048                tud_descriptor_device_cb
+                0x000000001000a044        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
+                0x000000001000a044                tud_descriptor_device_cb
  .text.tud_descriptor_configuration_cb
-                0x000000001000a050        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
-                0x000000001000a050                tud_descriptor_configuration_cb
+                0x000000001000a04c        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
+                0x000000001000a04c                tud_descriptor_configuration_cb
  .text.tud_descriptor_string_cb
-                0x000000001000a058       0x70 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
-                0x000000001000a058                tud_descriptor_string_cb
+                0x000000001000a054       0x70 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
+                0x000000001000a054                tud_descriptor_string_cb
  .text.startup._retrieve_unique_id_on_boot
-                0x000000001000a0c8       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj
+                0x000000001000a0c4       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj
  .text.pico_get_unique_board_id_string
-                0x000000001000a0d8      0x1cc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj
-                0x000000001000a0d8                pico_get_unique_board_id_string
+                0x000000001000a0d4      0x1cc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj
+                0x000000001000a0d4                pico_get_unique_board_id_string
  .text.flash_get_unique_id
-                0x000000001000a2a4       0x3c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_flash/flash.c.obj
-                0x000000001000a2a4                flash_get_unique_id
+                0x000000001000a2a0       0x3c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_flash/flash.c.obj
+                0x000000001000a2a0                flash_get_unique_id
  .text.dcd_int_enable
-                0x000000001000a2e0        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
-                0x000000001000a2e0                dcd_int_enable
+                0x000000001000a2dc        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
+                0x000000001000a2dc                dcd_int_enable
  .text.dcd_set_address
-                0x000000001000a2ec       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
-                0x000000001000a2ec                dcd_set_address
+                0x000000001000a2e8       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
+                0x000000001000a2e8                dcd_set_address
  .text.dcd_connect
-                0x000000001000a300       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
-                0x000000001000a300                dcd_connect
+                0x000000001000a2fc       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
+                0x000000001000a2fc                dcd_connect
  .text.dcd_init
-                0x000000001000a310       0x90 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
-                0x000000001000a310                dcd_init
+                0x000000001000a30c       0x90 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
+                0x000000001000a30c                dcd_init
  .text.dcd_edpt0_status_complete
-                0x000000001000a3a0       0x1c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
-                0x000000001000a3a0                dcd_edpt0_status_complete
+                0x000000001000a39c       0x1c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
+                0x000000001000a39c                dcd_edpt0_status_complete
  .text.dcd_edpt_open
-                0x000000001000a3bc      0x10c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
-                0x000000001000a3bc                dcd_edpt_open
+                0x000000001000a3b8      0x10c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
+                0x000000001000a3b8                dcd_edpt_open
  .text.dcd_edpt_close_all
-                0x000000001000a4c8        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
-                0x000000001000a4c8                dcd_edpt_close_all
+                0x000000001000a4c4        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
+                0x000000001000a4c4                dcd_edpt_close_all
  .text.dcd_edpt_xfer
-                0x000000001000a4d0       0x24 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
-                0x000000001000a4d0                dcd_edpt_xfer
+                0x000000001000a4cc       0x24 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
+                0x000000001000a4cc                dcd_edpt_xfer
  .text.dcd_edpt_stall
-                0x000000001000a4f4       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
-                0x000000001000a4f4                dcd_edpt_stall
+                0x000000001000a4f0       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
+                0x000000001000a4f0                dcd_edpt_stall
  .text.dcd_edpt_clear_stall
-                0x000000001000a528       0x2c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
-                0x000000001000a528                dcd_edpt_clear_stall
+                0x000000001000a524       0x2c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
+                0x000000001000a524                dcd_edpt_clear_stall
  .text.rp2040_usb_init
-                0x000000001000a554       0x4c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/rp2040_usb.c.obj
-                0x000000001000a554                rp2040_usb_init
+                0x000000001000a550       0x4c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/rp2040_usb.c.obj
+                0x000000001000a550                rp2040_usb_init
  .text.hw_endpoint_xfer_start
-                0x000000001000a5a0       0x54 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/rp2040_usb.c.obj
-                0x000000001000a5a0                hw_endpoint_xfer_start
+                0x000000001000a59c       0x54 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/rp2040_usb.c.obj
+                0x000000001000a59c                hw_endpoint_xfer_start
  .text.tud_mounted
-                0x000000001000a5f4       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
-                0x000000001000a5f4                tud_mounted
+                0x000000001000a5f0       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
+                0x000000001000a5f0                tud_mounted
  .text.tud_suspended
-                0x000000001000a604       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
-                0x000000001000a604                tud_suspended
+                0x000000001000a600       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
+                0x000000001000a600                tud_suspended
  .text.tud_inited
-                0x000000001000a614       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
-                0x000000001000a614                tud_inited
+                0x000000001000a610       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
+                0x000000001000a610                tud_inited
  .text.tud_init
-                0x000000001000a628       0xe4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
-                0x000000001000a628                tud_init
+                0x000000001000a624       0xe4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
+                0x000000001000a624                tud_init
  .text.tud_task_ext
-                0x000000001000a70c      0x88c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
-                0x000000001000a70c                tud_task_ext
+                0x000000001000a708      0x88c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
+                0x000000001000a708                tud_task_ext
  .text.usbd_open_edpt_pair
-                0x000000001000af98       0xbc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
-                0x000000001000af98                usbd_open_edpt_pair
+                0x000000001000af94       0xbc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
+                0x000000001000af94                usbd_open_edpt_pair
  .text.usbd_defer_func
-                0x000000001000b054       0x4c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
-                0x000000001000b054                usbd_defer_func
+                0x000000001000b050       0x4c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
+                0x000000001000b050                usbd_defer_func
  .text.usbd_edpt_open
-                0x000000001000b0a0       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
-                0x000000001000b0a0                usbd_edpt_open
+                0x000000001000b09c       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
+                0x000000001000b09c                usbd_edpt_open
  .text.usbd_edpt_claim
-                0x000000001000b0d4       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
-                0x000000001000b0d4                usbd_edpt_claim
+                0x000000001000b0d0       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
+                0x000000001000b0d0                usbd_edpt_claim
  .text.usbd_edpt_release
-                0x000000001000b0fc       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
-                0x000000001000b0fc                usbd_edpt_release
+                0x000000001000b0f8       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
+                0x000000001000b0f8                usbd_edpt_release
  .text.usbd_edpt_xfer
-                0x000000001000b124       0x4c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
-                0x000000001000b124                usbd_edpt_xfer
+                0x000000001000b120       0x4c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
+                0x000000001000b120                usbd_edpt_xfer
  .text.tud_control_status
-                0x000000001000b170       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj
-                0x000000001000b170                tud_control_status
+                0x000000001000b16c       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj
+                0x000000001000b16c                tud_control_status
  .text.tud_control_xfer
-                0x000000001000b1a0       0xb4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj
-                0x000000001000b1a0                tud_control_xfer
+                0x000000001000b19c       0xb4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj
+                0x000000001000b19c                tud_control_xfer
  .text.usbd_control_reset
-                0x000000001000b254       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj
-                0x000000001000b254                usbd_control_reset
+                0x000000001000b250       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj
+                0x000000001000b250                usbd_control_reset
  .text.usbd_control_set_complete_callback
-                0x000000001000b268        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj
-                0x000000001000b268                usbd_control_set_complete_callback
+                0x000000001000b264        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj
+                0x000000001000b264                usbd_control_set_complete_callback
  .text.usbd_control_set_request
-                0x000000001000b274       0x1c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj
-                0x000000001000b274                usbd_control_set_request
+                0x000000001000b270       0x1c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj
+                0x000000001000b270                usbd_control_set_request
  .text.usbd_control_xfer_cb
-                0x000000001000b290       0xfc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj
-                0x000000001000b290                usbd_control_xfer_cb
+                0x000000001000b28c       0xfc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj
+                0x000000001000b28c                usbd_control_xfer_cb
  .text.tud_cdc_n_connected
-                0x000000001000b38c       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
-                0x000000001000b38c                tud_cdc_n_connected
+                0x000000001000b388       0x30 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
+                0x000000001000b388                tud_cdc_n_connected
  .text.tud_cdc_n_available
-                0x000000001000b3bc       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
-                0x000000001000b3bc                tud_cdc_n_available
+                0x000000001000b3b8       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
+                0x000000001000b3b8                tud_cdc_n_available
  .text.tud_cdc_n_read
-                0x000000001000b3d4       0x70 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
-                0x000000001000b3d4                tud_cdc_n_read
+                0x000000001000b3d0       0x70 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
+                0x000000001000b3d0                tud_cdc_n_read
  .text.tud_cdc_n_write_flush
-                0x000000001000b444       0x78 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
-                0x000000001000b444                tud_cdc_n_write_flush
+                0x000000001000b440       0x78 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
+                0x000000001000b440                tud_cdc_n_write_flush
  .text.tud_cdc_n_write
-                0x000000001000b4bc       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
-                0x000000001000b4bc                tud_cdc_n_write
+                0x000000001000b4b8       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
+                0x000000001000b4b8                tud_cdc_n_write
  .text.tud_cdc_n_write_available
-                0x000000001000b4f0       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
-                0x000000001000b4f0                tud_cdc_n_write_available
+                0x000000001000b4ec       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
+                0x000000001000b4ec                tud_cdc_n_write_available
  .text.cdcd_init
-                0x000000001000b508       0x7c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
-                0x000000001000b508                cdcd_init
+                0x000000001000b504       0x7c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
+                0x000000001000b504                cdcd_init
  .text.cdcd_reset
-                0x000000001000b584       0x2c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
-                0x000000001000b584                cdcd_reset
+                0x000000001000b580       0x2c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
+                0x000000001000b580                cdcd_reset
  .text.cdcd_open
-                0x000000001000b5b0       0xe8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
-                0x000000001000b5b0                cdcd_open
+                0x000000001000b5ac       0xe8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
+                0x000000001000b5ac                cdcd_open
  .text.cdcd_control_xfer_cb
-                0x000000001000b698       0xdc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
-                0x000000001000b698                cdcd_control_xfer_cb
+                0x000000001000b694       0xdc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
+                0x000000001000b694                cdcd_control_xfer_cb
  .text.cdcd_xfer_cb
-                0x000000001000b774      0x19c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
-                0x000000001000b774                cdcd_xfer_cb
+                0x000000001000b770      0x19c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
+                0x000000001000b770                cdcd_xfer_cb
  .text.tusb_init
-                0x000000001000b910        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/tusb.c.obj
-                0x000000001000b910                tusb_init
+                0x000000001000b90c        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/tusb.c.obj
+                0x000000001000b90c                tusb_init
  .text.tusb_inited
-                0x000000001000b91c        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/tusb.c.obj
-                0x000000001000b91c                tusb_inited
+                0x000000001000b918        0x8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/tusb.c.obj
+                0x000000001000b918                tusb_inited
  .text.tu_edpt_claim
-                0x000000001000b924       0x4c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/tusb.c.obj
-                0x000000001000b924                tu_edpt_claim
+                0x000000001000b920       0x4c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/tusb.c.obj
+                0x000000001000b920                tu_edpt_claim
  .text.tu_edpt_release
-                0x000000001000b970       0x38 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/tusb.c.obj
-                0x000000001000b970                tu_edpt_release
+                0x000000001000b96c       0x38 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/tusb.c.obj
+                0x000000001000b96c                tu_edpt_release
  .text.tu_edpt_validate
-                0x000000001000b9a8       0x74 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/tusb.c.obj
-                0x000000001000b9a8                tu_edpt_validate
+                0x000000001000b9a4       0x74 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/tusb.c.obj
+                0x000000001000b9a4                tu_edpt_validate
  .text.tu_edpt_bind_driver
-                0x000000001000ba1c       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/tusb.c.obj
-                0x000000001000ba1c                tu_edpt_bind_driver
+                0x000000001000ba18       0x34 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/tusb.c.obj
+                0x000000001000ba18                tu_edpt_bind_driver
  .text.tu_fifo_config
-                0x000000001000ba50       0x7c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
-                0x000000001000ba50                tu_fifo_config
+                0x000000001000ba4c       0x7c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
+                0x000000001000ba4c                tu_fifo_config
  .text.tu_fifo_count
-                0x000000001000bacc       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
-                0x000000001000bacc                tu_fifo_count
+                0x000000001000bac8       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
+                0x000000001000bac8                tu_fifo_count
  .text.tu_fifo_empty
-                0x000000001000baf4       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
-                0x000000001000baf4                tu_fifo_empty
+                0x000000001000baf0       0x10 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
+                0x000000001000baf0                tu_fifo_empty
  .text.tu_fifo_remaining
-                0x000000001000bb04       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
-                0x000000001000bb04                tu_fifo_remaining
+                0x000000001000bb00       0x28 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
+                0x000000001000bb00                tu_fifo_remaining
  .text.tu_fifo_read
-                0x000000001000bb2c       0xa4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
-                0x000000001000bb2c                tu_fifo_read
+                0x000000001000bb28       0xa4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
+                0x000000001000bb28                tu_fifo_read
  .text.tu_fifo_read_n
-                0x000000001000bbd0       0xf0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
-                0x000000001000bbd0                tu_fifo_read_n
+                0x000000001000bbcc       0xf0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
+                0x000000001000bbcc                tu_fifo_read_n
  .text.tu_fifo_write
-                0x000000001000bcc0       0x8c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
-                0x000000001000bcc0                tu_fifo_write
+                0x000000001000bcbc       0x8c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
+                0x000000001000bcbc                tu_fifo_write
  .text.tu_fifo_write_n
-                0x000000001000bd4c      0x160 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
-                0x000000001000bd4c                tu_fifo_write_n
+                0x000000001000bd48      0x160 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
+                0x000000001000bd48                tu_fifo_write_n
  .text.tu_fifo_clear
-                0x000000001000beac       0x40 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
-                0x000000001000beac                tu_fifo_clear
+                0x000000001000bea8       0x40 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
+                0x000000001000bea8                tu_fifo_clear
  .text.tu_fifo_set_overwritable
-                0x000000001000beec       0x48 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
-                0x000000001000beec                tu_fifo_set_overwritable
+                0x000000001000bee8       0x48 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
+                0x000000001000bee8                tu_fifo_set_overwritable
  .text.core1_trampoline
-                0x000000001000bf34        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_multicore/multicore.c.obj
+                0x000000001000bf30        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_multicore/multicore.c.obj
  .text.core1_wrapper
-                0x000000001000bf38        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_multicore/multicore.c.obj
-                0x000000001000bf38                core1_wrapper
+                0x000000001000bf34        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_multicore/multicore.c.obj
+                0x000000001000bf34                core1_wrapper
  .text.multicore_launch_core1
-                0x000000001000bf44       0xc0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_multicore/multicore.c.obj
-                0x000000001000bf44                multicore_launch_core1
+                0x000000001000bf40       0xc0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_multicore/multicore.c.obj
+                0x000000001000bf40                multicore_launch_core1
  .text.pio_claim_unused_sm
-                0x000000001000c004       0x3c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
-                0x000000001000c004                pio_claim_unused_sm
+                0x000000001000c000       0x3c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
+                0x000000001000c000                pio_claim_unused_sm
  .text.pio_add_program
-                0x000000001000c040       0xc8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
-                0x000000001000c040                pio_add_program
+                0x000000001000c03c       0xc8 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
+                0x000000001000c03c                pio_add_program
  .text.pio_sm_set_consecutive_pindirs
-                0x000000001000c108       0xb0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
-                0x000000001000c108                pio_sm_set_consecutive_pindirs
+                0x000000001000c104       0xb0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
+                0x000000001000c104                pio_sm_set_consecutive_pindirs
  .text.pio_sm_init
-                0x000000001000c1b8       0x8c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
-                0x000000001000c1b8                pio_sm_init
+                0x000000001000c1b4       0x8c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
+                0x000000001000c1b4                pio_sm_init
  .text.adc_init
-                0x000000001000c244       0x38 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.obj
-                0x000000001000c244                adc_init
- .text          0x000000001000c27c        0xc /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-atof.o)
-                0x000000001000c27c                atof
- .text          0x000000001000c288       0x18 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-atoi.o)
-                0x000000001000c288                atoi
-                0x000000001000c294                _atoi_r
- .text          0x000000001000c2a0       0x18 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-calloc.o)
-                0x000000001000c2a0                calloc
- .text          0x000000001000c2b8       0x5c /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-callocr.o)
-                0x000000001000c2b8                _calloc_r
- .text          0x000000001000c314      0x1b4 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-fflush.o)
-                0x000000001000c314                __sflush_r
-                0x000000001000c474                _fflush_r
-                0x000000001000c4a0                fflush
- .text          0x000000001000c4c8      0x220 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-findfp.o)
-                0x000000001000c4cc                _cleanup_r
-                0x000000001000c5c8                __sfmoreglue
-                0x000000001000c5f8                __sfp
-                0x000000001000c680                _cleanup
-                0x000000001000c698                __sinit
-                0x000000001000c6a8                __sfp_lock_acquire
-                0x000000001000c6ac                __sfp_lock_release
-                0x000000001000c6b0                __sinit_lock_acquire
-                0x000000001000c6b4                __sinit_lock_release
-                0x000000001000c6b8                __fp_lock_all
-                0x000000001000c6d0                __fp_unlock_all
- .text          0x000000001000c6e8      0x27c /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-freer.o)
-                0x000000001000c6e8                _malloc_trim_r
-                0x000000001000c788                _free_r
- .text          0x000000001000c964       0x90 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-fwalk.o)
-                0x000000001000c964                _fwalk
-                0x000000001000c9a8                _fwalk_reent
- .text          0x000000001000c9f4      0x58c /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-mallocr.o)
-                0x000000001000c9f4                _malloc_r
- .text          0x000000001000cf80        0x8 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-mlock.o)
-                0x000000001000cf80                __malloc_lock
-                0x000000001000cf84                __malloc_unlock
- .text          0x000000001000cf88       0x48 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-rand.o)
-                0x000000001000cf88                srand
-                0x000000001000cf9c                rand
- .text          0x000000001000cfd0       0x24 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-sbrkr.o)
-                0x000000001000cfd0                _sbrk_r
- .text          0x000000001000cff4       0xa4 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-stdio.o)
-                0x000000001000cff4                __sread
-                0x000000001000d01c                __seofread
-                0x000000001000d020                __swrite
-                0x000000001000d060                __sseek
-                0x000000001000d08c                __sclose
- .text          0x000000001000d098       0x48 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-stpcpy.o)
-                0x000000001000d098                stpcpy
- .text          0x000000001000d0e0       0xd4 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strchr.o)
-                0x000000001000d0e0                strchr
- .text          0x000000001000d1b4       0x10 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strcpy.o)
-                0x000000001000d1b4                strcpy
- .text          0x000000001000d1c4       0x68 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strlen-stub.o)
-                0x000000001000d1c4                strlen
- .text          0x000000001000d22c       0x68 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strncat.o)
-                0x000000001000d22c                strncat
- .text          0x000000001000d294       0x80 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strncpy.o)
-                0x000000001000d294                strncpy
- .text          0x000000001000d314       0x40 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strnstr.o)
-                0x000000001000d314                strnstr
- .text          0x000000001000d354     0x10b8 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strtod.o)
-                0x000000001000d384                _strtod_l
-                0x000000001000e264                _strtod_r
-                0x000000001000e274                strtod_l
-                0x000000001000e28c                strtod
-                0x000000001000e2a8                strtof_l
-                0x000000001000e358                strtof
- .text          0x000000001000e40c      0x184 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strtol.o)
-                0x000000001000e558                _strtol_r
-                0x000000001000e560                strtol_l
-                0x000000001000e578                strtol
- .text          0x000000001000e590       0x28 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-writer.o)
-                0x000000001000e590                _write_r
- .text          0x000000001000e5b8       0x24 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-closer.o)
-                0x000000001000e5b8                _close_r
- .text          0x000000001000e5dc        0xc /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-errno.o)
-                0x000000001000e5dc                __errno
- .text          0x000000001000e5e8       0xac /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-fclose.o)
-                0x000000001000e5e8                _fclose_r
-                0x000000001000e680                fclose
- .text          0x000000001000e694      0x634 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-gdtoa-gethex.o)
-                0x000000001000e738                __gethex
- .text          0x000000001000ecc8      0x1d8 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-gdtoa-hexnan.o)
-                0x000000001000ecc8                __match
-                0x000000001000ecf4                __hexnan
- .text          0x000000001000eea0       0x28 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-lseekr.o)
-                0x000000001000eea0                _lseek_r
- .text          0x000000001000eec8       0x44 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-mbtowc_r.o)
-                0x000000001000eec8                _mbtowc_r
-                0x000000001000eee0                __ascii_mbtowc
- .text          0x000000001000ef0c      0xa38 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-mprec.o)
-                0x000000001000ef0c                _Balloc
-                0x000000001000ef5c                _Bfree
-                0x000000001000ef70                __multadd
-                0x000000001000f020                __s2b
-                0x000000001000f0cc                __hi0bits
-                0x000000001000f104                __lo0bits
-                0x000000001000f160                __i2b
-                0x000000001000f18c                __multiply
-                0x000000001000f318                __pow5mult
-                0x000000001000f3cc                __lshift
-                0x000000001000f4b0                __mcmp
-                0x000000001000f4e4                __mdiff
-                0x000000001000f62c                __ulp
-                0x000000001000f674                __b2d
-                0x000000001000f72c                __d2b
-                0x000000001000f804                __ratio
-                0x000000001000f878                _mprec_log10
-                0x000000001000f8ac                __copybits
-                0x000000001000f8ec                __any_on
- .text          0x000000001000f944       0x28 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-readr.o)
-                0x000000001000f944                _read_r
- .text          0x000000001000f96c        0xc /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-s_nan.o)
-                0x000000001000f96c                nan
- .text          0x000000001000f978        0x8 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-sf_nan.o)
-                0x000000001000f978                nanf
- .text          0x000000001000f980       0x94 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strncmp.o)
-                0x000000001000f980                strncmp
- .text          0x000000001000fa14       0x2c /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strnlen.o)
-                0x000000001000fa14                strnlen
- .text          0x000000001000fa40       0x2c /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-wctomb_r.o)
-                0x000000001000fa40                _wctomb_r
-                0x000000001000fa50                __ascii_wctomb
+                0x000000001000c240       0x38 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.obj
+                0x000000001000c240                adc_init
+ .text          0x000000001000c278        0xc /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-atof.o)
+                0x000000001000c278                atof
+ .text          0x000000001000c284       0x18 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-atoi.o)
+                0x000000001000c284                atoi
+                0x000000001000c290                _atoi_r
+ .text          0x000000001000c29c       0x18 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-calloc.o)
+                0x000000001000c29c                calloc
+ .text          0x000000001000c2b4       0x5c /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-callocr.o)
+                0x000000001000c2b4                _calloc_r
+ .text          0x000000001000c310      0x1b4 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-fflush.o)
+                0x000000001000c310                __sflush_r
+                0x000000001000c470                _fflush_r
+                0x000000001000c49c                fflush
+ .text          0x000000001000c4c4      0x220 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-findfp.o)
+                0x000000001000c4c8                _cleanup_r
+                0x000000001000c5c4                __sfmoreglue
+                0x000000001000c5f4                __sfp
+                0x000000001000c67c                _cleanup
+                0x000000001000c694                __sinit
+                0x000000001000c6a4                __sfp_lock_acquire
+                0x000000001000c6a8                __sfp_lock_release
+                0x000000001000c6ac                __sinit_lock_acquire
+                0x000000001000c6b0                __sinit_lock_release
+                0x000000001000c6b4                __fp_lock_all
+                0x000000001000c6cc                __fp_unlock_all
+ .text          0x000000001000c6e4      0x27c /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-freer.o)
+                0x000000001000c6e4                _malloc_trim_r
+                0x000000001000c784                _free_r
+ .text          0x000000001000c960       0x90 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-fwalk.o)
+                0x000000001000c960                _fwalk
+                0x000000001000c9a4                _fwalk_reent
+ .text          0x000000001000c9f0      0x58c /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-mallocr.o)
+                0x000000001000c9f0                _malloc_r
+ .text          0x000000001000cf7c        0x8 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-mlock.o)
+                0x000000001000cf7c                __malloc_lock
+                0x000000001000cf80                __malloc_unlock
+ .text          0x000000001000cf84       0x48 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-rand.o)
+                0x000000001000cf84                srand
+                0x000000001000cf98                rand
+ .text          0x000000001000cfcc       0x24 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-sbrkr.o)
+                0x000000001000cfcc                _sbrk_r
+ .text          0x000000001000cff0       0xa4 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-stdio.o)
+                0x000000001000cff0                __sread
+                0x000000001000d018                __seofread
+                0x000000001000d01c                __swrite
+                0x000000001000d05c                __sseek
+                0x000000001000d088                __sclose
+ .text          0x000000001000d094       0x48 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-stpcpy.o)
+                0x000000001000d094                stpcpy
+ .text          0x000000001000d0dc       0xd4 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strchr.o)
+                0x000000001000d0dc                strchr
+ .text          0x000000001000d1b0       0x10 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strcpy.o)
+                0x000000001000d1b0                strcpy
+ .text          0x000000001000d1c0       0x68 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strlen-stub.o)
+                0x000000001000d1c0                strlen
+ .text          0x000000001000d228       0x68 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strncat.o)
+                0x000000001000d228                strncat
+ .text          0x000000001000d290       0x80 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strncpy.o)
+                0x000000001000d290                strncpy
+ .text          0x000000001000d310       0x40 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strnstr.o)
+                0x000000001000d310                strnstr
+ .text          0x000000001000d350     0x10b8 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strtod.o)
+                0x000000001000d380                _strtod_l
+                0x000000001000e260                _strtod_r
+                0x000000001000e270                strtod_l
+                0x000000001000e288                strtod
+                0x000000001000e2a4                strtof_l
+                0x000000001000e354                strtof
+ .text          0x000000001000e408      0x184 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strtol.o)
+                0x000000001000e554                _strtol_r
+                0x000000001000e55c                strtol_l
+                0x000000001000e574                strtol
+ .text          0x000000001000e58c       0x28 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-writer.o)
+                0x000000001000e58c                _write_r
+ .text          0x000000001000e5b4       0x24 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-closer.o)
+                0x000000001000e5b4                _close_r
+ .text          0x000000001000e5d8        0xc /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-errno.o)
+                0x000000001000e5d8                __errno
+ .text          0x000000001000e5e4       0xac /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-fclose.o)
+                0x000000001000e5e4                _fclose_r
+                0x000000001000e67c                fclose
+ .text          0x000000001000e690      0x634 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-gdtoa-gethex.o)
+                0x000000001000e734                __gethex
+ .text          0x000000001000ecc4      0x1d8 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-gdtoa-hexnan.o)
+                0x000000001000ecc4                __match
+                0x000000001000ecf0                __hexnan
+ .text          0x000000001000ee9c       0x28 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-lseekr.o)
+                0x000000001000ee9c                _lseek_r
+ .text          0x000000001000eec4       0x44 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-mbtowc_r.o)
+                0x000000001000eec4                _mbtowc_r
+                0x000000001000eedc                __ascii_mbtowc
+ .text          0x000000001000ef08      0xa38 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-mprec.o)
+                0x000000001000ef08                _Balloc
+                0x000000001000ef58                _Bfree
+                0x000000001000ef6c                __multadd
+                0x000000001000f01c                __s2b
+                0x000000001000f0c8                __hi0bits
+                0x000000001000f100                __lo0bits
+                0x000000001000f15c                __i2b
+                0x000000001000f188                __multiply
+                0x000000001000f314                __pow5mult
+                0x000000001000f3c8                __lshift
+                0x000000001000f4ac                __mcmp
+                0x000000001000f4e0                __mdiff
+                0x000000001000f628                __ulp
+                0x000000001000f670                __b2d
+                0x000000001000f728                __d2b
+                0x000000001000f800                __ratio
+                0x000000001000f874                _mprec_log10
+                0x000000001000f8a8                __copybits
+                0x000000001000f8e8                __any_on
+ .text          0x000000001000f940       0x28 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-readr.o)
+                0x000000001000f940                _read_r
+ .text          0x000000001000f968        0xc /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-s_nan.o)
+                0x000000001000f968                nan
+ .text          0x000000001000f974        0x8 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-sf_nan.o)
+                0x000000001000f974                nanf
+ .text          0x000000001000f97c       0x94 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strncmp.o)
+                0x000000001000f97c                strncmp
+ .text          0x000000001000fa10       0x2c /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strnlen.o)
+                0x000000001000fa10                strnlen
+ .text          0x000000001000fa3c       0x2c /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-wctomb_r.o)
+                0x000000001000fa3c                _wctomb_r
+                0x000000001000fa4c                __ascii_wctomb
  *(.fini)
- .fini          0x000000001000fa6c        0x4 /usr/lib/gcc/arm-none-eabi/8.3.1/thumb/v6-m/nofp/crti.o
-                0x000000001000fa6c                _fini
+ .fini          0x000000001000fa68        0x4 /usr/lib/gcc/arm-none-eabi/8.3.1/thumb/v6-m/nofp/crti.o
+                0x000000001000fa68                _fini
+ *fill*         0x000000001000fa6c        0x4 
  .fini.__stub   0x000000001000fa70      0x130 linker stubs
  *crtbegin.o(.ctors)
  *crtbegin?.o(.ctors)
@@ -2586,7 +2587,7 @@ LOAD /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp
 .iplt           0x000000001000fba0        0x0
  .iplt          0x000000001000fba0        0x0 /usr/lib/gcc/arm-none-eabi/8.3.1/thumb/v6-m/nofp/crtbegin.o
 
-.rodata         0x000000001000fba0     0x1aa4
+.rodata         0x000000001000fba0     0x1aac
  *(EXCLUDE_FILE(*libm.a: *libc.a:*lib_a-mem*.o *libgcc.a:) .rodata*)
  .rodata.dco_program
                 0x000000001000fba0        0x6 CMakeFiles/pico-WSPRer.dir/hf-oscillator/piodco/piodco.c.obj
@@ -2707,116 +2708,114 @@ LOAD /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp
  .rodata.__bi_81
                 0x0000000010010ed4        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
  .rodata.str1.4
-                0x0000000010010ee0       0x38 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
-                                         0x44 (size before relaxing)
+                0x0000000010010ee0       0x44 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
  .rodata.crlf_str.6137
-                0x0000000010010f18        0x2 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
- *fill*         0x0000000010010f1a        0x2 
+                0x0000000010010f24        0x2 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+ *fill*         0x0000000010010f26        0x2 
  .rodata._resetd_driver
-                0x0000000010010f1c       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
+                0x0000000010010f28       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
  .rodata.__bi_182.7708
-                0x0000000010010f34        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+                0x0000000010010f40        0xc CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
  .rodata.str1.4
-                0x0000000010010f40       0x13 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
- *fill*         0x0000000010010f53        0x1 
+                0x0000000010010f4c       0x13 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+ *fill*         0x0000000010010f5f        0x1 
  .rodata.str1.4
-                0x0000000010010f54       0x2a CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
- *fill*         0x0000000010010f7e        0x2 
+                0x0000000010010f60       0x2a CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
+ *fill*         0x0000000010010f8a        0x2 
  .rodata.usbd_desc_cfg
-                0x0000000010010f80       0x54 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
+                0x0000000010010f8c       0x54 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
  .rodata.usbd_desc_device
-                0x0000000010010fd4       0x12 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
- *fill*         0x0000000010010fe6        0x2 
+                0x0000000010010fe0       0x12 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
+ *fill*         0x0000000010010ff2        0x2 
  .rodata.usbd_desc_str
-                0x0000000010010fe8       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
+                0x0000000010010ff4       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
  .rodata.str1.4
-                0x0000000010011000       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
+                0x000000001001100c       0x14 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
  .rodata.str1.4
-                0x0000000010011014       0x53 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/rp2040_usb.c.obj
- *fill*         0x0000000010011067        0x1 
+                0x0000000010011020       0x53 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/rp2040_usb.c.obj
+ *fill*         0x0000000010011073        0x1 
  .rodata.tud_task_ext
-                0x0000000010011068       0x8c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
+                0x0000000010011074       0x8c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
  .rodata._usbd_driver
-                0x00000000100110f4       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
+                0x0000000010011100       0x18 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
  .rodata.pio_add_program.str1.4
-                0x000000001001110c       0x11 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
- *fill*         0x000000001001111d        0x3 
+                0x0000000010011118       0x11 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
+ *fill*         0x0000000010011129        0x3 
  .rodata.pio_claim_unused_sm.str1.4
-                0x0000000010011120       0x24 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
- .rodata        0x0000000010011144      0x101 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-ctype_.o)
-                0x0000000010011144                _ctype_
- *fill*         0x0000000010011245        0x3 
- .rodata        0x0000000010011248        0x4 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-impure.o)
-                0x0000000010011248                _global_impure_ptr
- *fill*         0x000000001001124c        0x4 
- .rodata        0x0000000010011250      0x120 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strtod.o)
+                0x000000001001112c       0x24 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
+ .rodata        0x0000000010011150      0x101 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-ctype_.o)
+                0x0000000010011150                _ctype_
+ *fill*         0x0000000010011251        0x3 
+ .rodata        0x0000000010011254        0x4 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-impure.o)
+                0x0000000010011254                _global_impure_ptr
+ .rodata        0x0000000010011258      0x120 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strtod.o)
  .rodata.str1.4
-                0x0000000010011370        0xf /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strtod.o)
+                0x0000000010011378        0xf /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-strtod.o)
                                          0x11 (size before relaxing)
- *fill*         0x000000001001137f        0x1 
- .rodata        0x0000000010011380      0x100 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-gdtoa-gethex.o)
-                0x0000000010011380                __hexdig
+ *fill*         0x0000000010011387        0x1 
+ .rodata        0x0000000010011388      0x100 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-gdtoa-gethex.o)
+                0x0000000010011388                __hexdig
  .rodata.str1.4
-                0x0000000010011480       0x4e /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-gdtoa-gethex.o)
- *fill*         0x00000000100114ce        0x2 
- .rodata        0x00000000100114d0        0xc /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-lnumeric.o)
-                0x00000000100114d0                _C_numeric_locale
+                0x0000000010011488       0x4e /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-gdtoa-gethex.o)
+ *fill*         0x00000000100114d6        0x2 
+ .rodata        0x00000000100114d8        0xc /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-lnumeric.o)
+                0x00000000100114d8                _C_numeric_locale
  .rodata.str1.4
-                0x00000000100114dc        0x2 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-lnumeric.o)
+                0x00000000100114e4        0x2 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-lnumeric.o)
                                           0x5 (size before relaxing)
- *fill*         0x00000000100114de        0x2 
- .rodata.str1.4
-                0x00000000100114e0        0x6 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-locale.o)
-                                         0x12 (size before relaxing)
  *fill*         0x00000000100114e6        0x2 
- .rodata        0x00000000100114e8      0x128 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-mprec.o)
-                0x00000000100114f8                __mprec_tinytens
-                0x0000000010011520                __mprec_bigtens
-                0x0000000010011548                __mprec_tens
  .rodata.str1.4
-                0x0000000010011610       0x33 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-mprec.o)
+                0x00000000100114e8        0x6 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-locale.o)
+                                         0x12 (size before relaxing)
+ *fill*         0x00000000100114ee        0x2 
+ .rodata        0x00000000100114f0      0x128 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-mprec.o)
+                0x0000000010011500                __mprec_tinytens
+                0x0000000010011528                __mprec_bigtens
+                0x0000000010011550                __mprec_tens
+ .rodata.str1.4
+                0x0000000010011618       0x33 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(lib_a-mprec.o)
                                          0x47 (size before relaxing)
-                0x0000000010011644                . = ALIGN (0x4)
- *fill*         0x0000000010011643        0x1 
+                0x000000001001164c                . = ALIGN (0x4)
+ *fill*         0x000000001001164b        0x1 
  *(SORT_BY_ALIGNMENT(SORT_BY_NAME(.flashdata*)))
-                0x0000000010011644                . = ALIGN (0x4)
+                0x000000001001164c                . = ALIGN (0x4)
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x0000000010011644                __exidx_start = .
+                0x000000001001164c                __exidx_start = .
 
 .ARM.exidx
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x0000000010011644                __exidx_end = .
-                0x0000000010011644                . = ALIGN (0x4)
-                0x0000000010011644                __binary_info_start = .
+                0x000000001001164c                __exidx_end = .
+                0x000000001001164c                . = ALIGN (0x4)
+                0x000000001001164c                __binary_info_start = .
 
-.binary_info    0x0000000010011644       0x24
+.binary_info    0x000000001001164c       0x24
  *(.binary_info.keep.*)
  .binary_info.keep.__bi_ptr22
-                0x0000000010011644        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
- .binary_info.keep.__bi_ptr30
-                0x0000000010011648        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
- .binary_info.keep.__bi_ptr38
                 0x000000001001164c        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
- .binary_info.keep.__bi_ptr44
+ .binary_info.keep.__bi_ptr30
                 0x0000000010011650        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
- .binary_info.keep.__bi_ptr50
+ .binary_info.keep.__bi_ptr38
                 0x0000000010011654        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
- .binary_info.keep.__bi_ptr56
+ .binary_info.keep.__bi_ptr44
                 0x0000000010011658        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
- .binary_info.keep.__bi_ptr75
+ .binary_info.keep.__bi_ptr50
                 0x000000001001165c        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
- .binary_info.keep.__bi_ptr81
+ .binary_info.keep.__bi_ptr56
                 0x0000000010011660        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
+ .binary_info.keep.__bi_ptr75
+                0x0000000010011664        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
+ .binary_info.keep.__bi_ptr81
+                0x0000000010011668        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
  *(.binary_info.*)
  .binary_info.__bi_ptr182
-                0x0000000010011664        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
-                0x0000000010011668                __binary_info_end = .
+                0x000000001001166c        0x4 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+                0x0000000010011670                __binary_info_end = .
 
-.rel.dyn        0x0000000010011668        0x0
- .rel.iplt      0x0000000010011668        0x0 /usr/lib/gcc/arm-none-eabi/8.3.1/thumb/v6-m/nofp/crtbegin.o
-                0x0000000010011668                . = ALIGN (0x4)
+.rel.dyn        0x0000000010011670        0x0
+ .rel.iplt      0x0000000010011670        0x0 /usr/lib/gcc/arm-none-eabi/8.3.1/thumb/v6-m/nofp/crtbegin.o
+                0x0000000010011670                . = ALIGN (0x4)
 
 .ram_vector_table
                 0x0000000020000000       0xc0
@@ -2825,7 +2824,7 @@ LOAD /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp
                 0x0000000020000000       0xc0 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
                 0x0000000020000000                ram_vector_table
 
-.data           0x00000000200000c0     0x21f8 load address 0x0000000010011668
+.data           0x00000000200000c0     0x21f8 load address 0x0000000010011670
                 0x00000000200000c0                __data_start__ = .
  *(vtable)
  *(.time_critical*)
@@ -2995,36 +2994,36 @@ LOAD /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp
  *(.jcr)
                 0x00000000200022b8                . = ALIGN (0x4)
                 0x00000000200022b8                __data_end__ = .
-                0x0000000010011668                __etext = LOADADDR (.data)
+                0x0000000010011670                __etext = LOADADDR (.data)
 
 .tm_clone_table
-                0x00000000200022b8        0x0 load address 0x0000000010013860
+                0x00000000200022b8        0x0 load address 0x0000000010013868
  .tm_clone_table
                 0x00000000200022b8        0x0 /usr/lib/gcc/arm-none-eabi/8.3.1/thumb/v6-m/nofp/crtbegin.o
  .tm_clone_table
                 0x00000000200022b8        0x0 /usr/lib/gcc/arm-none-eabi/8.3.1/thumb/v6-m/nofp/crtend.o
 
-.igot.plt       0x00000000200022b8        0x0 load address 0x0000000010013860
+.igot.plt       0x00000000200022b8        0x0 load address 0x0000000010013868
  .igot.plt      0x00000000200022b8        0x0 /usr/lib/gcc/arm-none-eabi/8.3.1/thumb/v6-m/nofp/crtbegin.o
 
 .uninitialized_data
-                0x00000000200022b8        0x0 load address 0x0000000010013860
+                0x00000000200022b8        0x0 load address 0x0000000010013868
                 0x00000000200022b8                . = ALIGN (0x4)
  *(.uninitialized_data*)
 
-.scratch_x      0x0000000020040000        0x0 load address 0x0000000010013860
+.scratch_x      0x0000000020040000        0x0 load address 0x0000000010013868
                 0x0000000020040000                __scratch_x_start__ = .
  *(.scratch_x.*)
                 0x0000000020040000                . = ALIGN (0x4)
                 0x0000000020040000                __scratch_x_end__ = .
-                0x0000000010013860                __scratch_x_source__ = LOADADDR (.scratch_x)
+                0x0000000010013868                __scratch_x_source__ = LOADADDR (.scratch_x)
 
-.scratch_y      0x0000000020041000        0x0 load address 0x0000000010013860
+.scratch_y      0x0000000020041000        0x0 load address 0x0000000010013868
                 0x0000000020041000                __scratch_y_start__ = .
  *(.scratch_y.*)
                 0x0000000020041000                . = ALIGN (0x4)
                 0x0000000020041000                __scratch_y_end__ = .
-                0x0000000010013860                __scratch_y_source__ = LOADADDR (.scratch_y)
+                0x0000000010013868                __scratch_y_source__ = LOADADDR (.scratch_y)
 
 .bss            0x00000000200022b8     0x1074
                 0x00000000200022b8                . = ALIGN (0x4)
@@ -3240,8 +3239,8 @@ LOAD /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp
  *(.stack*)
  .stack         0x0000000020041000      0x800 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj
 
-.flash_end      0x0000000010013860        0x0
-                0x0000000010013860                PROVIDE (__flash_binary_end = .)
+.flash_end      0x0000000010013868        0x0
+                0x0000000010013868                PROVIDE (__flash_binary_end = .)
                 0x0000000020040000                __StackLimit = (ORIGIN (RAM) + LENGTH (RAM))
                 0x0000000020041000                __StackOneTop = (ORIGIN (SCRATCH_X) + LENGTH (SCRATCH_X))
                 0x0000000020042000                __StackTop = (ORIGIN (SCRATCH_Y) + LENGTH (SCRATCH_Y))
@@ -3333,7 +3332,7 @@ LOAD CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_fix/rp2040
 LOAD CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_multicore/multicore.c.obj
 LOAD CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
 LOAD CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.obj
-LOAD /tmp/ccykGmmp.o
+LOAD /tmp/cctCWh3A.o
 LOAD /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libstdc++.a
 LOAD /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libm.a
 START GROUP
@@ -3483,7 +3482,7 @@ LOAD linker stubs
  .ARM.attributes
                 0x0000000000000a94       0x2c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.obj
  .ARM.attributes
-                0x0000000000000ac0       0x22 /tmp/ccykGmmp.o
+                0x0000000000000ac0       0x22 /tmp/cctCWh3A.o
  .ARM.attributes
                 0x0000000000000ae2       0x1e /usr/lib/gcc/arm-none-eabi/8.3.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
  .ARM.attributes

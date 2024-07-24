@@ -379,7 +379,7 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
 								StampPrintf("> FORCING XMISSION! for debugging   <"); pctx->_txSched.led_mode = 4; 
 								PioDCOStart(pctx->_pTX->_p_oscillator);
 								//WSPRbeaconCreatePacket(pctx,0);    If this is disabled, the packet is all zeroes, and it xmits an unmodulated steady frequency. but if you didnt power cycle since enabling Force_xmition there will still be data stuck in the buffer...
-								sleep_ms(100);
+								sleep_ms(100); 
 								WSPRbeaconSendPacket(pctx);
 								start_time = get_absolute_time();       
 								forced_xmit_in_process=1;

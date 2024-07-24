@@ -321,7 +321,7 @@ show_values();
 					frequency = atof(_tuning_freq);
 					if (!frequency) {break;}
 					printf("Generating %.3f MHz\n", frequency);
-					pWSPR->_pTX->_u32_dialfreqhz = (uint32_t)frequency * MHZ;
+					pWSPR->_pTX->_u32_dialfreqhz = (uint32_t)(frequency * MHZ);
 					pWSPR->_txSched.force_xmit_for_testing = YES;
 					return;  // returns to main loop
 				}
