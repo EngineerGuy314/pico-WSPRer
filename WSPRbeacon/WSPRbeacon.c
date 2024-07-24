@@ -21,7 +21,7 @@ static int oneshots[10];
 static int schedule[10];  //array index is minute, (odd minutes are unused) value is -1 for NONE or 1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd, and #5 for extended TELEN
 static int at_least_one_slot_has_elapsed;
 static int at_least_one_GPS_fixed_has_been_obtained;
-static uint8_t _callsign_with_suffix[12];
+static uint8_t _callsign_for_TYPE1[12];
 static 	uint8_t  altitude_as_power_fine;
 static uint32_t previous_msg_count;
 static int tikk;
@@ -61,12 +61,24 @@ WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare
 	at_least_one_slot_has_elapsed=0;
 	for (int i=0;i < 10;i++) schedule[i]=-1;
 	tester=0;
-	if (id13==253)              //if U4B protocol disabled,  we will ONLY do Type3 (zachtek) at the specified minute
+	
+	/* Following code sets packet types for each timeslot. 1:U4B 1st msg, 2: U4B 2nd msg, 3: WSPR1 or Zachtek 1st, 4:Zachtek 2nd,  5:extended TELEN #1 6:extended TELEN #2  */
+	
+	if (id13==253)              //if U4B protocol disabled ('--' enterred for Id13),  we will ONLY do Type 1 [and Type3 (zachtek)] at the specified minute
 	{
-		schedule[start_minute]=3;           
-		schedule[(start_minute+2)%10]=4;
+		
+		if (suffix != 253)
+		{
+			schedule[start_minute]=3;         //we get here if suffix is not '-', meaning that Zachtek (wspr type 3) message is desired  
+			schedule[(start_minute+2)%10]=4;  
+		}
+		else
+		{
+			schedule[start_minute]=3;         //we get here only is both U4B and ZAchtek(suffix) are disabled. this is for standalone (WSPR Type-1) only beacon mode
+		}
+
 	}
-else
+else                                       //if we get here, U4B is enabled
 	{
 		schedule[start_minute]=1;          //do 1st U4b packet at selected minute 
 		schedule[(start_minute+2)%10]=2;   //do second U4B packet 2 minutes later
@@ -75,7 +87,7 @@ else
 
 		if (suffix != 253)    // if Suffix enabled, Do zachtek messages 4 mins BEFORE (ie 6 minutes in future) of u4b (because minus (-) after char to decimal conversion is 253)
 			{
-				schedule[(start_minute+6)%10]=3;          
+				schedule[(start_minute+6)%10]=3;     //if we get here, both U4B and Zachtek (suffix) enabled. hopefully telen not also enabled!
 				schedule[(start_minute+8)%10]=4;
 			}
 	}
@@ -208,40 +220,49 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-6.  1: 
 	wspr_encode(CallsignU4B, Grid_U4B, power_U4B, pctx->_pu8_outbuf,pctx->_txSched.verbosity); 
    }
 	
-if (packet_type==3)   //1st Zachtek (WSPR type 1 message)
+if (packet_type==3)   // WSPR type 1 message (for standalone beacon mode, or 1st part of Zachtek protocol)
    {
-	if (pctx->_txSched.verbosity>=3) printf("creating Zachtek packet 1 (WSPR type 1)\n");
-	 strcpy(_callsign_with_suffix,pctx->_pu8_callsign);
-	 strcat(_callsign_with_suffix,"/"); 
- 	 uint8_t suffix_as_string[2];
-	 suffix_as_string[0]=pctx->_txSched.suffix+48;
-	 suffix_as_string[1]=0;
-	 strcat(_callsign_with_suffix,suffix_as_string);
+	uint8_t suffix_as_string[2];
+	uint8_t  power_value=10;  //if just using standalone beacon,  power is reported as 10. If doing Zachtek, this gets overwritten below with rough altitude value
 
-	uint8_t  altitude_as_power_rough;
+	if (pctx->_txSched.verbosity>=3) printf("creating WSPR type 1 [Zachtek packet 1]\n");
 
-			altitude_as_power_rough=0;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>900) altitude_as_power_rough=3;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>2100) altitude_as_power_rough=7;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>3000) altitude_as_power_rough=10;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>3900) altitude_as_power_rough=13;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>5100) altitude_as_power_rough=17;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>6000) altitude_as_power_rough=20;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>6900) altitude_as_power_rough=23;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>8100) altitude_as_power_rough=27;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>9000) altitude_as_power_rough=30;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>9900) altitude_as_power_rough=33;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>11100) altitude_as_power_rough=37;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>12000) altitude_as_power_rough=40;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>12900) altitude_as_power_rough=43;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>14100) altitude_as_power_rough=47;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>15000) altitude_as_power_rough=50;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>15900) altitude_as_power_rough=53;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>17100) altitude_as_power_rough=57;
-			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>18000) altitude_as_power_rough=60;
+	 
+		
+		if (pctx->_txSched.suffix==253)  //if standalone beacon mode (suffix was enterred as '-' (253)
+		{
+				strcpy(_callsign_for_TYPE1,pctx->_pu8_callsign);  
+				strcat(_callsign_for_TYPE1,0); //add null terminate
+	    }
+		else //if doing Zachtek (as opposed to just standalone beacon) do all the stuff below to append suffix and encode power. my software does not allow Zachtek without suffix for now.
+		{
+			 strcpy(_callsign_for_TYPE1,pctx->_pu8_callsign);  
+			 strcat(_callsign_for_TYPE1,"/"); 
+			 suffix_as_string[0]=pctx->_txSched.suffix+48;
+			 suffix_as_string[1]=0;
+			 strcat(_callsign_for_TYPE1,suffix_as_string);
 
-			float fine_altitude = pctx->_pTX->_p_oscillator->_pGPStime->_altitude - (altitude_as_power_rough*300.0f);
 
+			power_value=0;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>900) power_value=3;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>2100) power_value=7;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>3000) power_value=10;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>3900) power_value=13;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>5100) power_value=17;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>6000) power_value=20;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>6900) power_value=23;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>8100) power_value=27;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>9000) power_value=30;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>9900) power_value=33;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>11100) power_value=37;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>12000) power_value=40;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>12900) power_value=43;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>14100) power_value=47;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>15000) power_value=50;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>15900) power_value=53;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>17100) power_value=57;
+			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>18000) power_value=60;
+			float fine_altitude = pctx->_pTX->_p_oscillator->_pGPStime->_altitude - (power_value*300.0f);
 			altitude_as_power_fine=0;
 			if (fine_altitude>60) altitude_as_power_fine=3;
 			if (fine_altitude>140) altitude_as_power_fine=7;
@@ -261,16 +282,17 @@ if (packet_type==3)   //1st Zachtek (WSPR type 1 message)
 			if (fine_altitude>1060) altitude_as_power_fine=53;
 			if (fine_altitude>1140) altitude_as_power_fine=57;
 			if (fine_altitude>1200) altitude_as_power_fine=60;
+			if (pctx->_txSched.verbosity>=3) printf("Raw altitude: %0.3f rough: %d fine: %d\n",pctx->_pTX->_p_oscillator->_pGPStime->_altitude,power_value,altitude_as_power_fine);
 
-				if (pctx->_txSched.verbosity>=3) printf("Raw altitude: %0.3f rough: %d fine: %d\n",pctx->_pTX->_p_oscillator->_pGPStime->_altitude,altitude_as_power_rough,altitude_as_power_fine);
+		}
 
-	wspr_encode(_callsign_with_suffix, pctx->_pu8_locator, altitude_as_power_rough, pctx->_pu8_outbuf,pctx->_txSched.verbosity);  
+	wspr_encode(_callsign_for_TYPE1, pctx->_pu8_locator, power_value, pctx->_pu8_outbuf,pctx->_txSched.verbosity);  
    }
 
 if (packet_type==4)   //2nd Zachtek (WSPR type 3 message)
    {
 	if (pctx->_txSched.verbosity>=3) printf("creating Zachtek packet 2 (WSPR type 3)\n");
-	wspr_encode(add_brackets(_callsign_with_suffix), pctx->_pu8_locator, altitude_as_power_fine, pctx->_pu8_outbuf,pctx->_txSched.verbosity);  			
+	wspr_encode(add_brackets(_callsign_for_TYPE1), pctx->_pu8_locator, altitude_as_power_fine, pctx->_pu8_outbuf,pctx->_txSched.verbosity);  			
    }
 
 if ((packet_type==5)||(packet_type==6))   //TELEN #1 or #2 extended telemetry, gets sent right after the two U4B packets
