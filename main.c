@@ -218,7 +218,11 @@ void handle_LED(int led_state)
  * @param len Length of storage to list
  */
 void print_buf(const uint8_t *buf, size_t len) {
-		printf("\nNVRAM dump:\n");
+	
+
+	printf(CLEAR_SCREEN);printf(BRIGHT);
+	printf(BOLD_ON);printf(UNDERLINE_ON);
+	printf("\nNVRAM dump: \n");printf(BOLD_OFF); printf(UNDERLINE_OFF);
  for (size_t i = 0; i < len; ++i) {
         printf("%02x", buf[i]);
         if (i % 16 == 15)
@@ -226,6 +230,7 @@ void print_buf(const uint8_t *buf, size_t len) {
         else
             printf(" ");
     }
+	printf(NORMAL);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -283,26 +288,35 @@ void user_interface(void)
 gpio_put(GPS_ENABLE_PIN, 0);                   //shutoff gps to prevent serial input  (probably not needed anymore)
 sleep_ms(100);
 gpio_put(LED_PIN, 1); //LED on.	
-
+printf(CLEAR_SCREEN);
+printf(CURSOR_HOME);
+printf(BRIGHT);
 printf("\n\n\n\n\n\n\n\n\n\n\n\n");
-printf("Pico-WSPRer (pico whisper-er) by KC3LBR,  version: %s %s\n",__DATE__ ,__TIME__);
-printf("https://github.com/EngineerGuy314/pico-WSPRer\n");
-printf("forked from: https://github.com/RPiks/pico-WSPR-tx\n\n");
-printf("additional functionality, fixes and documention added by https://github.com/serych\n\n");
+printf("================================================================================\n\n");printf(UNDERLINE_ON);
+printf("Pico-WSPRer (pico whisper-er) by KC3LBR,  version: %s %s\n\n",__DATE__ ,__TIME__);printf(UNDERLINE_OFF);
+printf("instructions and source: https://github.com/EngineerGuy314/pico-WSPRer\n");
+printf("forked from: https://github.com/RPiks/pico-WSPR-tx\n");
+printf("additional functions, fixes and documention by https://github.com/serych\n\n");
 printf("consult https://traquito.github.io/channelmap/ to find an open channel \nand make note of id13 (column headers), minute and lane (frequency)\n");
+printf("\n================================================================================\n");
+
+printf(RED);printf("press anykey to continue");printf(NORMAL); 
+c=getchar_timeout_us(60000000);	//wait 
+printf(CLEAR_SCREEN);
 
 show_values();
 
     for(;;)
 	{	
-		printf("Enter the command (X,C,S,I,M,L,V,O,P,T): ");	
+		printf(UNDERLINE_ON);printf(BRIGHT);
+		printf("Enter the command (X,C,S,I,M,L,V,O,P,T):\n\n");printf(UNDERLINE_OFF);printf(NORMAL);	
 		c=getchar_timeout_us(60000000);		   //just in case user setup menu was enterred during flight, this will reboot after 60 secs
 		printf("%c\n", c);
-		if (c==255) {printf("\n\n TIMEOUT WAITING FOR INPUT, REBOOTING FOR YOUR OWN GOOD!!");sleep_ms(100);watchdog_enable(100, 1);for(;;)	{}}
+		if (c==255) {printf(CLEAR_SCREEN);printf("\n\n TIMEOUT WAITING FOR INPUT, REBOOTING FOR YOUR OWN GOOD!!");sleep_ms(100);watchdog_enable(100, 1);for(;;)	{}}
 		if (c>90) c-=32; //make it capital either way
 		switch(c)
 		{
-			case 'X': printf("\n\nGOODBYE");watchdog_enable(100, 1);for(;;)	{}
+			case 'X':printf(CLEAR_SCREEN);printf("\n\nGOODBYE");watchdog_enable(100, 1);for(;;)	{}
 			case 'C':get_user_input("Enter callsign: ",_callsign,sizeof(_callsign)); convertToUpperCase(_callsign); write_NVRAM(); break;
 			case 'S':get_user_input("Enter single digit numeric suffix: ", _suffix, sizeof(_suffix)); write_NVRAM(); break;
 			case 'I':get_user_input("Enter id13: ", _id13,sizeof(_id13)); convertToUpperCase(_id13); write_NVRAM(); break;
@@ -327,7 +341,7 @@ show_values();
 				}
 			case 13:  break;
 			case 10:  break;
-			default: printf("\nYou pressed: %c - 0x%02x , INVALID choice!! ",c,c);sleep_ms(2000);break;		
+			default: printf(CLEAR_SCREEN); printf("\nYou pressed: %c - (0x%02x), INVALID choice!! ",c,c);sleep_ms(2000);break;		
 		}
 		check_data_validity();
 		show_values();
@@ -340,10 +354,16 @@ show_values();
  */
 void show_values(void)
 {
-printf("\n\nCurrent values:\n\tCallsign:%s\n\tSuffix:%s\n\tId13:%s\n\tMinute:%s\n\tLane:%s\n\tVerbosity:%s\n\tOscillator Off:%s\n\tcustom Pcb IO mappings:%s\n\n",_callsign,_suffix,_id13,_start_minute,_lane,_verbosity,_oscillator,_custom_PCB);
-printf("VALID commands: \n\n\tX: eXit configuraiton and reboot\n\tC: change Callsign (6 char max)\n\t");
-printf("S: change Suffix (added to callsign for WSPR3) enter '-' to disable WSPR3\n\t");
-printf("I: change Id13 (two alpha numeric chars, ie Q8) enter '--' to disable U4B\n\t");
+printf(CLEAR_SCREEN);printf(UNDERLINE_ON);printf(BRIGHT);
+printf("\n\nCurrent values:\n");
+printf(UNDERLINE_OFF);printf(NORMAL);
+printf("\n\tCallsign:%s\n\tSuffix:%s\n\tId13:%s\n\tMinute:%s\n\tLane:%s\n\tVerbosity:%s\n\tOscillator Off:%s\n\tcustom Pcb IO mappings:%s\n\n",_callsign,_suffix,_id13,_start_minute,_lane,_verbosity,_oscillator,_custom_PCB);
+printf(UNDERLINE_ON);printf(BRIGHT);
+printf("VALID commands: ");
+printf(UNDERLINE_OFF);printf(NORMAL);
+printf("\n\n\tX: eXit configuraiton and reboot\n\tC: change Callsign (6 char max)\n\t");
+printf("S: change Suffix (added to callsign for WSPR3) use '-' to disable WSPR3\n\t");
+printf("I: change Id13 (two alpha numeric chars, ie Q8) use '--' to disable U4B\n\t");
 printf("M: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\t");
 printf("V: Verbosity level (0 for no messages, 9 for too many) \n\tO: Oscillator off after trasmission (0,1) \n\tP: custom Pcb mode IO mappings (0,1)\n\tT: antenna Tuning mode (freq)\n");
 

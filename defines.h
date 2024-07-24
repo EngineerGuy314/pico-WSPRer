@@ -103,6 +103,21 @@
 #define RAM __not_in_flash_func         /* Place time-critical func in RAM */
 #define RAM_A __not_in_flash("A")        /* Place time-critical var in RAM */
 
+// ANSI escape codes for color
+#define RED "\x1b[91m"
+#define BRIGHT "\x1b[97m"
+#define NORMAL "\x1b[37m"
+#define GREEN "\x1b[32m"
+#define YELLOW "\x1b[33m"
+#define BLUE "\x1b[34m"
+#define RESET "\x1b[0m"
+#define CLEAR_SCREEN "\x1b[2J"
+#define CURSOR_HOME "\x1b[H"
+#define UNDERLINE_ON "\033[4m"
+#define UNDERLINE_OFF "\033[24m"
+#define BOLD_ON "\033[1m"   
+#define BOLD_OFF "\033[0m"
+
 /* A macros for arithmetic right shifts, with casting of the argument. */
 #define iSAR32(arg, rcount) (((int32_t)(arg)) >> (rcount))
 #define iSAR64(arg, rcount) (((int64_t)(arg)) >> (rcount))
