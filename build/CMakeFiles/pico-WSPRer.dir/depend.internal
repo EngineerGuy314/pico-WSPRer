@@ -1810,6 +1810,37 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c
  /home/rob/pico-sdk/src/rp2_common/pico_platform/include/pico/platform.h
  generated/pico_base/pico/config_autogen.h
  generated/pico_base/pico/version.h
+CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.obj
+ /home/rob/pico-sdk/src/boards/include/boards/pico.h
+ /home/rob/pico-sdk/src/common/pico_base/include/pico.h
+ /home/rob/pico-sdk/src/common/pico_base/include/pico/assert.h
+ /home/rob/pico-sdk/src/common/pico_base/include/pico/config.h
+ /home/rob/pico-sdk/src/common/pico_base/include/pico/error.h
+ /home/rob/pico-sdk/src/common/pico_base/include/pico/types.h
+ /home/rob/pico-sdk/src/common/pico_time/include/pico/time.h
+ /home/rob/pico-sdk/src/common/pico_time/include/pico/timeout_helper.h
+ /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/platform_defs.h
+ /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/addressmap.h
+ /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/clocks.h
+ /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/dreq.h
+ /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/i2c.h
+ /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/resets.h
+ /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/sio.h
+ /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/timer.h
+ /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/clocks.h
+ /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/i2c.h
+ /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/resets.h
+ /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/timer.h
+ /home/rob/pico-sdk/src/rp2_common/cmsis/include/cmsis/rename_exceptions.h
+ /home/rob/pico-sdk/src/rp2_common/hardware_base/include/hardware/address_mapped.h
+ /home/rob/pico-sdk/src/rp2_common/hardware_clocks/include/hardware/clocks.h
+ /home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c
+ /home/rob/pico-sdk/src/rp2_common/hardware_i2c/include/hardware/i2c.h
+ /home/rob/pico-sdk/src/rp2_common/hardware_resets/include/hardware/resets.h
+ /home/rob/pico-sdk/src/rp2_common/hardware_timer/include/hardware/timer.h
+ /home/rob/pico-sdk/src/rp2_common/pico_platform/include/pico/platform.h
+ generated/pico_base/pico/config_autogen.h
+ generated/pico_base/pico/version.h
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
  /home/rob/pico-sdk/src/boards/include/boards/pico.h
  /home/rob/pico-sdk/src/common/pico_base/include/pico.h
@@ -2657,6 +2688,7 @@ CMakeFiles/pico-WSPRer.dir/main.c.obj
  /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/addressmap.h
  /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/clocks.h
  /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/dreq.h
+ /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/i2c.h
  /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/intctrl.h
  /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/io_bank0.h
  /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/m0plus.h
@@ -2668,6 +2700,7 @@ CMakeFiles/pico-WSPRer.dir/main.c.obj
  /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/watchdog.h
  /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/adc.h
  /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/clocks.h
+ /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/i2c.h
  /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/interp.h
  /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/iobank0.h
  /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/padsbank0.h
@@ -2682,6 +2715,7 @@ CMakeFiles/pico-WSPRer.dir/main.c.obj
  /home/rob/pico-sdk/src/rp2_common/hardware_clocks/include/hardware/clocks.h
  /home/rob/pico-sdk/src/rp2_common/hardware_flash/include/hardware/flash.h
  /home/rob/pico-sdk/src/rp2_common/hardware_gpio/include/hardware/gpio.h
+ /home/rob/pico-sdk/src/rp2_common/hardware_i2c/include/hardware/i2c.h
  /home/rob/pico-sdk/src/rp2_common/hardware_irq/include/hardware/irq.h
  /home/rob/pico-sdk/src/rp2_common/hardware_pio/include/hardware/pio.h
  /home/rob/pico-sdk/src/rp2_common/hardware_pio/include/hardware/pio_instructions.h

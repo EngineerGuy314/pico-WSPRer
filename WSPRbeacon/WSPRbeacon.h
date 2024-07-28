@@ -72,6 +72,9 @@ typedef struct
 	uint32_t TELEN1_val2;
 	uint32_t TELEN2_val1;
 	uint32_t TELEN2_val2;
+	uint32_t minutes_since_boot;
+	uint32_t minutes_since_GPS_aquisition;
+
 } WSPRbeaconSchedule;
 
 typedef struct
@@ -87,7 +90,7 @@ typedef struct
 
 WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare, int txpow_dbm,
                                   PioDco *pdco, uint32_t dial_freq_hz, uint32_t shift_freq_hz,
-                                  int gpio,  uint8_t start_minute,  uint8_t id13 ,  uint8_t suffix);
+                                  int gpio,  uint8_t start_minute,  uint8_t id13 ,  uint8_t suffix,const char *TELEN_config);
 void WSPRbeaconSetDialFreq(WSPRbeaconContext *pctx, uint32_t freq_hz);
 int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type);
 char* add_brackets(const char * call);

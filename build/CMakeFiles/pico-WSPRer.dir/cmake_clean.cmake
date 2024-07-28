@@ -42,6 +42,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_divider/divider.S.obj"
   "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_flash/flash.c.obj"
   "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj"
+  "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.obj"
   "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj"
   "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_irq/irq_handler_chain.S.obj"
   "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj"

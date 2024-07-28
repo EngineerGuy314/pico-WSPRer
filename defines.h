@@ -152,4 +152,9 @@ void show_values(void);
 void convertToUpperCase(char *str);
 void handle_LED(int led_state);
 void InitPicoPins(void);
+void display_intro(void);
+void I2C_init(void);
+void I2C_read(void);
+void show_TELEN_msg(void); 
+void process_TELEN_data(void); 
 #endif

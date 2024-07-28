@@ -1067,6 +1067,19 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.s
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.s"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.s
 
+CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.obj: CMakeFiles/pico-WSPRer.dir/flags.make
+CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.obj: /home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_84) "Building C object CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.obj"
+	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.obj -c /home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c
+
+CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.i"
+	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c > CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.i
+
+CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.s"
+	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c -o CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.s
+
 # Object files for target pico-WSPRer
 pico__WSPRer_OBJECTS = \
 "CMakeFiles/pico-WSPRer.dir/hf-oscillator/lib/assert.c.obj" \
@@ -1151,7 +1164,8 @@ pico__WSPRer_OBJECTS = \
 "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/rp2040_usb_device_enumeration.c.obj" \
 "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_multicore/multicore.c.obj" \
 "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj" \
-"CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.obj"
+"CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.obj" \
+"CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.obj"
 
 # External object files for target pico-WSPRer
 pico__WSPRer_EXTERNAL_OBJECTS =
@@ -1239,10 +1253,11 @@ pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pic
 pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_multicore/multicore.c.obj
 pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
 pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.obj
+pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.obj
 pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/build.make
 pico-WSPRer.elf: pico-sdk/src/rp2_common/boot_stage2/bs2_default_padded_checksummed.S
 pico-WSPRer.elf: CMakeFiles/pico-WSPRer.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_84) "Linking CXX executable pico-WSPRer.elf"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_85) "Linking CXX executable pico-WSPRer.elf"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/pico-WSPRer.dir/link.txt --verbose=$(VERBOSE)
 	/usr/bin/arm-none-eabi-objcopy -Oihex /home/rob/pico-WSPRer/build/pico-WSPRer.elf pico-WSPRer.hex
 	/usr/bin/arm-none-eabi-objcopy -Obinary /home/rob/pico-WSPRer/build/pico-WSPRer.elf pico-WSPRer.bin

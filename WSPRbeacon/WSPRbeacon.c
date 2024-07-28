@@ -24,8 +24,11 @@ static int at_least_one_GPS_fixed_has_been_obtained;
 static uint8_t _callsign_for_TYPE1[12];
 static 	uint8_t  altitude_as_power_fine;
 static uint32_t previous_msg_count;
+static absolute_time_t GPS_aquisiion_time;
+static uint32_t minute_OF_GPS_aquisition;
 static int tikk;
 static int tester;
+static uint32_t OLD_GPS_active_status;
 const int8_t valid_dbm[19] =
     {0, 3, 7, 10, 13, 17, 20, 23, 27, 30, 33, 37, 40,
      43, 47, 50, 53, 57, 60};  
@@ -43,9 +46,9 @@ const int8_t valid_dbm[19] =
 /// @bug out of schedule transmits if the device is switched on around minute 0  
 WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare, int txpow_dbm,
                                   PioDco *pdco, uint32_t dial_freq_hz, uint32_t shift_freq_hz,
-                                  int gpio,  uint8_t start_minute, uint8_t id13, uint8_t suffix)
+                                  int gpio,  uint8_t start_minute, uint8_t id13, uint8_t suffix, const char *TELEN_config)
 {
-    assert_(pcallsign);
+	assert_(pcallsign);
     assert_(pgridsquare);
     assert_(pdco);
     WSPRbeaconContext *p = calloc(1, sizeof(WSPRbeaconContext));
@@ -58,10 +61,11 @@ WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare
     p->_pTX->_u32_dialfreqhz = dial_freq_hz + shift_freq_hz;
     p->_pTX->_i_tx_gpio = gpio;
  	srand(3333);
-	at_least_one_slot_has_elapsed=0;
+	at_least_one_slot_has_elapsed=0;OLD_GPS_active_status=0;
 	for (int i=0;i < 10;i++) schedule[i]=-1;
 	tester=0;
-	
+	p->_txSched.minutes_since_boot=0;
+	p->_txSched.minutes_since_GPS_aquisition=99999; minute_OF_GPS_aquisition=0;
 	/* Following code sets packet types for each timeslot. 1:U4B 1st msg, 2: U4B 2nd msg, 3: WSPR1 or Zachtek 1st, 4:Zachtek 2nd,  5:extended TELEN #1 6:extended TELEN #2  */
 	
 	if (id13==253)              //if U4B protocol disabled ('--' enterred for Id13),  we will ONLY do Type 1 [and Type3 (zachtek)] at the specified minute
@@ -82,8 +86,8 @@ else                                       //if we get here, U4B is enabled
 	{
 		schedule[start_minute]=1;          //do 1st U4b packet at selected minute 
 		schedule[(start_minute+2)%10]=2;   //do second U4B packet 2 minutes later
-		schedule[(start_minute+4)%10]=5;  //for now, ALWAYS does #5 (TELEN 1) extended telemetry as part of U4B. eventially should make this optional
-		schedule[(start_minute+6)%10]=6;  //for now, ALWAYS does #6 (TELEN 2) extended telemetry as part of U4B. eventially should make this optional (must NOT use zachtek protocol with Telen#2 for instance)
+		if (TELEN_config[0]!='-') schedule[(start_minute+4)%10]=5;  //enable TELEN #1
+		if (TELEN_config[2]!='-') schedule[(start_minute+6)%10]=6;   //enable TELEN #2 (if someone tried to run Zachtek and Both TELENs, start_minute+6)%10 will get overwritten below anywauy)
 
 		if (suffix != 253)    // if Suffix enabled, Do zachtek messages 4 mins BEFORE (ie 6 minutes in future) of u4b (because minus (-) after char to decimal conversion is 253)
 			{
@@ -96,20 +100,110 @@ else                                       //if we get here, U4B is enabled
 
  return p;
 }
-
-/// @brief Sets dial (baseband minima) freq.
-/// @param pctx Context.
-/// @param freq_hz the freq., Hz.
+//*****************************************************************************************************************************
 //******************************************************************************************************************************
-void WSPRbeaconSetDialFreq(WSPRbeaconContext *pctx, uint32_t freq_hz)
+/// @brief Arranges WSPR sending in accordance with pre-defined schedule.
+/// @brief It works only if GPS receiver available (for now).
+/// @param pctx Ptr to Context.
+/// @return 0 if OK, -1 if NO GPS received available
+int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called every half second from Main.c
 {
-    assert_(pctx);
-    pctx->_pTX->_u32_dialfreqhz = freq_hz;
-}
+	assert_(pctx);                 	
+	uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;  //on if there ever were any serial data received from a GPS unit
+    const uint32_t is_GPS_active = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;  //on if valid 3d fix
 
-/// @brief Constructs a new WSPR packet using the data available.
-/// @param pctx Context
-/// @return 0 if OK.
+	pctx->_txSched.minutes_since_boot=floor((to_ms_since_boot(get_absolute_time()) / (uint32_t)60000) );
+	if (OLD_GPS_active_status!=is_GPS_active) //GPS status has changed
+	{
+		OLD_GPS_active_status=is_GPS_active; //make it a oneshot
+		if (is_GPS_active)                    //it changed, and is now ON
+			{                 				
+				pctx->_txSched.minutes_since_GPS_aquisition = pctx->_txSched.minutes_since_boot-minute_OF_GPS_aquisition; //current time minus time it last went on is MINUTES since on
+				minute_OF_GPS_aquisition = pctx->_txSched.minutes_since_boot;//save time it last went on
+			}
+			else pctx->_txSched.minutes_since_GPS_aquisition=99999; //it changed, and is oFF (was lost) so indicate that with 9's		
+	}
+
+		 if(is_GPS_active) at_least_one_GPS_fixed_has_been_obtained=1;
+		 if (pctx->_txSched.force_xmit_for_testing) {            
+							if(forced_xmit_in_process==0)
+							{
+								StampPrintf("> FORCING XMISSION! for debugging   <"); pctx->_txSched.led_mode = 4; 
+								PioDCOStart(pctx->_pTX->_p_oscillator);
+								//WSPRbeaconCreatePacket(pctx,0);    If this is disabled, the packet is all zeroes, and it xmits an unmodulated steady frequency. but if you didnt power cycle since enabling Force_xmition there will still be data stuck in the buffer...
+								sleep_ms(100); 
+								WSPRbeaconSendPacket(pctx);
+								start_time = get_absolute_time();       
+								forced_xmit_in_process=1;
+							}
+								else if(absolute_time_diff_us( start_time, get_absolute_time()) > 120000000ULL) 
+								{
+									forced_xmit_in_process=0; //restart after 2 mins
+									PioDCOStop(pctx->_pTX->_p_oscillator); 
+									printf("Pio *STOP*  called by end of forced xmit. small pause before restart\n");
+									sleep_ms(2000);
+								}								
+				return -1;
+		 }
+  
+		 if(!is_GPS_available)
+		{
+			if (pctx->_txSched.verbosity>=1) StampPrintf(" Waiting for GPS receiver to start communicating, or, serial comms interrupted");
+			pctx->_txSched.led_mode = 0;  //waiting for GPS
+			return -1;
+		}
+	 
+		if(!is_GPS_active){
+			if (pctx->_txSched.verbosity>=1) StampPrintf("Gps was available, but no valid 3d Fix. ledmode %d XMIT status %d",pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);
+		}
+
+		current_minute = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_last_digit_minutes - '0';  //convert from char to int
+	
+	if (schedule[current_minute]==-1)        //if the current minute is an odd minute or a non-scheduled minute
+	{
+		for (int i=0;i < 10;i++) oneshots[i]=0;
+		at_least_one_slot_has_elapsed=1;  
+		if (pctx->_txSched.oscillatorOff && schedule[(current_minute+9)%10]==-1)    // if we want to switch oscillator off and are in non sheduled interval 
+		{
+			transmitter_status=0;
+			PioDCOStop(pctx->_pTX->_p_oscillator);	// Stop the oscilator
+		}
+	}
+	
+	else if (is_GPS_available && at_least_one_slot_has_elapsed 
+			&& schedule[current_minute]>0
+			&& oneshots[current_minute]==0
+			&& (at_least_one_GPS_fixed_has_been_obtained!=0) )       //prevent transmission if a location has never been received
+		{
+			oneshots[current_minute]=1;	
+			if (pctx->_txSched.verbosity>=3) printf("\nStarting TX. current minute: %i Schedule Value (packet type): %i\n",current_minute,schedule[current_minute]);
+			PioDCOStart(pctx->_pTX->_p_oscillator); 
+			transmitter_status=1;
+			WSPRbeaconCreatePacket(pctx, schedule[current_minute] ); //the schedule determines packet type (1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd)
+			sleep_ms(50);
+			WSPRbeaconSendPacket(pctx); 
+		}
+
+/*				1 - No valid GPS, not transmitting
+				2 - Valid GPS, waiting for time to transmitt
+				3 - Valid GPS, transmitting
+				4 - no valid GPS, but (still) transmitting anyway */
+			if (!is_GPS_active && transmitter_status) pctx->_txSched.led_mode = 4; else
+			pctx->_txSched.led_mode = 1 + is_GPS_active + transmitter_status;
+
+			if (previous_msg_count!=is_GPS_available)
+			{
+			previous_msg_count=is_GPS_available;
+			time_of_last_serial_packet= get_absolute_time();
+			}
+
+			 if(absolute_time_diff_us(time_of_last_serial_packet, get_absolute_time()) > 3000000ULL) //if more than one or two serial packets are missed something is wrong
+			 {
+				pctx->_txSched.led_mode = 0;  //no GPS serial Comms
+			 }
+
+   return 0;
+}
 //******************************************************************************************************************************
 int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-6.  1: U4B 1st msg,U4B 2: 2nd msg, 3: Zachtek 1st, 4: Zachtek 2nd 5:U4B telen 1, 6:U4B telen 2
 {
@@ -339,6 +433,23 @@ if ((packet_type==5)||(packet_type==6))   //TELEN #1 or #2 extended telemetry, g
 }
 ////////////////////////////////////////////////////////////////////
 //******************************************************************************************************************************
+/// @brief Sends a prepared WSPR packet using TxChannel.
+/// @param pctx Context.
+/// @return 0, if OK.
+//******************************************************************************************************************************
+int WSPRbeaconSendPacket(const WSPRbeaconContext *pctx)
+{
+    assert_(pctx);
+    assert_(pctx->_pTX);
+    assert_(pctx->_pTX->_u32_dialfreqhz > 500 * kHz);
+    TxChannelClear(pctx->_pTX); 
+    memcpy(pctx->_pTX->_pbyte_buffer, pctx->_pu8_outbuf, WSPR_SYMBOL_COUNT);  //162
+    pctx->_pTX->_ix_input = WSPR_SYMBOL_COUNT;  //set count of bytes to send
+    return 0;
+}
+
+////////////////////////////////////////////////////////////////////
+//******************************************************************************************************************************
 /// @brief encodes data for extended telemetry (TELEN)
 /// @param telen_val1,telen_val2: the values to encode, telen_chars: the output characters, telen_power: output power (in dbm)
 //******************************************************************************************************************************
@@ -366,114 +477,7 @@ void encode_telen(uint32_t telen_val1,uint32_t telen_val2,char * telen_chars,uin
     printf(" val1: %d val2: %d the chars: %s and the power:(as dmb: %d)\n",telen_val1,telen_val2,telen_chars,*telen_power);
 	telen_chars[8]=0; //null terminate
 }
-////////////////////////////////////////////////////////////////////
-//******************************************************************************************************************************
-/// @brief Sends a prepared WSPR packet using TxChannel.
-/// @param pctx Context.
-/// @return 0, if OK.
-//******************************************************************************************************************************
-int WSPRbeaconSendPacket(const WSPRbeaconContext *pctx)
-{
-    assert_(pctx);
-    assert_(pctx->_pTX);
-    assert_(pctx->_pTX->_u32_dialfreqhz > 500 * kHz);
-    TxChannelClear(pctx->_pTX); 
-    memcpy(pctx->_pTX->_pbyte_buffer, pctx->_pu8_outbuf, WSPR_SYMBOL_COUNT);  //162
-    pctx->_pTX->_ix_input = WSPR_SYMBOL_COUNT;  //set count of bytes to send
-    return 0;
-}
-//******************************************************************************************************************************
-/// @brief Arranges WSPR sending in accordance with pre-defined schedule.
-/// @brief It works only if GPS receiver available (for now).
-/// @param pctx Ptr to Context.
-/// @return 0 if OK, -1 if NO GPS received available
-int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called every half second from Main.c
-{
-	assert_(pctx);                 	
-	uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;  //on if there ever were any serial data received from a GPS unit
-    const uint32_t is_GPS_active = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;  //on if valid 3d fix
 
-		 if(is_GPS_active) at_least_one_GPS_fixed_has_been_obtained=1;
-		 
-		 if (pctx->_txSched.force_xmit_for_testing) {            
-							if(forced_xmit_in_process==0)
-							{
-								StampPrintf("> FORCING XMISSION! for debugging   <"); pctx->_txSched.led_mode = 4; 
-								PioDCOStart(pctx->_pTX->_p_oscillator);
-								//WSPRbeaconCreatePacket(pctx,0);    If this is disabled, the packet is all zeroes, and it xmits an unmodulated steady frequency. but if you didnt power cycle since enabling Force_xmition there will still be data stuck in the buffer...
-								sleep_ms(100); 
-								WSPRbeaconSendPacket(pctx);
-								start_time = get_absolute_time();       
-								forced_xmit_in_process=1;
-							}
-								else if(absolute_time_diff_us( start_time, get_absolute_time()) > 120000000ULL) 
-								{
-									forced_xmit_in_process=0; //restart after 2 mins
-									PioDCOStop(pctx->_pTX->_p_oscillator); 
-									printf("Pio *STOP*  called by end of forced xmit. small pause before restart\n");
-									sleep_ms(2000);
-								}								
-				return -1;
-		 }
-  
-		 if(!is_GPS_available)
-		{
-			if (pctx->_txSched.verbosity>=1) StampPrintf(" Waiting for GPS receiver to start communicating, or, serial comms interrupted");
-			pctx->_txSched.led_mode = 0;  //waiting for GPS
-			return -1;
-		}
-	 
-		if(!is_GPS_active){
-			if (pctx->_txSched.verbosity>=1) StampPrintf("Gps was available, but no valid 3d Fix. ledmode %d XMIT status %d",pctx->_txSched.led_mode,pctx->_pTX->_p_oscillator->_is_enabled);
-		}
-
-		current_minute = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_last_digit_minutes - '0';  //convert from char to int
-	
-	if (schedule[current_minute]==-1)        //if the current minute is an odd minute or a non-scheduled minute
-	{
-		for (int i=0;i < 10;i++) oneshots[i]=0;
-		at_least_one_slot_has_elapsed=1;  
-		if (pctx->_txSched.oscillatorOff && schedule[(current_minute+9)%10]==-1)    // if we want to switch oscillator off and are in non sheduled interval 
-		{
-			transmitter_status=0;
-			PioDCOStop(pctx->_pTX->_p_oscillator);	// Stop the oscilator
-		}
-	}
-	
-	else if (is_GPS_available && at_least_one_slot_has_elapsed 
-			&& schedule[current_minute]>0
-			&& oneshots[current_minute]==0
-			&& (at_least_one_GPS_fixed_has_been_obtained!=0) )       //prevent transmission if a location has never been received
-		{
-			oneshots[current_minute]=1;	
-			if (pctx->_txSched.verbosity>=3) printf("\nStarting TX. current minute: %i Schedule Value (packet type): %i\n",current_minute,schedule[current_minute]);
-			PioDCOStart(pctx->_pTX->_p_oscillator); 
-			transmitter_status=1;
-			WSPRbeaconCreatePacket(pctx, schedule[current_minute] ); //the schedule determines packet type (1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd)
-			sleep_ms(50);
-			WSPRbeaconSendPacket(pctx); 
-		}
-
-/*				1 - No valid GPS, not transmitting
-				2 - Valid GPS, waiting for time to transmitt
-				3 - Valid GPS, transmitting
-				4 - no valid GPS, but (still) transmitting anyway */
-			if (!is_GPS_active && transmitter_status) pctx->_txSched.led_mode = 4; else
-			pctx->_txSched.led_mode = 1 + is_GPS_active + transmitter_status;
-
-			if (previous_msg_count!=is_GPS_available)
-			{
-			previous_msg_count=is_GPS_available;
-			time_of_last_serial_packet= get_absolute_time();
-			}
-
-			 if(absolute_time_diff_us(time_of_last_serial_packet, get_absolute_time()) > 3000000ULL) //if more than one or two serial packets are missed something is wrong
-			 {
-				pctx->_txSched.led_mode = 0;  //no GPS serial Comms
-			 }
-
-   return 0;
-}
 ///////////////////////////////////////////////////////////
 /// @brief Dumps the beacon context to stdio.
 /// @param pctx Ptr to Context.
@@ -565,3 +569,16 @@ char EncodeBase36(uint8_t val)
 
         return retVal;
     }
+/// @brief Sets dial (baseband minima) freq.
+/// @param pctx Context.
+/// @param freq_hz the freq., Hz.
+//******************************************************************************************************************************
+void WSPRbeaconSetDialFreq(WSPRbeaconContext *pctx, uint32_t freq_hz)
+{
+    assert_(pctx);
+    pctx->_pTX->_u32_dialfreqhz = freq_hz;
+}
+
+/// @brief Constructs a new WSPR packet using the data available.
+/// @param pctx Context
+/// @return 0 if OK.
