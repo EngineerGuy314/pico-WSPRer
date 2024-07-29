@@ -36,6 +36,7 @@ char _oscillator[2];
 char _custom_PCB[2];   
 char _TELEN_config[5];     
 
+static uint32_t telen_values[4];  //consolodate in an array to make coding easier
 static absolute_time_t LED_sequence_start_time;
 static int GPS_PPS_PIN;     //these get set based on values in defines.h
 static int RFOUT_PIN;
@@ -158,8 +159,9 @@ int main()
 		
 		if (pWB->_txSched.verbosity>=1)
 		{
-				if(0 == ++tick2 % 4)      //every ~2 sec
-				StampPrintf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Satellite count: %d\n", tempU,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count );		
+				if(0 == ++tick2 % 10)      //every ~5 sec
+				StampPrintf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Satellite count: %d\n", tempU,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count);		
+				printf("TELEN Vals 1 through 4:  %d %d %d %d\n",telen_values[0],telen_values[1],telen_values[2],telen_values[3]);
 		}
 		
 		for (int i=0;i < 10;i++) //orig code had a 900mS pause here. I only pause a total of 500ms, and spend it polling the time to handle LED state
@@ -174,7 +176,6 @@ int main()
 
 void process_TELEN_data(void)
 {
-		uint32_t telen_values[4];  //consolodate in an array to make coding easier
 		const float conversionFactor = 3300.0f / (1 << 12);   //3.3 * 1000. the 3.3 is from vref, the 1000 is to convert to mV. the 12 bit shift is because thats resolution of ADC
 
 		for (int i=0;i < 4;i++)
@@ -191,12 +192,10 @@ void process_TELEN_data(void)
 			}
 		}
 		
-		pWSPR->_txSched.TELEN1_val1=telen_values[0];   //the values  in TELEN_val1 and TELEN_val2 will get sent as TELEN #1 (extended Telemetry) (a third packet in the U4B protocol)
-		pWSPR->_txSched.TELEN1_val2=telen_values[1];	// max values are 630k and 153k
-		pWSPR->_txSched.TELEN2_val1=telen_values[2];   //the values  in TELEN_val1 and TELEN_val2 will get sent as TELEN #1 (extended Telemetry) (a third packet in the U4B protocol)
-		pWSPR->_txSched.TELEN2_val2=telen_values[3];	// max values are 630k and 153k
-
-		if (pWSPR->_txSched.verbosity>=1) printf("TELEN Vals 1 through 4:  %d %d %d %d\n",telen_values[0],telen_values[1],telen_values[2],telen_values[3]);
+		pWSPR->_txSched.TELEN1_val1=telen_values[0];   // will get sent as TELEN #1 (extended Telemetry) (a third packet in the U4B protocol)
+		pWSPR->_txSched.TELEN1_val2=telen_values[1];	// max values are 630k and 153k for val and val2
+		pWSPR->_txSched.TELEN2_val1=telen_values[2];   //will get sent as TELEN #2 (extended Telemetry) (a 4th packet in the U4B protocol)
+		pWSPR->_txSched.TELEN2_val2=telen_values[3];	// max values are 630k and 153k for val and val2
 
 }
 

@@ -113,16 +113,18 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called ever
     const uint32_t is_GPS_active = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;  //on if valid 3d fix
 
 	pctx->_txSched.minutes_since_boot=floor((to_ms_since_boot(get_absolute_time()) / (uint32_t)60000) );
+
 	if (OLD_GPS_active_status!=is_GPS_active) //GPS status has changed
 	{
 		OLD_GPS_active_status=is_GPS_active; //make it a oneshot
-		if (is_GPS_active)                    //it changed, and is now ON
-			{                 				
-				pctx->_txSched.minutes_since_GPS_aquisition = pctx->_txSched.minutes_since_boot-minute_OF_GPS_aquisition; //current time minus time it last went on is MINUTES since on
-				minute_OF_GPS_aquisition = pctx->_txSched.minutes_since_boot;//save time it last went on
-			}
-			else pctx->_txSched.minutes_since_GPS_aquisition=99999; //it changed, and is oFF (was lost) so indicate that with 9's		
+		if (is_GPS_active) minute_OF_GPS_aquisition = pctx->_txSched.minutes_since_boot;   //it changed, and is now ON so save time it last went on				
 	}
+
+if (is_GPS_active)
+	pctx->_txSched.minutes_since_GPS_aquisition = pctx->_txSched.minutes_since_boot-minute_OF_GPS_aquisition; //current time minus time it last went on is MINUTES since on
+else
+	pctx->_txSched.minutes_since_GPS_aquisition =99999;
+
 
 		 if(is_GPS_active) at_least_one_GPS_fixed_has_been_obtained=1;
 		 if (pctx->_txSched.force_xmit_for_testing) {            
