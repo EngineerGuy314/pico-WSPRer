@@ -42,6 +42,8 @@ static int GPS_PPS_PIN;     //these get set based on values in defines.h
 static int RFOUT_PIN;
 static int GPS_ENABLE_PIN;
 int force_transmit = 0;
+uint32_t fader; //for creating "breathing" effect on LED to indicate corruption of NVRAM
+uint32_t fade_counter;
 
 PioDco DCO = {0};
 
@@ -52,7 +54,7 @@ int main()
 	
 	gpio_init(LED_PIN); 
 	gpio_set_dir(LED_PIN, GPIO_OUT); //initialize LED output
-	
+		
 	for (int i=0;i < 20;i++)     //do some blinky on startup, allows time for power supply to stabilize before GPS unit enabled
 	{
         gpio_put(LED_PIN, 1); 
@@ -61,8 +63,30 @@ int main()
 		sleep_ms(100);
 	}
 
-	read_NVRAM();				//reads values of _callsign ... sets _verbosity etc from NVRAM. MUST READ THESE *BEFORE* InitPicoPins
-    InitPicoPins();				// Sets GPIO pins roles and directions and also ADC for voltage and temperature measurements (NVRAM must be read BEFORE this, otherwise dont know how to map IO)
+	read_NVRAM();				//reads values of _callsign,  _verbosity etc from NVRAM. MUST READ THESE *BEFORE* InitPicoPins
+	if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds and reboot. or if user presses a key enter setup
+	{
+	printf("\nBAD values in NVRAM detected! will reboot in 10 seconds... press any key to enter user-setup menu..\n");
+	fader=0;fade_counter=0;
+			while (getchar_timeout_us(0)==-1)   //looks for input on USB serial port only
+			{
+			 fader+=1;
+			 if ((fader%5000)>(fader/100))
+			 gpio_put(LED_PIN, 1); 
+				else
+			 gpio_put(LED_PIN, 0);	
+			 if (fader>500000) 
+				{
+					fader=0;
+					fade_counter+=1;
+						if (fade_counter>10) {watchdog_enable(100, 1);for(;;)	{} } //after ~10 secs force a reboot
+				}
+			}	
+		DCO._pGPStime->user_setup_menu_active=1;	//if we get here, they pressed a button
+		user_interface();  
+	}
+	
+	InitPicoPins();				// Sets GPIO pins roles and directions and also ADC for voltage and temperature measurements (NVRAM must be read BEFORE this, otherwise dont know how to map IO)
 	I2C_init();
     printf("\npico-WSPRer version: %s %s\nWSPR beacon init...",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
 
@@ -132,7 +156,7 @@ int main()
 				 WSPRbeaconDumpContext(pWB);
 		}	
 
-		if (getchar_timeout_us(0)>0)   //looks for input on USB serial port only
+		if (getchar_timeout_us(0)>0)   //looks for input on USB serial port only. Note: getchar_timeout_us(0) returns a -1 if no keypress. But if you force it into a Char type, -1 becomes 0xFF
 		{
 		DCO._pGPStime->user_setup_menu_active=1;	
 		user_interface();   
@@ -308,9 +332,10 @@ printf("See the Wiki for more info.\n\n");
 	2: add entry in read_NVRAM()
 	3: add entry in write_NVRAM()
 	4: add limit checking in check_data_validity()
-	5: add TWO entries in show_values() (to display name and value, and also to display which key is used to change it)
-	6: add CASE statment entry in user_interface()
-	7: Either do something with the variable locally in Main.c, or if needed elsewhere:
+	5: add limit checking in check_data_validity_and_set_defaults()
+	6: add TWO entries in show_values() (to display name and value, and also to display which key is used to change it)
+	7: add CASE statement entry in user_interface()
+	8: Either do something with the variable locally in Main.c, or if needed elsewhere:
 		-- add a member to the GPStimeContext or WSPRbeaconContext structure
 		-- add code in main.c to move the data from the local _tag to the context structure
 		-- do something with the data elsewhere in the program
@@ -330,7 +355,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
     for(;;)
 	{	
 																 printf(UNDERLINE_ON);printf(BRIGHT);
-		printf("\nEnter the command (X,C,S,I,M,L,V,O,P,T):");printf(UNDERLINE_OFF);printf(NORMAL);	
+		printf("\nEnter the command (X,C,S,I,M,L,V,O,P,T,F):");printf(UNDERLINE_OFF);printf(NORMAL);	
 		c=getchar_timeout_us(60000000);		   //just in case user setup menu was enterred during flight, this will reboot after 60 secs
 		printf("%c\n", c);
 		if (c==255) {printf(CLEAR_SCREEN);printf("\n\n TIMEOUT WAITING FOR INPUT, REBOOTING FOR YOUR OWN GOOD!\n");sleep_ms(100);watchdog_enable(100, 1);for(;;)	{}}
@@ -338,6 +363,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 		switch(c)
 		{
 			case 'X':printf(CLEAR_SCREEN);printf("\n\nGOODBYE");watchdog_enable(100, 1);for(;;)	{}
+			//case 'R':printf(CLEAR_SCREEN);printf("\n\nCorrupting data..");strncpy(_callsign,"!^&*(",6);write_NVRAM();watchdog_enable(100, 1);for(;;)	{}  //used for testing NVRAM check on boot feature
 			case 'C':get_user_input("Enter callsign: ",_callsign,sizeof(_callsign)); convertToUpperCase(_callsign); write_NVRAM(); break;
 			case 'S':get_user_input("Enter single digit numeric suffix: ", _suffix, sizeof(_suffix)); write_NVRAM(); break;
 			case 'I':get_user_input("Enter id13: ", _id13,sizeof(_id13)); convertToUpperCase(_id13); write_NVRAM(); break;
@@ -365,7 +391,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 			case 10:  break;
 			default: printf(CLEAR_SCREEN); printf("\nYou pressed: %c - (0x%02x), INVALID choice!! ",c,c);sleep_ms(2000);break;		
 		}
-		check_data_validity();
+		check_data_validity_and_set_defaults();
 		show_values();
 	}
 }
@@ -392,7 +418,6 @@ strncpy(_oscillator, flash_target_contents+12, 1);
 strncpy(_custom_PCB, flash_target_contents+13, 1);
 strncpy(_TELEN_config, flash_target_contents+14, 4);
  
-check_data_validity();
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -414,21 +439,19 @@ void write_NVRAM(void)
 	strncpy(data_chunk+13,_custom_PCB, 1);
 	strncpy(data_chunk+14,_TELEN_config, 4);
 
-
-
 	uint32_t ints = save_and_disable_interrupts();
     flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);
 	flash_range_program(FLASH_TARGET_OFFSET, data_chunk, FLASH_PAGE_SIZE);
 	restore_interrupts (ints);
 
 }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * @brief Checks validity of user settings and if something is wrong, it sets "factory defaults"
  * and writes it back to NVRAM
  * 
  */
-void check_data_validity(void)
+void check_data_validity_and_set_defaults(void)
 {
 //do some basic plausibility checking on data, set reasonable defaults if memory was uninitialized							
 	if ( ((_callsign[0]<'A') || (_callsign[0]>'Z')) && ((_callsign[0]<'0') || (_callsign[0]>'9'))    ) {   strncpy(_callsign,"AB1CDE",6);     ; write_NVRAM();} 
@@ -442,6 +465,29 @@ void check_data_validity(void)
 	if ( (_TELEN_config[0]<'0') || (_TELEN_config[0]>'F')) {strncpy(_TELEN_config,"----",4); write_NVRAM();}
 
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @brief Checks validity of user settings and returns -1 if something wrong. Does NOT set defaults or alter NVRAM.
+ * 
+ */
+int check_data_validity(void)
+{
+int result=1;	
+//do some basic plausibility checking on data				
+	if ( ((_callsign[0]<'A') || (_callsign[0]>'Z')) && ((_callsign[0]<'0') || (_callsign[0]>'9'))    ) {result=-1;} 
+	if ( ((_suffix[0]<'0') || (_suffix[0]>'9')) && (_suffix[0]!='-') ) {result=-1;} 
+	if ( (_id13[0]!='0') && (_id13[0]!='1') && (_id13[0]!='Q')&& (_id13[0]!='-')) {result=-1;}
+	if ( (_start_minute[0]!='0') && (_start_minute[0]!='2') && (_start_minute[0]!='4')&& (_start_minute[0]!='6')&& (_start_minute[0]!='8')) {result=-1;}
+	if ( (_lane[0]!='1') && (_lane[0]!='2') && (_lane[0]!='3')&& (_lane[0]!='4')) {result=-1;}
+	if ( (_verbosity[0]<'0') || (_verbosity[0]>'9')) {result=-1;} 
+	if ( (_oscillator[0]<'0') || (_oscillator[0]>'1')) {result=-1;} 
+	if ( (_custom_PCB[0]<'0') || (_custom_PCB[0]>'1')) {result=-1;} 
+	if ( (_TELEN_config[0]<'0') || (_TELEN_config[0]>'F')) {result=-1;}
+
+return result;
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * @brief Function that writes out the current set values of parameters
  * 
