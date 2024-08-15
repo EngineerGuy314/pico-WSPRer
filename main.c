@@ -483,7 +483,7 @@ int result=1;
 	if ( (_verbosity[0]<'0') || (_verbosity[0]>'9')) {result=-1;} 
 	if ( (_oscillator[0]<'0') || (_oscillator[0]>'1')) {result=-1;} 
 	if ( (_custom_PCB[0]<'0') || (_custom_PCB[0]>'1')) {result=-1;} 
-	if ( (_TELEN_config[0]<'0') || (_TELEN_config[0]>'F')) {result=-1;}
+	if ( ((_TELEN_config[0]<'0') || (_TELEN_config[0]>'F'))&& (_TELEN_config[0]!='-')) {result=-1;}
 
 return result;
 }
