@@ -10,6 +10,8 @@
 #include <maidenhead.h>
 #include <math.h>
 
+static char grid5;
+static char grid6;
 static int itx_trigger = 0;
 static int itx_trigger2 = 0;		
 static int forced_xmit_in_process = 0;
@@ -224,6 +226,8 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-6.  1: 
 	strncpy(_4_char_version_of_locator, pctx->_pu8_locator, 4);     //only take first 4 chars of locator
 	_4_char_version_of_locator[4]=0;  //add null terminator
 	wspr_encode(pctx->_pu8_callsign, _4_char_version_of_locator, pctx->_u8_txpower, pctx->_pu8_outbuf, pctx->_txSched.verbosity);   // look in WSPRutility.c for wspr_encode
+	grid5 = pctx->_pu8_locator[4];  //record the values of grid chars 5 and 6 now, but they won't be used until packet type 2 is created
+    grid6 = pctx->_pu8_locator[5];
    }
  if (packet_type==2)   // special encoding for 2nd packet of U4B protocol
    {
@@ -237,10 +241,10 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-6.  1: 
 			pctx->_txSched->id13
 			pctx->_txSched->voltage
 */	
-	  // pick apart inputs
-        char grid5 = pctx->_pu8_locator[4];
-        char grid6 = pctx->_pu8_locator[5];
-	        // convert inputs into components of a big number
+  	  // pick apart inputs
+      // char grid5 = pctx->_pu8_locator[4];  values of grid 5 and 6 were already set previously when packet 1 was created
+      //char grid6 = pctx->_pu8_locator[5];
+      // convert inputs into components of a big number
         uint8_t grid5Val = grid5 - 'A';
         uint8_t grid6Val = grid6 - 'A';
 		uint16_t altFracM =  round((double)pctx->_pTX->_p_oscillator->_pGPStime->_altitude / 20);     
