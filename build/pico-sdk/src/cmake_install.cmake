@@ -38,10 +38,17 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for each subdirectory.
+  # Include the install script for the subdirectory.
   include("/home/rob/pico-WSPRer/build/pico-sdk/src/common/cmake_install.cmake")
-  include("/home/rob/pico-WSPRer/build/pico-sdk/src/rp2_common/cmake_install.cmake")
-  include("/home/rob/pico-WSPRer/build/pico-sdk/src/rp2040/cmake_install.cmake")
+endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/rob/pico-WSPRer/build/pico-sdk/src/rp2_common/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/rob/pico-WSPRer/build/pico-sdk/src/rp2040/cmake_install.cmake")
 endif()
 

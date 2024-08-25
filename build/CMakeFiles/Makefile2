@@ -508,6 +508,7 @@ pico-sdk/src/rp2_common/all: pico-sdk/src/rp2_common/pico_rand/all
 pico-sdk/src/rp2_common/all: pico-sdk/src/rp2_common/pico_stdio/all
 pico-sdk/src/rp2_common/all: pico-sdk/src/rp2_common/pico_stdio_semihosting/all
 pico-sdk/src/rp2_common/all: pico-sdk/src/rp2_common/pico_stdio_uart/all
+pico-sdk/src/rp2_common/all: pico-sdk/src/rp2_common/pico_stdio_rtt/all
 pico-sdk/src/rp2_common/all: pico-sdk/src/rp2_common/cmsis/all
 pico-sdk/src/rp2_common/all: pico-sdk/src/rp2_common/tinyusb/all
 pico-sdk/src/rp2_common/all: pico-sdk/src/rp2_common/pico_stdio_usb/all
@@ -570,6 +571,7 @@ pico-sdk/src/rp2_common/preinstall: pico-sdk/src/rp2_common/pico_rand/preinstall
 pico-sdk/src/rp2_common/preinstall: pico-sdk/src/rp2_common/pico_stdio/preinstall
 pico-sdk/src/rp2_common/preinstall: pico-sdk/src/rp2_common/pico_stdio_semihosting/preinstall
 pico-sdk/src/rp2_common/preinstall: pico-sdk/src/rp2_common/pico_stdio_uart/preinstall
+pico-sdk/src/rp2_common/preinstall: pico-sdk/src/rp2_common/pico_stdio_rtt/preinstall
 pico-sdk/src/rp2_common/preinstall: pico-sdk/src/rp2_common/cmsis/preinstall
 pico-sdk/src/rp2_common/preinstall: pico-sdk/src/rp2_common/tinyusb/preinstall
 pico-sdk/src/rp2_common/preinstall: pico-sdk/src/rp2_common/pico_stdio_usb/preinstall
@@ -632,6 +634,7 @@ pico-sdk/src/rp2_common/clean: pico-sdk/src/rp2_common/pico_rand/clean
 pico-sdk/src/rp2_common/clean: pico-sdk/src/rp2_common/pico_stdio/clean
 pico-sdk/src/rp2_common/clean: pico-sdk/src/rp2_common/pico_stdio_semihosting/clean
 pico-sdk/src/rp2_common/clean: pico-sdk/src/rp2_common/pico_stdio_uart/clean
+pico-sdk/src/rp2_common/clean: pico-sdk/src/rp2_common/pico_stdio_rtt/clean
 pico-sdk/src/rp2_common/clean: pico-sdk/src/rp2_common/cmsis/clean
 pico-sdk/src/rp2_common/clean: pico-sdk/src/rp2_common/tinyusb/clean
 pico-sdk/src/rp2_common/clean: pico-sdk/src/rp2_common/pico_stdio_usb/clean
@@ -1433,19 +1436,37 @@ pico-sdk/src/rp2_common/pico_int64_ops/clean:
 # Directory level rules for directory pico-sdk/src/rp2_common/pico_lwip
 
 # Recursive "all" directory target.
-pico-sdk/src/rp2_common/pico_lwip/all:
+pico-sdk/src/rp2_common/pico_lwip/all: pico-sdk/src/rp2_common/pico_lwip/tools/all
 
 .PHONY : pico-sdk/src/rp2_common/pico_lwip/all
 
 # Recursive "preinstall" directory target.
-pico-sdk/src/rp2_common/pico_lwip/preinstall:
+pico-sdk/src/rp2_common/pico_lwip/preinstall: pico-sdk/src/rp2_common/pico_lwip/tools/preinstall
 
 .PHONY : pico-sdk/src/rp2_common/pico_lwip/preinstall
 
 # Recursive "clean" directory target.
-pico-sdk/src/rp2_common/pico_lwip/clean:
+pico-sdk/src/rp2_common/pico_lwip/clean: pico-sdk/src/rp2_common/pico_lwip/tools/clean
 
 .PHONY : pico-sdk/src/rp2_common/pico_lwip/clean
+
+#=============================================================================
+# Directory level rules for directory pico-sdk/src/rp2_common/pico_lwip/tools
+
+# Recursive "all" directory target.
+pico-sdk/src/rp2_common/pico_lwip/tools/all:
+
+.PHONY : pico-sdk/src/rp2_common/pico_lwip/tools/all
+
+# Recursive "preinstall" directory target.
+pico-sdk/src/rp2_common/pico_lwip/tools/preinstall:
+
+.PHONY : pico-sdk/src/rp2_common/pico_lwip/tools/preinstall
+
+# Recursive "clean" directory target.
+pico-sdk/src/rp2_common/pico_lwip/tools/clean:
+
+.PHONY : pico-sdk/src/rp2_common/pico_lwip/tools/clean
 
 #=============================================================================
 # Directory level rules for directory pico-sdk/src/rp2_common/pico_malloc
@@ -1626,6 +1647,24 @@ pico-sdk/src/rp2_common/pico_stdio/preinstall:
 pico-sdk/src/rp2_common/pico_stdio/clean:
 
 .PHONY : pico-sdk/src/rp2_common/pico_stdio/clean
+
+#=============================================================================
+# Directory level rules for directory pico-sdk/src/rp2_common/pico_stdio_rtt
+
+# Recursive "all" directory target.
+pico-sdk/src/rp2_common/pico_stdio_rtt/all:
+
+.PHONY : pico-sdk/src/rp2_common/pico_stdio_rtt/all
+
+# Recursive "preinstall" directory target.
+pico-sdk/src/rp2_common/pico_stdio_rtt/preinstall:
+
+.PHONY : pico-sdk/src/rp2_common/pico_stdio_rtt/preinstall
+
+# Recursive "clean" directory target.
+pico-sdk/src/rp2_common/pico_stdio_rtt/clean:
+
+.PHONY : pico-sdk/src/rp2_common/pico_stdio_rtt/clean
 
 #=============================================================================
 # Directory level rules for directory pico-sdk/src/rp2_common/pico_stdio_semihosting
