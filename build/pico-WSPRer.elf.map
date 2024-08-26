@@ -1816,9 +1816,9 @@ Discarded input sections
                 0x0000000000000000       0x20 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.c.obj
  .text.rtc_disable_alarm
                 0x0000000000000000       0x20 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.c.obj
- .text          0x0000000000000000        0x0 /tmp/ccwXqeEs.o
- .data          0x0000000000000000        0x0 /tmp/ccwXqeEs.o
- .bss           0x0000000000000000        0x0 /tmp/ccwXqeEs.o
+ .text          0x0000000000000000        0x0 /tmp/ccvloVIy.o
+ .data          0x0000000000000000        0x0 /tmp/ccvloVIy.o
+ .bss           0x0000000000000000        0x0 /tmp/ccvloVIy.o
  .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/8.3.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
  .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/8.3.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
  .text          0x0000000000000000       0x10 /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libg.a(lib_a-atexit.o)
@@ -2410,7 +2410,7 @@ LOAD /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp
 .boot2          0x0000000010000000      0x100
                 0x0000000010000000                __boot2_start__ = .
  *(.boot2)
- .boot2         0x0000000010000000      0x100 /tmp/ccwXqeEs.o
+ .boot2         0x0000000010000000      0x100 /tmp/ccvloVIy.o
                 0x0000000010000100                __boot2_end__ = .
                 0x0000000000000001                ASSERT (((__boot2_end__ - __boot2_start__) == 0x100), ERROR: Pico second stage bootloader must be 256 bytes in size)
 
@@ -4466,7 +4466,7 @@ LOAD CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_i2c/i2
 LOAD CMakeFiles/pico-WSPRer.dir/home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.c.obj
 LOAD CMakeFiles/pico-WSPRer.dir/home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.c.obj
 LOAD CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.c.obj
-LOAD /tmp/ccwXqeEs.o
+LOAD /tmp/ccvloVIy.o
 LOAD /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libstdc++.a
 LOAD /usr/lib/gcc/arm-none-eabi/8.3.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libm.a
 START GROUP
@@ -4635,7 +4635,7 @@ LOAD linker stubs
  .ARM.attributes
                 0x0000000000000c20       0x2c CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.c.obj
  .ARM.attributes
-                0x0000000000000c4c       0x22 /tmp/ccwXqeEs.o
+                0x0000000000000c4c       0x22 /tmp/ccvloVIy.o
  .ARM.attributes
                 0x0000000000000c6e       0x1e /usr/lib/gcc/arm-none-eabi/8.3.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
  .ARM.attributes

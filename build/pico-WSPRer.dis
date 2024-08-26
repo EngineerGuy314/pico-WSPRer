@@ -5903,7 +5903,7 @@ Disassembly of section .text:
 1000324e:	f005 f833 	bl	100082b8 <__wrap___aeabi_memcpy>
 10003252:	79ab      	ldrb	r3, [r5, #6]
 10003254:	2200      	movs	r2, #0
-10003256:	332f      	adds	r3, #47	; 0x2f
+10003256:	332e      	adds	r3, #46	; 0x2e
 10003258:	2108      	movs	r1, #8
 1000325a:	9801      	ldr	r0, [sp, #4]
 1000325c:	71ab      	strb	r3, [r5, #6]
