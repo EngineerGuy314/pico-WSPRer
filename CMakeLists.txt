@@ -13,6 +13,8 @@ set(PICO_BOARD pico CACHE STRING "Board type")
 
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
+# We also need PICO EXTRAS
+include(pico_extras_import.cmake)
 
 if (PICO_SDK_VERSION_STRING VERSION_LESS "1.4.0")
   message(FATAL_ERROR "Raspberry Pi Pico SDK version 1.4.0 (or later) required. Your version is ${PICO_SDK_VERSION_STRING}")
@@ -67,6 +69,7 @@ target_link_libraries(pico-WSPRer
 					  hardware_flash
 					  hardware_sync
 					  hardware_i2c
+					  hardware_sleep
                      )
 
 pico_add_extra_outputs(pico-WSPRer)

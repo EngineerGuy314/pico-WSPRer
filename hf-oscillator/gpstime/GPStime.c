@@ -58,7 +58,7 @@ GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio, uint32_t c
 
     gpio_init(pps_gpio);
     gpio_set_dir(pps_gpio, GPIO_IN);
-    gpio_set_irq_enabled_with_callback(pps_gpio, GPIO_IRQ_EDGE_RISE, true, &GPStimePPScallback);
+	gpio_set_irq_enabled_with_callback(pps_gpio, GPIO_IRQ_EDGE_RISE, true, &GPStimePPScallback);
 
     uart_set_hw_flow(uart_id ? uart1 : uart0, false, false);
     uart_set_format(uart_id ? uart1 : uart0, 8, 1, UART_PARITY_NONE);
@@ -71,6 +71,7 @@ GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio, uint32_t c
 	tics_per_second = 1000000 * clock_speed / 2;
 	printf(" clock speed %d  nanosecs per tick Scaled %d tics per sec %d\n",clock_speed, nanosecs_per_tick,tics_per_second);
 	elapsed_PIO_ticks_FILTERED= tics_per_second; //preload ideal value to reduce initial filtering lock time. 
+
     return pgt;
 }
 

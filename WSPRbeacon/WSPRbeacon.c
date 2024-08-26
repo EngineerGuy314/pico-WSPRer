@@ -9,9 +9,15 @@
 #include <WSPRutility.h>
 #include <maidenhead.h>
 #include <math.h>
+#include "pico/sleep.h"      
+#include "hardware/rtc.h" 
+#include "hardware/watchdog.h"
+#include "pico/multicore.h"
 
 static char grid5;
 static char grid6;
+static int U4B_second_packet_has_started = 0;
+static int U4B_second_packet_has_started_at_minute;
 static int itx_trigger = 0;
 static int itx_trigger2 = 0;		
 static int forced_xmit_in_process = 0;
@@ -35,6 +41,9 @@ const int8_t valid_dbm[19] =
     {0, 3, 7, 10, 13, 17, 20, 23, 27, 30, 33, 37, 40,
      43, 47, 50, 53, 57, 60};  
 
+static void sleep_callback(void) {
+    printf("RTC woke us up\n");
+}
 /// @brief Initializes a new WSPR beacon context.
 /// @param pcallsign HAM radio callsign, 12 chr max.
 /// @param pgridsquare Maidenhead locator, 7 chr max.
@@ -108,7 +117,7 @@ else                                       //if we get here, U4B is enabled
 /// @brief It works only if GPS receiver available (for now).
 /// @param pctx Ptr to Context.
 /// @return 0 if OK, -1 if NO GPS received available
-int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose)   // called every half second from Main.c
+int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose, int GPS_PPS_PIN)   // called every half second from Main.c
 {
 	assert_(pctx);                 	
 	uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;  //on if there ever were any serial data received from a GPS unit
@@ -186,6 +195,7 @@ else
 			WSPRbeaconCreatePacket(pctx, schedule[current_minute] ); //the schedule determines packet type (1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd)
 			sleep_ms(50);
 			WSPRbeaconSendPacket(pctx); 
+			if (schedule[current_minute]==2) {U4B_second_packet_has_started=1;U4B_second_packet_has_started_at_minute=current_minute;}
 		}
 
 /*				1 - No valid GPS, not transmitting
@@ -206,6 +216,22 @@ else
 				pctx->_txSched.led_mode = 0;  //no GPS serial Comms
 			 }
 
+		if ((pctx->_txSched.low_power_mode)&&(U4B_second_packet_has_started)&&(current_minute==((U4B_second_packet_has_started_at_minute+2)%10))) //time to sleep to save battery power
+		{
+			datetime_t t = {.year  = 2020,.month = 01,.day= 01, .dotw= 1,.hour=1,.min= 1,.sec = 00};
+			// Start the RTC
+			rtc_init();
+			rtc_set_datetime(&t);
+			uart_default_tx_wait_blocking();
+			datetime_t alarm_time = t;
+			alarm_time.min += 47;	//sleep for 55 minutes. 47 = 55 mins X (115Mhz/133Mhz)
+			gpio_set_irq_enabled(GPS_PPS_PIN, GPIO_IRQ_EDGE_RISE, false); //this is needed to disable IRQ callback on PPS
+			multicore_reset_core1();  //this is needed, otherwise causes instant reboot
+			sleep_run_from_dormant_source(DORMANT_SOURCE_ROSC);  //this reduces sleep draw to 2mA! (without this will still sleep, but only at 8mA)
+			sleep_goto_sleep_until(&alarm_time, &sleep_callback);	//blocks here during sleep perfiod
+			{watchdog_enable(100, 1);for(;;)	{} }  //recovering from sleep is messy, this makes it reboot to get a fresh start
+		}
+   
    return 0;
 }
 //******************************************************************************************************************************

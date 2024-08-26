@@ -74,6 +74,7 @@ typedef struct
 	uint32_t TELEN2_val2;
 	uint32_t minutes_since_boot;
 	uint32_t minutes_since_GPS_aquisition;
+	uint8_t low_power_mode;
 
 } WSPRbeaconSchedule;
 
@@ -96,7 +97,7 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type);
 char* add_brackets(const char * call);
 int WSPRbeaconSendPacket(const WSPRbeaconContext *pctx);
 char EncodeBase36(uint8_t val);
-int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose);
+int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose, int GPS_PPS_PIN);
 void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx);
 char *WSPRbeaconGetLastQTHLocator(const WSPRbeaconContext *pctx);
 uint8_t WSPRbeaconIsGPSsolutionActive(const WSPRbeaconContext *pctx);

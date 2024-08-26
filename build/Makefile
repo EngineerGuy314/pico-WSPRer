@@ -130,19 +130,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named ELF2UF2Build
-
-# Build rule for target.
-ELF2UF2Build: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ELF2UF2Build
-.PHONY : ELF2UF2Build
-
-# fast build rule for target.
-ELF2UF2Build/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ELF2UF2Build.dir/build.make CMakeFiles/ELF2UF2Build.dir/build
-.PHONY : ELF2UF2Build/fast
-
-#=============================================================================
 # Target rules for targets named pico-WSPRer_dco2_pio_h
 
 # Build rule for target.
@@ -191,7 +178,7 @@ bs2_default_padded_checksummed_asm: cmake_check_build_system
 
 # fast build rule for target.
 bs2_default_padded_checksummed_asm/fast:
-	$(MAKE) $(MAKESILENT) -f pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/build.make pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/build
+	$(MAKE) $(MAKESILENT) -f pico-sdk/src/rp2040/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/build.make pico-sdk/src/rp2040/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/build
 .PHONY : bs2_default_padded_checksummed_asm/fast
 
 #=============================================================================
@@ -204,7 +191,7 @@ bs2_default_bin: cmake_check_build_system
 
 # fast build rule for target.
 bs2_default_bin/fast:
-	$(MAKE) $(MAKESILENT) -f pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/build.make pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/build
+	$(MAKE) $(MAKESILENT) -f pico-sdk/src/rp2040/boot_stage2/CMakeFiles/bs2_default_bin.dir/build.make pico-sdk/src/rp2040/boot_stage2/CMakeFiles/bs2_default_bin.dir/build
 .PHONY : bs2_default_bin/fast
 
 #=============================================================================
@@ -217,21 +204,8 @@ bs2_default: cmake_check_build_system
 
 # fast build rule for target.
 bs2_default/fast:
-	$(MAKE) $(MAKESILENT) -f pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default.dir/build.make pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default.dir/build
+	$(MAKE) $(MAKESILENT) -f pico-sdk/src/rp2040/boot_stage2/CMakeFiles/bs2_default.dir/build.make pico-sdk/src/rp2040/boot_stage2/CMakeFiles/bs2_default.dir/build
 .PHONY : bs2_default/fast
-
-#=============================================================================
-# Target rules for targets named PioasmBuild
-
-# Build rule for target.
-PioasmBuild: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 PioasmBuild
-.PHONY : PioasmBuild
-
-# fast build rule for target.
-PioasmBuild/fast:
-	$(MAKE) $(MAKESILENT) -f pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/PioasmBuild.dir/build.make pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/PioasmBuild.dir/build
-.PHONY : PioasmBuild/fast
 
 #=============================================================================
 # Target rules for targets named cyw43_driver_picow_cyw43_bus_pio_spi_pio_h
@@ -245,6 +219,84 @@ cyw43_driver_picow_cyw43_bus_pio_spi_pio_h: cmake_check_build_system
 cyw43_driver_picow_cyw43_bus_pio_spi_pio_h/fast:
 	$(MAKE) $(MAKESILENT) -f pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/cyw43_driver_picow_cyw43_bus_pio_spi_pio_h.dir/build.make pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/cyw43_driver_picow_cyw43_bus_pio_spi_pio_h.dir/build
 .PHONY : cyw43_driver_picow_cyw43_bus_pio_spi_pio_h/fast
+
+#=============================================================================
+# Target rules for targets named pico_scanvideo_scanvideo_pio_h
+
+# Build rule for target.
+pico_scanvideo_scanvideo_pio_h: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico_scanvideo_scanvideo_pio_h
+.PHONY : pico_scanvideo_scanvideo_pio_h
+
+# fast build rule for target.
+pico_scanvideo_scanvideo_pio_h/fast:
+	$(MAKE) $(MAKESILENT) -f pico_extras/src/common/pico_scanvideo/CMakeFiles/pico_scanvideo_scanvideo_pio_h.dir/build.make pico_extras/src/common/pico_scanvideo/CMakeFiles/pico_scanvideo_scanvideo_pio_h.dir/build
+.PHONY : pico_scanvideo_scanvideo_pio_h/fast
+
+#=============================================================================
+# Target rules for targets named pico_audio_i2s_audio_i2s_pio_h
+
+# Build rule for target.
+pico_audio_i2s_audio_i2s_pio_h: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico_audio_i2s_audio_i2s_pio_h
+.PHONY : pico_audio_i2s_audio_i2s_pio_h
+
+# fast build rule for target.
+pico_audio_i2s_audio_i2s_pio_h/fast:
+	$(MAKE) $(MAKESILENT) -f pico_extras/src/rp2_common/pico_audio_i2s/CMakeFiles/pico_audio_i2s_audio_i2s_pio_h.dir/build.make pico_extras/src/rp2_common/pico_audio_i2s/CMakeFiles/pico_audio_i2s_audio_i2s_pio_h.dir/build
+.PHONY : pico_audio_i2s_audio_i2s_pio_h/fast
+
+#=============================================================================
+# Target rules for targets named pico_audio_pwm_audio_pwm_pio_h
+
+# Build rule for target.
+pico_audio_pwm_audio_pwm_pio_h: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico_audio_pwm_audio_pwm_pio_h
+.PHONY : pico_audio_pwm_audio_pwm_pio_h
+
+# fast build rule for target.
+pico_audio_pwm_audio_pwm_pio_h/fast:
+	$(MAKE) $(MAKESILENT) -f pico_extras/src/rp2_common/pico_audio_pwm/CMakeFiles/pico_audio_pwm_audio_pwm_pio_h.dir/build.make pico_extras/src/rp2_common/pico_audio_pwm/CMakeFiles/pico_audio_pwm_audio_pwm_pio_h.dir/build
+.PHONY : pico_audio_pwm_audio_pwm_pio_h/fast
+
+#=============================================================================
+# Target rules for targets named pico_audio_spdif_audio_spdif_pio_h
+
+# Build rule for target.
+pico_audio_spdif_audio_spdif_pio_h: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico_audio_spdif_audio_spdif_pio_h
+.PHONY : pico_audio_spdif_audio_spdif_pio_h
+
+# fast build rule for target.
+pico_audio_spdif_audio_spdif_pio_h/fast:
+	$(MAKE) $(MAKESILENT) -f pico_extras/src/rp2_common/pico_audio_spdif/CMakeFiles/pico_audio_spdif_audio_spdif_pio_h.dir/build.make pico_extras/src/rp2_common/pico_audio_spdif/CMakeFiles/pico_audio_spdif_audio_spdif_pio_h.dir/build
+.PHONY : pico_audio_spdif_audio_spdif_pio_h/fast
+
+#=============================================================================
+# Target rules for targets named pico_sd_card_sd_card_pio_h
+
+# Build rule for target.
+pico_sd_card_sd_card_pio_h: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico_sd_card_sd_card_pio_h
+.PHONY : pico_sd_card_sd_card_pio_h
+
+# fast build rule for target.
+pico_sd_card_sd_card_pio_h/fast:
+	$(MAKE) $(MAKESILENT) -f pico_extras/src/rp2_common/pico_sd_card/CMakeFiles/pico_sd_card_sd_card_pio_h.dir/build.make pico_extras/src/rp2_common/pico_sd_card/CMakeFiles/pico_sd_card_sd_card_pio_h.dir/build
+.PHONY : pico_sd_card_sd_card_pio_h/fast
+
+#=============================================================================
+# Target rules for targets named pico_scanvideo_dpi_timing_pio_h
+
+# Build rule for target.
+pico_scanvideo_dpi_timing_pio_h: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico_scanvideo_dpi_timing_pio_h
+.PHONY : pico_scanvideo_dpi_timing_pio_h
+
+# fast build rule for target.
+pico_scanvideo_dpi_timing_pio_h/fast:
+	$(MAKE) $(MAKESILENT) -f pico_extras/src/rp2_common/pico_scanvideo_dpi/CMakeFiles/pico_scanvideo_dpi_timing_pio_h.dir/build.make pico_extras/src/rp2_common/pico_scanvideo_dpi/CMakeFiles/pico_scanvideo_dpi_timing_pio_h.dir/build
+.PHONY : pico_scanvideo_dpi_timing_pio_h/fast
 
 TxChannel/TxChannel.obj: TxChannel/TxChannel.c.obj
 
@@ -515,6 +567,60 @@ hf-oscillator/piodco/piodco.s: hf-oscillator/piodco/piodco.c.s
 hf-oscillator/piodco/piodco.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/hf-oscillator/piodco/piodco.c.s
 .PHONY : hf-oscillator/piodco/piodco.c.s
+
+home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.obj: home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.c.obj
+
+.PHONY : home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.obj
+
+# target to build an object file
+home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.c.obj
+.PHONY : home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.c.obj
+
+home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.i: home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.c.i
+
+.PHONY : home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.i
+
+# target to preprocess a source file
+home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.c.i
+.PHONY : home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.c.i
+
+home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.s: home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.c.s
+
+.PHONY : home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.s
+
+# target to generate assembly for a file
+home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.c.s
+.PHONY : home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.c.s
+
+home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.obj: home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.c.obj
+
+.PHONY : home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.obj
+
+# target to build an object file
+home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.c.obj
+.PHONY : home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.c.obj
+
+home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.i: home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.c.i
+
+.PHONY : home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.i
+
+# target to preprocess a source file
+home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.c.i
+.PHONY : home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.c.i
+
+home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.s: home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.c.s
+
+.PHONY : home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.s
+
+# target to generate assembly for a file
+home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.c.s
+.PHONY : home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.c.s
 
 home/rob/pico-sdk/lib/tinyusb/src/class/audio/audio_device.obj: home/rob/pico-sdk/lib/tinyusb/src/class/audio/audio_device.c.obj
 
@@ -1002,6 +1108,33 @@ home/rob/pico-sdk/lib/tinyusb/src/tusb.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/lib/tinyusb/src/tusb.c.s
 .PHONY : home/rob/pico-sdk/lib/tinyusb/src/tusb.c.s
 
+home/rob/pico-sdk/src/common/hardware_claim/claim.obj: home/rob/pico-sdk/src/common/hardware_claim/claim.c.obj
+
+.PHONY : home/rob/pico-sdk/src/common/hardware_claim/claim.obj
+
+# target to build an object file
+home/rob/pico-sdk/src/common/hardware_claim/claim.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/hardware_claim/claim.c.obj
+.PHONY : home/rob/pico-sdk/src/common/hardware_claim/claim.c.obj
+
+home/rob/pico-sdk/src/common/hardware_claim/claim.i: home/rob/pico-sdk/src/common/hardware_claim/claim.c.i
+
+.PHONY : home/rob/pico-sdk/src/common/hardware_claim/claim.i
+
+# target to preprocess a source file
+home/rob/pico-sdk/src/common/hardware_claim/claim.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/hardware_claim/claim.c.i
+.PHONY : home/rob/pico-sdk/src/common/hardware_claim/claim.c.i
+
+home/rob/pico-sdk/src/common/hardware_claim/claim.s: home/rob/pico-sdk/src/common/hardware_claim/claim.c.s
+
+.PHONY : home/rob/pico-sdk/src/common/hardware_claim/claim.s
+
+# target to generate assembly for a file
+home/rob/pico-sdk/src/common/hardware_claim/claim.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/hardware_claim/claim.c.s
+.PHONY : home/rob/pico-sdk/src/common/hardware_claim/claim.c.s
+
 home/rob/pico-sdk/src/common/pico_sync/critical_section.obj: home/rob/pico-sdk/src/common/pico_sync/critical_section.c.obj
 
 .PHONY : home/rob/pico-sdk/src/common/pico_sync/critical_section.obj
@@ -1245,6 +1378,33 @@ home/rob/pico-sdk/src/common/pico_util/queue.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/common/pico_util/queue.c.s
 .PHONY : home/rob/pico-sdk/src/common/pico_util/queue.c.s
 
+home/rob/pico-sdk/src/rp2040/pico_platform/platform.obj: home/rob/pico-sdk/src/rp2040/pico_platform/platform.c.obj
+
+.PHONY : home/rob/pico-sdk/src/rp2040/pico_platform/platform.obj
+
+# target to build an object file
+home/rob/pico-sdk/src/rp2040/pico_platform/platform.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2040/pico_platform/platform.c.obj
+.PHONY : home/rob/pico-sdk/src/rp2040/pico_platform/platform.c.obj
+
+home/rob/pico-sdk/src/rp2040/pico_platform/platform.i: home/rob/pico-sdk/src/rp2040/pico_platform/platform.c.i
+
+.PHONY : home/rob/pico-sdk/src/rp2040/pico_platform/platform.i
+
+# target to preprocess a source file
+home/rob/pico-sdk/src/rp2040/pico_platform/platform.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2040/pico_platform/platform.c.i
+.PHONY : home/rob/pico-sdk/src/rp2040/pico_platform/platform.c.i
+
+home/rob/pico-sdk/src/rp2040/pico_platform/platform.s: home/rob/pico-sdk/src/rp2040/pico_platform/platform.c.s
+
+.PHONY : home/rob/pico-sdk/src/rp2040/pico_platform/platform.s
+
+# target to generate assembly for a file
+home/rob/pico-sdk/src/rp2040/pico_platform/platform.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2040/pico_platform/platform.c.s
+.PHONY : home/rob/pico-sdk/src/rp2040/pico_platform/platform.c.s
+
 home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.obj: home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.obj
 
 .PHONY : home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.obj
@@ -1272,32 +1432,32 @@ home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.s
 .PHONY : home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.c.s
 
-home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.obj: home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
+home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.obj: home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.c.obj
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.obj
 
 # target to build an object file
-home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
-.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
+home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.c.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.c.obj
 
-home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.i: home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.i
+home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.i: home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.c.i
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.i
 
 # target to preprocess a source file
-home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.i
-.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.i
+home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.c.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.c.i
 
-home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.s: home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.s
+home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.s: home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.c.s
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.s
 
 # target to generate assembly for a file
-home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.s
-.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.c.s
+home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.c.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.c.s
 
 home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.obj: home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj
 
@@ -1506,6 +1666,33 @@ home/rob/pico-sdk/src/rp2_common/hardware_pll/pll.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_pll/pll.c.s
 .PHONY : home/rob/pico-sdk/src/rp2_common/hardware_pll/pll.c.s
 
+home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.obj: home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.c.obj
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.obj
+
+# target to build an object file
+home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.c.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.c.obj
+
+home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.i: home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.c.i
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.i
+
+# target to preprocess a source file
+home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.c.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.c.i
+
+home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.s: home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.c.s
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.s
+
+# target to generate assembly for a file
+home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.c.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.c.s
+
 home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.obj: home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj
 
 .PHONY : home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.obj
@@ -1532,6 +1719,60 @@ home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.s: home/rob/pico-sdk/src/rp2
 home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c.s
 .PHONY : home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.c.s
+
+home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.obj: home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.c.obj
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.obj
+
+# target to build an object file
+home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.c.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.c.obj
+
+home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.i: home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.c.i
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.i
+
+# target to preprocess a source file
+home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.c.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.c.i
+
+home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.s: home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.c.s
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.s
+
+# target to generate assembly for a file
+home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.c.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.c.s
+
+home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.obj: home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.c.obj
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.obj
+
+# target to build an object file
+home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.c.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.c.obj
+
+home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.i: home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.c.i
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.i
+
+# target to preprocess a source file
+home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.c.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.c.i
+
+home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.s: home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.c.s
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.s
+
+# target to generate assembly for a file
+home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.c.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.c.s
 
 home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.obj: home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
 
@@ -1668,6 +1909,33 @@ home/rob/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.s
 .PHONY : home/rob/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.s
 
+home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.obj: home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.c.obj
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.obj
+
+# target to build an object file
+home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.c.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.c.obj
+
+home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.i: home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.c.i
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.i
+
+# target to preprocess a source file
+home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.c.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.c.i
+
+home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.s: home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.c.s
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.s
+
+# target to generate assembly for a file
+home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.c.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.c.s
+
 home/rob/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.obj: home/rob/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj
 
 .PHONY : home/rob/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.obj
@@ -1704,50 +1972,140 @@ home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.s
 .PHONY : home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.s
 
-home/rob/pico-sdk/src/rp2_common/pico_divider/divider.obj: home/rob/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
+home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.obj: home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.c.obj
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_divider/divider.obj
-
-# target to build an object file
-home/rob/pico-sdk/src/rp2_common/pico_divider/divider.S.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
-
-home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.obj: home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.obj
 
 # target to build an object file
-home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.c.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.c.obj
 
-home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.obj: home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj
+home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.i: home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.c.i
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.obj
-
-# target to build an object file
-home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj
-
-home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.i: home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.i
-
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.i
 
 # target to preprocess a source file
-home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.i
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.i
+home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.c.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.c.i
 
-home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.s: home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.s
+home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.s: home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.c.s
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.s
 
 # target to generate assembly for a file
-home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.s
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.s
+home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.c.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.c.s
+
+home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.obj: home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.c.obj
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.obj
+
+# target to build an object file
+home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.c.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.c.obj
+
+home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.i: home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.c.i
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.i
+
+# target to preprocess a source file
+home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.c.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.c.i
+
+home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.s: home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.c.s
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.s
+
+# target to generate assembly for a file
+home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.c.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.c.s
+
+home/rob/pico-sdk/src/rp2_common/pico_crt0/crt0.obj: home/rob/pico-sdk/src/rp2_common/pico_crt0/crt0.S.obj
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_crt0/crt0.obj
+
+# target to build an object file
+home/rob/pico-sdk/src/rp2_common/pico_crt0/crt0.S.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_crt0/crt0.S.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_crt0/crt0.S.obj
+
+home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.obj: home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.cpp.obj
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.obj
+
+# target to build an object file
+home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.cpp.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.cpp.obj
+
+home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.i: home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.cpp.i
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.i
+
+# target to preprocess a source file
+home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.cpp.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.cpp.i
+
+home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.s: home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.cpp.s
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.s
+
+# target to generate assembly for a file
+home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.cpp.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.cpp.s
+
+home/rob/pico-sdk/src/rp2_common/pico_divider/divider_hardware.obj: home/rob/pico-sdk/src/rp2_common/pico_divider/divider_hardware.S.obj
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_divider/divider_hardware.obj
+
+# target to build an object file
+home/rob/pico-sdk/src/rp2_common/pico_divider/divider_hardware.S.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_divider/divider_hardware.S.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_divider/divider_hardware.S.obj
+
+home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi_rp2040.obj: home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi_rp2040.S.obj
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi_rp2040.obj
+
+# target to build an object file
+home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi_rp2040.S.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi_rp2040.S.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi_rp2040.S.obj
+
+home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.obj: home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.c.obj
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.obj
+
+# target to build an object file
+home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.c.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.c.obj
+
+home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.i: home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.c.i
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.i
+
+# target to preprocess a source file
+home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.c.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.c.i
+
+home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.s: home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.c.s
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.s
+
+# target to generate assembly for a file
+home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.c.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.c.s
 
 home/rob/pico-sdk/src/rp2_common/pico_double/double_math.obj: home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c.obj
 
@@ -1776,14 +2134,14 @@ home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c.s
 .PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_math.c.s
 
-home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.obj: home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim_rp2040.obj: home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim_rp2040.S.obj
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim_rp2040.obj
 
 # target to build an object file
-home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim_rp2040.S.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim_rp2040.S.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim_rp2040.S.obj
 
 home/rob/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/rp2040_usb_device_enumeration.obj: home/rob/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/rp2040_usb_device_enumeration.c.obj
 
@@ -1812,41 +2170,41 @@ home/rob/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/rp2040_u
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/rp2040_usb_device_enumeration.c.s
 .PHONY : home/rob/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/rp2040_usb_device_enumeration.c.s
 
-home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.obj: home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi_rp2040.obj: home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi_rp2040.S.obj
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.obj
-
-# target to build an object file
-home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
-
-home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.obj: home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj
-
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi_rp2040.obj
 
 # target to build an object file
-home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj
+home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi_rp2040.S.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi_rp2040.S.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi_rp2040.S.obj
 
-home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.i: home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.i
+home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.obj: home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.c.obj
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.obj
+
+# target to build an object file
+home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.c.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.c.obj
+
+home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.i: home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.c.i
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.i
 
 # target to preprocess a source file
-home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.i
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.i
+home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.c.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.c.i
 
-home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.s: home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.s
+home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.s: home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.c.s
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.s
 
 # target to generate assembly for a file
-home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.s
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.s
+home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.c.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.c.s
 
 home/rob/pico-sdk/src/rp2_common/pico_float/float_math.obj: home/rob/pico-sdk/src/rp2_common/pico_float/float_math.c.obj
 
@@ -1875,14 +2233,14 @@ home/rob/pico-sdk/src/rp2_common/pico_float/float_math.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_math.c.s
 .PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_math.c.s
 
-home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.obj: home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
+home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim_rp2040.obj: home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim_rp2040.S.obj
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim_rp2040.obj
 
 # target to build an object file
-home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
+home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim_rp2040.S.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim_rp2040.S.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim_rp2040.S.obj
 
 home/rob/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.obj: home/rob/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj
 
@@ -1893,32 +2251,32 @@ home/rob/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj
 .PHONY : home/rob/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj
 
-home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.obj: home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj
+home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.obj: home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.c.obj
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.obj
 
 # target to build an object file
-home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj
+home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.c.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.c.obj
 
-home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.i: home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.i
+home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.i: home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.c.i
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.i
 
 # target to preprocess a source file
-home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.i
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.i
+home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.c.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.c.i
 
-home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.s: home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.s
+home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.s: home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.c.s
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.s
 
 # target to generate assembly for a file
-home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.s
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.s
+home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.c.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.c.s
 
 home/rob/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.obj: home/rob/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
 
@@ -1956,32 +2314,32 @@ home/rob/pico-sdk/src/rp2_common/pico_multicore/multicore.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_multicore/multicore.c.s
 .PHONY : home/rob/pico-sdk/src/rp2_common/pico_multicore/multicore.c.s
 
-home/rob/pico-sdk/src/rp2_common/pico_platform/platform.obj: home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.obj
+home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.obj: home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.c.obj
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_platform/platform.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.obj
 
 # target to build an object file
-home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.obj
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.obj
+home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.c.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.c.obj
 
-home/rob/pico-sdk/src/rp2_common/pico_platform/platform.i: home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.i
+home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.i: home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.c.i
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_platform/platform.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.i
 
 # target to preprocess a source file
-home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.i
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.i
+home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.c.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.c.i
 
-home/rob/pico-sdk/src/rp2_common/pico_platform/platform.s: home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.s
+home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.s: home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.c.s
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_platform/platform.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.s
 
 # target to generate assembly for a file
-home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.s
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_platform/platform.c.s
+home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.c.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.c.s
 
 home/rob/pico-sdk/src/rp2_common/pico_printf/printf.obj: home/rob/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
 
@@ -2037,68 +2395,113 @@ home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.s
 .PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.c.s
 
-home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.obj: home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.obj: home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.c.obj
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.obj
 
 # target to build an object file
-home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.c.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.c.obj
 
-home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.i: home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.i
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.i: home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.c.i
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.i
 
 # target to preprocess a source file
-home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.i
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.i
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.c.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.c.i
 
-home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.s: home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.s
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.s: home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.c.s
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.s
 
 # target to generate assembly for a file
-home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.s
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.s
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.c.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.c.s
 
-home/rob/pico-sdk/src/rp2_common/pico_standard_link/crt0.obj: home/rob/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.obj: home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.c.obj
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_link/crt0.obj
-
-# target to build an object file
-home/rob/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj
-
-home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.obj: home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj
-
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.obj
 
 # target to build an object file
-home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.c.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.c.obj
 
-home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.i: home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.i
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.i: home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.c.i
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.i
 
 # target to preprocess a source file
-home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.i
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.i
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.c.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.c.i
 
-home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.s: home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.s
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.s: home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.c.s
 
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.s
 
 # target to generate assembly for a file
-home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.s
-.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.s
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.c.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.c.s
+
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.obj: home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.c.obj
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.obj
+
+# target to build an object file
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.c.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.c.obj
+
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.i: home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.c.i
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.i
+
+# target to preprocess a source file
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.c.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.c.i
+
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.s: home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.c.s
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.s
+
+# target to generate assembly for a file
+home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.c.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.c.s
+
+home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.obj: home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.c.obj
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.obj
+
+# target to build an object file
+home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.c.obj
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.c.obj
+
+home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.i: home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.c.i
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.i
+
+# target to preprocess a source file
+home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.c.i
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.c.i
+
+home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.s: home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.c.s
+
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.s
+
+# target to generate assembly for a file
+home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.c.s
+.PHONY : home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.c.s
 
 home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.obj: home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
 
@@ -2324,13 +2727,17 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... ELF2UF2Build"
-	@echo "... PioasmBuild"
 	@echo "... bs2_default_bin"
 	@echo "... bs2_default_padded_checksummed_asm"
 	@echo "... cyw43_driver_picow_cyw43_bus_pio_spi_pio_h"
 	@echo "... pico-WSPRer_dco2_pio_h"
 	@echo "... pico-WSPRer_timer_PIO_pio_h"
+	@echo "... pico_audio_i2s_audio_i2s_pio_h"
+	@echo "... pico_audio_pwm_audio_pwm_pio_h"
+	@echo "... pico_audio_spdif_audio_spdif_pio_h"
+	@echo "... pico_scanvideo_dpi_timing_pio_h"
+	@echo "... pico_scanvideo_scanvideo_pio_h"
+	@echo "... pico_sd_card_sd_card_pio_h"
 	@echo "... bs2_default"
 	@echo "... pico-WSPRer"
 	@echo "... TxChannel/TxChannel.obj"
@@ -2363,6 +2770,12 @@ help:
 	@echo "... hf-oscillator/piodco/piodco.obj"
 	@echo "... hf-oscillator/piodco/piodco.i"
 	@echo "... hf-oscillator/piodco/piodco.s"
+	@echo "... home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.obj"
+	@echo "... home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.i"
+	@echo "... home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.s"
+	@echo "... home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.obj"
+	@echo "... home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.i"
+	@echo "... home/rob/pico-extras/src/rp2_common/pico_sleep/sleep.s"
 	@echo "... home/rob/pico-sdk/lib/tinyusb/src/class/audio/audio_device.obj"
 	@echo "... home/rob/pico-sdk/lib/tinyusb/src/class/audio/audio_device.i"
 	@echo "... home/rob/pico-sdk/lib/tinyusb/src/class/audio/audio_device.s"
@@ -2417,6 +2830,9 @@ help:
 	@echo "... home/rob/pico-sdk/lib/tinyusb/src/tusb.obj"
 	@echo "... home/rob/pico-sdk/lib/tinyusb/src/tusb.i"
 	@echo "... home/rob/pico-sdk/lib/tinyusb/src/tusb.s"
+	@echo "... home/rob/pico-sdk/src/common/hardware_claim/claim.obj"
+	@echo "... home/rob/pico-sdk/src/common/hardware_claim/claim.i"
+	@echo "... home/rob/pico-sdk/src/common/hardware_claim/claim.s"
 	@echo "... home/rob/pico-sdk/src/common/pico_sync/critical_section.obj"
 	@echo "... home/rob/pico-sdk/src/common/pico_sync/critical_section.i"
 	@echo "... home/rob/pico-sdk/src/common/pico_sync/critical_section.s"
@@ -2444,12 +2860,15 @@ help:
 	@echo "... home/rob/pico-sdk/src/common/pico_util/queue.obj"
 	@echo "... home/rob/pico-sdk/src/common/pico_util/queue.i"
 	@echo "... home/rob/pico-sdk/src/common/pico_util/queue.s"
+	@echo "... home/rob/pico-sdk/src/rp2040/pico_platform/platform.obj"
+	@echo "... home/rob/pico-sdk/src/rp2040/pico_platform/platform.i"
+	@echo "... home/rob/pico-sdk/src/rp2040/pico_platform/platform.s"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_adc/adc.s"
-	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.obj"
-	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.i"
-	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_claim/claim.s"
+	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.i"
+	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_boot_lock/boot_lock.s"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_clocks/clocks.s"
@@ -2473,9 +2892,18 @@ help:
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_pll/pll.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_pll/pll.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_pll/pll.s"
+	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.i"
+	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_rtc/rtc.s"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_sync/sync.s"
+	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.i"
+	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.s"
+	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.i"
+	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_ticks/ticks.s"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_timer/timer.s"
@@ -2491,54 +2919,72 @@ help:
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_xosc/xosc.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_xosc/xosc.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/hardware_xosc/xosc.s"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.i"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_atomic/atomic.s"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom.s"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_divider/divider.obj"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi.obj"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.obj"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.i"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom.s"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.i"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_bootrom/bootrom_lock.s"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.i"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_clib_interface/newlib_interface.s"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_crt0/crt0.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.i"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.s"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_divider/divider_hardware.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_double/double_aeabi_rp2040.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.i"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_double/double_init_rom_rp2040.s"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_double/double_math.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_double/double_math.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_double/double_math.s"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim_rp2040.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/rp2040_usb_device_enumeration.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/rp2040_usb_device_enumeration.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/rp2040_usb_device_enumeration.s"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi.obj"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.obj"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.i"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom.s"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_float/float_aeabi_rp2040.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.i"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_float/float_init_rom_rp2040.s"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_float/float_math.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_float/float_math.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_float/float_math.s"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim_rp2040.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.obj"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.obj"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.i"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.s"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.i"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_malloc/malloc.s"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_multicore/multicore.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_multicore/multicore.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_multicore/multicore.s"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_platform/platform.obj"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_platform/platform.i"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_platform/platform.s"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.i"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_platform_panic/panic.s"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_printf/printf.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_printf/printf.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_printf/printf.s"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_runtime/runtime.s"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.obj"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.i"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_standard_link/binary_info.s"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_standard_link/crt0.obj"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.obj"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.i"
-	@echo "... home/rob/pico-sdk/src/rp2_common/pico_standard_link/new_delete.s"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.i"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init.s"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.i"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_clocks.s"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.i"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.s"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.obj"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.i"
+	@echo "... home/rob/pico-sdk/src/rp2_common/pico_standard_binary_info/standard_binary_info.s"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.obj"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.i"
 	@echo "... home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.s"

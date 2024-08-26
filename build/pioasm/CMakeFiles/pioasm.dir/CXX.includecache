@@ -96,11 +96,31 @@ location.h
 cassert
 -
 
+/home/rob/pico-sdk/tools/pioasm/go_output.cpp
+algorithm
+-
+iostream
+-
+output_format.h
+/home/rob/pico-sdk/tools/pioasm/output_format.h
+pio_disassembler.h
+/home/rob/pico-sdk/tools/pioasm/pio_disassembler.h
+
 /home/rob/pico-sdk/tools/pioasm/hex_output.cpp
 output_format.h
 /home/rob/pico-sdk/tools/pioasm/output_format.h
 iostream
 -
+
+/home/rob/pico-sdk/tools/pioasm/json_output.cpp
+algorithm
+-
+iostream
+-
+output_format.h
+/home/rob/pico-sdk/tools/pioasm/output_format.h
+pio_disassembler.h
+/home/rob/pico-sdk/tools/pioasm/pio_disassembler.h
 
 /home/rob/pico-sdk/tools/pioasm/main.cpp
 iostream
@@ -117,6 +137,8 @@ string
 -
 memory
 -
+pio_enums.h
+/home/rob/pico-sdk/tools/pioasm/pio_enums.h
 
 /home/rob/pico-sdk/tools/pioasm/pio_assembler.cpp
 cstdio
@@ -151,6 +173,10 @@ string
 -
 cstdint
 -
+pio_types.h
+/home/rob/pico-sdk/tools/pioasm/pio_types.h
+
+/home/rob/pico-sdk/tools/pioasm/pio_enums.h
 
 /home/rob/pico-sdk/tools/pioasm/pio_types.h
 string
@@ -167,6 +193,8 @@ memory
 -
 location.h
 /home/rob/pico-sdk/tools/pioasm/location.h
+pio_enums.h
+/home/rob/pico-sdk/tools/pioasm/pio_enums.h
 
 /home/rob/pico-sdk/tools/pioasm/python_output.cpp
 array

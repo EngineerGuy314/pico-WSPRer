@@ -14,6 +14,7 @@
 
 #define timer_PIO_wrap_target 0
 #define timer_PIO_wrap 13
+#define timer_PIO_pio_version 0
 
 static const uint16_t timer_PIO_program_instructions[] = {
             //     .wrap_target
@@ -39,6 +40,10 @@ static const struct pio_program timer_PIO_program = {
     .instructions = timer_PIO_program_instructions,
     .length = 14,
     .origin = -1,
+    .pio_version = 0,
+#if PICO_PIO_VERSION > 0
+    .used_gpio_ranges = 0x0
+#endif
 };
 
 static inline pio_sm_config timer_PIO_program_get_default_config(uint offset) {

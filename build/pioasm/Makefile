@@ -75,6 +75,52 @@ CMAKE_BINARY_DIR = /home/rob/pico-WSPRer/build/pioasm
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -250,6 +296,33 @@ gen/parser.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pioasm.dir/build.make CMakeFiles/pioasm.dir/gen/parser.cpp.s
 .PHONY : gen/parser.cpp.s
 
+go_output.o: go_output.cpp.o
+
+.PHONY : go_output.o
+
+# target to build an object file
+go_output.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pioasm.dir/build.make CMakeFiles/pioasm.dir/go_output.cpp.o
+.PHONY : go_output.cpp.o
+
+go_output.i: go_output.cpp.i
+
+.PHONY : go_output.i
+
+# target to preprocess a source file
+go_output.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pioasm.dir/build.make CMakeFiles/pioasm.dir/go_output.cpp.i
+.PHONY : go_output.cpp.i
+
+go_output.s: go_output.cpp.s
+
+.PHONY : go_output.s
+
+# target to generate assembly for a file
+go_output.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pioasm.dir/build.make CMakeFiles/pioasm.dir/go_output.cpp.s
+.PHONY : go_output.cpp.s
+
 hex_output.o: hex_output.cpp.o
 
 .PHONY : hex_output.o
@@ -276,6 +349,33 @@ hex_output.s: hex_output.cpp.s
 hex_output.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pioasm.dir/build.make CMakeFiles/pioasm.dir/hex_output.cpp.s
 .PHONY : hex_output.cpp.s
+
+json_output.o: json_output.cpp.o
+
+.PHONY : json_output.o
+
+# target to build an object file
+json_output.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pioasm.dir/build.make CMakeFiles/pioasm.dir/json_output.cpp.o
+.PHONY : json_output.cpp.o
+
+json_output.i: json_output.cpp.i
+
+.PHONY : json_output.i
+
+# target to preprocess a source file
+json_output.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pioasm.dir/build.make CMakeFiles/pioasm.dir/json_output.cpp.i
+.PHONY : json_output.cpp.i
+
+json_output.s: json_output.cpp.s
+
+.PHONY : json_output.s
+
+# target to generate assembly for a file
+json_output.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pioasm.dir/build.make CMakeFiles/pioasm.dir/json_output.cpp.s
+.PHONY : json_output.cpp.s
 
 main.o: main.cpp.o
 
@@ -392,6 +492,10 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... pioasm"
 	@echo "... ada_output.o"
@@ -406,9 +510,15 @@ help:
 	@echo "... gen/parser.o"
 	@echo "... gen/parser.i"
 	@echo "... gen/parser.s"
+	@echo "... go_output.o"
+	@echo "... go_output.i"
+	@echo "... go_output.s"
 	@echo "... hex_output.o"
 	@echo "... hex_output.i"
 	@echo "... hex_output.s"
+	@echo "... json_output.o"
+	@echo "... json_output.i"
+	@echo "... json_output.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

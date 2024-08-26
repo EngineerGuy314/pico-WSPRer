@@ -1,0 +1,14 @@
+# Target labels
+ picotoolBuild
+# Source files and their labels
+/home/rob/pico-WSPRer/build/pico-sdk/src/rp2040/boot_stage2/CMakeFiles/picotoolBuild
+/home/rob/pico-WSPRer/build/pico-sdk/src/rp2040/boot_stage2/CMakeFiles/picotoolBuild.rule
+/home/rob/pico-WSPRer/build/pico-sdk/src/rp2040/boot_stage2/CMakeFiles/picotoolBuild-complete.rule
+/home/rob/pico-WSPRer/build/pico-sdk/src/rp2040/boot_stage2/picotool/src/picotoolBuild-stamp/picotoolBuild-install.rule
+/home/rob/pico-WSPRer/build/pico-sdk/src/rp2040/boot_stage2/picotool/src/picotoolBuild-stamp/picotoolBuild-mkdir.rule
+/home/rob/pico-WSPRer/build/pico-sdk/src/rp2040/boot_stage2/picotool/src/picotoolBuild-stamp/picotoolBuild-download.rule
+/home/rob/pico-WSPRer/build/pico-sdk/src/rp2040/boot_stage2/picotool/src/picotoolBuild-stamp/picotoolBuild-update.rule
+/home/rob/pico-WSPRer/build/pico-sdk/src/rp2040/boot_stage2/picotool/src/picotoolBuild-stamp/picotoolBuild-patch.rule
+/home/rob/pico-WSPRer/build/pico-sdk/src/rp2040/boot_stage2/picotool/src/picotoolBuild-stamp/picotoolBuild-configure.rule
+/home/rob/pico-WSPRer/build/pico-sdk/src/rp2040/boot_stage2/picotool/src/picotoolBuild-stamp/picotoolBuild-build.rule
+/home/rob/pico-WSPRer/build/pico-sdk/src/rp2040/boot_stage2/picotool/src/picotoolBuild-stamp/picotoolBuild-test.rule

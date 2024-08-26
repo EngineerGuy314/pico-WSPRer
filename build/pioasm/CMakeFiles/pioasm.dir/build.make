@@ -70,15 +70,11 @@ CMAKE_BINARY_DIR = /home/rob/pico-WSPRer/build/pioasm
 # Include any dependencies generated for this target.
 include CMakeFiles/pioasm.dir/depend.make
 
-# Include the progress variables for this target.
-include CMakeFiles/pioasm.dir/progress.make
-
 # Include the compile flags for this target's objects.
 include CMakeFiles/pioasm.dir/flags.make
 
 CMakeFiles/pioasm.dir/main.cpp.o: CMakeFiles/pioasm.dir/flags.make
 CMakeFiles/pioasm.dir/main.cpp.o: /home/rob/pico-sdk/tools/pioasm/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/pioasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/pioasm.dir/main.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/pioasm.dir/main.cpp.o -c /home/rob/pico-sdk/tools/pioasm/main.cpp
 
 CMakeFiles/pioasm.dir/main.cpp.i: cmake_force
@@ -91,7 +87,6 @@ CMakeFiles/pioasm.dir/main.cpp.s: cmake_force
 
 CMakeFiles/pioasm.dir/pio_assembler.cpp.o: CMakeFiles/pioasm.dir/flags.make
 CMakeFiles/pioasm.dir/pio_assembler.cpp.o: /home/rob/pico-sdk/tools/pioasm/pio_assembler.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/pioasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/pioasm.dir/pio_assembler.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/pioasm.dir/pio_assembler.cpp.o -c /home/rob/pico-sdk/tools/pioasm/pio_assembler.cpp
 
 CMakeFiles/pioasm.dir/pio_assembler.cpp.i: cmake_force
@@ -104,7 +99,6 @@ CMakeFiles/pioasm.dir/pio_assembler.cpp.s: cmake_force
 
 CMakeFiles/pioasm.dir/pio_disassembler.cpp.o: CMakeFiles/pioasm.dir/flags.make
 CMakeFiles/pioasm.dir/pio_disassembler.cpp.o: /home/rob/pico-sdk/tools/pioasm/pio_disassembler.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/pioasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/pioasm.dir/pio_disassembler.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/pioasm.dir/pio_disassembler.cpp.o -c /home/rob/pico-sdk/tools/pioasm/pio_disassembler.cpp
 
 CMakeFiles/pioasm.dir/pio_disassembler.cpp.i: cmake_force
@@ -117,7 +111,6 @@ CMakeFiles/pioasm.dir/pio_disassembler.cpp.s: cmake_force
 
 CMakeFiles/pioasm.dir/gen/lexer.cpp.o: CMakeFiles/pioasm.dir/flags.make
 CMakeFiles/pioasm.dir/gen/lexer.cpp.o: /home/rob/pico-sdk/tools/pioasm/gen/lexer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/pioasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/pioasm.dir/gen/lexer.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/pioasm.dir/gen/lexer.cpp.o -c /home/rob/pico-sdk/tools/pioasm/gen/lexer.cpp
 
 CMakeFiles/pioasm.dir/gen/lexer.cpp.i: cmake_force
@@ -130,7 +123,6 @@ CMakeFiles/pioasm.dir/gen/lexer.cpp.s: cmake_force
 
 CMakeFiles/pioasm.dir/gen/parser.cpp.o: CMakeFiles/pioasm.dir/flags.make
 CMakeFiles/pioasm.dir/gen/parser.cpp.o: /home/rob/pico-sdk/tools/pioasm/gen/parser.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/pioasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/pioasm.dir/gen/parser.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/pioasm.dir/gen/parser.cpp.o -c /home/rob/pico-sdk/tools/pioasm/gen/parser.cpp
 
 CMakeFiles/pioasm.dir/gen/parser.cpp.i: cmake_force
@@ -143,7 +135,6 @@ CMakeFiles/pioasm.dir/gen/parser.cpp.s: cmake_force
 
 CMakeFiles/pioasm.dir/c_sdk_output.cpp.o: CMakeFiles/pioasm.dir/flags.make
 CMakeFiles/pioasm.dir/c_sdk_output.cpp.o: /home/rob/pico-sdk/tools/pioasm/c_sdk_output.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/pioasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/pioasm.dir/c_sdk_output.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/pioasm.dir/c_sdk_output.cpp.o -c /home/rob/pico-sdk/tools/pioasm/c_sdk_output.cpp
 
 CMakeFiles/pioasm.dir/c_sdk_output.cpp.i: cmake_force
@@ -156,7 +147,6 @@ CMakeFiles/pioasm.dir/c_sdk_output.cpp.s: cmake_force
 
 CMakeFiles/pioasm.dir/python_output.cpp.o: CMakeFiles/pioasm.dir/flags.make
 CMakeFiles/pioasm.dir/python_output.cpp.o: /home/rob/pico-sdk/tools/pioasm/python_output.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/pioasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/pioasm.dir/python_output.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/pioasm.dir/python_output.cpp.o -c /home/rob/pico-sdk/tools/pioasm/python_output.cpp
 
 CMakeFiles/pioasm.dir/python_output.cpp.i: cmake_force
@@ -169,7 +159,6 @@ CMakeFiles/pioasm.dir/python_output.cpp.s: cmake_force
 
 CMakeFiles/pioasm.dir/hex_output.cpp.o: CMakeFiles/pioasm.dir/flags.make
 CMakeFiles/pioasm.dir/hex_output.cpp.o: /home/rob/pico-sdk/tools/pioasm/hex_output.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/pioasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/pioasm.dir/hex_output.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/pioasm.dir/hex_output.cpp.o -c /home/rob/pico-sdk/tools/pioasm/hex_output.cpp
 
 CMakeFiles/pioasm.dir/hex_output.cpp.i: cmake_force
@@ -180,9 +169,20 @@ CMakeFiles/pioasm.dir/hex_output.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pioasm.dir/hex_output.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/rob/pico-sdk/tools/pioasm/hex_output.cpp -o CMakeFiles/pioasm.dir/hex_output.cpp.s
 
+CMakeFiles/pioasm.dir/json_output.cpp.o: CMakeFiles/pioasm.dir/flags.make
+CMakeFiles/pioasm.dir/json_output.cpp.o: /home/rob/pico-sdk/tools/pioasm/json_output.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/pioasm.dir/json_output.cpp.o -c /home/rob/pico-sdk/tools/pioasm/json_output.cpp
+
+CMakeFiles/pioasm.dir/json_output.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/pioasm.dir/json_output.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/rob/pico-sdk/tools/pioasm/json_output.cpp > CMakeFiles/pioasm.dir/json_output.cpp.i
+
+CMakeFiles/pioasm.dir/json_output.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pioasm.dir/json_output.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/rob/pico-sdk/tools/pioasm/json_output.cpp -o CMakeFiles/pioasm.dir/json_output.cpp.s
+
 CMakeFiles/pioasm.dir/ada_output.cpp.o: CMakeFiles/pioasm.dir/flags.make
 CMakeFiles/pioasm.dir/ada_output.cpp.o: /home/rob/pico-sdk/tools/pioasm/ada_output.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rob/pico-WSPRer/build/pioasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/pioasm.dir/ada_output.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/pioasm.dir/ada_output.cpp.o -c /home/rob/pico-sdk/tools/pioasm/ada_output.cpp
 
 CMakeFiles/pioasm.dir/ada_output.cpp.i: cmake_force
@@ -192,6 +192,18 @@ CMakeFiles/pioasm.dir/ada_output.cpp.i: cmake_force
 CMakeFiles/pioasm.dir/ada_output.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pioasm.dir/ada_output.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/rob/pico-sdk/tools/pioasm/ada_output.cpp -o CMakeFiles/pioasm.dir/ada_output.cpp.s
+
+CMakeFiles/pioasm.dir/go_output.cpp.o: CMakeFiles/pioasm.dir/flags.make
+CMakeFiles/pioasm.dir/go_output.cpp.o: /home/rob/pico-sdk/tools/pioasm/go_output.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/pioasm.dir/go_output.cpp.o -c /home/rob/pico-sdk/tools/pioasm/go_output.cpp
+
+CMakeFiles/pioasm.dir/go_output.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/pioasm.dir/go_output.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/rob/pico-sdk/tools/pioasm/go_output.cpp > CMakeFiles/pioasm.dir/go_output.cpp.i
+
+CMakeFiles/pioasm.dir/go_output.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pioasm.dir/go_output.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/rob/pico-sdk/tools/pioasm/go_output.cpp -o CMakeFiles/pioasm.dir/go_output.cpp.s
 
 # Object files for target pioasm
 pioasm_OBJECTS = \
@@ -203,7 +215,9 @@ pioasm_OBJECTS = \
 "CMakeFiles/pioasm.dir/c_sdk_output.cpp.o" \
 "CMakeFiles/pioasm.dir/python_output.cpp.o" \
 "CMakeFiles/pioasm.dir/hex_output.cpp.o" \
-"CMakeFiles/pioasm.dir/ada_output.cpp.o"
+"CMakeFiles/pioasm.dir/json_output.cpp.o" \
+"CMakeFiles/pioasm.dir/ada_output.cpp.o" \
+"CMakeFiles/pioasm.dir/go_output.cpp.o"
 
 # External object files for target pioasm
 pioasm_EXTERNAL_OBJECTS =
@@ -216,10 +230,11 @@ pioasm: CMakeFiles/pioasm.dir/gen/parser.cpp.o
 pioasm: CMakeFiles/pioasm.dir/c_sdk_output.cpp.o
 pioasm: CMakeFiles/pioasm.dir/python_output.cpp.o
 pioasm: CMakeFiles/pioasm.dir/hex_output.cpp.o
+pioasm: CMakeFiles/pioasm.dir/json_output.cpp.o
 pioasm: CMakeFiles/pioasm.dir/ada_output.cpp.o
+pioasm: CMakeFiles/pioasm.dir/go_output.cpp.o
 pioasm: CMakeFiles/pioasm.dir/build.make
 pioasm: CMakeFiles/pioasm.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/rob/pico-WSPRer/build/pioasm/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable pioasm"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/pioasm.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

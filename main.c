@@ -23,6 +23,8 @@
 #include "hardware/watchdog.h"
 #include "hardware/uart.h"
 #include "hardware/i2c.h"
+#include "pico/sleep.h"      
+#include "hardware/rtc.h" 
 
 WSPRbeaconContext *pWSPR;
 
@@ -51,7 +53,7 @@ PioDco DCO = {0};
 int main()
 {
 	InitPicoClock();			    // Sets the system clock generator
-	StampPrintf("\n");DoLogPrint(); // needed asap to wake up the USB stdio port 
+	StampPrintf("\n");DoLogPrint(); // needed asap to wake up the USB stdio port (because StampPrintf includes stdio_init_all();). why though?
 	
 	gpio_init(LED_PIN); 
 	gpio_set_dir(LED_PIN, GPIO_OUT); //initialize LED output
@@ -121,18 +123,17 @@ int main()
 	pWB->_txSched.verbosity=(uint8_t)_verbosity[0]-'0';       /**< convert ASCI digit to int  */
 	pWB->_txSched.suffix=(uint8_t)_suffix[0]-'0';    /**< convert ASCI digit to int (value 253 if dash was entered) */
 	pWB->_txSched.oscillatorOff=(uint8_t)_oscillator[0]-'0';
+	pWB->_txSched.low_power_mode=(uint8_t)_battery_mode[0]-'0';
 	strcpy(pWB->_txSched.id13,_id13);
 
-	multicore_launch_core1(Core1Entry);
+	multicore_launch_core1(Core1Entry);    //caused immeditae reboot, so did GPS init
     StampPrintf("RF oscillator initialized.");
-
 	int uart_number=(uint8_t)_custom_PCB[0]-'0';  //custom PCB uses Uart 1 if selected, otherwise uart 0
-    DCO._pGPStime = GPStimeInit(uart_number, 9600, GPS_PPS_PIN, PLL_SYS_MHZ); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
+	DCO._pGPStime = GPStimeInit(uart_number, 9600, GPS_PPS_PIN, PLL_SYS_MHZ); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
     assert_(DCO._pGPStime);
-
 	DCO._pGPStime->user_setup_menu_active=0;
 	DCO._pGPStime->forced_XMIT_on=force_transmit;
-	DCO._pGPStime->verbosity=(uint8_t)_verbosity[0]-'0'; 
+	DCO._pGPStime->verbosity=(uint8_t)_verbosity[0]-'0';   
     int tick = 0;int tick2 = 0;  //used for timing various messages
 	LED_sequence_start_time = get_absolute_time();
 
@@ -149,7 +150,7 @@ int main()
 //		        strcpy(pWB->_pu8_locator,"AA1ABC");          //DEBUGGING TO FORCE LOCATOR VALUE				
             }
         }        
-        WSPRbeaconTxScheduler(pWB, YES);   
+        WSPRbeaconTxScheduler(pWB, YES, GPS_PPS_PIN);   
                 
 		if (pWB->_txSched.verbosity>=5)
 		{

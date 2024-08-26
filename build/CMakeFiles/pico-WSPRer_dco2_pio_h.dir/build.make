@@ -77,7 +77,7 @@ CMakeFiles/pico-WSPRer_dco2_pio_h: dco2.pio.h
 
 dco2.pio.h: ../hf-oscillator/piodco/dco2.pio
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating dco2.pio.h"
-	pioasm/pioasm -o c-sdk /home/rob/pico-WSPRer/hf-oscillator/piodco/dco2.pio /home/rob/pico-WSPRer/build/dco2.pio.h
+	pioasm-install/pioasm/pioasm -o c-sdk -v 0 /home/rob/pico-WSPRer/hf-oscillator/piodco/dco2.pio /home/rob/pico-WSPRer/build/dco2.pio.h
 
 pico-WSPRer_dco2_pio_h: CMakeFiles/pico-WSPRer_dco2_pio_h
 pico-WSPRer_dco2_pio_h: dco2.pio.h

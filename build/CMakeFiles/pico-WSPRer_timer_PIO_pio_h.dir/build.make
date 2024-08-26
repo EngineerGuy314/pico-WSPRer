@@ -77,7 +77,7 @@ CMakeFiles/pico-WSPRer_timer_PIO_pio_h: timer_PIO.pio.h
 
 timer_PIO.pio.h: ../hf-oscillator/gpstime/timer_PIO.pio
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating timer_PIO.pio.h"
-	pioasm/pioasm -o c-sdk /home/rob/pico-WSPRer/hf-oscillator/gpstime/timer_PIO.pio /home/rob/pico-WSPRer/build/timer_PIO.pio.h
+	pioasm-install/pioasm/pioasm -o c-sdk -v 0 /home/rob/pico-WSPRer/hf-oscillator/gpstime/timer_PIO.pio /home/rob/pico-WSPRer/build/timer_PIO.pio.h
 
 pico-WSPRer_timer_PIO_pio_h: CMakeFiles/pico-WSPRer_timer_PIO_pio_h
 pico-WSPRer_timer_PIO_pio_h: timer_PIO.pio.h
