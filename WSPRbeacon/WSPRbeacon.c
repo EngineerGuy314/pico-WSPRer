@@ -362,12 +362,15 @@ if (packet_type==3)   // WSPR type 1 message (for standalone beacon mode, or 1st
 	    }
 		else //if doing Zachtek (as opposed to just standalone beacon) do all the stuff below to append suffix and encode power. my software does not allow Zachtek without suffix for now.
 		{
-			 strcpy(_callsign_for_TYPE1,pctx->_pu8_callsign);  
-			 strcat(_callsign_for_TYPE1,"/"); 
-			 suffix_as_string[0]=pctx->_txSched.suffix+48;
-			 suffix_as_string[1]=0;
-			 strcat(_callsign_for_TYPE1,suffix_as_string);
-
+			 power_value=10; //unless overwritten below when using a suffix and zachtek, hardcodes power at 10 for Bruce		 
+			 strcpy(_callsign_for_TYPE1,pctx->_pu8_callsign);   //this gets called with or without suffix
+				if (pctx->_txSched.suffix!=40)    //dont append suffix if its an 'X' (thats option to disable suffix). X=88. 88-48('0') = 40
+				{
+					strcat(_callsign_for_TYPE1,"/"); 
+					suffix_as_string[0]=pctx->_txSched.suffix+48;
+					suffix_as_string[1]=0;
+					strcat(_callsign_for_TYPE1,suffix_as_string);  
+				
 
 			power_value=0;
 			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>900) power_value=3;
@@ -409,7 +412,7 @@ if (packet_type==3)   // WSPR type 1 message (for standalone beacon mode, or 1st
 			if (fine_altitude>1140) altitude_as_power_fine=57;
 			if (fine_altitude>1200) altitude_as_power_fine=60;
 			if (pctx->_txSched.verbosity>=3) printf("Raw altitude: %0.3f rough: %d fine: %d\n",pctx->_pTX->_p_oscillator->_pGPStime->_altitude,power_value,altitude_as_power_fine);
-
+				}
 		}
 
 	wspr_encode(_callsign_for_TYPE1, pctx->_pu8_locator, power_value, pctx->_pu8_outbuf,pctx->_txSched.verbosity);  
