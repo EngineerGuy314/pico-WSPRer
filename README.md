@@ -13,7 +13,7 @@ Summary
 
 This project implements an extremely low-cost WSPR beacon for tracking GPS position and other telemetry from  High Altitude Balloons (HAB), specifically "pico balloons".
 
-What unique about this tracker is that it uses a RP2040 (Raspberry Pi Pico) to directly generate the RF signal using software trickery. No radio oscillator, transmitter or amplifier is needed.
+What unique about this tracker is that it uses a RP2040 (Raspberry Pi Pico) to directly generate the RF signal using software trickery. No RF oscillator, TCXO, transmitter or amplifier is needed.
 
 Also unique to this tracker is that it requires only two common, readily available and cheap components: A Raspberry Pi Pico, and a tiny GPS module (ATGM336H, or a uBlox clone). Two resistors and some bits of wire and solder hold it together.
 
