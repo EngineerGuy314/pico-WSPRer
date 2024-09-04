@@ -72,9 +72,9 @@
 
 		/* default pin definition when building on a Pico */
 #define GPS_PPS_PIN_default 2          /* GPS time mark PIN. (labeled PPS on GPS module)*/ //its not actually PIN 2, its GPIO 2, which is physical pin 4 on pico
-#define RFOUT_PIN_default 6            /* RF output PIN. (THE FOLLOWING PIN WILL ALSO BE RF, 180deg OUT OF PHASE!!!) */  //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico//Pin (RFOUT_PIN+1) will also be RF out (inverted value of first pin)
+#define RFOUT_PIN_default 6            /* RF output PIN. (THE FOLLOWING THREE PINS WILL ALSO BE RF, odd ones 180deg OUT OF PHASE from the even ones!!!) */  //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico//Pin (RFOUT_PIN+1) will also be RF out (inverted value of first pin)
 #define GPS_ENABLE_PIN_default 5       /* GPS_ENABLE pin - high to enable GPS (needs a MOSFET ie 2N7000 on low side drive */    //its not actually PIN 5, its GPIO 5, which is physical pin 7 on pico
-#define GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN 8 //8 /* GPS_ENABLE pins, (alternate). GPIO 8 9 and 10, wired in parallel, to directly low-side-drive the GPS module instead of using a MOSFET */	
+#define GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN 10  /* GPS_ENABLE pins, (alternate). GPIO 10 11 and 12, wired in parallel, to directly low-side-drive the GPS module instead of using a MOSFET */	
 
 		/* pin definitions when using custom PCB board */
 #define GPS_PPS_PIN_pcb 17          /* GPS time mark PIN. (labeled PPS on GPS module)*/ //its not actually PIN 2, its GPIO 2, which is physical pin 4 on pico

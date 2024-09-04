@@ -320,6 +320,7 @@ CMakeFiles/pico-WSPRer.dir/TxChannel/TxChannel.c.obj: /home/rob/pico-sdk/src/rp2
 CMakeFiles/pico-WSPRer.dir/TxChannel/TxChannel.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_platform_panic/include/pico/platform/panic.h
 CMakeFiles/pico-WSPRer.dir/TxChannel/TxChannel.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_platform_sections/include/pico/platform/sections.h
 CMakeFiles/pico-WSPRer.dir/TxChannel/TxChannel.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio.h
+CMakeFiles/pico-WSPRer.dir/TxChannel/TxChannel.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h
 CMakeFiles/pico-WSPRer.dir/TxChannel/TxChannel.c.obj: generated/pico_base/pico/config_autogen.h
 CMakeFiles/pico-WSPRer.dir/TxChannel/TxChannel.c.obj: generated/pico_base/pico/version.h
 
@@ -526,6 +527,7 @@ CMakeFiles/pico-WSPRer.dir/debug/logutils.c.obj: /home/rob/pico-sdk/src/rp2_comm
 CMakeFiles/pico-WSPRer.dir/debug/logutils.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_platform_panic/include/pico/platform/panic.h
 CMakeFiles/pico-WSPRer.dir/debug/logutils.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_platform_sections/include/pico/platform/sections.h
 CMakeFiles/pico-WSPRer.dir/debug/logutils.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio.h
+CMakeFiles/pico-WSPRer.dir/debug/logutils.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h
 CMakeFiles/pico-WSPRer.dir/debug/logutils.c.obj: generated/pico_base/pico/config_autogen.h
 CMakeFiles/pico-WSPRer.dir/debug/logutils.c.obj: generated/pico_base/pico/version.h
 
@@ -632,6 +634,7 @@ CMakeFiles/pico-WSPRer.dir/hf-oscillator/lib/assert.c.obj: /home/rob/pico-sdk/sr
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/lib/assert.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_platform_panic/include/pico/platform/panic.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/lib/assert.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_platform_sections/include/pico/platform/sections.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/lib/assert.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio.h
+CMakeFiles/pico-WSPRer.dir/hf-oscillator/lib/assert.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/lib/assert.c.obj: generated/pico_base/pico/config_autogen.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/lib/assert.c.obj: generated/pico_base/pico/version.h
 
@@ -690,6 +693,7 @@ CMakeFiles/pico-WSPRer.dir/hf-oscillator/piodco/piodco.c.obj: /home/rob/pico-sdk
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/piodco/piodco.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_platform_panic/include/pico/platform/panic.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/piodco/piodco.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_platform_sections/include/pico/platform/sections.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/piodco/piodco.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio.h
+CMakeFiles/pico-WSPRer.dir/hf-oscillator/piodco/piodco.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/piodco/piodco.c.obj: generated/pico_base/pico/config_autogen.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/piodco/piodco.c.obj: generated/pico_base/pico/version.h
 
@@ -3204,6 +3208,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.o
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio.h
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio/driver.h
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c
+CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj: generated/pico_base/pico/config_autogen.h
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj: generated/pico_base/pico/version.h
 
@@ -3510,6 +3515,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_platform_panic/include/pico/platform/panic.h
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_platform_sections/include/pico/platform/sections.h
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio.h
+CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj: generated/pico_base/pico/config_autogen.h
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj: generated/pico_base/pico/version.h
@@ -3692,6 +3698,7 @@ CMakeFiles/pico-WSPRer.dir/utilities.c.obj: /home/rob/pico-sdk/src/rp2_common/pi
 CMakeFiles/pico-WSPRer.dir/utilities.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_platform_panic/include/pico/platform/panic.h
 CMakeFiles/pico-WSPRer.dir/utilities.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_platform_sections/include/pico/platform/sections.h
 CMakeFiles/pico-WSPRer.dir/utilities.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio.h
+CMakeFiles/pico-WSPRer.dir/utilities.c.obj: /home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h
 CMakeFiles/pico-WSPRer.dir/utilities.c.obj: generated/pico_base/pico/config_autogen.h
 CMakeFiles/pico-WSPRer.dir/utilities.c.obj: generated/pico_base/pico/version.h
 

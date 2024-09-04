@@ -1,9 +1,11 @@
 /////////////////////////////////////////////////////////////////////////////
-//  Majority of code forked from work by
-//  Roman Piksaykin [piksaykin@gmail.com], R2BDY
-//  https://github.com/RPiks/pico-WSPR-tx
+//
 //  PROJECT PAGE
 //  https://github.com/EngineerGuy314/pico-WSPRer
+//
+//  Much of the code forked from work by
+//  Roman Piksaykin [piksaykin@gmail.com], R2BDY
+//  https://github.com/RPiks/pico-WSPR-tx
 ///////////////////////////////////////////////////////////////////////////////
 #include <string.h>
 #include <stdio.h>

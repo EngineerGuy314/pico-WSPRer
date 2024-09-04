@@ -321,6 +321,7 @@ CMakeFiles/pico-WSPRer.dir/TxChannel/TxChannel.c.obj
  /home/rob/pico-sdk/src/rp2_common/pico_platform_panic/include/pico/platform/panic.h
  /home/rob/pico-sdk/src/rp2_common/pico_platform_sections/include/pico/platform/sections.h
  /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio.h
+ /home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h
  generated/pico_base/pico/config_autogen.h
  generated/pico_base/pico/version.h
 CMakeFiles/pico-WSPRer.dir/WSPRbeacon/WSPRbeacon.c.obj
@@ -527,6 +528,7 @@ CMakeFiles/pico-WSPRer.dir/debug/logutils.c.obj
  /home/rob/pico-sdk/src/rp2_common/pico_platform_panic/include/pico/platform/panic.h
  /home/rob/pico-sdk/src/rp2_common/pico_platform_sections/include/pico/platform/sections.h
  /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio.h
+ /home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h
  generated/pico_base/pico/config_autogen.h
  generated/pico_base/pico/version.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/gpstime/GPStime.c.obj
@@ -633,6 +635,7 @@ CMakeFiles/pico-WSPRer.dir/hf-oscillator/lib/assert.c.obj
  /home/rob/pico-sdk/src/rp2_common/pico_platform_panic/include/pico/platform/panic.h
  /home/rob/pico-sdk/src/rp2_common/pico_platform_sections/include/pico/platform/sections.h
  /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio.h
+ /home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h
  generated/pico_base/pico/config_autogen.h
  generated/pico_base/pico/version.h
 CMakeFiles/pico-WSPRer.dir/hf-oscillator/piodco/piodco.c.obj
@@ -691,6 +694,7 @@ CMakeFiles/pico-WSPRer.dir/hf-oscillator/piodco/piodco.c.obj
  /home/rob/pico-sdk/src/rp2_common/pico_platform_panic/include/pico/platform/panic.h
  /home/rob/pico-sdk/src/rp2_common/pico_platform_sections/include/pico/platform/sections.h
  /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio.h
+ /home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h
  generated/pico_base/pico/config_autogen.h
  generated/pico_base/pico/version.h
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-extras/src/rp2_common/hardware_rosc/rosc.c.obj
@@ -3205,6 +3209,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c.o
  /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio.h
  /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio/driver.h
  /home/rob/pico-sdk/src/rp2_common/pico_stdio/stdio.c
+ /home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h
  generated/pico_base/pico/config_autogen.h
  generated/pico_base/pico/version.h
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
@@ -3511,6 +3516,7 @@ CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c
  /home/rob/pico-sdk/src/rp2_common/pico_platform_panic/include/pico/platform/panic.h
  /home/rob/pico-sdk/src/rp2_common/pico_platform_sections/include/pico/platform/sections.h
  /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio.h
+ /home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h
  /home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c
  generated/pico_base/pico/config_autogen.h
  generated/pico_base/pico/version.h
@@ -3693,6 +3699,7 @@ CMakeFiles/pico-WSPRer.dir/utilities.c.obj
  /home/rob/pico-sdk/src/rp2_common/pico_platform_panic/include/pico/platform/panic.h
  /home/rob/pico-sdk/src/rp2_common/pico_platform_sections/include/pico/platform/sections.h
  /home/rob/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio.h
+ /home/rob/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h
  generated/pico_base/pico/config_autogen.h
  generated/pico_base/pico/version.h
 CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_cxx_options/new_delete.cpp.obj
