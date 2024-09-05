@@ -130,6 +130,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named pico-WSPRer_onewire_library_pio_h
+
+# Build rule for target.
+pico-WSPRer_onewire_library_pio_h: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico-WSPRer_onewire_library_pio_h
+.PHONY : pico-WSPRer_onewire_library_pio_h
+
+# fast build rule for target.
+pico-WSPRer_onewire_library_pio_h/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/build.make CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/build
+.PHONY : pico-WSPRer_onewire_library_pio_h/fast
+
+#=============================================================================
 # Target rules for targets named pico-WSPRer_dco2_pio_h
 
 # Build rule for target.
@@ -2692,6 +2705,33 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/main.c.s
 .PHONY : main.c.s
 
+onewire/onewire_library.obj: onewire/onewire_library.c.obj
+
+.PHONY : onewire/onewire_library.obj
+
+# target to build an object file
+onewire/onewire_library.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/onewire/onewire_library.c.obj
+.PHONY : onewire/onewire_library.c.obj
+
+onewire/onewire_library.i: onewire/onewire_library.c.i
+
+.PHONY : onewire/onewire_library.i
+
+# target to preprocess a source file
+onewire/onewire_library.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/onewire/onewire_library.c.i
+.PHONY : onewire/onewire_library.c.i
+
+onewire/onewire_library.s: onewire/onewire_library.c.s
+
+.PHONY : onewire/onewire_library.s
+
+# target to generate assembly for a file
+onewire/onewire_library.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer.dir/build.make CMakeFiles/pico-WSPRer.dir/onewire/onewire_library.c.s
+.PHONY : onewire/onewire_library.c.s
+
 utilities.obj: utilities.c.obj
 
 .PHONY : utilities.obj
@@ -2731,6 +2771,7 @@ help:
 	@echo "... bs2_default_padded_checksummed_asm"
 	@echo "... cyw43_driver_picow_cyw43_bus_pio_spi_pio_h"
 	@echo "... pico-WSPRer_dco2_pio_h"
+	@echo "... pico-WSPRer_onewire_library_pio_h"
 	@echo "... pico-WSPRer_timer_PIO_pio_h"
 	@echo "... pico_audio_i2s_audio_i2s_pio_h"
 	@echo "... pico_audio_pwm_audio_pwm_pio_h"
@@ -3006,6 +3047,9 @@ help:
 	@echo "... main.obj"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... onewire/onewire_library.obj"
+	@echo "... onewire/onewire_library.i"
+	@echo "... onewire/onewire_library.s"
 	@echo "... utilities.obj"
 	@echo "... utilities.i"
 	@echo "... utilities.s"

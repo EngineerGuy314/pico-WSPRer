@@ -75,12 +75,13 @@
 #define RFOUT_PIN_default 6            /* RF output PIN. (THE FOLLOWING THREE PINS WILL ALSO BE RF, odd ones 180deg OUT OF PHASE from the even ones!!!) */  //its not actually PIN 6, its GPIO 6, which is physical pin 9 on pico//Pin (RFOUT_PIN+1) will also be RF out (inverted value of first pin)
 #define GPS_ENABLE_PIN_default 5       /* GPS_ENABLE pin - high to enable GPS (needs a MOSFET ie 2N7000 on low side drive */    //its not actually PIN 5, its GPIO 5, which is physical pin 7 on pico
 #define GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN 10  /* GPS_ENABLE pins, (alternate). GPIO 10 11 and 12, wired in parallel, to directly low-side-drive the GPS module instead of using a MOSFET */	
+#define ONEWIRE_bus_pin 27 
 
 		/* pin definitions when using custom PCB board */
 #define GPS_PPS_PIN_pcb 17          /* GPS time mark PIN. (labeled PPS on GPS module)*/ //its not actually PIN 2, its GPIO 2, which is physical pin 4 on pico
-#define RFOUT_PIN_pcb 19            /* RF output PIN. (THE FOLLOWING PIN WILL ALSO BE RF, 180deg OUT OF PHASE!!!) */  //Pin (RFOUT_PIN+1) will also be RF out (inverted value of first pin)
+#define RFOUT_PIN_pcb 18            /* RF output PIN. (THE FOLLOWING PIN WILL ALSO BE RF, 180deg OUT OF PHASE!!!) */  //Pin (RFOUT_PIN+1) will also be RF out (inverted value of first pin)
 #define GPS_ENABLE_PIN_pcb 16       /* GPS_ENABLE pin, when using custom PCB. inverse logic */  
-
+#define ONEWIRE_bus_pin_pcb 27 
 
 #define LED_PIN  25 /* 25 for pi pico, 13 for Waveshare rp2040-zero  */
 #define PADS_BANK0_GPIO0_SLEWFAST_FAST 1u // value for fast slewrate of pad
@@ -158,4 +159,7 @@ void I2C_init(void);
 void I2C_read(void);
 void show_TELEN_msg(void); 
 void process_TELEN_data(void); 
+void onewire_read(void);
+void dallas_setup(void);
+
 #endif

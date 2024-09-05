@@ -85,6 +85,7 @@ preinstall: pico-sdk/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
+clean: CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/clean
 clean: CMakeFiles/pico-WSPRer_dco2_pio_h.dir/clean
 clean: CMakeFiles/pico-WSPRer_timer_PIO_pio_h.dir/clean
 clean: CMakeFiles/pico-WSPRer.dir/clean
@@ -2419,18 +2420,45 @@ pico_extras/src/rp2_common/usb_device_msc/clean:
 .PHONY : pico_extras/src/rp2_common/usb_device_msc/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir
+
+# All Build rule for target.
+CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/build.make CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/build.make CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=93 "Built target pico-WSPRer_onewire_library_pio_h"
+.PHONY : CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rob/pico-WSPRer/build/CMakeFiles 1
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rob/pico-WSPRer/build/CMakeFiles 0
+.PHONY : CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/rule
+
+# Convenience name for target.
+pico-WSPRer_onewire_library_pio_h: CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/rule
+
+.PHONY : pico-WSPRer_onewire_library_pio_h
+
+# clean rule for target.
+CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/build.make CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/clean
+.PHONY : CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/pico-WSPRer_dco2_pio_h.dir
 
 # All Build rule for target.
 CMakeFiles/pico-WSPRer_dco2_pio_h.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer_dco2_pio_h.dir/build.make CMakeFiles/pico-WSPRer_dco2_pio_h.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico-WSPRer_dco2_pio_h.dir/build.make CMakeFiles/pico-WSPRer_dco2_pio_h.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num=93 "Built target pico-WSPRer_dco2_pio_h"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/rob/pico-WSPRer/build/CMakeFiles --progress-num= "Built target pico-WSPRer_dco2_pio_h"
 .PHONY : CMakeFiles/pico-WSPRer_dco2_pio_h.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/pico-WSPRer_dco2_pio_h.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rob/pico-WSPRer/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rob/pico-WSPRer/build/CMakeFiles 0
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/pico-WSPRer_dco2_pio_h.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/rob/pico-WSPRer/build/CMakeFiles 0
 .PHONY : CMakeFiles/pico-WSPRer_dco2_pio_h.dir/rule
@@ -2476,6 +2504,7 @@ CMakeFiles/pico-WSPRer_timer_PIO_pio_h.dir/clean:
 # Target rules for target CMakeFiles/pico-WSPRer.dir
 
 # All Build rule for target.
+CMakeFiles/pico-WSPRer.dir/all: CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/all
 CMakeFiles/pico-WSPRer.dir/all: CMakeFiles/pico-WSPRer_dco2_pio_h.dir/all
 CMakeFiles/pico-WSPRer.dir/all: CMakeFiles/pico-WSPRer_timer_PIO_pio_h.dir/all
 CMakeFiles/pico-WSPRer.dir/all: pico-sdk/src/rp2040/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/all

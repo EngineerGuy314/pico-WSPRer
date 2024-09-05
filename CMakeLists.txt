@@ -24,10 +24,11 @@ project(pico-WSPRer C CXX ASM)
 
 pico_sdk_init()
 add_executable(pico-WSPRer)
-pico_generate_pio_header(pico-WSPRer ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/piodco/dco2.pio)
+pico_generate_pio_header(pico-WSPRer ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/piodco/dco2.pio)# These Lines are what invoke the assembler that compiles the .pio programs
 pico_generate_pio_header(pico-WSPRer ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/gpstime/timer_PIO.pio)
+pico_generate_pio_header(pico-WSPRer ${CMAKE_CURRENT_LIST_DIR}/onewire/onewire_library.pio) 
 target_sources(pico-WSPRer PUBLIC
-	           ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/lib/assert.c
+	           ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/lib/assert.c   
                ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/piodco/piodco.c
                ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/gpstime/GPStime.c
                ${CMAKE_CURRENT_LIST_DIR}/TxChannel/TxChannel.c
@@ -36,6 +37,7 @@ target_sources(pico-WSPRer PUBLIC
                ${CMAKE_CURRENT_LIST_DIR}/WSPRbeacon/thirdparty/maidenhead.c
                ${CMAKE_CURRENT_LIST_DIR}/WSPRbeacon/WSPRbeacon.c
                ${CMAKE_CURRENT_LIST_DIR}/debug/logutils.c
+               ${CMAKE_CURRENT_LIST_DIR}/onewire/onewire_library.c  
                ${CMAKE_CURRENT_LIST_DIR}/utilities.c
                ${CMAKE_CURRENT_LIST_DIR}/core1.c
                ${CMAKE_CURRENT_LIST_DIR}/main.c

@@ -95,6 +95,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj"
   "CMakeFiles/pico-WSPRer.dir/home/rob/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj"
   "CMakeFiles/pico-WSPRer.dir/main.c.obj"
+  "CMakeFiles/pico-WSPRer.dir/onewire/onewire_library.c.obj"
   "CMakeFiles/pico-WSPRer.dir/utilities.c.obj"
   "pico-WSPRer.elf"
   "pico-WSPRer.pdb"

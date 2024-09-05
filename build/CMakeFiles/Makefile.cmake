@@ -315,6 +315,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
+  "CMakeFiles/pico-WSPRer_onewire_library_pio_h.dir/DependInfo.cmake"
   "CMakeFiles/pico-WSPRer_dco2_pio_h.dir/DependInfo.cmake"
   "CMakeFiles/pico-WSPRer_timer_PIO_pio_h.dir/DependInfo.cmake"
   "CMakeFiles/pico-WSPRer.dir/DependInfo.cmake"

@@ -562,9 +562,12 @@ char *WSPRbeaconGetLastQTHLocator(const WSPRbeaconContext *pctx)
     assert_(pctx->_pTX->_p_oscillator);
     assert_(pctx->_pTX->_p_oscillator->_pGPStime);
     
-    const double lat = 1e-7 * (double)pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lat_100k;  //Roman's original code used 1e-5 instead (bug)
-    const double lon = 1e-7 * (double)pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lon_100k;  //Roman's original code used 1e-5 instead (bug)
-    return get_mh(lat, lon, 6);
+    double lat = 1e-7 * (double)pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lat_100k;  //Roman's original code used 1e-5 instead (bug)
+    double lon = 1e-7 * (double)pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lon_100k;  //Roman's original code used 1e-5 instead (bug)
+    /*lon+=(double)0.3 + (0.03*(double)pctx->_txSched.minutes_since_boot);
+	lon+=(double)1.2;
+	lon+=(double)0.01*(double)pctx->_txSched.minutes_since_boot;  *///DEBUGGING to simulate motion
+	return get_mh(lat, lon, 6);
 }
 
 uint8_t WSPRbeaconIsGPSsolutionActive(const WSPRbeaconContext *pctx)

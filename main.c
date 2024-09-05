@@ -27,6 +27,10 @@
 #include "hardware/i2c.h"
 #include "pico/sleep.h"      
 #include "hardware/rtc.h" 
+#include "onewire/onewire_library.h"    // onewire library functions
+#include "onewire/ow_rom.h"             // onewire ROM command codes
+#include "onewire/ds18b20.h"            // ds18b20 function codes
+
 
 WSPRbeaconContext *pWSPR;
 
@@ -43,12 +47,18 @@ char _battery_mode[2];
 
 static uint32_t telen_values[4];  //consolodate in an array to make coding easier
 static absolute_time_t LED_sequence_start_time;
-static int GPS_PPS_PIN;     //these get set based on values in defines.h
+static int GPS_PPS_PIN;     //these get set based on values in defines.h, and also if custom PCB selected in user menu
 static int RFOUT_PIN;
 static int GPS_ENABLE_PIN;
+uint gpio_for_onewire;
 int force_transmit = 0;
 uint32_t fader; //for creating "breathing" effect on LED to indicate corruption of NVRAM
 uint32_t fade_counter;
+int maxdevs = 10;
+uint64_t OW_romcodes[10];
+float onewire_values[10];
+int number_of_onewire_devs;
+OW one_wire_interface;   //onewire interface
 
 PioDco DCO = {0};
 
@@ -67,13 +77,12 @@ int main()
         gpio_put(LED_PIN, 0);
 		sleep_ms(100);
 	}
-
 	read_NVRAM();				//reads values of _callsign,  _verbosity etc from NVRAM. MUST READ THESE *BEFORE* InitPicoPins
-	if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds and reboot. or if user presses a key enter setup
+if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds and reboot. or if user presses a key enter setup
 	{
 	printf("\nBAD values in NVRAM detected! will reboot in 10 seconds... press any key to enter user-setup menu..\n");
 	fader=0;fade_counter=0;
-			while (getchar_timeout_us(0)==-1)   //looks for input on USB serial port only
+			while (getchar_timeout_us(0)==PICO_ERROR_TIMEOUT) //looks for input on USB serial port only @#$%^&!! they changed this function in SDK 2.0!. used to use -1 for no input, now its -2 PICO_ERROR_TIMEOUT
 			{
 			 fader+=1;
 			 if ((fader%5000)>(fader/100))
@@ -141,6 +150,7 @@ int main()
 
     for(;;)   //loop every ~ half second
     {		
+		onewire_read();
 		I2C_read();
 		
 		if(WSPRbeaconIsGPSsolutionActive(pWB))
@@ -160,7 +170,7 @@ int main()
 				 WSPRbeaconDumpContext(pWB);
 		}	
 
-		if (getchar_timeout_us(0)>0)   //looks for input on USB serial port only. Note: getchar_timeout_us(0) returns a -1 if no keypress. But if you force it into a Char type, -1 becomes 0xFF
+		if (getchar_timeout_us(0)>0)   //looks for input on USB serial port only. Note: getchar_timeout_us(0) returns a -2 (as of sdk 2) if no keypress. But if you force it into a Char type, becomes something else
 		{
 		DCO._pGPStime->user_setup_menu_active=1;	
 		user_interface();   
@@ -195,7 +205,7 @@ int main()
 		for (int i=0;i < 10;i++) //orig code had a 900mS pause here. I only pause a total of 500ms, and spend it polling the time to handle LED state
 			{
 				handle_LED(pWB->_txSched.led_mode); 
-				sleep_ms(50);
+				sleep_ms(50); 
 			}
 		DoLogPrint(); 	
 	}
@@ -217,9 +227,14 @@ void process_TELEN_data(void)
 				case '3': adc_select_input(3); telen_values[i] = round((float)adc_read() * conversionFactor * 3.0f);  break;  //since ADC3 is hardwired to Battery via 3:1 voltage devider, make the conversion here
 				case '4':					   telen_values[i] = pWSPR->_txSched.minutes_since_boot;   				  break; 			
 				case '5': 	 				   telen_values[i] = pWSPR->_txSched.minutes_since_GPS_aquisition;		  break;			
-			}
+				case '6': 	if (onewire_values[_TELEN_config[i]-'6']>0)     telen_values[i] = onewire_values[_TELEN_config[i]-'6']*100; else	telen_values[i] = 20000 + (-1*onewire_values[_TELEN_config[i]-'6'])*100;	  break;	
+				case '7': 	if (onewire_values[_TELEN_config[i]-'6']>0)     telen_values[i] = onewire_values[_TELEN_config[i]-'6']*100; else	telen_values[i] = 20000 + (-1*onewire_values[_TELEN_config[i]-'6'])*100;	  break;	
+				case '8': 	if (onewire_values[_TELEN_config[i]-'6']>0)     telen_values[i] = onewire_values[_TELEN_config[i]-'6']*100; else	telen_values[i] = 20000 + (-1*onewire_values[_TELEN_config[i]-'6'])*100;	  break;	
+				case '9': 	if (onewire_values[_TELEN_config[i]-'6']>0)     telen_values[i] = onewire_values[_TELEN_config[i]-'6']*100; else	telen_values[i] = 20000 + (-1*onewire_values[_TELEN_config[i]-'6'])*100;	  break;				
+			}	
 		}
-		
+
+//onewire_values		
 		pWSPR->_txSched.TELEN1_val1=telen_values[0];   // will get sent as TELEN #1 (extended Telemetry) (a third packet in the U4B protocol)
 		pWSPR->_txSched.TELEN1_val2=telen_values[1];	// max values are 630k and 153k for val and val2
 		pWSPR->_txSched.TELEN2_val1=telen_values[2];   //will get sent as TELEN #2 (extended Telemetry) (a 4th packet in the U4B protocol)
@@ -274,8 +289,7 @@ void handle_LED(int led_state)
  * @param buf Address of NVRAM to list
  * @param len Length of storage to list
  */
-void print_buf(const uint8_t *buf, size_t len) {
-	
+void print_buf(const uint8_t *buf, size_t len) {	
 
 	printf(CLEAR_SCREEN);printf(BRIGHT);
 	printf(BOLD_ON);printf(UNDERLINE_ON);
@@ -323,7 +337,9 @@ printf("* example: '01--' sets Telen 1 value 1 to type 0, \n  Telen 1 val 2 to t
 printf("\nTelen Types:\n\n");printf(UNDERLINE_OFF);printf(NORMAL); 
 printf("-: disabled, 0: ADC0, 1: ADC1, 2: ADC2, 3: ADC3,\n");
 printf("4: minutes since boot, 5: minutes since GPS fix aquired \n");
-printf("6-Z: reserved for Future: I2C devices, other modes etc \n");
+printf("6-9: OneWire temperature sensors 1 though 4 \n");
+printf("A: custom: OneWire temperature sensor 1 hourly low/high \n");
+printf("B-Z: reserved for Future: I2C devices, other modes etc \n");
 printf("\n(ADC values come through in units of mV)\n");
 printf("See the Wiki for more info.\n\n");
 }
@@ -346,7 +362,7 @@ printf("See the Wiki for more info.\n\n");
  */
 void user_interface(void)                                //called if keystroke from terminal on USB detected during operation.
 {
-char c;
+int c;
 char str[10];
 
 gpio_put(GPS_ENABLE_PIN, 0);                   //shutoff gps to prevent serial input  (probably not needed anymore)
@@ -362,7 +378,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 		printf("\nEnter the command (X,C,S,I,M,L,V,O,P,T,F):");printf(UNDERLINE_OFF);printf(NORMAL);	
 		c=getchar_timeout_us(60000000);		   //just in case user setup menu was enterred during flight, this will reboot after 60 secs
 		printf("%c\n", c);
-		if (c==255) {printf(CLEAR_SCREEN);printf("\n\n TIMEOUT WAITING FOR INPUT, REBOOTING FOR YOUR OWN GOOD!\n");sleep_ms(100);watchdog_enable(100, 1);for(;;)	{}}
+		if (c==PICO_ERROR_TIMEOUT) {printf(CLEAR_SCREEN);printf("\n\n TIMEOUT WAITING FOR INPUT, REBOOTING FOR YOUR OWN GOOD!\n");sleep_ms(100);watchdog_enable(100, 1);for(;;)	{}}
 		if (c>90) c-=32; //make it capital either way
 		switch(c)
 		{
@@ -376,7 +392,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 			case 'V':get_user_input("Verbosity level (0-9): ", _verbosity, sizeof(_verbosity)); write_NVRAM(); break;
 			case 'O':get_user_input("Oscillator off (0,1): ", _oscillator, sizeof(_oscillator)); write_NVRAM(); break;
 			case 'P':get_user_input("custom Pcb mode (0,1): ", _custom_PCB, sizeof(_custom_PCB)); write_NVRAM(); break;
-			case 'T':show_TELEN_msg();get_user_input("TELEN config: ", _TELEN_config, sizeof(_TELEN_config)); write_NVRAM(); break;
+			case 'T':show_TELEN_msg();get_user_input("TELEN config: ", _TELEN_config, sizeof(_TELEN_config)); convertToUpperCase(_TELEN_config); write_NVRAM(); break;
 			case 'B':get_user_input("Battery mode (0,1): ", _battery_mode, sizeof(_battery_mode)); write_NVRAM(); break;
 			case 'F':
 				printf("Fixed Frequency output (antenna tuning mode). Enter frequency (for example 14.097) or 0 for exit.\n\t");
@@ -491,8 +507,7 @@ int result=1;
 	if ( (_oscillator[0]<'0') || (_oscillator[0]>'1')) {result=-1;} 
 	if ( (_custom_PCB[0]<'0') || (_custom_PCB[0]>'1')) {result=-1;} 
 	if ( ((_TELEN_config[0]<'0') || (_TELEN_config[0]>'F'))&& (_TELEN_config[0]!='-')) {result=-1;}
-	if ( (_battery_mode[0]<'0') || (_battery_mode[0]>'1')) {result=-1;} 
-
+	if ( (_battery_mode[0]<'0') || (_battery_mode[0]>'1')) {result=-1;} 	
 return result;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -564,9 +579,12 @@ void InitPicoPins(void)
 	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN, GPIO_OUT); //alternate way to enable the GPS is to pull down its ground (aka low-side drive) using 3 GPIO in parallel (no mosfet needed). 2 do: make these non-hardcoded
 	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+1); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+1, GPIO_OUT); //no need to actually write a value to these outputs. Just enabling them as outputs is fine, they default to the off state when this is done. perhaps thats a dangerous assumption? 
 	gpio_init(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2); gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2, GPIO_OUT);
+	gpio_for_onewire=ONEWIRE_bus_pin;
 	}
-		else                          //if using custom PCB
+	
+		else                          //if using custom PCB 
 		{	
+			gpio_for_onewire=ONEWIRE_bus_pin_pcb;
 			GPS_PPS_PIN = GPS_PPS_PIN_pcb;
 			RFOUT_PIN = RFOUT_PIN_pcb;
 			GPS_ENABLE_PIN = GPS_ENABLE_PIN_pcb;
@@ -577,6 +595,8 @@ void InitPicoPins(void)
 
 	}
 
+	dallas_setup();  //configures one-wire interface. Enabled pullup on one-wire gpio. must do this here, in case they want to use analog instead, because then pullup needs to be disabled below.
+
 	for (int i=0;i < 4;i++)   //init ADC(s) as needed for TELEN
 		{			
 		   switch(_TELEN_config[i])
@@ -586,6 +606,7 @@ void InitPicoPins(void)
 				case '1': gpio_init(27);gpio_set_dir(27, GPIO_IN);gpio_set_pulls(27,0,0);break;
 				case '2': gpio_init(28);gpio_set_dir(28, GPIO_IN);gpio_set_pulls(28,0,0);break; 
 			}
+			
 		}
 	
 	gpio_init(PICO_VSYS_PIN);  		//Prepare ADC 3 to read Vsys
@@ -610,7 +631,7 @@ void InitPicoPins(void)
 
 }
 
-void I2C_init(void)   //this was used for testing HMC5883L compass module. keeping it here as a template for furture I2C use
+void I2C_init(void)   //this was used for testing HMC5883L compass module. keeping it here as a template for future I2C use
 {
 /*		
     i2c_init(i2c_default, 100 * 1000);
@@ -637,7 +658,7 @@ void I2C_init(void)   //this was used for testing HMC5883L compass module. keepi
     printf("Done I2C config \n");
 */
 }
-void I2C_read(void)  //this was used for testing HMC5883L compass module. keeping it here as a template for furture I2C use
+void I2C_read(void)  //this was used for testing HMC5883L compass module. keeping it here as a template for future I2C use
 {
 	/*
 	write_config_buf[0]=0x3;  											//reg number to start reading at
@@ -647,6 +668,68 @@ void I2C_read(void)  //this was used for testing HMC5883L compass module. keepin
 	int16_t y_result = (int16_t)((i2c_buf[4]<<8)|i2c_buf[5]);
 	printf("X: %d\n Y: %d\n",x_result,y_result);    //to make a useful "compass", you would need to keep track of max/min X,y values, scale them against those limits, take ratio of the two scaled values, and that corresponds to heading. direction (to direction)
 	*/
+}
+
+void onewire_read()
+{
+                if ((ow_read(&one_wire_interface) != 0)&&(number_of_onewire_devs>0))   //if conversions ready, read it
+				{
+                // read the result from each device                   
+                for (int i = 0; i < number_of_onewire_devs; i += 1) 
+					{				
+						ow_reset (&one_wire_interface);
+						ow_send (&one_wire_interface, OW_MATCH_ROM);
+							for (int b = 0; b < 64; b += 8) {
+								ow_send (&one_wire_interface, OW_romcodes[i] >> b);
+							   }
+						ow_send (&one_wire_interface, DS18B20_READ_SCRATCHPAD);
+						int16_t temp = 0;
+						temp = ow_read (&one_wire_interface) | (ow_read (&one_wire_interface) << 8);
+						if (temp!=-1)
+						onewire_values[i]= 32.0 + ((temp / 16.0)*1.8);
+						else printf("\nOneWire device read failure!! re-using previous value\n");
+						//printf ("\t%d: %f", i,onewire_values[i]);
+					}
+					  // start temperature conversion in parallel on all devices so they will be ready for the next time i try to read them
+					  // (see ds18b20 datasheet)
+					  ow_reset (&one_wire_interface);
+					  ow_send (&one_wire_interface, OW_SKIP_ROM);
+					  ow_send (&one_wire_interface, DS18B20_CONVERT_T);
+				}
+
+}
+//sets up OneWire interface
+void dallas_setup() {  
+
+    PIO pio = pio0;
+    uint offset;
+	gpio_init(gpio_for_onewire);
+	gpio_pull_up(gpio_for_onewire);  //with this you dont need external pull up resistor on data line (phantom power still won't work though)
+
+    // add the program to the PIO shared address space
+    if (pio_can_add_program (pio, &onewire_program)) {
+        offset = pio_add_program (pio, &onewire_program);
+		
+		if (ow_init (&one_wire_interface, pio, offset, gpio_for_onewire))  // claim a state machine and initialise a driver instance
+		 {
+            // find and display 64-bit device addresses
+
+            number_of_onewire_devs = ow_romsearch (&one_wire_interface, OW_romcodes, maxdevs, OW_SEARCH_ROM);
+
+            printf("Found %d devices\n", number_of_onewire_devs);      
+            for (int i = 0; i < number_of_onewire_devs; i += 1) {
+                printf("\t%d: 0x%llx\n", i, OW_romcodes[i]);
+            }
+            putchar ('\n');
+         
+		  // start temperature conversion in parallel on all devices right now so the values will be ready to read as soon as i try to
+          // (see ds18b20 datasheet)
+          ow_reset (&one_wire_interface);
+          ow_send (&one_wire_interface, OW_SKIP_ROM);
+          ow_send (&one_wire_interface, DS18B20_CONVERT_T);
+
+		} else	puts ("could not initialise the onewire driver");
+     }
 }
 /**
 * @note:
