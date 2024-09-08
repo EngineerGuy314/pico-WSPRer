@@ -195,7 +195,8 @@ else
 			WSPRbeaconCreatePacket(pctx, schedule[current_minute] ); //the schedule determines packet type (1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd)
 			sleep_ms(50);
 			WSPRbeaconSendPacket(pctx); 
-			if (schedule[current_minute]==2) {U4B_second_packet_has_started=1;U4B_second_packet_has_started_at_minute=current_minute;}
+			//if (schedule[current_minute]==2) {U4B_second_packet_has_started=1;U4B_second_packet_has_started_at_minute=current_minute;}
+			if (schedule[current_minute]==2) {U4B_second_packet_has_started=1;U4B_second_packet_has_started_at_minute=(current_minute+2)%10;} //wuz, the plus 2 at end is to allow 1 TELEN in low power mode
 		}
 
 /*				1 - No valid GPS, not transmitting
@@ -224,7 +225,7 @@ else
 			rtc_set_datetime(&t);
 			uart_default_tx_wait_blocking();
 			datetime_t alarm_time = t;
-			alarm_time.min += 46;	//sleep for 55 minutes. 46 ~= 55 mins X (115Mhz/133Mhz)
+			alarm_time.min += (46-3);	//sleep for 55 minutes. 46 ~= 55 mins X (115Mhz/133Mhz)  //wuz, the -3 is to allow 1 TELEN in low power mode
 			gpio_set_irq_enabled(GPS_PPS_PIN, GPIO_IRQ_EDGE_RISE, false); //this is needed to disable IRQ callback on PPS
 			multicore_reset_core1();  //this is needed, otherwise causes instant reboot
 			sleep_run_from_dormant_source(DORMANT_SOURCE_ROSC);  //this reduces sleep draw to 2mA! (without this will still sleep, but only at 8mA)
