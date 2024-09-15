@@ -51,7 +51,7 @@ static int GPS_PPS_PIN;     //these get set based on values in defines.h, and al
 static int RFOUT_PIN;
 static int GPS_ENABLE_PIN;
 uint gpio_for_onewire;
-int force_transmit = 0;
+int force_transmit = 1;
 uint32_t fader; //for creating "breathing" effect on LED to indicate corruption of NVRAM
 uint32_t fade_counter;
 int maxdevs = 10;
