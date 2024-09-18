@@ -56,9 +56,11 @@ void get_user_input(const char *prompt, char *input_variable, int max_length) {
 }
 
 /// @brief Initializes Pi pico clock.
-void InitPicoClock(void)
+void InitPicoClock(int PLL_SYS_MHZ)
 {
     const uint32_t clkhz = PLL_SYS_MHZ * 1000000L;
+	 printf("\n ABOUT TO SET SYSTEM KLOCK TO %dMhz\n", PLL_SYS_MHZ); 
+	
     set_sys_clock_khz(clkhz / kHz, true);
 
     clock_configure(clk_peri, 0,

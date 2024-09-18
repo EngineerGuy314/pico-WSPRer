@@ -182,7 +182,6 @@ else
 		if (pctx->_txSched.oscillatorOff && schedule[(current_minute+9)%10]==-1)    // if we want to switch oscillator off and are in non sheduled interval 
 		{
 			transmitter_status=0; 
-			gpio_set_dir(rf_pin, GPIO_IN);gpio_set_dir(rf_pin+1, GPIO_IN);gpio_set_dir(rf_pin+2, GPIO_IN);gpio_set_dir(rf_pin+3, GPIO_IN); //change RF pins to high Z
 			PioDCOStop(pctx->_pTX->_p_oscillator);	// Stop the oscilator
 		}
 	}
@@ -196,8 +195,6 @@ else
 			if (pctx->_txSched.verbosity>=3) printf("\nStarting TX. current minute: %i Schedule Value (packet type): %i\n",current_minute,schedule[current_minute]);
 			PioDCOStart(pctx->_pTX->_p_oscillator); 
 			transmitter_status=1;
-			gpio_set_dir(rf_pin, GPIO_OUT);gpio_set_dir(rf_pin+1, GPIO_OUT);gpio_set_dir(rf_pin+2, GPIO_OUT);gpio_set_dir(rf_pin+3, GPIO_OUT); //change RF pins back to ouputs
-
 			WSPRbeaconCreatePacket(pctx, schedule[current_minute] ); //the schedule determines packet type (1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd)
 			sleep_ms(50);
 			WSPRbeaconSendPacket(pctx); 

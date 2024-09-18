@@ -44,12 +44,14 @@ char _oscillator[2];
 char _custom_PCB[2];   
 char _TELEN_config[5];     
 char _battery_mode[2];
+char _Klock_speed[4];         
 
 static uint32_t telen_values[4];  //consolodate in an array to make coding easier
 static absolute_time_t LED_sequence_start_time;
 static int GPS_PPS_PIN;     //these get set based on values in defines.h, and also if custom PCB selected in user menu
 static int RFOUT_PIN;
 static int GPS_ENABLE_PIN;
+int PLL_SYS_MHZ;
 uint gpio_for_onewire;
 int force_transmit = 0;
 uint32_t fader; //for creating "breathing" effect on LED to indicate corruption of NVRAM
@@ -64,7 +66,6 @@ PioDco DCO = {0};
 
 int main()
 {
-	InitPicoClock();			    // Sets the system clock generator
 	StampPrintf("\n");DoLogPrint(); // needed asap to wake up the USB stdio port (because StampPrintf includes stdio_init_all();). why though?
 	
 	gpio_init(LED_PIN); 
@@ -99,7 +100,12 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 		DCO._pGPStime->user_setup_menu_active=1;	//if we get here, they pressed a button
 		user_interface();  
 	}
-	
+	if (getchar_timeout_us(0)>0)   //looks for input on USB serial port only. Note: getchar_timeout_us(0) returns a -2 (as of sdk 2) if no keypress. Must do this check BEFORE setting Clock Speed in Case you bricked it
+		{
+		DCO._pGPStime->user_setup_menu_active=1;	
+		user_interface();   
+		}
+	InitPicoClock(PLL_SYS_MHZ);			    // Sets the system clock generator	
 	InitPicoPins();				// Sets GPIO pins roles and directions and also ADC for voltage and temperature measurements (NVRAM must be read BEFORE this, otherwise dont know how to map IO)
 	I2C_init();
     printf("\npico-WSPRer version: %s %s\nWSPR beacon init...",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
@@ -375,7 +381,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
     for(;;)
 	{	
 																 printf(UNDERLINE_ON);printf(BRIGHT);
-		printf("\nEnter the command (X,C,S,I,M,L,V,O,P,T,F):");printf(UNDERLINE_OFF);printf(NORMAL);	
+		printf("\nEnter the command (X,C,S,I,M,L,V,O,P,T,B,K,F):");printf(UNDERLINE_OFF);printf(NORMAL);	
 		c=getchar_timeout_us(60000000);		   //just in case user setup menu was enterred during flight, this will reboot after 60 secs
 		printf("%c\n", c);
 		if (c==PICO_ERROR_TIMEOUT) {printf(CLEAR_SCREEN);printf("\n\n TIMEOUT WAITING FOR INPUT, REBOOTING FOR YOUR OWN GOOD!\n");sleep_ms(100);watchdog_enable(100, 1);for(;;)	{}}
@@ -394,6 +400,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 			case 'P':get_user_input("custom Pcb mode (0,1): ", _custom_PCB, sizeof(_custom_PCB)); write_NVRAM(); break;
 			case 'T':show_TELEN_msg();get_user_input("TELEN config: ", _TELEN_config, sizeof(_TELEN_config)); convertToUpperCase(_TELEN_config); write_NVRAM(); break;
 			case 'B':get_user_input("Battery mode (0,1): ", _battery_mode, sizeof(_battery_mode)); write_NVRAM(); break;
+			case 'K':get_user_input("Klock speed (default 115): ", _Klock_speed, sizeof(_Klock_speed)); write_NVRAM(); break;
 			case 'F':
 				printf("Fixed Frequency output (antenna tuning mode). Enter frequency (for example 14.097) or 0 for exit.\n\t");
 				char _tuning_freq[7];
@@ -439,6 +446,9 @@ strncpy(_oscillator, flash_target_contents+12, 1);
 strncpy(_custom_PCB, flash_target_contents+13, 1);
 strncpy(_TELEN_config, flash_target_contents+14, 4);
 strncpy(_battery_mode, flash_target_contents+18, 1);
+strncpy(_Klock_speed, flash_target_contents+19, 3); _Klock_speed[3]=0; //null terminate cause later will use atoi
+
+PLL_SYS_MHZ =atoi(_Klock_speed); 
  
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -461,6 +471,9 @@ void write_NVRAM(void)
 	strncpy(data_chunk+13,_custom_PCB, 1);
 	strncpy(data_chunk+14,_TELEN_config, 4);
 	strncpy(data_chunk+18,_battery_mode, 1);
+	strncpy(data_chunk+19,_Klock_speed, 3);
+
+
 
 	uint32_t ints = save_and_disable_interrupts();
     flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);
@@ -487,6 +500,8 @@ void check_data_validity_and_set_defaults(void)
 	if ( (_custom_PCB[0]<'0') || (_custom_PCB[0]>'1')) {_custom_PCB[0]='0'; write_NVRAM();} //set default IO mapping to original Pi Pico configuration
 	if ( (_TELEN_config[0]<'0') || (_TELEN_config[0]>'F')) {strncpy(_TELEN_config,"----",4); write_NVRAM();}
 	if ( (_battery_mode[0]<'0') || (_battery_mode[0]>'1')) {_battery_mode[0]='0'; write_NVRAM();} //
+	if ( (atoi(_Klock_speed)<100) || (atoi(_Klock_speed)>300)) {strcpy(_Klock_speed,"115"); write_NVRAM();} 
+	
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -508,6 +523,8 @@ int result=1;
 	if ( (_custom_PCB[0]<'0') || (_custom_PCB[0]>'1')) {result=-1;} 
 	if ( ((_TELEN_config[0]<'0') || (_TELEN_config[0]>'F'))&& (_TELEN_config[0]!='-')) {result=-1;}
 	if ( (_battery_mode[0]<'0') || (_battery_mode[0]>'1')) {result=-1;} 	
+	if ( (atoi(_Klock_speed)<100) || (atoi(_Klock_speed)>300)) {result=-1;} 	
+
 return result;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -529,6 +546,7 @@ printf("Verbosity:%s\n\t",_verbosity);
 printf("Oscillator Off:%s\n\t",_oscillator);
 printf("custom Pcb IO mappings:%s\n\t",_custom_PCB);
 printf("TELEN config:%s\n\t",_TELEN_config);
+printf("Klock speed:%sMhz  (default: 133)\n\t",_Klock_speed);
 printf("Battery (low power) mode:%s\n\n",_battery_mode);
 
 							printf(UNDERLINE_ON);printf(BRIGHT);
@@ -543,6 +561,7 @@ printf("O: Oscillator off after trasmission (default: 1) \n\t");
 printf("P: custom Pcb mode IO mappings (0,1)\n\t");
 printf("T: TELEN config\n\t");
 printf("B: Battery (low power) mode \n\t");
+printf("K: Klock speed  (default: 133)\n\t");
 printf("F: Frequency output (antenna tuning mode)\n\n");
 
 
