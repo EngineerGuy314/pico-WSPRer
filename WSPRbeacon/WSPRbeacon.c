@@ -137,7 +137,7 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose, int GPS_PPS_PIN)
 if (is_GPS_active)
 	pctx->_txSched.minutes_since_GPS_aquisition = pctx->_txSched.minutes_since_boot-minute_OF_GPS_aquisition; //current time minus time it last went on is MINUTES since on
 else
-	pctx->_txSched.minutes_since_GPS_aquisition =99999;
+	pctx->_txSched.minutes_since_GPS_aquisition = (pctx->_txSched.minutes_since_boot-minute_OF_GPS_aquisition)+9000; //9xxx will indicatte no GPS, but the xxx will still show time since last aquisition
 
 
 		 if(is_GPS_active) at_least_one_GPS_fixed_has_been_obtained=1;
