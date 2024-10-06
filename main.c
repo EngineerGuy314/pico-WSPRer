@@ -45,6 +45,7 @@ char _custom_PCB[2];
 char _TELEN_config[5];     
 char _battery_mode[2];
 char _Klock_speed[4];         
+char _Datalog_mode[2]; 
 
 static uint32_t telen_values[4];  //consolodate in an array to make coding easier
 static absolute_time_t LED_sequence_start_time;
@@ -153,7 +154,8 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 	DCO._pGPStime->verbosity=(uint8_t)_verbosity[0]-'0';   
     int tick = 0;int tick2 = 0;  //used for timing various messages
 	LED_sequence_start_time = get_absolute_time();
-
+	if (_Datalog_mode[0]=='1') datalog_loop();
+	
     for(;;)   //loop every ~ half second
     {		
 		onewire_read();
@@ -381,7 +383,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
     for(;;)
 	{	
 																 printf(UNDERLINE_ON);printf(BRIGHT);
-		printf("\nEnter the command (X,C,S,I,M,L,V,O,P,T,B,K,F):");printf(UNDERLINE_OFF);printf(NORMAL);	
+		printf("\nEnter the command (X,C,S,I,M,L,V,O,P,T,B,D,K,F):");printf(UNDERLINE_OFF);printf(NORMAL);	
 		c=getchar_timeout_us(60000000);		   //just in case user setup menu was enterred during flight, this will reboot after 60 secs
 		printf("%c\n", c);
 		if (c==PICO_ERROR_TIMEOUT) {printf(CLEAR_SCREEN);printf("\n\n TIMEOUT WAITING FOR INPUT, REBOOTING FOR YOUR OWN GOOD!\n");sleep_ms(100);watchdog_enable(100, 1);for(;;)	{}}
@@ -400,6 +402,15 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 			case 'P':get_user_input("custom Pcb mode (0,1): ", _custom_PCB, sizeof(_custom_PCB)); write_NVRAM(); break;
 			case 'T':show_TELEN_msg();get_user_input("TELEN config: ", _TELEN_config, sizeof(_TELEN_config)); convertToUpperCase(_TELEN_config); write_NVRAM(); break;
 			case 'B':get_user_input("Battery mode (0,1): ", _battery_mode, sizeof(_battery_mode)); write_NVRAM(); break;
+			case 'D':get_user_input("Data-log mode (0,1,Wipe,Dump): ", _Datalog_mode, sizeof(_Datalog_mode));
+						if ((_Datalog_mode[0]=='D') || (_Datalog_mode[0]=='W') ) 
+								{
+									datalog_special_functions();
+									_Datalog_mode[0]='0';
+								}						 
+							write_NVRAM(); 
+						break;
+
 			case 'K':get_user_input("Klock speed (default 115): ", _Klock_speed, sizeof(_Klock_speed)); write_NVRAM(); break;
 			case 'F':
 				printf("Fixed Frequency output (antenna tuning mode). Enter frequency (for example 14.097) or 0 for exit.\n\t");
@@ -447,8 +458,11 @@ strncpy(_custom_PCB, flash_target_contents+13, 1);
 strncpy(_TELEN_config, flash_target_contents+14, 4);
 strncpy(_battery_mode, flash_target_contents+18, 1);
 strncpy(_Klock_speed, flash_target_contents+19, 3); _Klock_speed[3]=0; //null terminate cause later will use atoi
-
 PLL_SYS_MHZ =atoi(_Klock_speed); 
+strncpy(_Datalog_mode, flash_target_contents+22, 1);
+
+
+
  
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -472,6 +486,7 @@ void write_NVRAM(void)
 	strncpy(data_chunk+14,_TELEN_config, 4);
 	strncpy(data_chunk+18,_battery_mode, 1);
 	strncpy(data_chunk+19,_Klock_speed, 3);
+	strncpy(data_chunk+22,_Datalog_mode, 1);
 
 
 
@@ -501,7 +516,8 @@ void check_data_validity_and_set_defaults(void)
 	if ( (_TELEN_config[0]<'0') || (_TELEN_config[0]>'F')) {strncpy(_TELEN_config,"----",4); write_NVRAM();}
 	if ( (_battery_mode[0]<'0') || (_battery_mode[0]>'1')) {_battery_mode[0]='0'; write_NVRAM();} //
 	if ( (atoi(_Klock_speed)<100) || (atoi(_Klock_speed)>300)) {strcpy(_Klock_speed,"115"); write_NVRAM();} 
-	
+	if ( (_Datalog_mode[0]!='0') && (_Datalog_mode[0]!='1') && (_Datalog_mode[0]!='D') && (_Datalog_mode[0]!='W')) {_Datalog_mode[0]='0'; write_NVRAM();}
+
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -524,6 +540,7 @@ int result=1;
 	if ( ((_TELEN_config[0]<'0') || (_TELEN_config[0]>'F'))&& (_TELEN_config[0]!='-')) {result=-1;}
 	if ( (_battery_mode[0]<'0') || (_battery_mode[0]>'1')) {result=-1;} 	
 	if ( (atoi(_Klock_speed)<100) || (atoi(_Klock_speed)>300)) {result=-1;} 	
+	if ( (_Datalog_mode[0]!='0') && (_Datalog_mode[0]!='1')) {result=-1;}
 
 return result;
 }
@@ -547,6 +564,7 @@ printf("Oscillator Off:%s\n\t",_oscillator);
 printf("custom Pcb IO mappings:%s\n\t",_custom_PCB);
 printf("TELEN config:%s\n\t",_TELEN_config);
 printf("Klock speed:%sMhz  (default: 133)\n\t",_Klock_speed);
+printf("Datalog mode:%s\n\t",_Datalog_mode);
 printf("Battery (low power) mode:%s\n\n",_battery_mode);
 
 							printf(UNDERLINE_ON);printf(BRIGHT);
@@ -562,6 +580,7 @@ printf("P: custom Pcb mode IO mappings (0,1)\n\t");
 printf("T: TELEN config\n\t");
 printf("B: Battery (low power) mode \n\t");
 printf("K: Klock speed  (default: 133)\n\t");
+printf("D: Datalog mode (0,1,(W)ipe memory, (D)ump memory) see wiki\n\t");
 printf("F: Frequency output (antenna tuning mode)\n\n");
 
 
@@ -763,3 +782,19 @@ void dallas_setup() {
 * 7: Display GxRMC and GxGGA messages
 * 8: display ALL serial input from GPS module
 */
+/////////////////////////////////////////////////////////////////////////////////////////////////
+void datalog_special_functions()
+{
+
+if (_Datalog_mode[0]=='D') 
+{}
+if(_Datalog_mode[0]=='W') 
+{}
+
+}
+///////////////////////////
+void datalog_loop()
+{
+
+
+}

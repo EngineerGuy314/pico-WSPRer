@@ -161,5 +161,7 @@ void show_TELEN_msg(void);
 void process_TELEN_data(void); 
 void onewire_read(void);
 void dallas_setup(void);
+void datalog_special_functions(void);
+void datalog_loop(void);
 
 #endif
