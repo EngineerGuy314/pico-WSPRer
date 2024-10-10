@@ -163,5 +163,8 @@ void onewire_read(void);
 void dallas_setup(void);
 void datalog_special_functions(void);
 void datalog_loop(void);
+void reboot_now(void);
+void go_to_sleep(void);
+void write_to_next_avail_flash(char *text);
 
 #endif

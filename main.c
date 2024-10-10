@@ -65,10 +65,11 @@ OW one_wire_interface;   //onewire interface
 
 PioDco DCO = {0};
 
+
 int main()
 {
 	StampPrintf("\n");DoLogPrint(); // needed asap to wake up the USB stdio port (because StampPrintf includes stdio_init_all();). why though?
-	
+	        sleep_ms(2000);printf("Wakey");
 	gpio_init(LED_PIN); 
 	gpio_set_dir(LED_PIN, GPIO_OUT); //initialize LED output
 		
@@ -111,6 +112,21 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 	I2C_init();
     printf("\npico-WSPRer version: %s %s\nWSPR beacon init...",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
 
+
+/*write_to_next_avail_flash("The wuick Brown Jackass");
+write_to_next_avail_flash("was the backslash or trailing spaces as aproblm?");
+write_to_next_avail_flash("words with no spaces");
+write_to_next_avail_flash("<stuff>");
+*/
+
+/*_Datalog_mode[0]='D';
+datalog_special_functions();
+*/
+
+
+
+
+
 	uint32_t XMIT_FREQUENCY;
 	switch(_lane[0])                                     //following lines set lane frequencies for 20M u4b operation. The center freuency for Zactkep (wspr 3) xmitions is hard set in WSPRBeacon.c to 14097100UL
 		{
@@ -144,7 +160,7 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 	pWB->_txSched.low_power_mode=(uint8_t)_battery_mode[0]-'0';
 	strcpy(pWB->_txSched.id13,_id13);
 
-	multicore_launch_core1(Core1Entry);    //caused immeditae reboot, so did GPS init
+	multicore_launch_core1(Core1Entry);    
     StampPrintf("RF oscillator initialized.");
 	int uart_number=(uint8_t)_custom_PCB[0]-'0';  //custom PCB uses Uart 1 if selected, otherwise uart 0
 	DCO._pGPStime = GPStimeInit(uart_number, 9600, GPS_PPS_PIN, PLL_SYS_MHZ); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
@@ -203,12 +219,13 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 		//pWB->_txSched.TELEN1_val1=rand() % 630000;   //the values  in TELEN_val1 and TELEN_val2 will get sent as TELEN #1 (extended Telemetry) (a third packet in the U4B protocol)
 		//pWB->_txSched.TELEN1_val2=rand() % 153000;	/ max values are 630k and 153k
 		
-		if (pWB->_txSched.verbosity>=1)
-		{
+		
+		
 				if(0 == ++tick2 % 10)      //every ~5 sec
-				StampPrintf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Satellite count: %d\n", tempU,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count);		
-				printf("TELEN Vals 1 through 4:  %d %d %d %d\n",telen_values[0],telen_values[1],telen_values[2],telen_values[3]);
-		}
+				{
+				if (pWB->_txSched.verbosity>=1) StampPrintf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Satellite count: %d\n", tempU,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count);		
+				if (pWB->_txSched.verbosity>=3) printf("TELEN Vals 1 through 4:  %d %d %d %d\n",telen_values[0],telen_values[1],telen_values[2],telen_values[3]);
+				}
 		
 		for (int i=0;i < 10;i++) //orig code had a 900mS pause here. I only pause a total of 500ms, and spend it polling the time to handle LED state
 			{
@@ -219,6 +236,9 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 	}
 }
 ///////////////////////////////////
+static void sleep_callback(void) {
+    printf("RTC woke us up\n");
+}
 
 void process_TELEN_data(void)
 {
@@ -403,6 +423,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 			case 'T':show_TELEN_msg();get_user_input("TELEN config: ", _TELEN_config, sizeof(_TELEN_config)); convertToUpperCase(_TELEN_config); write_NVRAM(); break;
 			case 'B':get_user_input("Battery mode (0,1): ", _battery_mode, sizeof(_battery_mode)); write_NVRAM(); break;
 			case 'D':get_user_input("Data-log mode (0,1,Wipe,Dump): ", _Datalog_mode, sizeof(_Datalog_mode));
+						convertToUpperCase(_Datalog_mode);
 						if ((_Datalog_mode[0]=='D') || (_Datalog_mode[0]=='W') ) 
 								{
 									datalog_special_functions();
@@ -428,7 +449,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 				}
 			case 13:  break;
 			case 10:  break;
-			default: printf(CLEAR_SCREEN); printf("\nYou pressed: %c - (0x%02x), INVALID choice!! ",c,c);sleep_ms(2000);break;		
+			default: printf(CLEAR_SCREEN); printf("\nYou pressed: %c - (0x%02x), INVALID choice!! ",c,c);sleep_ms(1000);break;		
 		}
 		check_data_validity_and_set_defaults();
 		show_values();
@@ -473,7 +494,7 @@ strncpy(_Datalog_mode, flash_target_contents+22, 1);
  */
 void write_NVRAM(void)
 {
-    uint8_t data_chunk[FLASH_PAGE_SIZE];
+    uint8_t data_chunk[FLASH_PAGE_SIZE];  //256 bytes
 
 	strncpy(data_chunk,_callsign, 6);
 	strncpy(data_chunk+6,_id13,  2);
@@ -488,12 +509,10 @@ void write_NVRAM(void)
 	strncpy(data_chunk+19,_Klock_speed, 3);
 	strncpy(data_chunk+22,_Datalog_mode, 1);
 
-
-
 	uint32_t ints = save_and_disable_interrupts();
-    flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);
-	flash_range_program(FLASH_TARGET_OFFSET, data_chunk, FLASH_PAGE_SIZE);
-	restore_interrupts (ints);
+    flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);  //a "Sector" is 4096 bytes             FLASH_TARGET_OFFSET,FLASH_SECTOR_SIZE,FLASH_PAGE_SIZE = 040000x, 4096, 256
+	flash_range_program(FLASH_TARGET_OFFSET, data_chunk, FLASH_PAGE_SIZE);  //writes 256 bytes (one "page") (16 pages per sector)
+	restore_interrupts (ints);												//you could theoretically write 16 pages at once (a whole sector)
 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -786,15 +805,180 @@ void dallas_setup() {
 void datalog_special_functions()
 {
 
-if (_Datalog_mode[0]=='D') 
-{}
-if(_Datalog_mode[0]=='W') 
-{}
+/*		FLASH_TARGET_OFFSET(0x4 0000): a pointer to a safe place after the program memory  (
+		xip_base offset (0x1000 0000) only needed when READING, not writing)
+	    FLASH_TARGET_OFFSET = 040000x
+		FLASH_SECTOR_SIZE,   4096
+		FLASH_PAGE_SIZE       256 */
+		
+
+ uint8_t *pointer_to_byte;
+ char c;
+ 			uint32_t byte_counter;
+			uint32_t sector_count; //65- 321  //add xip_base offset when reading, each sector is 4096 bytes. this is 1MB of data in a safe place (could go close to 2MB theoreticallY). sector 64 is where NBRAM (user settings) are
+
+	
+if (_Datalog_mode[0]=='D') //Dumps memory to usb serial port
+{
+			printf("About to dump...\n");
+
+			for (sector_count=65;sector_count<(321-1);sector_count+=1)   //sector 64 is  where user settings are			
+			{
+				for (byte_counter=0;byte_counter<(FLASH_SECTOR_SIZE-1);byte_counter+=1)   
+				{
+					pointer_to_byte=(char *)(XIP_BASE+byte_counter+(sector_count*FLASH_SECTOR_SIZE));
+					c = *pointer_to_byte;
+					if (c==255) break;    //255 is uninitialized or blank					
+					printf("%c",c);
+					//c[1]=0;
+					//printf("(%s){%02x}",c,c[0]);
+					//sleep_ms(20);
+				}  
+				if (c==255) break;
+			}
+			
+			printf("\nDone dumping memory, zero reached at %d bytes in sector %d\n",byte_counter,sector_count);
+					
+}
+
+
+
+if(_Datalog_mode[0]=='W')   
+{
+			printf("WIPING EVERYTHING!\n");
+
+///	int c=getchar_timeout_us(60000000);		   //just in case user setup menu was enterred during flight, this will reboot after 60 secs
+//		printf("%c\n", c);
+		//if (c==PICO_ERROR_TIMEOUT)
+
+	uint32_t ints = save_and_disable_interrupts();	
+//	for (sector_count=65;sector_count<(321-1);sector_count+=1)   //sector 64 is  where user settings are			
+
+	flash_range_erase(FLASH_SECTOR_SIZE*65L,FLASH_SECTOR_SIZE*256L );  
+
+	restore_interrupts (ints);
+
+		printf("Done Wiping!\n");
 
 }
+
+//btw FLASH_TARGET_OFFSET,FLASH_SECTOR_SIZE,FLASH_PAGE_SIZE = 040000x, 4096, 256
+	/*uint32_t ints = save_and_disable_interrupts();
+	XIP_BASE:   0x1000 0000
+    flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);  //a "Sector" is 4096 bytes             FLASH_TARGET_OFFSET,FLASH_SECTOR_SIZE,FLASH_PAGE_SIZE = 040000x, 4096, 256
+	flash_range_program(FLASH_TARGET_OFFSET, data_chunk, FLASH_PAGE_SIZE);  //writes 256 bytes (one "page") (16 pages per sector)
+	restore_interrupts (ints);		*/
+}
 ///////////////////////////
+void write_to_next_avail_flash(char *text)   //text can be a literal, a pointer to char arracy, or a char array
+{
+uint32_t byte_counter;
+uint32_t sector_count;	
+uint32_t found_byte_location;
+uint32_t found_sector;	
+uint8_t current_sector_data[4096];		
+uint8_t next_sector_data[4096];		
+uint8_t *pointer_to_byte;
+char c;
+
+		for (sector_count=65;sector_count<(321-1);sector_count+=1)     //find next open spot	
+			{
+				for (byte_counter=0;byte_counter<(FLASH_SECTOR_SIZE-1);byte_counter+=1)   
+				{
+					pointer_to_byte=(char *)(XIP_BASE+byte_counter+(sector_count*FLASH_SECTOR_SIZE));
+					c = *pointer_to_byte;
+					if (c==255) break;    //255 is uninitialized or blank					
+				}  
+				if (c==255) break;
+			}
+	printf("found openning at byte # %d bytes in sector # 	%d\n",byte_counter,sector_count);
+	found_sector=sector_count;
+	found_byte_location=byte_counter;
+
+//read the whole sector
+	for (byte_counter=0;byte_counter<(FLASH_SECTOR_SIZE-1);byte_counter+=1)   
+				{
+					pointer_to_byte=(char *)(XIP_BASE+byte_counter+(found_sector*FLASH_SECTOR_SIZE));
+					c = *pointer_to_byte;
+					current_sector_data[byte_counter]=c;					
+				}  
+
+//read the entire NEXT sector (just in case wrapping is needed)
+	for (byte_counter=0;byte_counter<(FLASH_SECTOR_SIZE-1);byte_counter+=1)   
+				{
+					pointer_to_byte=(char *)(XIP_BASE+byte_counter+((found_sector+1)*FLASH_SECTOR_SIZE));
+					c = *pointer_to_byte;
+					next_sector_data[byte_counter]=c;					
+				}  
+	
+	size_t length_of_input = strlen(text);
+
+if ( (length_of_input + found_byte_location)>FLASH_SECTOR_SIZE)  //then need to wrap
+				//need to span 2 sectors
+			{
+				for (byte_counter=found_byte_location;byte_counter<FLASH_SECTOR_SIZE;byte_counter+=1)   //first part
+				{
+					current_sector_data[byte_counter]= *((char *)(text+byte_counter-found_byte_location));					
+				}  
+				for (byte_counter=0;byte_counter<(length_of_input-(FLASH_SECTOR_SIZE-found_byte_location));byte_counter+=1)   //2nd part part
+				{
+					next_sector_data[byte_counter]= *((char *)(text+byte_counter-found_byte_location));					
+				}
+				
+			}
+			else
+				//can fit new data in current sector
+			{
+				for (byte_counter=found_byte_location;byte_counter<(found_byte_location+length_of_input);byte_counter+=1)   
+				{
+					current_sector_data[byte_counter]= *((char *)(text+byte_counter-found_byte_location));					
+				}
+			}
+	
+	uint32_t ints = save_and_disable_interrupts();	
+		flash_range_erase(FLASH_SECTOR_SIZE*found_sector,FLASH_SECTOR_SIZE);  	
+	flash_range_program(FLASH_SECTOR_SIZE*found_sector, current_sector_data, FLASH_SECTOR_SIZE);  
+	flash_range_erase(FLASH_SECTOR_SIZE*(1+found_sector),FLASH_SECTOR_SIZE);  
+	flash_range_program(FLASH_SECTOR_SIZE*(1+found_sector), next_sector_data, FLASH_SECTOR_SIZE); 
+	restore_interrupts (ints);
+	
+	printf("size of input string %s is: %d wrote it to byte %d in sector %d\n",text,length_of_input,found_byte_location,found_sector);
+
+}
+//////////////////////////
 void datalog_loop()
 {
+char string_to_log[400];
 
+printf("Enterring DATA LOG LOOP\n");
+
+    for(;;)   //loop every ~ half second
+    {	
+		sprintf(string_to_log,"longitude:,%lli,latitutde:,%lli,altitude:,%f,sat count:,%d,minute:,%d,hour:,%d\n",DCO._pGPStime->_time_data._i64_lon_100k,DCO._pGPStime->_time_data._i64_lat_100k,DCO._pGPStime->_altitude,DCO._pGPStime->_time_data.sat_count,DCO._pGPStime->_time_data._u8_last_digit_minutes,DCO._pGPStime->_time_data._u8_last_digit_hour);
+		write_to_next_avail_flash(string_to_log);
+		sleep_ms(2000);
+		////go_to_sleep();
+	}
+}/////////////
+void reboot_now()
+{
+printf("\n\nrebooting...");watchdog_enable(100, 1);for(;;)	{}
+}
+
+void go_to_sleep()
+{
+			datetime_t t = {.year  = 2020,.month = 01,.day= 01, .dotw= 1,.hour=1,.min= 1,.sec = 00};
+			// Start the RTC
+			rtc_init();
+			rtc_set_datetime(&t);
+			uart_default_tx_wait_blocking();
+			datetime_t alarm_time = t;
+			//alarm_time.min += (46-3);	//sleep for 55 minutes. 46 ~= 55 mins X (115Mhz/133Mhz)  //wuz, the -3 is to allow 1 TELEN in low power mode
+			alarm_time.sec += 5;
+			gpio_set_irq_enabled(GPS_PPS_PIN, GPIO_IRQ_EDGE_RISE, false); //this is needed to disable IRQ callback on PPS
+			multicore_reset_core1();  //this is needed, otherwise causes instant reboot
+			sleep_run_from_dormant_source(DORMANT_SOURCE_ROSC);  //this reduces sleep draw to 2mA! (without this will still sleep, but only at 8mA)
+			sleep_goto_sleep_until(&alarm_time, &sleep_callback);	//blocks here during sleep perfiod
+			{watchdog_enable(100, 1);for(;;)	{} }  //recovering from sleep is messy, this makes it reboot to get a fresh start
 
 }

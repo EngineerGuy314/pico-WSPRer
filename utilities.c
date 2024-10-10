@@ -35,7 +35,6 @@ void get_user_input(const char *prompt, char *input_variable, int max_length) {
 
     while (1) {
         ch = getchar();
-        
         if (ch == '\n' || ch == '\r') {  // Enter key pressed
             break;
         } else if (ch == 127 || ch == 8) {  // Backspace key pressed (127 for most Unix, 8 for Windows)
