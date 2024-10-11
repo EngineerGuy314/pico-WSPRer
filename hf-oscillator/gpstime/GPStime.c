@@ -136,7 +136,7 @@ void RAM (GPStimeUartRxIsr)()
     }
 }
 
-/// @brief Processes a NMEA sentence GPRMC.
+/// @brief Processes a NMEA sentence GxRMC.
 /// @param pg Ptr to Context.
 /// @return 0 OK.
 /// @return -2 Error: bad lat format.
@@ -144,7 +144,7 @@ void RAM (GPStimeUartRxIsr)()
 /// @return -4 Error: no final '*' char ere checksum value.
 /// @attention Checksum validation is not implemented so far. !FIXME!
 int parse_GPS_data(GPStimeContext *pg)
-{                                               //"$GxGGA has time, locations, altitude and sat count! unlike $prmc it does NOT have date, but so what
+{                                               //"$GxRMC has time, locations, altitude and sat count! unlike $xxGGA it does NOT have date, but so what
     assert_(pg);
     uint8_t *prmc = (uint8_t *)strnstr((char *)pg->_pbytebuff, "$GPGGA,", sizeof(pg->_pbytebuff));
     uint8_t *nrmc = (uint8_t *)strnstr((char *)pg->_pbytebuff, "$GNGGA,", sizeof(pg->_pbytebuff));
@@ -172,6 +172,9 @@ int parse_GPS_data(GPStimeContext *pg)
         }		
 		pg->_time_data._u8_last_digit_minutes= *(prmc + u8ixcollector[0] + 3);
 		pg->_time_data._u8_last_digit_hour= *(prmc + u8ixcollector[0] + 1);		
+		strncpy(pg->_time_data._full_time_string, (const char *)prmc + u8ixcollector[0], 6);pg->_time_data._full_time_string[6]=0;
+		
+		
         pg->_time_data._u8_is_solution_active = (prmc[u8ixcollector[5]]>48);   //numeric 0 for no fix, 1 2 or 3 for various fix types //printf("char is: %c\n",prmc[u8ixcollector[5]]);
 		pg->_time_data.sat_count = atoi((const char *)prmc + u8ixcollector[6]); 
 		

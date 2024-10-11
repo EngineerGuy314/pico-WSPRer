@@ -802,27 +802,24 @@ void dallas_setup() {
 * 8: display ALL serial input from GPS module
 */
 /////////////////////////////////////////////////////////////////////////////////////////////////
-void datalog_special_functions()
+void datalog_special_functions()   //this called only from user-setup menu
 {
-
 /*		FLASH_TARGET_OFFSET(0x4 0000): a pointer to a safe place after the program memory  (
 		xip_base offset (0x1000 0000) only needed when READING, not writing)
 	    FLASH_TARGET_OFFSET = 040000x
 		FLASH_SECTOR_SIZE,   4096
-		FLASH_PAGE_SIZE       256 */
-		
+		FLASH_PAGE_SIZE       256 */		
 
- uint8_t *pointer_to_byte;
- char c;
- 			uint32_t byte_counter;
-			uint32_t sector_count; //65- 321  //add xip_base offset when reading, each sector is 4096 bytes. this is 1MB of data in a safe place (could go close to 2MB theoreticallY). sector 64 is where NBRAM (user settings) are
-
+uint8_t *pointer_to_byte;
+char c;
+uint32_t byte_counter;
+uint32_t sector_count; //65- 321  //add xip_base offset ONLY when reading, each sector is 4096 bytes. this is 1MB of data in a safe place (could go close to 2MB theoreticallY). sector 64 is where NBRAM (user settings) are
 	
 if (_Datalog_mode[0]=='D') //Dumps memory to usb serial port
 {
 			printf("About to dump...\n");
 
-			for (sector_count=65;sector_count<(321-1);sector_count+=1)   //sector 64 is  where user settings are			
+			for (sector_count=65;sector_count<(321-1);sector_count+=1)   //sector 64 is  where user settings are, so start at 65			
 			{
 				for (byte_counter=0;byte_counter<(FLASH_SECTOR_SIZE-1);byte_counter+=1)   
 				{
@@ -830,46 +827,31 @@ if (_Datalog_mode[0]=='D') //Dumps memory to usb serial port
 					c = *pointer_to_byte;
 					if (c==255) break;    //255 is uninitialized or blank					
 					printf("%c",c);
-					//c[1]=0;
-					//printf("(%s){%02x}",c,c[0]);
-					//sleep_ms(20);
+				//sleep_ms(5);                     //may or may not be needed for very large transfers?
 				}  
 				if (c==255) break;
 			}
-			
 			printf("\nDone dumping memory, zero reached at %d bytes in sector %d\n",byte_counter,sector_count);
-					
 }
-
-
 
 if(_Datalog_mode[0]=='W')   
 {
-			printf("WIPING EVERYTHING!\n");
+	printf("WIPING EVERYTHING in 5 seconds! press a key to abort....\n");
+	int cc=getchar_timeout_us(6000000);		
 
-///	int c=getchar_timeout_us(60000000);		   //just in case user setup menu was enterred during flight, this will reboot after 60 secs
-//		printf("%c\n", c);
-		//if (c==PICO_ERROR_TIMEOUT)
-
+  if (cc==PICO_ERROR_TIMEOUT)
+  {
+	printf("wiping in process, please wait...\n");
 	uint32_t ints = save_and_disable_interrupts();	
-//	for (sector_count=65;sector_count<(321-1);sector_count+=1)   //sector 64 is  where user settings are			
-
 	flash_range_erase(FLASH_SECTOR_SIZE*65L,FLASH_SECTOR_SIZE*256L );  
-
 	restore_interrupts (ints);
-
-		printf("Done Wiping!\n");
-
+	printf("* * * Done Wiping! * * * \n");
+  }
+  else	printf("Wipe aborted. Phew!\n");  
 }
 
-//btw FLASH_TARGET_OFFSET,FLASH_SECTOR_SIZE,FLASH_PAGE_SIZE = 040000x, 4096, 256
-	/*uint32_t ints = save_and_disable_interrupts();
-	XIP_BASE:   0x1000 0000
-    flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);  //a "Sector" is 4096 bytes             FLASH_TARGET_OFFSET,FLASH_SECTOR_SIZE,FLASH_PAGE_SIZE = 040000x, 4096, 256
-	flash_range_program(FLASH_TARGET_OFFSET, data_chunk, FLASH_PAGE_SIZE);  //writes 256 bytes (one "page") (16 pages per sector)
-	restore_interrupts (ints);		*/
 }
-///////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void write_to_next_avail_flash(char *text)   //text can be a literal, a pointer to char arracy, or a char array
 {
 uint32_t byte_counter;
@@ -880,6 +862,7 @@ uint8_t current_sector_data[4096];
 uint8_t next_sector_data[4096];		
 uint8_t *pointer_to_byte;
 char c;
+size_t length_of_input = strlen(text);
 
 		for (sector_count=65;sector_count<(321-1);sector_count+=1)     //find next open spot	
 			{
@@ -891,7 +874,7 @@ char c;
 				}  
 				if (c==255) break;
 			}
-	printf("found openning at byte # %d bytes in sector # 	%d\n",byte_counter,sector_count);
+	printf("found opening at byte # %d bytes in sector # 	%d\n",byte_counter,sector_count);
 	found_sector=sector_count;
 	found_byte_location=byte_counter;
 
@@ -911,8 +894,6 @@ char c;
 					next_sector_data[byte_counter]=c;					
 				}  
 	
-	size_t length_of_input = strlen(text);
-
 if ( (length_of_input + found_byte_location)>FLASH_SECTOR_SIZE)  //then need to wrap
 				//need to span 2 sectors
 			{
@@ -922,7 +903,7 @@ if ( (length_of_input + found_byte_location)>FLASH_SECTOR_SIZE)  //then need to 
 				}  
 				for (byte_counter=0;byte_counter<(length_of_input-(FLASH_SECTOR_SIZE-found_byte_location));byte_counter+=1)   //2nd part part
 				{
-					next_sector_data[byte_counter]= *((char *)(text+byte_counter-found_byte_location));					
+					next_sector_data[byte_counter]= *((char *)(text+byte_counter + (FLASH_SECTOR_SIZE-found_byte_location)      ));					
 				}
 				
 			}
@@ -936,7 +917,7 @@ if ( (length_of_input + found_byte_location)>FLASH_SECTOR_SIZE)  //then need to 
 			}
 	
 	uint32_t ints = save_and_disable_interrupts();	
-		flash_range_erase(FLASH_SECTOR_SIZE*found_sector,FLASH_SECTOR_SIZE);  	
+	flash_range_erase(FLASH_SECTOR_SIZE*found_sector,FLASH_SECTOR_SIZE);  	
 	flash_range_program(FLASH_SECTOR_SIZE*found_sector, current_sector_data, FLASH_SECTOR_SIZE);  
 	flash_range_erase(FLASH_SECTOR_SIZE*(1+found_sector),FLASH_SECTOR_SIZE);  
 	flash_range_program(FLASH_SECTOR_SIZE*(1+found_sector), next_sector_data, FLASH_SECTOR_SIZE); 
@@ -948,37 +929,76 @@ if ( (length_of_input + found_byte_location)>FLASH_SECTOR_SIZE)  //then need to 
 //////////////////////////
 void datalog_loop()
 {
-char string_to_log[400];
+	char string_to_log[400];
+	absolute_time_t GPS_wait_start_time;
+	uint64_t t;
 
-printf("Enterring DATA LOG LOOP\n");
+				printf("Enterring DATA LOG LOOP. waiting for sat lock or 65 sec max\n");
+				const float conversionFactor = 3.3f / (1 << 12);          //read temperature
+				adc_select_input(4);	
+				float adc = (float)adc_read() * conversionFactor;
+				float tempf =32+(( 27.0f - (adc - 0.706f) / 0.001721f)*(9.0f/5.0f));						
+				adc_select_input(3);  //if setup correctly, ADC3 reads Vsys   // read voltage
+				float volts = 3*(float)adc_read() * conversionFactor;  
 
-    for(;;)   //loop every ~ half second
-    {	
-		sprintf(string_to_log,"longitude:,%lli,latitutde:,%lli,altitude:,%f,sat count:,%d,minute:,%d,hour:,%d\n",DCO._pGPStime->_time_data._i64_lon_100k,DCO._pGPStime->_time_data._i64_lat_100k,DCO._pGPStime->_altitude,DCO._pGPStime->_time_data.sat_count,DCO._pGPStime->_time_data._u8_last_digit_minutes,DCO._pGPStime->_time_data._u8_last_digit_hour);
-		write_to_next_avail_flash(string_to_log);
-		sleep_ms(2000);
-		////go_to_sleep();
-	}
-}/////////////
+				GPS_wait_start_time = get_absolute_time();
+	 
+				do
+					{
+						t = absolute_time_diff_us(GPS_wait_start_time, get_absolute_time());	
+										if (getchar_timeout_us(0)>0)   //looks for input on USB serial port only. Note: getchar_timeout_us(0) returns a -2 (as of sdk 2) if no keypress. But if you force it into a Char type, becomes something else
+										{
+											DCO._pGPStime->user_setup_menu_active=1;	
+											user_interface();   
+										}
+					} 
+				while (( t<35000000ULL )&&(DCO._pGPStime->_time_data.sat_count<4));               //wait for DCO._pGPStime->_time_data.sat_coun>4 with 65 second maximum time
+	
+				if (DCO._pGPStime->_time_data.sat_count>=4)
+				{
+				sleep_ms(3000); //even though sat count seen, wait a bit longer
+				sprintf(string_to_log,"latitutde:,%lli,longitude:,%lli,altitude:,%f,sat count:,%d,time:,%s,temp:,%f,bat voltage:,%f\n",DCO._pGPStime->_time_data._i64_lon_100k,DCO._pGPStime->_time_data._i64_lat_100k,DCO._pGPStime->_altitude,DCO._pGPStime->_time_data.sat_count,DCO._pGPStime->_time_data._full_time_string,tempf,volts);
+				write_to_next_avail_flash(string_to_log);
+				printf("GPS data has been logged.\n");
+				}
+					else
+				{
+				sprintf(string_to_log,"no reading, time might be:,%s\n",DCO._pGPStime->_time_data._full_time_string);
+				write_to_next_avail_flash(string_to_log);
+				printf("NO GPS seen :-(\n");
+				}
+
+				printf("About to sleep!\n");
+				gpio_set_dir(GPS_ENABLE_PIN, GPIO_IN);  //let the mosfet drive float
+				gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN, GPIO_IN); 
+				gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+1, GPIO_IN); 
+				gpio_set_dir(GPS_ALT_ENABLE_LOW_SIDE_DRIVE_BASE_IO_PIN+2, GPIO_IN); 
+				gpio_put(6, 0); //these are required ONLY for v0.1 of custom PCB (ON/OFF and nReset of GPS module, which later are just left disconnected)
+				gpio_put(5, 0);
+
+				go_to_sleep();
+
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void reboot_now()
 {
 printf("\n\nrebooting...");watchdog_enable(100, 1);for(;;)	{}
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void go_to_sleep()
 {
-			datetime_t t = {.year  = 2020,.month = 01,.day= 01, .dotw= 1,.hour=1,.min= 1,.sec = 00};
-			// Start the RTC
-			rtc_init();
+			datetime_t t = {.year  = 2020,.month = 01,.day= 01, .dotw= 1,.hour=1,.min= 1,.sec = 00};			
+			rtc_init(); // Start the RTC
 			rtc_set_datetime(&t);
 			uart_default_tx_wait_blocking();
 			datetime_t alarm_time = t;
-			//alarm_time.min += (46-3);	//sleep for 55 minutes. 46 ~= 55 mins X (115Mhz/133Mhz)  //wuz, the -3 is to allow 1 TELEN in low power mode
-			alarm_time.sec += 5;
+
+			alarm_time.min += 20;	//sleep for 20 minutes.
+			//alarm_time.sec += 15;
+
 			gpio_set_irq_enabled(GPS_PPS_PIN, GPIO_IRQ_EDGE_RISE, false); //this is needed to disable IRQ callback on PPS
 			multicore_reset_core1();  //this is needed, otherwise causes instant reboot
 			sleep_run_from_dormant_source(DORMANT_SOURCE_ROSC);  //this reduces sleep draw to 2mA! (without this will still sleep, but only at 8mA)
 			sleep_goto_sleep_until(&alarm_time, &sleep_callback);	//blocks here during sleep perfiod
-			{watchdog_enable(100, 1);for(;;)	{} }  //recovering from sleep is messy, this makes it reboot to get a fresh start
-
+			{watchdog_enable(100, 1);for(;;)	{} }  //recovering from sleep is messy, so this makes it reboot to get a fresh start
 }
