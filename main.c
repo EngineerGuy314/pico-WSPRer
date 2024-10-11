@@ -112,21 +112,6 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 	I2C_init();
     printf("\npico-WSPRer version: %s %s\nWSPR beacon init...",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
 
-
-/*write_to_next_avail_flash("The wuick Brown Jackass");
-write_to_next_avail_flash("was the backslash or trailing spaces as aproblm?");
-write_to_next_avail_flash("words with no spaces");
-write_to_next_avail_flash("<stuff>");
-*/
-
-/*_Datalog_mode[0]='D';
-datalog_special_functions();
-*/
-
-
-
-
-
 	uint32_t XMIT_FREQUENCY;
 	switch(_lane[0])                                     //following lines set lane frequencies for 20M u4b operation. The center freuency for Zactkep (wspr 3) xmitions is hard set in WSPRBeacon.c to 14097100UL
 		{

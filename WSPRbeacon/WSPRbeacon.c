@@ -328,7 +328,7 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-6.  1: 
         val *= 40; val += voltageNum;
         val *= 42; val += speedKnotsNum;
         val *=  2; val += gpsValidNum;
-        val *=  2; val += 1;                // standard telemetry (1 means normal standard, 0 is special TELEN?)
+        val *=  2; val += 1;          // standard telemetry (1 for the 2nd U4B packet, 0 for "Extended TELEN") - Thanks Kevin!
         // unshift big number into output radix values
         uint8_t powerVal = val % 19; val = val / 19;
         uint8_t g4Val    = val % 10; val = val / 10;
@@ -468,6 +468,12 @@ if ((packet_type==5)||(packet_type==6))   //TELEN #1 or #2 extended telemetry, g
 	_4_char_version_of_locator[3]=telen_chars[7];
 	_4_char_version_of_locator[4]=0;  //add null terminator
 
+telen_power &= ~(1<<1); //clear 2nd bit (GPSValid) (always for TELEN #1 and #2) - Thanks Kevin!
+if (packet_type==6) 
+	telen_power |= (1<<0); //set 1st bit      for TELEN #2
+else
+	telen_power &= ~(1<<0); //clear 1st bit   for TELEN #1
+
 	wspr_encode(_callsign, _4_char_version_of_locator, telen_power, pctx->_pu8_outbuf, pctx->_txSched.verbosity);   // look in WSPRutility.c for wspr_encode
    }
 	return 0;
@@ -500,7 +506,7 @@ void encode_telen(uint32_t telen_val1,uint32_t telen_val2,char * telen_chars,uin
 	// first value  gets encoded into the callsign (1st char is alphannumeric, and last three chars are alpha). Full callsign will be ID1, telen_char[0], ID3, telen_CHar[1],  telen_CHar[2], telen_CHar[3]. 
 	// 2nd value gets encoded into GRID and power. grid = telen_CHar[4,5,6,7]. power = telen_power
 	// max val of 1st one ~= 632k (per dave) [19 bits] i had originally thought 651,013 (if first char Z, which ~=35, times 17565(26^3). base 26 used, not base 36, because other chars must be only alpha, not alphanumeric because of Ham callsign conventions)
-	// max val of 2nd one ~= 153k (per dave) [17 bits] i had thought over 200k....
+	// max val of 2nd one ~= 153k  (per dave) [17 bits] i had thought over 200k....
 
 	uint32_t tem=telen_val1;						
 	double temf=telen_val2;
