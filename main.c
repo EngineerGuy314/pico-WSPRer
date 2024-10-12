@@ -46,6 +46,7 @@ char _TELEN_config[5];
 char _battery_mode[2];
 char _Klock_speed[4];         
 char _Datalog_mode[2]; 
+char _U4B_chan[4];
 
 static uint32_t telen_values[4];  //consolodate in an array to make coding easier
 static absolute_time_t LED_sequence_start_time;
@@ -102,6 +103,8 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 		DCO._pGPStime->user_setup_menu_active=1;	//if we get here, they pressed a button
 		user_interface();  
 	}
+	process_chan_num(); //sets minute/lane/id from chan number. usually redundant at this point, but can't hurt
+	
 	if (getchar_timeout_us(0)>0)   //looks for input on USB serial port only. Note: getchar_timeout_us(0) returns a -2 (as of sdk 2) if no keypress. Must do this check BEFORE setting Clock Speed in Case you bricked it
 		{
 		DCO._pGPStime->user_setup_menu_active=1;	
@@ -388,7 +391,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
     for(;;)
 	{	
 																 printf(UNDERLINE_ON);printf(BRIGHT);
-		printf("\nEnter the command (X,C,S,I,M,L,V,O,P,T,B,D,K,F):");printf(UNDERLINE_OFF);printf(NORMAL);	
+		printf("\nEnter the command (X,C,S,U,[I,M,L],V,P,T,B,D,K,F):");printf(UNDERLINE_OFF);printf(NORMAL);	
 		c=getchar_timeout_us(60000000);		   //just in case user setup menu was enterred during flight, this will reboot after 60 secs
 		printf("%c\n", c);
 		if (c==PICO_ERROR_TIMEOUT) {printf(CLEAR_SCREEN);printf("\n\n TIMEOUT WAITING FOR INPUT, REBOOTING FOR YOUR OWN GOOD!\n");sleep_ms(100);watchdog_enable(100, 1);for(;;)	{}}
@@ -399,11 +402,12 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 			//case 'R':printf(CLEAR_SCREEN);printf("\n\nCorrupting data..");strncpy(_callsign,"!^&*(",6);write_NVRAM();watchdog_enable(100, 1);for(;;)	{}  //used for testing NVRAM check on boot feature
 			case 'C':get_user_input("Enter callsign: ",_callsign,sizeof(_callsign)); convertToUpperCase(_callsign); write_NVRAM(); break;
 			case 'S':get_user_input("Enter single digit numeric suffix: ", _suffix, sizeof(_suffix)); convertToUpperCase(_suffix); write_NVRAM(); break;
-			case 'I':get_user_input("Enter id13: ", _id13,sizeof(_id13)); convertToUpperCase(_id13); write_NVRAM(); break;
-			case 'M':get_user_input("Enter starting Minute: ", _start_minute, sizeof(_start_minute)); write_NVRAM(); break;
-			case 'L':get_user_input("Enter Lane (1,2,3,4): ", _lane, sizeof(_lane)); write_NVRAM(); break;
+			case 'U':get_user_input("Enter U4B channel: ", _U4B_chan, sizeof(_U4B_chan)); process_chan_num(); write_NVRAM(); break;
+			case 'I':get_user_input("Enter id13: ", _id13,sizeof(_id13)); convertToUpperCase(_id13); write_NVRAM(); break; //still possible but not listed or recommended
+			case 'M':get_user_input("Enter starting Minute: ", _start_minute, sizeof(_start_minute)); write_NVRAM(); break; //still possible but not listed or recommended. i suppose needed for when to start standalone beacon or Zachtek
+			case 'L':get_user_input("Enter Lane (1,2,3,4): ", _lane, sizeof(_lane)); write_NVRAM(); break; //still possible but not listed or recommended
 			case 'V':get_user_input("Verbosity level (0-9): ", _verbosity, sizeof(_verbosity)); write_NVRAM(); break;
-			case 'O':get_user_input("Oscillator off (0,1): ", _oscillator, sizeof(_oscillator)); write_NVRAM(); break;
+			/*case 'O':get_user_input("Oscillator off (0,1): ", _oscillator, sizeof(_oscillator)); write_NVRAM(); break;*/
 			case 'P':get_user_input("custom Pcb mode (0,1): ", _custom_PCB, sizeof(_custom_PCB)); write_NVRAM(); break;
 			case 'T':show_TELEN_msg();get_user_input("TELEN config: ", _TELEN_config, sizeof(_TELEN_config)); convertToUpperCase(_TELEN_config); write_NVRAM(); break;
 			case 'B':get_user_input("Battery mode (0,1): ", _battery_mode, sizeof(_battery_mode)); write_NVRAM(); break;
@@ -466,8 +470,7 @@ strncpy(_battery_mode, flash_target_contents+18, 1);
 strncpy(_Klock_speed, flash_target_contents+19, 3); _Klock_speed[3]=0; //null terminate cause later will use atoi
 PLL_SYS_MHZ =atoi(_Klock_speed); 
 strncpy(_Datalog_mode, flash_target_contents+22, 1);
-
-
+strncpy(_U4B_chan, flash_target_contents+23, 3); _U4B_chan[3]=0; //null terminate cause later will use atoi
 
  
 }
@@ -493,6 +496,8 @@ void write_NVRAM(void)
 	strncpy(data_chunk+18,_battery_mode, 1);
 	strncpy(data_chunk+19,_Klock_speed, 3);
 	strncpy(data_chunk+22,_Datalog_mode, 1);
+	strncpy(data_chunk+23,_U4B_chan, 3);
+	
 
 	uint32_t ints = save_and_disable_interrupts();
     flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);  //a "Sector" is 4096 bytes             FLASH_TARGET_OFFSET,FLASH_SECTOR_SIZE,FLASH_PAGE_SIZE = 040000x, 4096, 256
@@ -520,6 +525,7 @@ void check_data_validity_and_set_defaults(void)
 	if ( (_TELEN_config[0]<'0') || (_TELEN_config[0]>'F')) {strncpy(_TELEN_config,"----",4); write_NVRAM();}
 	if ( (_battery_mode[0]<'0') || (_battery_mode[0]>'1')) {_battery_mode[0]='0'; write_NVRAM();} //
 	if ( (atoi(_Klock_speed)<100) || (atoi(_Klock_speed)>300)) {strcpy(_Klock_speed,"115"); write_NVRAM();} 
+	if ( (atoi(_U4B_chan)<0) || (atoi(_U4B_chan)>599)) {strcpy(_U4B_chan,"599"); write_NVRAM();} 
 	if ( (_Datalog_mode[0]!='0') && (_Datalog_mode[0]!='1') && (_Datalog_mode[0]!='D') && (_Datalog_mode[0]!='W')) {_Datalog_mode[0]='0'; write_NVRAM();}
 
 }
@@ -545,6 +551,7 @@ int result=1;
 	if ( (_battery_mode[0]<'0') || (_battery_mode[0]>'1')) {result=-1;} 	
 	if ( (atoi(_Klock_speed)<100) || (atoi(_Klock_speed)>300)) {result=-1;} 	
 	if ( (_Datalog_mode[0]!='0') && (_Datalog_mode[0]!='1')) {result=-1;}
+	if ( (atoi(_U4B_chan)<0) || (atoi(_U4B_chan)>599)) {result=-1;} 
 
 return result;
 }
@@ -560,11 +567,12 @@ printf("\n\nCurrent values:\n");printf(UNDERLINE_OFF);printf(NORMAL);
 
 printf("\n\tCallsign:%s\n\t",_callsign);
 printf("Suffix:%s\n\t",_suffix);
-printf("Id13:%s\n\t",_id13);
-printf("Minute:%s\n\t",_start_minute);
-printf("Lane:%s\n\t",_lane);
+printf("U4b channel:%s",_U4B_chan);
+printf(" (Id13:%s",_id13);
+printf(" Start Minute:%s",_start_minute);
+printf(" Lane:%s)\n\t",_lane);
 printf("Verbosity:%s\n\t",_verbosity);
-printf("Oscillator Off:%s\n\t",_oscillator);
+/*printf("Oscillator Off:%s\n\t",_oscillator);*/
 printf("custom Pcb IO mappings:%s\n\t",_custom_PCB);
 printf("TELEN config:%s\n\t",_TELEN_config);
 printf("Klock speed:%sMhz  (default: 133)\n\t",_Klock_speed);
@@ -575,16 +583,17 @@ printf("Battery (low power) mode:%s\n\n",_battery_mode);
 printf("VALID commands: ");printf(UNDERLINE_OFF);printf(NORMAL);
 
 printf("\n\n\tX: eXit configuraiton and reboot\n\tC: change Callsign (6 char max)\n\t");
-printf("S: change Suffix (added to callsign for WSPR3) use '-' to disable WSPR3\n\t");
-printf("I: change Id13 (two alpha numeric chars, ie Q8) use '--' to disable U4B\n\t");
-printf("M: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\t");
+printf("S: change Suffix ( for WSPR3/Zachtek) use '-' to disable WSPR3\n\t");
+printf("U: change U4b channel # (0-599)\n\t");
+/*printf("I: change Id13 (two alpha numeric chars, ie Q8) use '--' to disable U4B\n\t");
+printf("M: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\t");*/ //it is still possible to directly change these, but its not shown
 printf("V: Verbosity level (0 for no messages, 9 for too many) \n\t");
-printf("O: Oscillator off after trasmission (default: 1) \n\t");
+/*printf("O: Oscillator off after trasmission (default: 1) \n\t");*/
 printf("P: custom Pcb mode IO mappings (0,1)\n\t");
 printf("T: TELEN config\n\t");
-printf("B: Battery (low power) mode \n\t");
 printf("K: Klock speed  (default: 133)\n\t");
 printf("D: Datalog mode (0,1,(W)ipe memory, (D)ump memory) see wiki\n\t");
+printf("B: Battery (low power) mode \n\t");
 printf("F: Frequency output (antenna tuning mode)\n\n");
 
 
@@ -917,6 +926,7 @@ void datalog_loop()
 	char string_to_log[400];
 	absolute_time_t GPS_wait_start_time;
 	uint64_t t;
+	int elapsed_seconds;
 
 				printf("Enterring DATA LOG LOOP. waiting for sat lock or 65 sec max\n");
 				const float conversionFactor = 3.3f / (1 << 12);          //read temperature
@@ -937,18 +947,20 @@ void datalog_loop()
 											user_interface();   
 										}
 					} 
-				while (( t<35000000ULL )&&(DCO._pGPStime->_time_data.sat_count<4));               //wait for DCO._pGPStime->_time_data.sat_coun>4 with 65 second maximum time
-	
+				while (( t<450000000ULL )&&(DCO._pGPStime->_time_data.sat_count<4));               //wait for DCO._pGPStime->_time_data.sat_coun>4 with 65 second maximum time
+					//set to 450 seconds !!!!!
+				elapsed_seconds= t  / 1000000ULL;
+
 				if (DCO._pGPStime->_time_data.sat_count>=4)
 				{
 				sleep_ms(3000); //even though sat count seen, wait a bit longer
-				sprintf(string_to_log,"latitutde:,%lli,longitude:,%lli,altitude:,%f,sat count:,%d,time:,%s,temp:,%f,bat voltage:,%f\n",DCO._pGPStime->_time_data._i64_lon_100k,DCO._pGPStime->_time_data._i64_lat_100k,DCO._pGPStime->_altitude,DCO._pGPStime->_time_data.sat_count,DCO._pGPStime->_time_data._full_time_string,tempf,volts);
+				sprintf(string_to_log,"latitutde:,%lli,longitude:,%lli,altitude:,%f,sat count:,%d,time:,%s,temp:,%f,bat voltage:,%f,seconds to aquisition:,%d\n",DCO._pGPStime->_time_data._i64_lon_100k,DCO._pGPStime->_time_data._i64_lat_100k,DCO._pGPStime->_altitude,DCO._pGPStime->_time_data.sat_count,DCO._pGPStime->_time_data._full_time_string,tempf,volts,elapsed_seconds);
 				write_to_next_avail_flash(string_to_log);
 				printf("GPS data has been logged.\n");
 				}
 					else
 				{
-				sprintf(string_to_log,"no reading, time might be:,%s\n",DCO._pGPStime->_time_data._full_time_string);
+				sprintf(string_to_log,"no reading, time might be:,%s,temp:,%f,bat voltage:,%f\n",DCO._pGPStime->_time_data._full_time_string,tempf,volts);
 				write_to_next_avail_flash(string_to_log);
 				printf("NO GPS seen :-(\n");
 				}
@@ -986,4 +998,29 @@ void go_to_sleep()
 			sleep_run_from_dormant_source(DORMANT_SOURCE_ROSC);  //this reduces sleep draw to 2mA! (without this will still sleep, but only at 8mA)
 			sleep_goto_sleep_until(&alarm_time, &sleep_callback);	//blocks here during sleep perfiod
 			{watchdog_enable(100, 1);for(;;)	{} }  //recovering from sleep is messy, so this makes it reboot to get a fresh start
+}
+////////////////////////////////////
+void process_chan_num()
+{
+	if ( (atoi(_U4B_chan)>=0) && (atoi(_U4B_chan)<600)) 
+	{
+		
+		_id13[0]='1';
+		if  (atoi(_U4B_chan)<200) _id13[0]='0';
+		if  (atoi(_U4B_chan)>399) _id13[0]='Q';
+
+		int id3 = (atoi(_U4B_chan) % 200) / 20;
+		_id13[1]=id3+'0';
+		
+		int lane = (atoi(_U4B_chan) % 20) / 5;
+		_lane[0]=lane+'1';
+
+		int txSlot = atoi(_U4B_chan) % 5;
+		
+		_start_minute[0] = '0' + (2*((txSlot+14)%5));
+		
+			
+
+
+	}
 }

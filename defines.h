@@ -166,5 +166,6 @@ void datalog_loop(void);
 void reboot_now(void);
 void go_to_sleep(void);
 void write_to_next_avail_flash(char *text);
+void process_chan_num(void);
 
 #endif
