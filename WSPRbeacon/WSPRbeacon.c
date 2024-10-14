@@ -432,6 +432,7 @@ if (packet_type==4)   //2nd Zachtek (WSPR type 3 message)
 
 if ((packet_type==5)||(packet_type==6))   //TELEN #1 or #2 extended telemetry, gets sent right after the two U4B packets
    {	
+
 	if (pctx->_txSched.verbosity>=3) printf("creating TELEN packet 1\n");
 	char _4_char_version_of_locator[5];
 	char _callsign[7];
@@ -453,14 +454,7 @@ if ((packet_type==5)||(packet_type==6))   //TELEN #1 or #2 extended telemetry, g
 				
 	char telen_chars[8];
 	uint8_t telen_power;
-
-telen_power &= ~(1<<1); //clear 2nd bit (GPSValid) (always for TELEN #1 and #2) - Thanks Kevin!
-if (packet_type==6) 
-	telen_power |= (1<<0); //set 1st bit      for TELEN #2
-else
-	telen_power &= ~(1<<0); //clear 1st bit   for TELEN #1
-
-	encode_telen(telen_val1,telen_val2,telen_chars, &telen_power); //converts two 32bit ints into 8 characters and one byte to be transmitted
+	encode_telen(telen_val1,telen_val2,telen_chars, &telen_power,packet_type); //converts two 32bit ints into 8 characters and one byte to be transmitted
 	
         _callsign[0] =  pctx->_txSched.id13[0];   //callsign: id13[0], telen char0, id13[1], telen char1, telen char2, telen char3
 		_callsign[1] =  telen_chars[0];
@@ -500,7 +494,7 @@ int WSPRbeaconSendPacket(const WSPRbeaconContext *pctx)
 /// @brief encodes data for extended telemetry (TELEN)
 /// @param telen_val1,telen_val2: the values to encode, telen_chars: the output characters, telen_power: output power (in dbm)
 //******************************************************************************************************************************
-void encode_telen(uint32_t telen_val1,uint32_t telen_val2,char * telen_chars,uint8_t * telen_power)  
+void encode_telen(uint32_t telen_val1,uint32_t telen_val2,char * telen_chars,uint8_t * telen_power, uint8_t packet_type)  
 {
 	// TELEN packet  which has value 1 and value 2 (this same routine used for both telen#1 and telen#2). 
 	// first value  gets encoded into the callsign (1st char is alphannumeric, and last three chars are alpha). Full callsign will be ID1, telen_char[0], ID3, telen_CHar[1],  telen_CHar[2], telen_CHar[3]. 
@@ -519,8 +513,15 @@ void encode_telen(uint32_t telen_val1,uint32_t telen_val2,char * telen_chars,uin
 	telen_chars[6]= '0'+floor(temf / 47.5); temf-=(telen_chars[6]-'0')*47.5;
 	telen_chars[7]= '0'+floor(temf / 4.75); temf-=((telen_chars[7]-'0')*4.75);  
 	int i=round(temf/0.25);  // there are 19 possible dbm values. And 4.75/19=0.25
-	*telen_power = valid_dbm[i]; 
 
+		//the gps bits must be manipulated AFTER the pwoer value is calculated (of course), but BEFORE its converted to ValidDBM!!
+	i &= ~(1<<0); //clear lowest bit aka gps-sat (always for TELEN #1 and #2) - Thanks Kevin!
+	if (packet_type==6) 
+		i |= (1<<1); //set 2nd bit (GPSValid)     for TELEN #2
+	else
+		i &= ~(1<<1); //clear 2nd bit (GPSValid)  for TELEN #1
+
+	*telen_power = valid_dbm[i]; 
     printf(" val1: %d val2: %d the chars: %s and the power:(as dmb: %d)\n",telen_val1,telen_val2,telen_chars,*telen_power);
 	telen_chars[8]=0; //null terminate
 }

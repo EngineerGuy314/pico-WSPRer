@@ -70,7 +70,7 @@ PioDco DCO = {0};
 int main()
 {
 	StampPrintf("\n");DoLogPrint(); // needed asap to wake up the USB stdio port (because StampPrintf includes stdio_init_all();). why though?
-	        sleep_ms(2000);printf("Wakey");
+	for (int i=0;i < 20;i++) {printf(".");sleep_ms(100);}			
 	gpio_init(LED_PIN); 
 	gpio_set_dir(LED_PIN, GPIO_OUT); //initialize LED output
 		
@@ -207,8 +207,7 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 		//pWB->_txSched.TELEN1_val1=rand() % 630000;   //the values  in TELEN_val1 and TELEN_val2 will get sent as TELEN #1 (extended Telemetry) (a third packet in the U4B protocol)
 		//pWB->_txSched.TELEN1_val2=rand() % 153000;	/ max values are 630k and 153k
 		
-		
-		
+				
 				if(0 == ++tick2 % 10)      //every ~5 sec
 				{
 				if (pWB->_txSched.verbosity>=1) StampPrintf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Satellite count: %d\n", tempU,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count);		
