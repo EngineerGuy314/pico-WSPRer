@@ -70,7 +70,7 @@ PioDco DCO = {0};
 int main()
 {
 	StampPrintf("\n");DoLogPrint(); // needed asap to wake up the USB stdio port (because StampPrintf includes stdio_init_all();). why though?
-	for (int i=0;i < 20;i++) {printf(".");sleep_ms(100);}			
+	for (int i=0;i < 20;i++) {printf("*");sleep_ms(100);}			
 	gpio_init(LED_PIN); 
 	gpio_set_dir(LED_PIN, GPIO_OUT); //initialize LED output
 		
@@ -113,7 +113,7 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 	InitPicoClock(PLL_SYS_MHZ);			    // Sets the system clock generator	
 	InitPicoPins();				// Sets GPIO pins roles and directions and also ADC for voltage and temperature measurements (NVRAM must be read BEFORE this, otherwise dont know how to map IO)
 	I2C_init();
-    printf("\npico-WSPRer version: %s %s\nWSPR beacon init...",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
+    printf("\nThe pico-WSPRer version: %s %s\nWSPR beacon init...",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
 
 	uint32_t XMIT_FREQUENCY;
 	switch(_lane[0])                                     //following lines set lane frequencies for 20M u4b operation. The center freuency for Zactkep (wspr 3) xmitions is hard set in WSPRBeacon.c to 14097100UL
