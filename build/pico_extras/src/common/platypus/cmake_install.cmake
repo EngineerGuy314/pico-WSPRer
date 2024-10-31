@@ -1,4 +1,4 @@
-# Install script for directory: /home/rob/pico-extras/src/common/platypus
+# Install script for directory: /home/kevin/pico_install/pico-extras/src/common/platypus
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

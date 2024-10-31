@@ -1,4 +1,4 @@
-# Install script for directory: /home/rob/pico-sdk
+# Install script for directory: /home/kevin/pico_install/pico-sdk
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,21 +39,21 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/rob/pico-WSPRer/build/pico-sdk/tools/cmake_install.cmake")
+  include("/home/kevin/pico_install/pico-WSPRer/build/pico-sdk/tools/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/rob/pico-WSPRer/build/pico-sdk/src/cmake_install.cmake")
+  include("/home/kevin/pico_install/pico-WSPRer/build/pico-sdk/src/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/rob/pico-WSPRer/build/pico_extras/src/cmake_install.cmake")
+  include("/home/kevin/pico_install/pico-WSPRer/build/pico_extras/src/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/rob/pico-WSPRer/build/pico-sdk/docs/cmake_install.cmake")
+  include("/home/kevin/pico_install/pico-WSPRer/build/pico-sdk/docs/cmake_install.cmake")
 endif()
 

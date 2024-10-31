@@ -1,4 +1,4 @@
-# Install script for directory: /home/rob/pico-extras/src/rp2_common/hardware_rosc
+# Install script for directory: /home/kevin/pico_install/pico-extras/src/rp2_common/hardware_rosc
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

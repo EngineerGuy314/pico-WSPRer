@@ -1,8 +1,8 @@
-# Install script for directory: /home/rob/pico-sdk/src/common/pico_usb_reset_interface_headers
+# Install script for directory: /home/kevin/pico_install/pico-sdk/src/common/pico_usb_reset_interface_headers
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/rob/pico-WSPRer/build/_deps")
+  set(CMAKE_INSTALL_PREFIX "/home/kevin/pico_install/pico-WSPRer/build/_deps")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

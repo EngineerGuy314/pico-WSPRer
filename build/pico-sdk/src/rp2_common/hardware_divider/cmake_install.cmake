@@ -1,4 +1,4 @@
-# Install script for directory: /home/rob/pico-sdk/src/rp2_common/hardware_divider
+# Install script for directory: /home/kevin/pico_install/pico-sdk/src/rp2_common/hardware_divider
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

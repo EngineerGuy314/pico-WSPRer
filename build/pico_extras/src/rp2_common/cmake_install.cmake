@@ -1,4 +1,4 @@
-# Install script for directory: /home/rob/pico-extras/src/rp2_common
+# Install script for directory: /home/kevin/pico_install/pico-extras/src/rp2_common
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,51 +39,51 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/rob/pico-WSPRer/build/pico_extras/src/rp2_common/hardware_rosc/cmake_install.cmake")
+  include("/home/kevin/pico_install/pico-WSPRer/build/pico_extras/src/rp2_common/hardware_rosc/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/rob/pico-WSPRer/build/pico_extras/src/rp2_common/pico_sleep/cmake_install.cmake")
+  include("/home/kevin/pico_install/pico-WSPRer/build/pico_extras/src/rp2_common/pico_sleep/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/rob/pico-WSPRer/build/pico_extras/src/rp2_common/pico_audio_i2s/cmake_install.cmake")
+  include("/home/kevin/pico_install/pico-WSPRer/build/pico_extras/src/rp2_common/pico_audio_i2s/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/rob/pico-WSPRer/build/pico_extras/src/rp2_common/pico_audio_pwm/cmake_install.cmake")
+  include("/home/kevin/pico_install/pico-WSPRer/build/pico_extras/src/rp2_common/pico_audio_pwm/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/rob/pico-WSPRer/build/pico_extras/src/rp2_common/pico_audio_spdif/cmake_install.cmake")
+  include("/home/kevin/pico_install/pico-WSPRer/build/pico_extras/src/rp2_common/pico_audio_spdif/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/rob/pico-WSPRer/build/pico_extras/src/rp2_common/pico_sd_card/cmake_install.cmake")
+  include("/home/kevin/pico_install/pico-WSPRer/build/pico_extras/src/rp2_common/pico_sd_card/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/rob/pico-WSPRer/build/pico_extras/src/rp2_common/pico_scanvideo_dpi/cmake_install.cmake")
+  include("/home/kevin/pico_install/pico-WSPRer/build/pico_extras/src/rp2_common/pico_scanvideo_dpi/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/rob/pico-WSPRer/build/pico_extras/src/rp2_common/usb_common/cmake_install.cmake")
+  include("/home/kevin/pico_install/pico-WSPRer/build/pico_extras/src/rp2_common/usb_common/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/rob/pico-WSPRer/build/pico_extras/src/rp2_common/usb_device/cmake_install.cmake")
+  include("/home/kevin/pico_install/pico-WSPRer/build/pico_extras/src/rp2_common/usb_device/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/rob/pico-WSPRer/build/pico_extras/src/rp2_common/usb_device_msc/cmake_install.cmake")
+  include("/home/kevin/pico_install/pico-WSPRer/build/pico_extras/src/rp2_common/usb_device_msc/cmake_install.cmake")
 endif()
 

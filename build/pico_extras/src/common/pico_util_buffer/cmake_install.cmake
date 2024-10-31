@@ -1,4 +1,4 @@
-# Install script for directory: /home/rob/pico-extras/src/common/pico_util_buffer
+# Install script for directory: /home/kevin/pico_install/pico-extras/src/common/pico_util_buffer
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

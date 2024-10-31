@@ -1,4 +1,4 @@
-# Install script for directory: /home/rob/pico-extras/src/rp2_common/pico_audio_i2s
+# Install script for directory: /home/kevin/pico_install/pico-extras/src/rp2_common/pico_audio_i2s
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

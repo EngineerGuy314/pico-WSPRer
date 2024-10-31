@@ -187,6 +187,18 @@ else
 
 		current_minute = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_last_digit_minutes - '0';  //convert from char to int
 	
+        // kevin 10_29_24
+        if (pctx->_txSched.verbosity>=3) {
+            // don't need on the odd minutes
+            if (schedule[current_minute]!=-1) {
+                printf("\nShould we TX: current minute: %i Schedule Value (packet type): %i\n",current_minute,schedule[current_minute]);
+                printf("\nShould we TX: is_GPS_available %i at_least_one_slot_has_elapsed %i schedule[current_minute] %i oneshots[current_minute] %i at_least_one_GPS_fixed_has_been_obtained %i\n", is_GPS_available, at_least_one_slot_has_elapsed, schedule[current_minute], oneshots[current_minute], at_least_one_GPS_fixed_has_been_obtained);
+
+            }
+        }
+        // kevin 10_29_24
+
+
 	if (schedule[current_minute]==-1)        //if the current minute is an odd minute or a non-scheduled minute
 	{
 		for (int i=0;i < 10;i++) oneshots[i]=0;
@@ -327,11 +339,27 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-6.  1: 
         // parse input presentations
         double tempC   = pctx->_txSched.temp_in_Celsius;
         double voltage = pctx->_txSched.voltage;
-       // map input presentations onto input radix (numbers within their stated range of possibilities)
-        uint8_t tempCNum      = tempC - -50;
+        // map input presentations onto input radix (numbers within their stated range of possibilities)
+
+        //**************
+        // kevin 10_30_24
+        // handle possible illegal range (double wrap on tempC?). or should it clamp at the bounds?
+        // uint8_t tempCNum      = tempC - -50;
+        // kevin FIX! is tempC a double?
+        uint8_t tempCNum      = ((uint8_t) tempC - -50) % 90;
+        //**************
+
         uint8_t voltageNum    = ((uint8_t)round(((voltage * 100) - 300) / 5) + 20) % 40;
  
-		uint8_t speedKnotsNum = pctx->_pTX->_p_oscillator->_pGPStime->_time_data.sat_count;   //encoding # of sattelites into knots
+		uint8_t speedKnotsNum = pctx->_pTX->_p_oscillator->_pGPStime->_time_data.sat_count;   //encoding # of satelites into knots
+        //****************
+        // kevin 10_30_24
+        // handle possible illegal (0-41 legal range). clamp to max, not wrap. maybe from bad GNGGA field (wrong sat count?)
+        if (speedKnotsNum > 41) speedKnotsNum = 41;
+        //****************
+
+        
+        // kevin old code since this isn't 0 or 1 it should really check zero. don't want to say valid if dead reckoning fix? (6)
         uint8_t gpsValidNum   = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;
         gpsValidNum=1; //changed sept 27 2024. because the traquito site won't show the 6 char grid if this bit is even momentarily off. Anyway, redundant cause sat count is sent as knots
 		// shift inputs into a big number

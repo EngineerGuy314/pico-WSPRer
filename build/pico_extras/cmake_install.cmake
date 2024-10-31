@@ -1,4 +1,4 @@
-# Install script for directory: /home/rob/pico-extras
+# Install script for directory: /home/kevin/pico_install/pico-extras
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

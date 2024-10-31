@@ -1,4 +1,4 @@
-# Install script for directory: /home/rob/pico-sdk/tools
+# Install script for directory: /home/kevin/pico_install/pico-sdk/tools
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
