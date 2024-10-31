@@ -107,15 +107,11 @@ int PioDCOInit(PioDco *pdco, int gpio, int cpuclkhz)
 
     //**********************************
     // kevin 10_29_24
-    // gpio_set_slew_rate(pdco->_gpio + 0, GPIO_SLEW_RATE_SLOW);
-    // gpio_set_slew_rate(pdco->_gpio + 1, GPIO_SLEW_RATE_SLOW);
-    // gpio_set_slew_rate(pdco->_gpio + 2, GPIO_SLEW_RATE_SLOW);
-    // gpio_set_slew_rate(pdco->_gpio + 3, GPIO_SLEW_RATE_SLOW);
-
-    gpio_set_drive_strength(pdco->_gpio + 0, GPIO_DRIVE_STRENGTH_4MA);
-    gpio_set_drive_strength(pdco->_gpio + 1, GPIO_DRIVE_STRENGTH_4MA);
-    gpio_set_drive_strength(pdco->_gpio + 2, GPIO_DRIVE_STRENGTH_4MA);
-    gpio_set_drive_strength(pdco->_gpio + 3, GPIO_DRIVE_STRENGTH_4MA);
+    // less drive strength ..default is 8
+    // gpio_set_drive_strength(pdco->_gpio + 0, GPIO_DRIVE_STRENGTH_4MA);
+    // gpio_set_drive_strength(pdco->_gpio + 1, GPIO_DRIVE_STRENGTH_4MA);
+    // gpio_set_drive_strength(pdco->_gpio + 2, GPIO_DRIVE_STRENGTH_4MA);
+    // gpio_set_drive_strength(pdco->_gpio + 3, GPIO_DRIVE_STRENGTH_4MA);
     //**********************************
     
     pio_sm_init(pdco->_pio, pdco->_ism, pdco->_offset, &pdco->_pio_sm);

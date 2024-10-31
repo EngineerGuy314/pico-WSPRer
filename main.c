@@ -177,7 +177,6 @@ int main()
     //*******************************
     // kevin 10_31_24
     init_rf_freq();
-    printf("debug1\n");
 
     pWB = WSPRbeaconInit(
         _callsign,/** the Callsign. */
@@ -192,9 +191,7 @@ int main()
 		_TELEN_config		
         );
 
-    printf("debug2\n");
     assert_(pWB);
-    printf("debug3\n");
     pWSPR = pWB;  //this lets things outside this routine access the WB context
     pWB->_txSched.force_xmit_for_testing = force_transmit;
 	pWB->_txSched.led_mode = 0;  //0 means no serial comms from  GPS (critical fault if it remains that way)
@@ -216,12 +213,11 @@ int main()
 	LED_sequence_start_time = get_absolute_time();
 	if (_Datalog_mode[0]=='1') datalog_loop();
 	
-    printf("debug4\n");
     for(;;)   //loop every ~ half second
     {		
         //****************
         // kevin
-        uint64_t loop_us_start = to_us_since_boot(get_absolute_time());
+        uint64_t loop_us_start = get_absolute_time();
         //****************
 
 		onewire_read();
@@ -243,9 +239,7 @@ int main()
 		{
             if(0 == (tick % 20))      //every ~20 secs dumps context.  
             {
-                printf("debug5\n");
                 WSPRbeaconDumpContext(pWB);
-                printf("debug6\n");
                 //****************
                 // kevin 10_30_24
                 StampPrintf("\n_Band %s _lane (u4b freq bin) %s XMIT_FREQUENCY %d\n", _Band, _lane[0], XMIT_FREQUENCY);
@@ -262,25 +256,23 @@ int main()
 		const float conversionFactor = 3.3f / (1 << 12);          //read temperature
 		adc_select_input(4);	
 		float adc = (float)adc_read() * conversionFactor;
-		float tempC_adc = 27.0f - (adc - 0.706f) / 0.001721f;		
-        //*****************
-        // kevin 10_30_24
-        float tempC = floorf(tempC_adc);
-        // should be 1 deg C granularity
-        //*****************
+		float tempC = 27.0f - (adc - 0.706f) / 0.001721f;		
         
         // don't really want this? modulo arith is done before using for wspr encoding
 		// if (tempC < -50) { tempC  += 89; }			          //wrap around for overflow, per U4B protocol
 		// if (tempC > 39) { tempC  -= 89; }
+        // should be 1 deg C granularity..but maybe leave it with more precision for seeing small temp changes in the stdout
 		pWB->_txSched.temp_in_Celsius=tempC;           
 		DCO._pGPStime->temp_in_Celsius=tempC;
 		
 		adc_select_input(3);  //if setup correctly, ADC3 reads Vsys   // read voltage
-		float volts_adc = 3*(float)adc_read() * conversionFactor;         //times 3 because of onboard voltage divider
+		float volts_adc = 3*(float)adc_read() * conversionFactor;     // times 3 because of onboard voltage divider
         //*****************
         // kevin 10_30_24
+        // make volts just valid multiple of 0.05 (aligns with u4b granularity)
         int v = volts_adc * 100; 
-        v = v - (v % 20);
+        // floor divide because int
+        v = (v / 5) * 5;
         float volts = v / 100;
         //*****************
         // don't really want this? modulo arith is done before using for wspr encoding
@@ -290,16 +282,22 @@ int main()
 
  		process_TELEN_data();                          //if needed, this puts data into TELEN variables. You can remove this and set the data yourself as shown in the next two lines
 		//pWB->_txSched.TELEN1_val1=rand() % 630000;   //the values  in TELEN_val1 and TELEN_val2 will get sent as TELEN #1 (extended Telemetry) (a third packet in the U4B protocol)
-		//pWB->_txSched.TELEN1_val2=rand() % 153000;	/ max values are 630k and 153k
+		//pWB->_txSched.TELEN1_val2=rand() % 153000;	//max values are 630k and 153k
 		
 				
         if(0==(tick % 10))      //every ~5 sec
         {
             //********************
-            // kevin 10_30_24 changed to 2 digits of precision (to see 0.05 0.10 0.15 etc)
-            // aligned to only valid 0.05 increments above
-            // temp should be aligned to single digit degrees above?
-            // if (pWB->_txSched.verbosity>=1) StampPrintf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Satellite count: %d\n", tempU,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count);		
+            // kevin 10_30_24 changed volts to 2 digits of precision (to see 0.05 0.10 0.15 etc)
+            // only valid 0.05 increments forced above
+            // should temp be aligned to single digit degrees above?..
+            // maybe allow more precision in stdout compared to telemetry
+
+            // example stdout running on usb. this will print 5.00v, 
+            // 00d00:00:40.599513 [0065] Temp: 86.0  Volts: 5.00  Altitude: 2368  Satellite count: 13
+            // but: telemetry will wrap and say 3.00v when decoded.  
+            // 4.95v is max no-wrap report for u4b/traquito 3-4.95v range assumption)
+
             if (pWB->_txSched.verbosity>=1) StampPrintf("Temp: %.1f  Volts: %0.2f  Altitude: %0.0f  Satellite count: %d\n", tempU,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count);		
             //********************
             if (pWB->_txSched.verbosity>=3) printf("TELEN Vals 1 through 4:  %d %d %d %d\n",telen_values[0],telen_values[1],telen_values[2],telen_values[3]);
@@ -313,18 +311,16 @@ int main()
 		DoLogPrint(); 	
         //***************
         // kevin 10_31_24 FIX! put in a conditional delay that depends on clock frequency
-        // faster clock wants more delay?
-        // maybe log the time at beginning of loop and here, and pad to make the loop .5 sec per iteration
-        //****************
-        // kevin
-        uint64_t loop_us_end = to_us_since_boot(get_absolute_time());
+        // faster cpu clock will want more delay? (won't affect the PIO block doing RF)
+        // time the loop
         // floor divide to get milliseconds
-        uint64_t loop_ms_elapsed = (loop_us_end - loop_us_start) / 1000ULL;
+        uint64_t loop_us_elapsed = absolute_time_diff_us(loop_us_start, get_absolute_time());
+        uint64_t loop_ms_elapsed = loop_us_elapsed / 1000ULL;
 		if (pWB->_txSched.verbosity>=5)
 		{
             if(0==(tick % 20))      //every ~20 secs dumps context.  
             {
-                StampPrintf("main loop_ms_elapsed %d", loop_ms_elapsed);
+                StampPrintf("main/20: loop_ms_elapsed: %d millisecs loop_us_start: %d microsecs", loop_ms_elapsed, loop_us_start);
             }
         }	
         // will always 0 or greater? (unless bug with time)
