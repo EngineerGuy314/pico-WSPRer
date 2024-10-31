@@ -41,9 +41,10 @@ char _start_minute[2];
 char _lane[2];
 char _suffix[2];
 char _verbosity[2];
+// this isn't modifiable by user but still checked for correct default value
 char _oscillator[2];
 char _custom_PCB[2];   
-char _TELEN_config[5];     
+char _TELEN_config[5]; 
 char _battery_mode[2];
 char _Klock_speed[4];         
 char _Datalog_mode[2]; 
@@ -71,10 +72,11 @@ OW one_wire_interface;   //onewire interface
 
 PioDco DCO = {0};
 
+// 0 should never happen (init_rf_freq will always init from saved nvram/live state)
 uint32_t XMIT_FREQUENCY=0;
 
 //*******************************
-void init_rf_freq(void)
+uint32_t init_rf_freq(void)
 {
 // kevin 10_30_24
 // base frequencies for different bands
@@ -122,7 +124,7 @@ switch(_lane[0])
     }	
 
 printf("\n main _Band %s BASE_FREQ_USED %d XMIT_FREQUENCY %d\n", _Band, BASE_FREQ_USED, XMIT_FREQUENCY);
-    
+    return XMIT_FREQUENCY;
 }
 //**************************
 
@@ -140,8 +142,13 @@ int main()
         gpio_put(LED_PIN, 0);
 		sleep_ms(100);
 	}
-	read_NVRAM();				//reads values of _callsign,  _verbosity etc from NVRAM. MUST READ THESE *BEFORE* InitPicoPins
-    if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds and reboot. or if user presses a key enter setup
+	read_NVRAM(); //reads values of _callsign,  _verbosity etc from NVRAM. MUST READ THESE *BEFORE* InitPicoPins
+    //************
+    // kevin 10_31_24 ..actually change to defaults if any bad found..to avoid hang cases caused by illegal values
+    // after "too high clock" recovery with flash nuke uf2, and clock gets fixed, this will fix other values to legal defaults
+    // if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds and reboot. or if user presses a key enter setup
+    if (check_data_validity_and_set_defaults()==-1)  //if data was bad (and got fixed!) , breathe LED for 10 seconds and reboot. or if user presses a key enter setup
+    //************
 	{
 	    printf("\nBAD values in NVRAM detected! will reboot in 10 seconds... press any key to enter user-setup menu..\n");
 	    fader=0;fade_counter=0;
@@ -176,7 +183,8 @@ int main()
 
     //*******************************
     // kevin 10_31_24
-    init_rf_freq();
+    uint32_t XMIT_FREQUENCY;
+    XMIT_FREQUENCY = init_rf_freq();
 
     pWB = WSPRbeaconInit(
         _callsign,/** the Callsign. */
@@ -457,7 +465,7 @@ printf("TELEN CONFIG INSTRUCTIONS:\n\n");printf(UNDERLINE_OFF);
 printf(NORMAL); 
 printf("* There are 4 possible TELEN values, corresponding to TELEN 1 value 1,\n");
 printf("  TELEN 1 value 2, TELEN 2 value 1 and TELEN 2 value 2.\n");
-printf("* Enter 4 characters in TELEN_config. use a '-' (minus) to disable one \n");
+printf("* Enter 4 characters (legal 0-9 or -) in TELEN_config. use a '-' (minus) to disable one \n");
 printf("  or more values.\n* example: '----' disables all telen \n");
 printf("* example: '01--' sets Telen 1 value 1 to type 0, \n  Telen 1 val 2 to type 1,  disables all of TELEN 2 \n"); printf(BRIGHT);printf(UNDERLINE_ON);
 printf("\nTelen Types:\n\n");printf(UNDERLINE_OFF);printf(NORMAL); 
@@ -521,6 +529,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 			case 'M':get_user_input("Enter starting Minute: ", _start_minute, sizeof(_start_minute)); write_NVRAM(); break; //still possible but not listed or recommended. i suppose needed for when to start standalone beacon or Zachtek
 			case 'L':get_user_input("Enter Lane (1,2,3,4): ", _lane, sizeof(_lane)); write_NVRAM(); break; //still possible but not listed or recommended
 			case 'V':get_user_input("Verbosity level (0-9): ", _verbosity, sizeof(_verbosity)); write_NVRAM(); break;
+            // this isn't modifiable by user but still checked for correct default value
 			/*case 'O':get_user_input("Oscillator off (0,1): ", _oscillator, sizeof(_oscillator)); write_NVRAM(); break;*/
 			case 'P':get_user_input("custom Pcb mode (0,1): ", _custom_PCB, sizeof(_custom_PCB)); write_NVRAM(); break;
 			case 'T':show_TELEN_msg();get_user_input("TELEN config: ", _TELEN_config, sizeof(_TELEN_config)); convertToUpperCase(_TELEN_config); write_NVRAM(); break;
@@ -558,6 +567,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
                     process_chan_num(); 
                     write_NVRAM(); 
                     init_rf_freq();
+                    XMIT_FREQUENCY = init_rf_freq();
 					pWSPR->_pTX->_u32_dialfreqhz = XMIT_FREQUENCY;
                     break;
             //********************
@@ -565,7 +575,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 			case 10:  break;
 			default: printf(CLEAR_SCREEN); printf("\nYou pressed: %c - (0x%02x), INVALID choice!! ",c,c);sleep_ms(1000);break;		
 		}
-		check_data_validity_and_set_defaults();
+		int result = check_data_validity_and_set_defaults();
 		show_values();
 	}
 }
@@ -582,25 +592,26 @@ const uint8_t *flash_target_contents = (const uint8_t *) (XIP_BASE + FLASH_TARGE
 
 print_buf(flash_target_contents, FLASH_PAGE_SIZE); //256
 
-strncpy(_callsign, flash_target_contents, 6);
-strncpy(_id13, flash_target_contents+6, 2);
-strncpy(_start_minute, flash_target_contents+8, 1);
-strncpy(_lane, flash_target_contents+9, 1);
-strncpy(_suffix, flash_target_contents+10, 1);
-strncpy(_verbosity, flash_target_contents+11, 1);
-strncpy(_oscillator, flash_target_contents+12, 1);
-strncpy(_custom_PCB, flash_target_contents+13, 1);
-strncpy(_TELEN_config, flash_target_contents+14, 4);
-strncpy(_battery_mode, flash_target_contents+18, 1);
+//***********
+// kevin 10_31_24 null terminate in case it's printf'ed with %s
+// FIX! shouldn't all of these (all chars) have null terminate?
+strncpy(_callsign, flash_target_contents, 6); _callsign[6]=0;
+strncpy(_id13, flash_target_contents+6, 2); _id13[2]=0;
+strncpy(_start_minute, flash_target_contents+8, 1); _start_minute[1]=0;
+strncpy(_lane, flash_target_contents+9, 1); _lane[1]=0;
+strncpy(_suffix, flash_target_contents+10, 1); _suffix[1]=0;
+strncpy(_verbosity, flash_target_contents+11, 1); _verbosity[1]=0;
+// this isn't modifiable by user but still written and checked for default value
+strncpy(_oscillator, flash_target_contents+12, 1); _oscillator[1]=0;
+strncpy(_custom_PCB, flash_target_contents+13, 1); _custom_PCB[1]=0;
+strncpy(_TELEN_config, flash_target_contents+14, 4); _TELEN_config[4]=0;
+strncpy(_battery_mode, flash_target_contents+18, 1); _battery_mode[1]=0;
 strncpy(_Klock_speed, flash_target_contents+19, 3); _Klock_speed[3]=0; //null terminate cause later will use atoi
 PLL_SYS_MHZ =atoi(_Klock_speed); 
-strncpy(_Datalog_mode, flash_target_contents+22, 1);
+strncpy(_Datalog_mode, flash_target_contents+22, 1); _Datalog_mode[1]=0;
 strncpy(_U4B_chan, flash_target_contents+23, 3); _U4B_chan[3]=0; //null terminate cause later will use atoi
-//***********
-// kevin 10_30_24
 strncpy(_Band, flash_target_contents+26, 2); _Band[2]=0; //null terminate cause later will use atoi
 //***********
-
  
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -619,6 +630,7 @@ void write_NVRAM(void)
 	strncpy(data_chunk+9,_lane, 1);
 	strncpy(data_chunk+10,_suffix, 1);
 	strncpy(data_chunk+11,_verbosity, 1);
+    // this isn't modifiable by user but still checked for correct default value
 	strncpy(data_chunk+12,_oscillator, 1);
 	strncpy(data_chunk+13,_custom_PCB, 1);
 	strncpy(data_chunk+14,_TELEN_config, 4);
@@ -644,22 +656,78 @@ void write_NVRAM(void)
  * and writes it back to NVRAM
  * 
  */
-void check_data_validity_and_set_defaults(void)
+
+//*************************
+// kevin 10_31_24
+// int check_data_validity(void)
+// create result to return like check_data_validity does
+int check_data_validity_and_set_defaults(void)
+//*************************
 {
-//do some basic plausibility checking on data, set reasonable defaults if memory was uninitialized							
-	if ( ((_callsign[0]<'A') || (_callsign[0]>'Z')) && ((_callsign[0]<'0') || (_callsign[0]>'9'))    ) {   strncpy(_callsign,"AB1CDE",6);     ; write_NVRAM();} 
-	if ( ((_suffix[0]<'0') || (_suffix[0]>'9')) && (_suffix[0]!='X') ) {_suffix[0]='-'; write_NVRAM();} //by default, disable zachtek suffix
-	if ( (_id13[0]!='0') && (_id13[0]!='1') && (_id13[0]!='Q')&& (_id13[0]!='-')) {strncpy(_id13,"Q0",2); write_NVRAM();}
-	if ( (_start_minute[0]!='0') && (_start_minute[0]!='2') && (_start_minute[0]!='4')&& (_start_minute[0]!='6')&& (_start_minute[0]!='8')) {_start_minute[0]='0'; write_NVRAM();}
-	if ( (_lane[0]!='1') && (_lane[0]!='2') && (_lane[0]!='3')&& (_lane[0]!='4')) {_lane[0]='2'; write_NVRAM();}
-	if ( (_verbosity[0]<'0') || (_verbosity[0]>'9')) {_verbosity[0]='1'; write_NVRAM();} //set default verbosity to 1
-	if ( (_oscillator[0]<'0') || (_oscillator[0]>'1')) {_oscillator[0]='1'; write_NVRAM();} //set default oscillator to switch off after the trasmission
-	if ( (_custom_PCB[0]<'0') || (_custom_PCB[0]>'1')) {_custom_PCB[0]='0'; write_NVRAM();} //set default IO mapping to original Pi Pico configuration
-	if ( (_TELEN_config[0]<'0') || (_TELEN_config[0]>'F')) {strncpy(_TELEN_config,"----",4); write_NVRAM();}
-	if ( (_battery_mode[0]<'0') || (_battery_mode[0]>'1')) {_battery_mode[0]='0'; write_NVRAM();} //
-	if ( (atoi(_Klock_speed)<100) || (atoi(_Klock_speed)>300)) {strcpy(_Klock_speed,"115"); write_NVRAM();} 
-	if ( (atoi(_U4B_chan)<0) || (atoi(_U4B_chan)>599)) {strcpy(_U4B_chan,"599"); write_NVRAM();} 
-	if ( (_Datalog_mode[0]!='0') && (_Datalog_mode[0]!='1') && (_Datalog_mode[0]!='D') && (_Datalog_mode[0]!='W')) {_Datalog_mode[0]='0'; write_NVRAM();}
+    int result=1;	
+    //*************************
+    // kevin 10_31_24 
+    // do some basic plausibility checking on data, set reasonable defaults if memory was uninitialized							
+    // or has bad values for some reason
+    // create result to return like check_data_validity does
+    // FIX! should do full legal callsign check? (including spaces at end)
+    // be sure to null terminate so we can print the callsign
+	if ( ((_callsign[0]<'A') || (_callsign[0]>'Z')) && ((_callsign[0]<'0') || (_callsign[0]>'9')) ) {strcpy(_callsign,"AB1CDE"); write_NVRAM(); result=-1;} 
+    printf("result %d %s", result, _callsign);
+    // kevin 10_31_24 didn't have the '-' in the ok check (check_data_availability did)
+	if ( ((_suffix[0]<'0') || (_suffix[0]>'9')) && (_suffix[0]!='-') && _suffix[0]!='X') {strcpy(_suffix,"-"); write_NVRAM(); result=-1;} //by default, disable zachtek suffix
+    printf("result %d", result);
+    // change to strcpy for null terminate
+	if ( (_id13[0]!='0') && (_id13[0]!='1') && (_id13[0]!='Q')&& (_id13[0]!='-')) {strcpy(_id13,"Q0"); write_NVRAM(); result=-1;}
+    printf("result %d", result);
+    // no null term added here, but a reboot will reload with null term for all now (see read_NVRAM)
+	if ( (_start_minute[0]!='0') && (_start_minute[0]!='2') && (_start_minute[0]!='4')&& (_start_minute[0]!='6')&& (_start_minute[0]!='8')) {strcpy(_start_minute,"0"); write_NVRAM(); result=-1;}
+    printf("result %d", result);
+	if ( (_lane[0]!='1') && (_lane[0]!='2') && (_lane[0]!='3')&& (_lane[0]!='4')) {strcpy(_lane,"2"); write_NVRAM(); result=-1;}
+    printf("result %d", result);
+	if ( (_verbosity[0]<'0') || (_verbosity[0]>'9')) {strcpy(_verbosity,"1"); write_NVRAM(); result=-1;} //set default verbosity to 1
+    printf("result %d", result);
+	if ( (_oscillator[0]<'0') || (_oscillator[0]>'1')) {strcpy(_oscillator,"1"); write_NVRAM(); result=-1;} //set default oscillator to switch off after the transmission
+    printf("result %d", result);
+	if ( (_custom_PCB[0]<'0') || (_custom_PCB[0]>'1')) {strcpy(_custom_PCB,"0"); write_NVRAM(); result=-1;} //set default IO mapping to original Pi Pico configuration
+    printf("result %d", result);
+    // kevin 10_31_24 check_data_validity() allowed just [0] to be '-' and considered valid
+    // 0-9 and - are legal. _
+    // make sure to null terminate
+	if ( (_TELEN_config[0]<'0' || _TELEN_config[0]>'9') && _TELEN_config[0]!='-') {strcpy(_TELEN_config,"----"); write_NVRAM(); printf("initially result %d %s\n", result, _TELEN_config); result=-1;}
+    printf("result %d %s\n", result, _TELEN_config);
+    // kevin 10_31_24 check the other 3 bytes also?
+	if ( (_TELEN_config[1]<'0' || _TELEN_config[1]>'9') && _TELEN_config[1]!='-') {strcpy(_TELEN_config,"----"); write_NVRAM(); result=-1;}
+    printf("result %d %s\n", result, _TELEN_config);
+	if ( (_TELEN_config[2]<'0' || _TELEN_config[2]>'9') && _TELEN_config[2]!='-') {strcpy(_TELEN_config,"----"); write_NVRAM(); result=-1;}
+    printf("result %d %s\n", result, _TELEN_config);
+	if ( (_TELEN_config[3]<'0' || _TELEN_config[3]>'9') && _TELEN_config[3]!='-')  {strcpy(_TELEN_config,"----"); write_NVRAM(); result=-1;}
+    printf("result %d %s\n", result, _TELEN_config);
+
+	if ( _battery_mode[0]<'0' || _battery_mode[0]>'1') {strcpy(_battery_mode,"0"); write_NVRAM(); result=-1;} //
+    printf("result %d", result);
+    
+    //*********
+    // kevin 10_31_24 . keep the upper limit at 250 to avoid nvram getting
+    // a freq that won't work. will have to load flash nuke uf2 to clear nram
+    // if that happens, so that default Klock will return?
+    // if so: Download the [UF2 file]
+    // https://datasheets.raspberrypi.com/soft/flash_nuke.uf2
+    // code is
+    // https://github.com/raspberrypi/pico-examples/blob/master/flash/nuke/nuke.c
+    // may require some iterations of manually setting all the configs by hand 
+    // after getting the nuke uf2 (it autoruns) and then reloading pico-WSPRer.uf2
+    // hmm. I suppose we could call this routine to fix nvram at the beginning, so if the 
+    // clock gets fixed, then the defaults will get fixed (where errors exist)
+    // be sure to null terminate
+	if ( (atoi(_Klock_speed)<100) || (atoi(_Klock_speed)>250)) {strcpy(_Klock_speed,"115"); write_NVRAM(); result=-1;} 
+    printf("result %d", result);
+    //*********
+	if ( (_Datalog_mode[0]!='0') && (_Datalog_mode[0]!='1') && (_Datalog_mode[0]!='D') && (_Datalog_mode[0]!='W')) {_Datalog_mode[0]='0'; write_NVRAM(); result=-1;}
+    printf("result %d", result);
+    // be sure to null terminate
+	if ( (atoi(_U4B_chan)<0) || (atoi(_U4B_chan)>599)) {strcpy(_U4B_chan,"599"); write_NVRAM(); result=-1;} 
+    printf("result %d", result);
     //****************
     // kevin 10_30_24
     switch(atoi(_Band))
@@ -672,10 +740,16 @@ void check_data_validity_and_set_defaults(void)
         default: 
             strcpy(_Band,"20"); 
             write_NVRAM(); 
-            init_rf_freq(); 
+            // figure out the XMIT_FREQUENCY for new band, and set _32_dialfreqhz
+            // have to do this whenever we change bands
+            XMIT_FREQUENCY = init_rf_freq();
 		    pWSPR->_pTX->_u32_dialfreqhz = XMIT_FREQUENCY;
+            result=-1;
             break;
     }
+    printf("result %d", result);
+
+    return result;
     //****************
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -686,9 +760,9 @@ void check_data_validity_and_set_defaults(void)
  */
 int check_data_validity(void)
 {
-int result=1;	
-//do some basic plausibility checking on data				
-	if ( ((_callsign[0]<'A') || (_callsign[0]>'Z')) && ((_callsign[0]<'0') || (_callsign[0]>'9'))    ) {result=-1;} 
+    int result=1;	
+    //do some basic plausibility checking on data				
+	if ( ((_callsign[0]<'A') || (_callsign[0]>'Z')) && ((_callsign[0]<'0') || (_callsign[0]>'9')) ) {result=-1;} 
 	if ( ((_suffix[0]<'0') || (_suffix[0]>'9')) && (_suffix[0]!='-') && (_suffix[0]!='X') ) {result=-1;} 
 	if ( (_id13[0]!='0') && (_id13[0]!='1') && (_id13[0]!='Q')&& (_id13[0]!='-')) {result=-1;}
 	if ( (_start_minute[0]!='0') && (_start_minute[0]!='2') && (_start_minute[0]!='4')&& (_start_minute[0]!='6')&& (_start_minute[0]!='8')) {result=-1;}
@@ -696,10 +770,18 @@ int result=1;
 	if ( (_verbosity[0]<'0') || (_verbosity[0]>'9')) {result=-1;} 
 	if ( (_oscillator[0]<'0') || (_oscillator[0]>'1')) {result=-1;} 
 	if ( (_custom_PCB[0]<'0') || (_custom_PCB[0]>'1')) {result=-1;} 
-	if ( ((_TELEN_config[0]<'0') || (_TELEN_config[0]>'F'))&& (_TELEN_config[0]!='-')) {result=-1;}
-	if ( (_battery_mode[0]<'0') || (_battery_mode[0]>'1')) {result=-1;} 	
-	if ( (atoi(_Klock_speed)<100) || (atoi(_Klock_speed)>300)) {result=-1;} 	
-	if ( (_Datalog_mode[0]!='0') && (_Datalog_mode[0]!='1')) {result=-1;}
+    // kevin 10_31_24 0-9 and - are legal
+	if ( (_TELEN_config[0]<'0' || _TELEN_config[0]>'9') && _TELEN_config[0]!='-') {result=-1;}
+    // kevin 10_31_24 check the 3 other bytes the same way
+	if ( (_TELEN_config[1]<'0' || _TELEN_config[1]>'9') && _TELEN_config[1]!='-') {result=-1;}
+	if ( (_TELEN_config[2]<'0' || _TELEN_config[2]>'9') && _TELEN_config[2]!='-') {result=-1;}
+	if ( (_TELEN_config[3]<'0' || _TELEN_config[3]>'9') && _TELEN_config[3]!='-') {result=-1;}
+	if ( _battery_mode[0]<'0' || _battery_mode[0]>'1') {result=-1;} 	
+    // kevin 10_31_24..make 250 the upper limit to avoid wedging the chip with unworkable freq
+	if ( (atoi(_Klock_speed)<100) || (atoi(_Klock_speed)>250)) {result=-1;} 	
+    // kevin 10_31_24 'D' and 'W' are also valid in check_data_validity_and_set_defaults()
+    if ( (_Datalog_mode[0]!='0') && (_Datalog_mode[0]!='1') && (_Datalog_mode[0]!='D') && (_Datalog_mode[0]!='W')) {result=-1;}
+
 	if ( (atoi(_U4B_chan)<0) || (atoi(_U4B_chan)>599)) {result=-1;} 
     //****************
     // kevin 10_31_24
@@ -713,8 +795,7 @@ int result=1;
         default: result=-1;
     }
     //****************
-
-return result;
+    return result;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -732,10 +813,11 @@ printf(" (Id13:%s",_id13);
 printf(" Start Minute:%s",_start_minute);
 printf(" Lane:%s)\n\t",_lane);
 printf("Verbosity:%s\n\t",_verbosity);
+// this isn't modifiable by user but still checked for correct default value
 /*printf("Oscillator Off:%s\n\t",_oscillator);*/
 printf("custom Pcb IO mappings:%s\n\t",_custom_PCB);
 printf("TELEN config:%s\n\t",_TELEN_config);
-printf("Klock speed:%sMhz  (default: 133)\n\t",_Klock_speed);
+printf("Klock speed:%sMhz  (default: 115)\n\t",_Klock_speed);
 printf("Datalog mode:%s\n\t",_Datalog_mode);
 //*************
 // kevin 10_30_24
@@ -754,10 +836,10 @@ printf("A: change bAnd (10,12,15,17,20 default 20)\n\t");
 /*printf("I: change Id13 (two alpha numeric chars, ie Q8) use '--' to disable U4B\n\t");
 printf("M: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\t");*/ //it is still possible to directly change these, but its not shown
 printf("V: Verbosity level (0 for no messages, 9 for too many) \n\t");
-/*printf("O: Oscillator off after trasmission (default: 1) \n\t");*/
+/*printf("O: Oscillator off after transmission (default: 1) \n\t");*/
 printf("P: custom Pcb mode IO mappings (0,1)\n\t");
 printf("T: TELEN config\n\t");
-printf("K: Klock speed  (default: 133)\n\t");
+printf("K: Klock speed  (default: 115)\n\t");
 printf("D: Datalog mode (0,1,(W)ipe memory, (D)ump memory) see wiki\n\t");
 printf("B: Battery (low power) mode \n\t");
 printf("F: Frequency output (antenna tuning mode)\n\n");

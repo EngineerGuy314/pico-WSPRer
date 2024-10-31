@@ -148,7 +148,11 @@
 void read_NVRAM(void);
 void write_NVRAM(void);
 int check_data_validity(void);
-void check_data_validity_and_set_defaults(void);
+// kevin 10_31_24
+// changed to return result like check_data_validity
+// void check_data_validity_and_set_defaults(void);
+int check_data_validity_and_set_defaults(void);
+
 void user_interface(void);
 void show_values(void);
 void convertToUpperCase(char *str);
