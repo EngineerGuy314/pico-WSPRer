@@ -123,7 +123,7 @@ switch(_lane[0])
         default: XMIT_FREQUENCY+=100UL; // in case invalid lane was read from EEPROM. This is center passband?? (not a valid lane?)
     }	
 
-printf("\n main _Band %s BASE_FREQ_USED %d XMIT_FREQUENCY %d\n", _Band, BASE_FREQ_USED, XMIT_FREQUENCY);
+printf("\nrf_freq_init _Band %s BASE_FREQ_USED %d XMIT_FREQUENCY %d _Klock_speed %s\n", _Band, BASE_FREQ_USED, XMIT_FREQUENCY, _Klock_speed);
     return XMIT_FREQUENCY;
 }
 //**************************
@@ -673,39 +673,28 @@ int check_data_validity_and_set_defaults(void)
     // FIX! should do full legal callsign check? (including spaces at end)
     // be sure to null terminate so we can print the callsign
 	if ( ((_callsign[0]<'A') || (_callsign[0]>'Z')) && ((_callsign[0]<'0') || (_callsign[0]>'9')) ) {strcpy(_callsign,"AB1CDE"); write_NVRAM(); result=-1;} 
-    printf("result %d %s", result, _callsign);
     // kevin 10_31_24 didn't have the '-' in the ok check (check_data_availability did)
 	if ( ((_suffix[0]<'0') || (_suffix[0]>'9')) && (_suffix[0]!='-') && _suffix[0]!='X') {strcpy(_suffix,"-"); write_NVRAM(); result=-1;} //by default, disable zachtek suffix
-    printf("result %d", result);
     // change to strcpy for null terminate
 	if ( (_id13[0]!='0') && (_id13[0]!='1') && (_id13[0]!='Q')&& (_id13[0]!='-')) {strcpy(_id13,"Q0"); write_NVRAM(); result=-1;}
-    printf("result %d", result);
     // no null term added here, but a reboot will reload with null term for all now (see read_NVRAM)
 	if ( (_start_minute[0]!='0') && (_start_minute[0]!='2') && (_start_minute[0]!='4')&& (_start_minute[0]!='6')&& (_start_minute[0]!='8')) {strcpy(_start_minute,"0"); write_NVRAM(); result=-1;}
-    printf("result %d", result);
 	if ( (_lane[0]!='1') && (_lane[0]!='2') && (_lane[0]!='3')&& (_lane[0]!='4')) {strcpy(_lane,"2"); write_NVRAM(); result=-1;}
-    printf("result %d", result);
 	if ( (_verbosity[0]<'0') || (_verbosity[0]>'9')) {strcpy(_verbosity,"1"); write_NVRAM(); result=-1;} //set default verbosity to 1
-    printf("result %d", result);
-	if ( (_oscillator[0]<'0') || (_oscillator[0]>'1')) {strcpy(_oscillator,"1"); write_NVRAM(); result=-1;} //set default oscillator to switch off after the transmission
-    printf("result %d", result);
+
+    // kevin 10_31_24 only allow 1 (oscillator off)..not in menu any more. 0 illegal. cover bad nvram
+	if ( (_oscillator[0]<'1') || (_oscillator[0]>'1')) {strcpy(_oscillator,"1"); write_NVRAM(); result=-1;} //set default oscillator to switch off after the transmission
 	if ( (_custom_PCB[0]<'0') || (_custom_PCB[0]>'1')) {strcpy(_custom_PCB,"0"); write_NVRAM(); result=-1;} //set default IO mapping to original Pi Pico configuration
-    printf("result %d", result);
     // kevin 10_31_24 check_data_validity() allowed just [0] to be '-' and considered valid
     // 0-9 and - are legal. _
     // make sure to null terminate
-	if ( (_TELEN_config[0]<'0' || _TELEN_config[0]>'9') && _TELEN_config[0]!='-') {strcpy(_TELEN_config,"----"); write_NVRAM(); printf("initially result %d %s\n", result, _TELEN_config); result=-1;}
-    printf("result %d %s\n", result, _TELEN_config);
+	if ( (_TELEN_config[0]<'0' || _TELEN_config[0]>'9') && _TELEN_config[0]!='-') {strcpy(_TELEN_config,"----"); write_NVRAM(); result=-1;}
     // kevin 10_31_24 check the other 3 bytes also?
 	if ( (_TELEN_config[1]<'0' || _TELEN_config[1]>'9') && _TELEN_config[1]!='-') {strcpy(_TELEN_config,"----"); write_NVRAM(); result=-1;}
-    printf("result %d %s\n", result, _TELEN_config);
 	if ( (_TELEN_config[2]<'0' || _TELEN_config[2]>'9') && _TELEN_config[2]!='-') {strcpy(_TELEN_config,"----"); write_NVRAM(); result=-1;}
-    printf("result %d %s\n", result, _TELEN_config);
 	if ( (_TELEN_config[3]<'0' || _TELEN_config[3]>'9') && _TELEN_config[3]!='-')  {strcpy(_TELEN_config,"----"); write_NVRAM(); result=-1;}
-    printf("result %d %s\n", result, _TELEN_config);
 
 	if ( _battery_mode[0]<'0' || _battery_mode[0]>'1') {strcpy(_battery_mode,"0"); write_NVRAM(); result=-1;} //
-    printf("result %d", result);
     
     //*********
     // kevin 10_31_24 . keep the upper limit at 250 to avoid nvram getting
@@ -768,7 +757,8 @@ int check_data_validity(void)
 	if ( (_start_minute[0]!='0') && (_start_minute[0]!='2') && (_start_minute[0]!='4')&& (_start_minute[0]!='6')&& (_start_minute[0]!='8')) {result=-1;}
 	if ( (_lane[0]!='1') && (_lane[0]!='2') && (_lane[0]!='3')&& (_lane[0]!='4')) {result=-1;}
 	if ( (_verbosity[0]<'0') || (_verbosity[0]>'9')) {result=-1;} 
-	if ( (_oscillator[0]<'0') || (_oscillator[0]>'1')) {result=-1;} 
+    // kevin 10_31_24 only allow 1 (oscillator off)..not in menu any more. 0 illegal. cover bad nvram
+	if ( (_oscillator[0]<'1') || (_oscillator[0]>'1')) {result=-1;} 
 	if ( (_custom_PCB[0]<'0') || (_custom_PCB[0]>'1')) {result=-1;} 
     // kevin 10_31_24 0-9 and - are legal
 	if ( (_TELEN_config[0]<'0' || _TELEN_config[0]>'9') && _TELEN_config[0]!='-') {result=-1;}
