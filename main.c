@@ -70,6 +70,7 @@ OW one_wire_interface;   //onewire interface
 
 PioDco DCO = {0};
 
+uint32_t XMIT_FREQUENCY;
 
 int main()
 {
@@ -86,11 +87,11 @@ int main()
 		sleep_ms(100);
 	}
 	read_NVRAM();				//reads values of _callsign,  _verbosity etc from NVRAM. MUST READ THESE *BEFORE* InitPicoPins
-if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds and reboot. or if user presses a key enter setup
+    if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds and reboot. or if user presses a key enter setup
 	{
-	printf("\nBAD values in NVRAM detected! will reboot in 10 seconds... press any key to enter user-setup menu..\n");
-	fader=0;fade_counter=0;
-			while (getchar_timeout_us(0)==PICO_ERROR_TIMEOUT) //looks for input on USB serial port only @#$%^&!! they changed this function in SDK 2.0!. used to use -1 for no input, now its -2 PICO_ERROR_TIMEOUT
+	    printf("\nBAD values in NVRAM detected! will reboot in 10 seconds... press any key to enter user-setup menu..\n");
+	    fader=0;fade_counter=0;
+        while (getchar_timeout_us(0)==PICO_ERROR_TIMEOUT) //looks for input on USB serial port only @#$%^&!! they changed this function in SDK 2.0!. used to use -1 for no input, now its -2 PICO_ERROR_TIMEOUT
 			{
 			 fader+=1;
 			 if ((fader%5000)>(fader/100))
@@ -145,7 +146,7 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
         default: BASE_FREQ_USED=BF20M; // default to 20M in case of error cases
     }
     
-	uint32_t XMIT_FREQUENCY=BASE_FREQ_USED + 1400UL; // offset from base for start of passband. same for all bands
+	XMIT_FREQUENCY=BASE_FREQ_USED + 1400UL; // offset from base for start of passband. same for all bands
 
     // add offset based on lane ..same for every band
 	switch(_lane[0])                                     
@@ -164,7 +165,7 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 			case '4':XMIT_FREQUENCY+=180UL; break;
 			default: XMIT_FREQUENCY+=100UL; // in case invalid lane was read from EEPROM. This is center passband?? (not a valid lane?)
 		}	
-	printf("\n", "_Band", _Band, "BASE_FREQ_USED", BASE_FREQ_USED, "_lane (u4b freq bin)", _lane[0], "XMIT_FREQUENCY", XMIT_FREQUENCY,"\n");
+	printf("\n _Band %s BASE_FREQ_USED %d lane (u4b freq bin) %d XMIT_FREQUENCY %d\n", _Band, BASE_FREQ_USED, _lane[0], XMIT_FREQUENCY);
         
     //*******************************
    
@@ -205,6 +206,11 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 	
     for(;;)   //loop every ~ half second
     {		
+        //****************
+        // kevin
+        uint64_t loop_us_start = to_us_since_boot(get_absolute_time());
+        //****************
+
 		onewire_read();
 		I2C_read();
 		
@@ -221,11 +227,13 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
                 
 		if (pWB->_txSched.verbosity>=5)
 		{
-            if(0 == ++tick % 20)      //every ~20 secs dumps context.  
+            if(0 == (++tick % 20))      //every ~20 secs dumps context.  
             {
                 WSPRbeaconDumpContext(pWB);
+                //****************
                 // kevin 10_30_24
-                StampPrintf("\n", "_Band", _Band, "BASE_FREQ_USED", BASE_FREQ_USED, "_lane (u4b freq bin)", _lane[0], "XMIT_FREQUENCY", XMIT_FREQUENCY,"\n");
+                StampPrintf("\n", "_Band", _Band, "_lane (u4b freq bin)", _lane[0], "XMIT_FREQUENCY", XMIT_FREQUENCY);
+                //****************
             }
         }	
 
@@ -269,7 +277,7 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 		//pWB->_txSched.TELEN1_val2=rand() % 153000;	/ max values are 630k and 153k
 		
 				
-        if(0 == ++tick2 % 10)      //every ~5 sec
+        if(0 == (++tick2 % 10))      //every ~5 sec
         {
             //********************
             // kevin 10_30_24 changed to 2 digits of precision (to see 0.05 0.10 0.15 etc)
@@ -287,6 +295,27 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 				sleep_ms(50); 
 			}
 		DoLogPrint(); 	
+        //***************
+        // kevin 10_31_24 FIX! put in a conditional delay that depends on clock frequency
+        // faster clock wants more delay?
+        // maybe log the time at beginning of loop and here, and pad to make the loop .5 sec per iteration
+        //****************
+        // kevin
+        uint64_t loop_us_end = to_us_since_boot(get_absolute_time());
+        // floor divide to get milliseconds
+        uint64_t loop_ms_elapsed = (loop_us_end - loop_us_start) / 1000;
+		if (pWB->_txSched.verbosity>=5)
+		{
+            if((tick % 20)==0)      //every ~20 secs dumps context.  
+            {
+                StampPrintf("main loop_ms_elapsed", loop_ms_elapsed);
+            }
+        }	
+        // will always 0 or greater? (unless bug with time)
+        if ((loop_ms_elapsed < 500) && (loop_ms_elapsed > 0)) {
+	        sleep_ms(500 - loop_ms_elapsed);
+        }
+        //****************
 	}
 }
 ///////////////////////////////////
@@ -299,7 +328,7 @@ void process_TELEN_data(void)
 		const float conversionFactor = 3300.0f / (1 << 12);   //3.3 * 1000. the 3.3 is from vref, the 1000 is to convert to mV. the 12 bit shift is because thats resolution of ADC
 
 		for (int i=0;i < 4;i++)
-		{			
+		{	 		
 		   switch(_TELEN_config[i])
 			{
 				case '-':  break; //do nothing, telen chan is disabled
@@ -677,6 +706,7 @@ printf("Datalog mode:%s\n\t",_Datalog_mode);
 //*************
 // kevin 10_30_24
 printf("Band:%s\n\t",_Band);
+printf("XMIT_FREQUENCY:%s\n\t",XMIT_FREQUENCY);
 //*************
 printf("Battery (low power) mode:%s\n\n",_battery_mode);
 
