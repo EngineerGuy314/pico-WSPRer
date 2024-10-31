@@ -33,6 +33,7 @@
 
 
 WSPRbeaconContext *pWSPR;
+WSPRbeaconContext *pWB;
 
 char _callsign[7];        //these get set via terminal, and then from NVRAM on boot
 char _id13[3];
@@ -70,7 +71,60 @@ OW one_wire_interface;   //onewire interface
 
 PioDco DCO = {0};
 
-uint32_t XMIT_FREQUENCY;
+uint32_t XMIT_FREQUENCY=0;
+
+//*******************************
+void init_rf_freq(void)
+{
+// kevin 10_30_24
+// base frequencies for different bands
+// the pico should be able to do up to 10M band with appropriate clock frequency? (250Mhz? or ??)
+// 136000, 474200, 1836600, 3568600, 5364700, 7038600, 10138700, 14095600, 18104600, 21094600, 24924600, 28124600, 50293000, 70091000, 144489000};
+// will support 20M, 17M, 15M, 12M, 10M
+
+enum BASE_FREQS {
+    BF20M=14095600UL,
+    BF17M=18104600UL,
+    BF15M=21094600UL,
+    BF12M=24924600UL,
+    BF10M=28124600UL
+};
+
+uint32_t BASE_FREQ_USED;
+switch(atoi(_Band))
+{
+    case 20: BASE_FREQ_USED=BF20M; break;
+    case 17: BASE_FREQ_USED=BF17M; break;
+    case 15: BASE_FREQ_USED=BF15M; break;
+    case 12: BASE_FREQ_USED=BF12M; break;
+    case 10: BASE_FREQ_USED=BF10M; break;
+    default: BASE_FREQ_USED=BF20M; // default to 20M in case of error cases
+}
+
+XMIT_FREQUENCY=BASE_FREQ_USED + 1400UL; // offset from base for start of passband. same for all bands
+
+// add offset based on lane ..same for every band
+switch(_lane[0])                                     
+    // Center frequency for Zachtek (wspr 3) is hard set in WSPRBeacon.c to 14097100UL
+    {
+        // old code for 20M:
+        // case '1':XMIT_FREQUENCY=14097020UL; break;
+        // case '2':XMIT_FREQUENCY=14097060UL; break;
+        // case '3':XMIT_FREQUENCY=14097140UL; break;
+        // case '4':XMIT_FREQUENCY=14097180UL; break;
+        // default: XMIT_FREQUENCY=14097100UL; // in case invalid lane was read from EEPROM. This is center passband?? (not a valid lane?)
+        // new code:
+        case '1':XMIT_FREQUENCY+=20UL;  break;
+        case '2':XMIT_FREQUENCY+=60UL;  break;
+        case '3':XMIT_FREQUENCY+=140UL; break;
+        case '4':XMIT_FREQUENCY+=180UL; break;
+        default: XMIT_FREQUENCY+=100UL; // in case invalid lane was read from EEPROM. This is center passband?? (not a valid lane?)
+    }	
+
+printf("\n main _Band %s BASE_FREQ_USED %d XMIT_FREQUENCY %d\n", _Band, BASE_FREQ_USED, XMIT_FREQUENCY);
+    
+}
+//**************************
 
 int main()
 {
@@ -121,55 +175,11 @@ int main()
     printf("\nThe pico-WSPRer version: %s %s\nWSPR beacon init...",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
 
     //*******************************
-    // kevin 10_30_24
-    // base frequencies for different bands
-    // the pico should be able to do up to 10M band with appropriate clock frequency? (250Mhz? or ??)
-    // 136000, 474200, 1836600, 3568600, 5364700, 7038600, 10138700, 14095600, 18104600, 21094600, 24924600, 28124600, 50293000, 70091000, 144489000};
-    // will support 20M, 17M, 15M, 12M, 10M
+    // kevin 10_31_24
+    init_rf_freq();
+    printf("debug1\n");
 
-    enum BASE_FREQS {
-        BF20M=14095600UL,
-        BF17M=18104600UL,
-        BF15M=21094600UL,
-        BF12M=24924600UL,
-        BF10M=28124600UL
-    };
-
-    uint32_t BASE_FREQ_USED;
-    switch(atoi(_Band))
-    {
-        case 20: BASE_FREQ_USED=BF20M;
-        case 17: BASE_FREQ_USED=BF17M;
-        case 15: BASE_FREQ_USED=BF15M;
-        case 12: BASE_FREQ_USED=BF12M;
-        case 10: BASE_FREQ_USED=BF10M;
-        default: BASE_FREQ_USED=BF20M; // default to 20M in case of error cases
-    }
-    
-	XMIT_FREQUENCY=BASE_FREQ_USED + 1400UL; // offset from base for start of passband. same for all bands
-
-    // add offset based on lane ..same for every band
-	switch(_lane[0])                                     
-        // Center frequency for Zachtek (wspr 3) is hard set in WSPRBeacon.c to 14097100UL
-		{
-            // old code for 20M:
-			// case '1':XMIT_FREQUENCY=14097020UL; break;
-			// case '2':XMIT_FREQUENCY=14097060UL; break;
-			// case '3':XMIT_FREQUENCY=14097140UL; break;
-			// case '4':XMIT_FREQUENCY=14097180UL; break;
-			// default: XMIT_FREQUENCY=14097100UL; // in case invalid lane was read from EEPROM. This is center passband?? (not a valid lane?)
-            // new code:
-			case '1':XMIT_FREQUENCY+=20UL;  break;
-			case '2':XMIT_FREQUENCY+=60UL;  break;
-			case '3':XMIT_FREQUENCY+=140UL; break;
-			case '4':XMIT_FREQUENCY+=180UL; break;
-			default: XMIT_FREQUENCY+=100UL; // in case invalid lane was read from EEPROM. This is center passband?? (not a valid lane?)
-		}	
-	printf("\n _Band %s BASE_FREQ_USED %d lane (u4b freq bin) %d XMIT_FREQUENCY %d\n", _Band, BASE_FREQ_USED, _lane[0], XMIT_FREQUENCY);
-        
-    //*******************************
-   
-	 WSPRbeaconContext *pWB = WSPRbeaconInit(
+    pWB = WSPRbeaconInit(
         _callsign,/** the Callsign. */
         CONFIG_LOCATOR4,/**< the default QTH locator if GPS isn't used. */
         10,             /**< Tx power, dbm. */
@@ -178,11 +188,13 @@ int main()
         0,           /**< the carrier freq. shift relative to dial freq. */ //not used
         RFOUT_PIN,       /**< RF output GPIO pin. */
 		(uint8_t)_start_minute[0]-'0',   /**< convert ASCI digits to ints  */
-		(uint8_t)_id13[0]-'0',   
-		(uint8_t)_suffix[0]-'0',
+		(uint8_t)_id13[0]-'0',   (uint8_t)_suffix[0]-'0',
 		_TELEN_config		
         );
+
+    printf("debug2\n");
     assert_(pWB);
+    printf("debug3\n");
     pWSPR = pWB;  //this lets things outside this routine access the WB context
     pWB->_txSched.force_xmit_for_testing = force_transmit;
 	pWB->_txSched.led_mode = 0;  //0 means no serial comms from  GPS (critical fault if it remains that way)
@@ -204,6 +216,7 @@ int main()
 	LED_sequence_start_time = get_absolute_time();
 	if (_Datalog_mode[0]=='1') datalog_loop();
 	
+    printf("debug4\n");
     for(;;)   //loop every ~ half second
     {		
         //****************
@@ -225,14 +238,17 @@ int main()
         }        
         WSPRbeaconTxScheduler(pWB, YES, GPS_PPS_PIN);   
                 
+        tick = tick + 1;
 		if (pWB->_txSched.verbosity>=5)
 		{
-            if(0 == (++tick % 20))      //every ~20 secs dumps context.  
+            if(0 == (tick % 20))      //every ~20 secs dumps context.  
             {
+                printf("debug5\n");
                 WSPRbeaconDumpContext(pWB);
+                printf("debug6\n");
                 //****************
                 // kevin 10_30_24
-                StampPrintf("\n", "_Band", _Band, "_lane (u4b freq bin)", _lane[0], "XMIT_FREQUENCY", XMIT_FREQUENCY);
+                StampPrintf("\n_Band %s _lane (u4b freq bin) %s XMIT_FREQUENCY %d\n", _Band, _lane[0], XMIT_FREQUENCY);
                 //****************
             }
         }	
@@ -277,14 +293,14 @@ int main()
 		//pWB->_txSched.TELEN1_val2=rand() % 153000;	/ max values are 630k and 153k
 		
 				
-        if(0 == (++tick2 % 10))      //every ~5 sec
+        if(0==(tick % 10))      //every ~5 sec
         {
             //********************
             // kevin 10_30_24 changed to 2 digits of precision (to see 0.05 0.10 0.15 etc)
             // aligned to only valid 0.05 increments above
             // temp should be aligned to single digit degrees above?
             // if (pWB->_txSched.verbosity>=1) StampPrintf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Satellite count: %d\n", tempU,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count);		
-            if (pWB->_txSched.verbosity>=1) StampPrintf("Temp: %0f  Volts: %0.2f  Altitude: %0.0f  Satellite count: %d\n", tempU,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count);		
+            if (pWB->_txSched.verbosity>=1) StampPrintf("Temp: %.1f  Volts: %0.2f  Altitude: %0.0f  Satellite count: %d\n", tempU,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count);		
             //********************
             if (pWB->_txSched.verbosity>=3) printf("TELEN Vals 1 through 4:  %d %d %d %d\n",telen_values[0],telen_values[1],telen_values[2],telen_values[3]);
         }
@@ -303,18 +319,21 @@ int main()
         // kevin
         uint64_t loop_us_end = to_us_since_boot(get_absolute_time());
         // floor divide to get milliseconds
-        uint64_t loop_ms_elapsed = (loop_us_end - loop_us_start) / 1000;
+        uint64_t loop_ms_elapsed = (loop_us_end - loop_us_start) / 1000ULL;
 		if (pWB->_txSched.verbosity>=5)
 		{
-            if((tick % 20)==0)      //every ~20 secs dumps context.  
+            if(0==(tick % 20))      //every ~20 secs dumps context.  
             {
-                StampPrintf("main loop_ms_elapsed", loop_ms_elapsed);
+                StampPrintf("main loop_ms_elapsed %d", loop_ms_elapsed);
             }
         }	
         // will always 0 or greater? (unless bug with time)
+        /*
         if ((loop_ms_elapsed < 500) && (loop_ms_elapsed > 0)) {
 	        sleep_ms(500 - loop_ms_elapsed);
+            
         }
+        */
         //****************
 	}
 }
@@ -542,6 +561,8 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
                     // redo the channel selection if we change bands, since U4B definition changes per band 
                     process_chan_num(); 
                     write_NVRAM(); 
+                    init_rf_freq();
+					pWSPR->_pTX->_u32_dialfreqhz = XMIT_FREQUENCY;
                     break;
             //********************
 			case 13:  break;
@@ -652,7 +673,12 @@ void check_data_validity_and_set_defaults(void)
         case 15: break;
         case 17: break;
         case 20: break;
-        default: {strcpy(_Band,"20"); write_NVRAM();} 
+        default: 
+            strcpy(_Band,"20"); 
+            write_NVRAM(); 
+            init_rf_freq(); 
+		    pWSPR->_pTX->_u32_dialfreqhz = XMIT_FREQUENCY;
+            break;
     }
     //****************
 }
@@ -679,6 +705,18 @@ int result=1;
 	if ( (atoi(_Klock_speed)<100) || (atoi(_Klock_speed)>300)) {result=-1;} 	
 	if ( (_Datalog_mode[0]!='0') && (_Datalog_mode[0]!='1')) {result=-1;}
 	if ( (atoi(_U4B_chan)<0) || (atoi(_U4B_chan)>599)) {result=-1;} 
+    //****************
+    // kevin 10_31_24
+    switch(atoi(_Band))
+    {
+        case 10: break;
+        case 12: break;
+        case 15: break;
+        case 17: break;
+        case 20: break;
+        default: result=-1;
+    }
+    //****************
 
 return result;
 }
@@ -706,7 +744,7 @@ printf("Datalog mode:%s\n\t",_Datalog_mode);
 //*************
 // kevin 10_30_24
 printf("Band:%s\n\t",_Band);
-printf("XMIT_FREQUENCY:%s\n\t",XMIT_FREQUENCY);
+printf("XMIT_FREQUENCY:%d\n\t",XMIT_FREQUENCY);
 //*************
 printf("Battery (low power) mode:%s\n\n",_battery_mode);
 
@@ -1207,12 +1245,12 @@ void process_chan_num()
         int txBand;
         switch(atoi(_Band))
         {
-            case 20: txBand = 7;  // 20m
-            case 17: txBand = 8;  // 17m
-            case 15: txBand = 9;  // 15m
-            case 12: txBand = 10; // 12m
-            case 10: txBand = 11; // 10m
-            default: txBand = 7;  // default to 20M in case of error cases
+            case 20: txBand = 7;  break; // 20m
+            case 17: txBand = 8;  break; // 17m
+            case 15: txBand = 9;  break; // 15m
+            case 12: txBand = 10; break; // 12m
+            case 10: txBand = 11; break; // 10m
+            default: txBand = 7;  break; // default to 20M in case of error cases
         }
 		_start_minute[0] = '0' + (2 * ((txSlot + (txBand*2)) % 5));
 
