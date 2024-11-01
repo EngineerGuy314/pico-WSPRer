@@ -172,11 +172,23 @@ int main()
 	process_chan_num(); //sets minute/lane/id from chan number. usually redundant at this point, but can't hurt
 	
 	if (getchar_timeout_us(0)>0)   //looks for input on USB serial port only. Note: getchar_timeout_us(0) returns a -2 (as of sdk 2) if no keypress. Must do this check BEFORE setting Clock Speed in Case you bricked it
-		{
+    {
 		DCO._pGPStime->user_setup_menu_active=1;	
 		user_interface();   
-		}
-	InitPicoClock(PLL_SYS_MHZ);			    // Sets the system clock generator	
+    }
+    //***************
+    // kevin 10_31_24
+	if (!InitPicoClock(PLL_SYS_MHZ)) // Tries to set the system clock generator	
+    {
+        // example of bad _Klock_speed is 205
+        printf("FAILED with PLL_SYS_MHZ %d trying to reset _Klock_speed (and NVRAM) to default 115", PLL_SYS_MHZ);
+	    strcpy(_Klock_speed,"115"); 
+        write_NVRAM();
+        PLL_SYS_MHZ = 115;
+    }
+	InitPicoClock(PLL_SYS_MHZ);	// This should work now
+    //***************
+        
 	InitPicoPins();				// Sets GPIO pins roles and directions and also ADC for voltage and temperature measurements (NVRAM must be read BEFORE this, otherwise dont know how to map IO)
 	I2C_init();
     printf("\nThe pico-WSPRer version: %s %s\nWSPR beacon init...",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
@@ -723,13 +735,10 @@ int check_data_validity_and_set_defaults(void)
     // clock gets fixed, then the defaults will get fixed (where errors exist)
     // be sure to null terminate
 	if ( (atoi(_Klock_speed)<100) || (atoi(_Klock_speed)>250)) {strcpy(_Klock_speed,"115"); write_NVRAM(); result=-1;} 
-    printf("result %d", result);
     //*********
 	if ( (_Datalog_mode[0]!='0') && (_Datalog_mode[0]!='1') && (_Datalog_mode[0]!='D') && (_Datalog_mode[0]!='W')) {_Datalog_mode[0]='0'; write_NVRAM(); result=-1;}
-    printf("result %d", result);
     // be sure to null terminate
 	if ( (atoi(_U4B_chan)<0) || (atoi(_U4B_chan)>599)) {strcpy(_U4B_chan,"599"); write_NVRAM(); result=-1;} 
-    printf("result %d", result);
     //****************
     // kevin 10_30_24
     switch(atoi(_Band))
@@ -749,8 +758,6 @@ int check_data_validity_and_set_defaults(void)
             result=-1;
             break;
     }
-    printf("result %d", result);
-
     return result;
     //****************
 }

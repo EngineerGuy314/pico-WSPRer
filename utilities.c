@@ -56,18 +56,27 @@ void get_user_input(const char *prompt, char *input_variable, int max_length) {
 }
 
 /// @brief Initializes Pi pico clock.
-void InitPicoClock(int PLL_SYS_MHZ)
+int InitPicoClock(int PLL_SYS_MHZ)
 {
     const uint32_t clkhz = PLL_SYS_MHZ * 1000000L;
-	 printf("\n ABOUT TO SET SYSTEM KLOCK TO %dMhz\n", PLL_SYS_MHZ); 
+	 printf("\n ATTEMPT TO SET SYSTEM KLOCK TO %dMhz\n", PLL_SYS_MHZ); 
 	
-    set_sys_clock_khz(clkhz / kHz, true);
+    // kevin 10_31_24
+    // frequencies like 205 mhz will PANIC, System clock of 205000 kHz cannot be exactly achieved
+    // should detect the failure and change the nvram, otherwise we're stuck even on reboot
+    if (!set_sys_clock_khz(clkhz / kHz, false))
+    {
+        // won't work
+	    printf("\n DID NOT SET SYSTEM KLOCK TO %dMhz. Cannot be achieved\n", PLL_SYS_MHZ); 
+        return -1;
+    }
 
+    // 2nd arg is "required"
+    set_sys_clock_khz(clkhz / kHz, true);
     clock_configure(clk_peri, 0,
                     CLOCKS_CLK_PERI_CTRL_AUXSRC_VALUE_CLKSRC_PLL_SYS,
                     PLL_SYS_MHZ * MHZ,
                     PLL_SYS_MHZ * MHZ);
+
+    return 0;
 }
-
-
-

@@ -18,6 +18,6 @@
 #include "hardware/adc.h"   
 
 void get_user_input(const char *prompt, char *input_variable, int max_length);
-void InitPicoClock(int PLL_SYS_MHZ);
+int InitPicoClock(int PLL_SYS_MHZ);
 
 #endif

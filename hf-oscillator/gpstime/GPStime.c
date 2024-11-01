@@ -32,9 +32,9 @@ static int32_t nanosecs_per_tick;
 /// @return the new GPS time Context.
 GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio, uint32_t clock_speed)
 {
-  
+
 	timer_PIO = pio1;    //instantiate pio1 for the timer, pio0 already used for WSPR generation
-	sm = 0;			     //each of the two PIOs has 4 state machines (sm) available. use the 1st one 
+	sm = 0;			     //each of the two PIOs has 4 state machines (sm) available. use the 1st one
     offset = pio_add_program( timer_PIO, &timer_PIO_program);
     timer_PIO_program_init(timer_PIO, sm, offset,pps_gpio);
 
@@ -45,7 +45,7 @@ GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio, uint32_t c
     uart_init(uart_id ? uart1 : uart0, uart_baud);
     gpio_set_function(uart_id ? 8 : 0, GPIO_FUNC_UART);
     gpio_set_function(uart_id ? 9 : 1, GPIO_FUNC_UART);
-    
+
     GPStimeContext *pgt = calloc(1, sizeof(GPStimeContext));
     ASSERT_(pgt);
 
@@ -67,10 +67,10 @@ GPStimeContext *GPStimeInit(int uart_id, int uart_baud, int pps_gpio, uint32_t c
     irq_set_enabled(uart_id ? UART1_IRQ : UART0_IRQ, true);
     uart_set_irq_enables(uart_id ? uart1 : uart0, true, false);
 
-	nanosecs_per_tick= 2000000 / clock_speed;  //because two instructions cycle are used per cycle of the PIO, also adds a million scaling factor 
+	nanosecs_per_tick= 2000000 / clock_speed;  //because two instructions cycle are used per cycle of the PIO, also adds a million scaling factor
 	tics_per_second = 1000000 * clock_speed / 2;
 	printf(" clock speed %d  nanosecs per tick Scaled %d tics per sec %d\n",clock_speed, nanosecs_per_tick,tics_per_second);
-	elapsed_PIO_ticks_FILTERED= tics_per_second; //preload ideal value to reduce initial filtering lock time. 
+	elapsed_PIO_ticks_FILTERED= tics_per_second; //preload ideal value to reduce initial filtering lock time.
 
     return pgt;
 }
@@ -92,8 +92,8 @@ void GPStimeDestroy(GPStimeContext **pp)
 /// @param  gpio The GPIO pin of Pico which is connected to PPS output of GPS rec.
 
 void RAM (GPStimePPScallback)(uint gpio, uint32_t events)
-{   
-        if (pio_sm_get_rx_fifo_level(timer_PIO, sm) >= 2) 	//make sure at least two values are waiting to be read from the PIO           
+{
+        if (pio_sm_get_rx_fifo_level(timer_PIO, sm) >= 2) 	//make sure at least two values are waiting to be read from the PIO
 			PIO_counts_per_PPS = pio_sm_get(timer_PIO, sm)+ pio_sm_get(timer_PIO, sm);   //read and add 2 values from the PIO's output FIFO, representing tick count of ON and OFF pulse duration. each tick takes ~17.39nS @115Mhz clock speed
 
 		if (PIO_counts_per_PPS>10000000) //make sure data is somewhat reasonable
@@ -123,13 +123,13 @@ void RAM (GPStimeUartRxIsr)()
 				spGPStimeContext->_pbytebuff[spGPStimeContext->_u8_ixw]=0;//null terminates
 				spGPStimeContext->_is_sentence_ready =1;
 				break;
-			}            
+			}
         }
 		
 	   if(spGPStimeContext->_is_sentence_ready)
         {
-			spGPStimeContext->_u8_ixw = 0;     
-														if ((spGPStimeContext->verbosity>=8)&&(spGPStimeContext->user_setup_menu_active==0 ))  printf("dump ALL RAW FIFO: %s",(char *)spGPStimeContext->_pbytebuff);           
+			spGPStimeContext->_u8_ixw = 0;
+														if ((spGPStimeContext->verbosity>=8)&&(spGPStimeContext->user_setup_menu_active==0 ))  printf("dump ALL RAW FIFO: %s",(char *)spGPStimeContext->_pbytebuff);
             spGPStimeContext->_is_sentence_ready =0;
 			spGPStimeContext->_i32_error_count -= parse_GPS_data(spGPStimeContext);
         }
@@ -143,78 +143,145 @@ void RAM (GPStimeUartRxIsr)()
 /// @return -3 Error: bad lon format.
 /// @return -4 Error: no final '*' char ere checksum value.
 /// @attention Checksum validation is not implemented so far. !FIXME!
+// will update it to extract 0's of the expected field width, if field is not the right width
+// (distance between commas or end)
+// if the comma+1 locator doesn't exist, that's a fail too and will force 0's
 int parse_GPS_data(GPStimeContext *pg)
-{                                               //"$GxRMC has time, locations, altitude and sat count! unlike $xxGGA it does NOT have date, but so what
+{
+    //"$GxRMC has time, locations, altitude and sat count! unlike $xxGGA it does NOT have date, but so what
     assert_(pg);
     uint8_t *prmc = (uint8_t *)strnstr((char *)pg->_pbytebuff, "$GPGGA,", sizeof(pg->_pbytebuff));
     uint8_t *nrmc = (uint8_t *)strnstr((char *)pg->_pbytebuff, "$GNGGA,", sizeof(pg->_pbytebuff));
     if(nrmc) prmc=nrmc;
-	
+
 	if(prmc)
     {
-        ++pg->_time_data._u32_nmea_gprmc_count;   
-		if ((spGPStimeContext->verbosity>=7)&&(spGPStimeContext->user_setup_menu_active==0 )) 	printf("Found GxGGA len: %d  full buff: %s",sizeof(pg->_pbytebuff),(char *)pg->_pbytebuff);// printf("prmc found: %s\n",(char *)prmc);
+        ++pg->_time_data._u32_nmea_gprmc_count;
+		if ((spGPStimeContext->verbosity>=7)&&(spGPStimeContext->user_setup_menu_active==0 )) 	
+        {
+            printf("Found GxGGA len: %d full buff: %s\n", sizeof(pg->_pbytebuff), (char *)pg->_pbytebuff);
+            // printf("prmc found: %s\n",(char *)prmc);
+        }
 
         uint64_t tm_fix = GetUptime64();
-        uint8_t u8ixcollector[16] = {0};   //collects locations of commas
+        uint8_t u8ixcollector[16] = {0};   //collects locations of commas (actually +1)
         uint8_t chksum = 0;
+        uint8_t u8ix_found = 0;
         for(uint8_t u8ix = 0, i = 0; u8ix != strlen(prmc); ++u8ix)
         {
             uint8_t *p = prmc + u8ix;
             chksum ^= *p;
             if(',' == *p)
             {
+                // replaces the comma with 0 (which acts as a null term for a string?, and points to the next char
                 *p = 0;
                 u8ixcollector[i++] = u8ix + 1;
-                if('*' == *p || 12 == i)
-                    break;
+                u8ix_found = i;
+                if('*' == *p || 12 == i) break;
             }
         }		
-		pg->_time_data._u8_last_digit_minutes= *(prmc + u8ixcollector[0] + 3);
-		pg->_time_data._u8_last_digit_hour= *(prmc + u8ixcollector[0] + 1);		
-		strncpy(pg->_time_data._full_time_string, (const char *)prmc + u8ixcollector[0], 6);pg->_time_data._full_time_string[6]=0;
-		
-		
-        pg->_time_data._u8_is_solution_active = (prmc[u8ixcollector[5]]>48);   //numeric 0 for no fix, 1 2 or 3 for various fix types //printf("char is: %c\n",prmc[u8ixcollector[5]]);
-		pg->_time_data.sat_count = atoi((const char *)prmc + u8ixcollector[6]); 
-		
-		if ((spGPStimeContext->verbosity>=6)&&(spGPStimeContext->user_setup_menu_active==0 )) printf("sat count: %d\n",pg->_time_data.sat_count);
+		if ((spGPStimeContext->verbosity>=8)&&(spGPStimeContext->user_setup_menu_active==0 )) 	
+        {
+            printf("Found GxGGA len: %d u8ix_found: %d\n", sizeof(pg->_pbytebuff), u8ix_found);
+        }
 
-        if(pg->_time_data._u8_is_solution_active)
-        {											 
+        // kevin 10_31_24
+        // Should be at least 2 commas. and 6 chars between for this field
+        if ( u8ix_found>=2 && (u8ixcollector[1] - u8ixcollector[0]) >= 6)
+        {
+            pg->_time_data._u8_last_digit_minutes= *(prmc + u8ixcollector[0] + 3);
+            pg->_time_data._u8_last_digit_hour= *(prmc + u8ixcollector[0] + 1);		
+            strncpy(pg->_time_data._full_time_string, (const char *)prmc + u8ixcollector[0], 6);
+            pg->_time_data._full_time_string[6]=0;
+        }
+        else
+        {
+            // FIX! should we just leave it to whatever it was?
+            // error for this field. default to ascii zeroes. with extra zero for null terminate
+            pg->_time_data._u8_last_digit_minutes= 0; // null?
+            pg->_time_data._u8_last_digit_hour= 0; // null?
+            strncpy(pg->_time_data._full_time_string, "000000", 6);
+            pg->_time_data._full_time_string[6]=0;
+        }
+		
+		
+        // kevin 10_31_24
+        // $GNGGA,043058.000,3801.41491,N,10740.24434,W,1,08,1.4,2309.9,M,0.0,M,,*52
+
+        // only 0 thru 6 should be legal?
+        if ( u8ix_found>=7 && (u8ixcollector[6] - u8ixcollector[5]) >= 1)
+        {
+            // numeric 0 for no fix, 1 2 or 3 for various fix types
+            pg->_time_data._u8_is_solution_active = (0 != atoi((const char *)prmc + u8ixcollector[5]));
+            // printf("_u8_is_solution_active char is: %c\n",prmc[u8ixcollector[5]]);
+		    if ((spGPStimeContext->verbosity>=8)&&(spGPStimeContext->user_setup_menu_active==0 )) 	
+                printf("_u8_is_solution_active char(s): %s\n", (const char *)prmc + u8ixcollector[5]);
+        }
+        else
+        {
+            pg->_time_data._u8_is_solution_active = 0;
+        }
+
+        // could be none, 1, or 2 chars?
+        if ( u8ix_found>=8 && (u8ixcollector[7] - u8ixcollector[6]) >= 1)
+        {
+            // will hit a null term
+            pg->_time_data.sat_count = atoi((const char *)prmc + u8ixcollector[6]);
+        }
+        else
+        {
+            pg->_time_data.sat_count = 0;
+        }
+
+		if ((spGPStimeContext->verbosity>=6)&&(spGPStimeContext->user_setup_menu_active==0 ))
+            printf("sat count: %d\n",pg->_time_data.sat_count);
+
+        // kevin 10_31_24 ..keeps the last one if new one not valid
+        if (pg->_time_data._u8_is_solution_active)
+        {											
+            // why only look at the first 2 or 3 chars in lat/long values?
 
 			char firstTwo[3]; // Array to hold the first two characters
 			strncpy(firstTwo, (const char *)prmc + u8ixcollector[1], 2);
 			firstTwo[2] = '\0'; // Null terminate the string
 			int dd_lat= atoi(firstTwo);
-			pg->_time_data._i64_lat_100k = (int64_t)(.5f + 1e5 * ( (100*dd_lat) + atof((const char *)prmc + u8ixcollector[1]+2)/0.6)          ); 
+
+			pg->_time_data._i64_lat_100k = (int64_t)(.5f + 1e5 * ( (100*dd_lat) + atof((const char *)prmc + u8ixcollector[1]+2)/0.6)          );
             if('N' == prmc[u8ixcollector[2]]) { }
             else if('S' == prmc[u8ixcollector[2]])  //Thanks Ross!
             {
                 INVERSE(pg->_time_data._i64_lat_100k);
             }
-            else
-                return -2;
+            else return -2;
 			
-			char firstThree[4]; // Array to hold the first two characters
+			char firstThree[4]; // Array to hold the first three characters
 			strncpy(firstThree, (const char *)prmc + u8ixcollector[3], 3);
 			firstThree[3] = '\0'; // Null terminate the string
-			int dd_lon= atoi(firstThree);									   
+			int dd_lon= atoi(firstThree);									
+
             pg->_time_data._i64_lon_100k = (int64_t)(.5f + 1e5 * ( (100*dd_lon) + atof((const char *)prmc + u8ixcollector[3]+3)/0.6)  );
             if('E' == prmc[u8ixcollector[4]]) { }
             else if('W' == prmc[u8ixcollector[4]])
             {
                 INVERSE(pg->_time_data._i64_lon_100k);
             }
-            else
+            else return -3;
+
+        // at least one char?
+        // $GNGGA,043058.000,3801.41491,N,10740.24434,W,1,08,1.4,2309.9,M,0.0,M,,*52
+        if (pg->_time_data._u8_is_solution_active)
+            if ( u8ix_found>=9 && (u8ixcollector[9] - u8ixcollector[8]) >= 1)
             {
-                return -3;
-            }	
-			float f;
-			f = (float)atof((char *)prmc+u8ixcollector[8]);  
-			pg->_altitude=f;    	
-			//pg->_altitude=12500;     //FORCING A SPECIFIC ALTITUDE for debugging		
-		}
+                float f;
+                // relies on extracting a null terminated string
+                f = (float)atof((char *)prmc + u8ixcollector[8]);
+                pg->_altitude=f;    	
+                //pg->_altitude=12500;     //FORCING A SPECIFIC ALTITUDE for debugging		
+            }
+
+            // FIX! like lat/lon should there be a unique bad negative return code for bad altitude
+            else pg->_altitude= (float) 0.0;    	
+        }
     }
 
     return 0;
