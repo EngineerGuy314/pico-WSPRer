@@ -178,7 +178,7 @@ int main()
     }
     //***************
     // kevin 10_31_24
-	if (!InitPicoClock(PLL_SYS_MHZ)) // Tries to set the system clock generator	
+	if (InitPicoClock(PLL_SYS_MHZ)==-1) // Tries to set the system clock generator	
     {
         // example of bad _Klock_speed is 205
         printf("FAILED with PLL_SYS_MHZ %d trying to reset _Klock_speed (and NVRAM) to default 115", PLL_SYS_MHZ);
