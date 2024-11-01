@@ -111,16 +111,17 @@ int PioDCOInit(PioDco *pdco, int gpio, int cpuclkhz)
     // if we're using high cpu clock to get the 10m, 12m, 15m bands working, back off on the drive strength
     // for power and noise reasons. The high cpu clock likely means a high freq band is being used
     // remember in core1.c we get this for cpuclkhz
+    // remember that MHz is defined as 1000000UL in defines.sh
     // const uint32_t clkhz = PLL_SYS_MHZ * MHz;
     // highest freq first
-    if (cpuclkhz > 200000000) // 200Mhz
+    if (cpuclkhz >= 200000000) // 200Mhz
     {
         gpio_set_drive_strength(pdco->_gpio + 0, GPIO_DRIVE_STRENGTH_2MA);
         gpio_set_drive_strength(pdco->_gpio + 1, GPIO_DRIVE_STRENGTH_2MA);
         gpio_set_drive_strength(pdco->_gpio + 2, GPIO_DRIVE_STRENGTH_2MA);
         gpio_set_drive_strength(pdco->_gpio + 3, GPIO_DRIVE_STRENGTH_2MA);
     }
-    else if (cpuclkhz > 175000000) // 175Mhz
+    else if (cpuclkhz >= 175000000) // 175Mhz
     {
         gpio_set_drive_strength(pdco->_gpio + 0, GPIO_DRIVE_STRENGTH_4MA);
         gpio_set_drive_strength(pdco->_gpio + 1, GPIO_DRIVE_STRENGTH_4MA);

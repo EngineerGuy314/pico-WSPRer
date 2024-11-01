@@ -589,8 +589,8 @@ Disassembly of section .text:
 10000514:	9fffffff 	.word	0x9fffffff
 10000518:	400e0000 	.word	0x400e0000
 1000051c:	a0400000 	.word	0xa0400000
-10000520:	0bebc200 	.word	0x0bebc200
-10000524:	0a6e49c0 	.word	0x0a6e49c0
+10000520:	0bebc1ff 	.word	0x0bebc1ff
+10000524:	0a6e49bf 	.word	0x0a6e49bf
 
 10000528 <PioDCOSetFreq>:
 10000528:	b5f0      	push	{r4, r5, r6, r7, lr}
