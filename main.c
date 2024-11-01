@@ -221,12 +221,15 @@ int main()
 	LED_sequence_start_time = get_absolute_time();
 	if (_Datalog_mode[0]=='1') datalog_loop();
 	
+    absolute_time_t loop_us_start;
+    absolute_time_t loop_us_end;
+    int64_t loop_us_elapsed;
+    int64_t loop_ms_elapsed;
+
+    // copied from loop_us_end while in the loop (at bottom)
+    loop_us_start = get_absolute_time();
     for(;;)   //loop every ~ half second
     {		
-        //****************
-        // kevin
-        uint64_t loop_us_start = get_absolute_time();
-        //****************
 
 		onewire_read();
 		I2C_read();
@@ -321,16 +324,26 @@ int main()
         // kevin 10_31_24 FIX! put in a conditional delay that depends on clock frequency
         // faster cpu clock will want more delay? (won't affect the PIO block doing RF)
         // time the loop
+
+        // static uint64_t to_us_since_boot	( absolute_time_t t	)	
+        // convert an absolute_time_t into a number of microseconds since boot.
+        //****************
+        
+        loop_us_end = get_absolute_time();
+        loop_us_elapsed = absolute_time_diff_us(loop_us_start, loop_us_end);
         // floor divide to get milliseconds
-        uint64_t loop_us_elapsed = absolute_time_diff_us(loop_us_start, get_absolute_time());
-        uint64_t loop_ms_elapsed = loop_us_elapsed / 1000ULL;
+        loop_ms_elapsed = loop_us_elapsed / 1000ULL;
+
 		if (pWB->_txSched.verbosity>=5)
 		{
             if(0==(tick % 20))      //every ~20 secs dumps context.  
             {
-                StampPrintf("main/20: loop_ms_elapsed: %d millisecs loop_us_start: %d microsecs", loop_ms_elapsed, loop_us_start);
+                StampPrintf("main/20: _Band %s loop_ms_elapsed: %d millisecs loop_us_start: %llu microsecs loop_us_end: %llu microsecs", _Band, loop_ms_elapsed, loop_us_start, loop_us_end);
             }
         }	
+
+        // next start is this end
+        loop_us_start = loop_us_end;
         // will always 0 or greater? (unless bug with time)
         /*
         if ((loop_ms_elapsed < 500) && (loop_ms_elapsed > 0)) {
