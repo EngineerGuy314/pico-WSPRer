@@ -185,8 +185,9 @@ int main()
 	    strcpy(_Klock_speed,"115"); 
         write_NVRAM();
         PLL_SYS_MHZ = 115;
+	    InitPicoClock(PLL_SYS_MHZ);	// This should work now
     }
-	InitPicoClock(PLL_SYS_MHZ);	// This should work now
+    // don't have to redo if it passed the first time
     //***************
         
 	InitPicoPins();				// Sets GPIO pins roles and directions and also ADC for voltage and temperature measurements (NVRAM must be read BEFORE this, otherwise dont know how to map IO)
