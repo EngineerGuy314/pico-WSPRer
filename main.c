@@ -322,9 +322,25 @@ int main()
             // but: telemetry will wrap and say 3.00v when decoded.  
             // 4.95v is max no-wrap report for u4b/traquito 3-4.95v range assumption)
 
-            if (pWB->_txSched.verbosity>=1) StampPrintf("Temp: %.1f  Volts: %0.2f  Altitude: %0.0f  Satellite count: %d\n", tempU,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count);		
+            // grab/save grid to see if 2d gps changes..only valid fixes?
+            char pWB_grid6[7] = "------";
+		    // if(WSPRbeaconIsGPSsolutionActive(pWB))
+            // FIX! should I just look at pWB data all the time? doesn't matter if gps fix is realtime good fix?
+            if (DCO._pGPStime->_time_data._u8_is_solution_active)
+            {
+                strncpy( pWB_grid6, pWB->_pu8_locator, 6);
+                pWB_grid6[6] = 0; // null term
+            }
+
+            // FIX! in WSPRbeacon.c...why isn't altitude captured when grid is captured, for the two transmissions. Or is it?
+            // why is this grabbed from gpstime.c (altitude_snapshot) rather than capturing it in pWB at the same time as grid?
+            // this is a live altitude which can change during transmission?
+            if (pWB->_txSched.verbosity>=1) 
+                StampPrintf("Temp: %.1f  Volts: %0.2f  Altitude: %0.0f  Satellite count: %d pWB_grid6: %s\n", tempU,volts,DCO._pGPStime->_altitude, DCO._pGPStime->_time_data.sat_count, pWB_grid6);
+
             //********************
-            if (pWB->_txSched.verbosity>=3) printf("TELEN Vals 1 through 4:  %d %d %d %d\n",telen_values[0],telen_values[1],telen_values[2],telen_values[3]);
+            if (pWB->_txSched.verbosity>=3) 
+                printf("TELEN Vals 1 through 4:  %d %d %d %d\n",telen_values[0],telen_values[1],telen_values[2],telen_values[3]);
         }
 		
 		for (int i=0;i < 10;i++) //orig code had a 900mS pause here. I only pause a total of 500ms, and spend it polling the time to handle LED state
