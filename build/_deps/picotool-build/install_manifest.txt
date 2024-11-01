@@ -1,5 +1,0 @@
-/home/kevin/pico_install/pico-WSPRer/build/_deps/picotool/picotool
-/home/kevin/pico_install/pico-WSPRer/build/_deps/picotool/picotoolTargets.cmake
-/home/kevin/pico_install/pico-WSPRer/build/_deps/picotool/picotoolTargets-release.cmake
-/home/kevin/pico_install/pico-WSPRer/build/_deps/picotool/picotoolConfig.cmake
-/home/kevin/pico_install/pico-WSPRer/build/_deps/picotool/picotoolConfigVersion.cmake
