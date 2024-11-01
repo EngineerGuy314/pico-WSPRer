@@ -1,5 +1,0 @@
-/home/kevin/pico_install/pico-WSPRer/build/pioasm-install/pioasm/pioasm
-/home/kevin/pico_install/pico-WSPRer/build/pioasm-install/pioasm/pioasmTargets.cmake
-/home/kevin/pico_install/pico-WSPRer/build/pioasm-install/pioasm/pioasmTargets-release.cmake
-/home/kevin/pico_install/pico-WSPRer/build/pioasm-install/pioasm/pioasmConfig.cmake
-/home/kevin/pico_install/pico-WSPRer/build/pioasm-install/pioasm/pioasmConfigVersion.cmake
