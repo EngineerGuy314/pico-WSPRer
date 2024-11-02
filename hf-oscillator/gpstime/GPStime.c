@@ -293,19 +293,6 @@ int parse_GPS_data(GPStimeContext *pg)
 void GPStimeDump(const GPStimeData *pd)
 {
     assert_(pd);
-    //************
-    // kevin 10_2_24
-    // was getting dropped chars at 220mhz 57600 baud or 115200 baud
-    // instead of multiple printf's..all in one? 
-    // maybe some buffering issue with multiple back to back ?
-    // still multiple lines
-    // printf("\nGPS solution is active:%u\nGxGGA count:%lu\nGPS Latitude:%lld Longtitude:%lld\nFRQ correction ppb:%lld\n", 
-    //     pd->_u8_is_solution_active,
-    //     pd->_u32_nmea_gprmc_count,
-    //     pd->_i64_lat_100k, pd->_i64_lon_100k,
-    //     pd->_i32_freq_shift_ppb);
-    //************
-
     printf("\nGPS solution is active:%u\n", pd->_u8_is_solution_active);
     printf("GxGGA count:%lu\n", pd->_u32_nmea_gprmc_count);
     printf("GPS Latitude:%lld Longtitude:%lld\n", pd->_i64_lat_100k, pd->_i64_lon_100k);
