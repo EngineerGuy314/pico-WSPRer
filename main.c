@@ -249,11 +249,11 @@ int main()
 		
 		if(WSPRbeaconIsGPSsolutionActive(pWB))
         {
-            const char *pgps_qth = WSPRbeaconGetLastQTHLocator(pWB);  //GET MAIDENHEAD       - this code in original fork wasnt working due to error in WSPRbeacon.c
+            const char *pgps_qth = WSPRbeaconGetLastQTHLocator(pWB);  //GET MAIDENHEAD - this code in original fork wasnt working due to error in WSPRbeacon.c
             if(pgps_qth)
             {
-                strncpy(pWB->_pu8_locator, pgps_qth, 6);     //does full 6 char maidenhead 				
-//		        strcpy(pWB->_pu8_locator,"AA1ABC");          //DEBUGGING TO FORCE LOCATOR VALUE				
+                strncpy(pWB->_pu8_locator, pgps_qth, 6); //does full 6 char maidenhead 				
+                // strcpy(pWB->_pu8_locator,"AA1ABC");   //DEBUGGING TO FORCE LOCATOR VALUE				
             }
         }        
         WSPRbeaconTxScheduler(pWB, YES, GPS_PPS_PIN);   
@@ -261,7 +261,7 @@ int main()
         tick = tick + 1;
 		if (pWB->_txSched.verbosity>=5)
 		{
-            if(0 == (tick % 20))      //every ~20 secs dumps context.  
+            if(0==(tick % 20)) // every ~20 * 0.5 = 10 secs
             {
                 WSPRbeaconDumpContext(pWB);
                 //****************
@@ -309,7 +309,7 @@ int main()
 		//pWB->_txSched.TELEN1_val2=rand() % 153000;	//max values are 630k and 153k
 		
 				
-        if(0==(tick % 10))      //every ~5 sec
+        if(0==(tick % 10)) // every ~10 * 0.5 = 5 secs
         {
             //********************
             // kevin 10_30_24 changed volts to 2 digits of precision (to see 0.05 0.10 0.15 etc)
@@ -365,7 +365,7 @@ int main()
 
 		if (pWB->_txSched.verbosity>=5)
 		{
-            if(0==(tick % 20))      //every ~20 secs dumps context.  
+            if(0==(tick % 20)) // every ~20 * 0.5 = 10 secs
             {
                 StampPrintf("main/20: _Band %s loop_ms_elapsed: %d millisecs loop_us_start: %llu microsecs loop_us_end: %llu microsecs", _Band, loop_ms_elapsed, loop_us_start, loop_us_end);
             }
@@ -908,18 +908,44 @@ void InitPicoPins(void)
 	gpio_for_onewire=ONEWIRE_bus_pin;
 	}
 	
-		else                          //if using custom PCB 
-		{	
-			gpio_for_onewire=ONEWIRE_bus_pin_pcb;
-			GPS_PPS_PIN = GPS_PPS_PIN_pcb;
-			RFOUT_PIN = RFOUT_PIN_pcb;
-			GPS_ENABLE_PIN = GPS_ENABLE_PIN_pcb;
-			gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output (INVERSE LOGIC on custom PCB, so just initialize it, leave it at zero state)	
+    else                          //if using custom PCB 
+    {	
+    gpio_for_onewire=ONEWIRE_bus_pin_pcb;
+    GPS_PPS_PIN = GPS_PPS_PIN_pcb;
+    RFOUT_PIN = RFOUT_PIN_pcb;
+    GPS_ENABLE_PIN = GPS_ENABLE_PIN_pcb;
+    gpio_init(GPS_ENABLE_PIN); gpio_set_dir(GPS_ENABLE_PIN, GPIO_OUT); //initialize GPS enable output (INVERSE LOGIC on custom PCB, so just initialize it, leave it at zero state)	
 
-			gpio_init(6); gpio_set_dir(6, GPIO_OUT);gpio_put(6, 1); //these are required ONLY for v0.1 of custom PCB (ON/OFF and nReset of GPS module, which later are just left disconnected)
-			gpio_init(5); gpio_set_dir(5, GPIO_OUT);gpio_put(5, 1); //these are required ONLY for v0.1 of custom PCB (ON/OFF and nReset of GPS module, which later are just left disconnected)
-
+    gpio_init(6); gpio_set_dir(6, GPIO_OUT);gpio_put(6, 1); //these are required ONLY for v0.1 of custom PCB (ON/OFF and nReset of GPS module, which later are just left disconnected)
+    gpio_init(5); gpio_set_dir(5, GPIO_OUT);gpio_put(5, 1); //these are required ONLY for v0.1 of custom PCB (ON/OFF and nReset of GPS module, which later are just left disconnected)
 	}
+
+    //*****************
+    // kevin 11_1_24
+    // vary the rf out pins drive strength. use special test callsigns to decide
+    // from the pico sdk:
+    // enum gpio_drive_strength { GPIO_DRIVE_STRENGTH_2MA = 0, GPIO_DRIVE_STRENGTH_4MA = 1, GPIO_DRIVE_STRENGTH_8MA = 2, GPIO_DRIVE_STRENGTH_12MA = 3 }
+    enum gpio_drive_strength drive_strength;
+    if (_callsign == "R2MAD")  
+        drive_strength = GPIO_DRIVE_STRENGTH_2MA;
+    else if (_callsign == "R4MAD")  
+        drive_strength = GPIO_DRIVE_STRENGTH_4MA;
+    else if (_callsign == "R8MAD")  
+        drive_strength = GPIO_DRIVE_STRENGTH_8MA;
+    else if (_callsign == "R12MAD")  
+        drive_strength = GPIO_DRIVE_STRENGTH_12MA;
+    // can have alphanumerc in first 3 chars, alpha in last 3?  space can be in last 3? (telemetry doesn't use spac)e
+    else
+        // FIX! just force to 2MA always? (except for test cases above)
+        // drive_strength = GPIO_DRIVE_STRENGTH_2MA;
+        // default drive strength for everything else
+        drive_strength = GPIO_DRIVE_STRENGTH_8MA;
+
+    gpio_set_drive_strength(RFOUT_PIN+0, drive_strength);
+    gpio_set_drive_strength(RFOUT_PIN+1, drive_strength);
+    gpio_set_drive_strength(RFOUT_PIN+2, drive_strength);
+    gpio_set_drive_strength(RFOUT_PIN+3, drive_strength);
+    //*****************
 
 	dallas_setup();  //configures one-wire interface. Enabled pullup on one-wire gpio. must do this here, in case they want to use analog instead, because then pullup needs to be disabled below.
 
