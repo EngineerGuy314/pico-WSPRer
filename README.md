@@ -21,8 +21,7 @@ Only two common, readily available and cheap components are needed to implement:
 
 Instead of using a TCXO, the extremely precise frequency base needed for the WSPR protocol is obtained by continually "disciplining" the standard crystal oscillator onboard the Pico with the PPS pulses from the GPS module. 
 
-The [WIKI](https://github.com/EngineerGuy314/pico-WSPRer/wiki/pico%E2%80%90WSPRer-(aka-Cheapest-Tracker-in-the-World%E2%84%A2)) has more information, instructions and schematics etc.
+The [WIKI](https://github.com/EngineerGuy314/pico-WSPRer/wiki/pico%E2%80%90WSPRer-(aka-Cheapest-Tracker-in-the-World%E2%84%A2)) has more information, instructions and schematics etc. The project also includes gerber files to make a custom PCB version of the tracker, that is lighter but uses the same firmware as the Pi Pico version.
 ![img](https://github.com/user-attachments/assets/a7859439-c92a-4207-a469-404ffbfd11a1)
 ![img2](https://github.com/user-attachments/assets/27b19677-2e85-43d8-b7d3-9103fa6c7361)
-
-
+![v2](https://github.com/user-attachments/assets/7a1ebb38-9a00-44dd-9709-f951d1f45a56)
