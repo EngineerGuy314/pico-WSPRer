@@ -330,7 +330,9 @@ printf("Pico-WSPRer (pico whisper-er) by KC3LBR,  version: %s %s\n\n",__DATE__ ,
 printf("Instructions and source: https://github.com/EngineerGuy314/pico-WSPRer\n");
 printf("Forked from: https://github.com/RPiks/pico-WSPR-tx\n");
 printf("Additional functions, fixes and documention by https://github.com/serych\n\n");
+printf("Multi-band support added by Kevin AD6Z\n\n");	
 printf("Consult https://traquito.github.io/channelmap/ to find an open channel \nand make note of id13 (column headers), minute and lane (frequency)\n");
+printf("---WARNING!--- if using a custom PCB you must change custom-Pcb-mode to 1 !!!!\n");
 printf("\n================================================================================\n");
 
 printf(RED);printf("press anykey to continue");printf(NORMAL); 
