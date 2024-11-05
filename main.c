@@ -63,7 +63,8 @@ uint64_t OW_romcodes[10];
 float onewire_values[10];
 int number_of_onewire_devs;
 OW one_wire_interface;   //onewire interface
-
+static float volts=0;
+static float tempC=0;
 PioDco DCO = {0};
 
 
@@ -191,23 +192,22 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 		const float conversionFactor = 3.3f / (1 << 12);          //read temperature
 		adc_select_input(4);	
 		float adc = (float)adc_read() * conversionFactor;
-		float tempC = 27.0f - (adc - 0.706f) / 0.001721f;		
-		if (tempC < -50) { tempC  += 89; }			          //wrap around for overflow, per U4B protocol
-		if (tempC > 39) { tempC  -= 89; }
+		float tempC_raw = 27.0f - (adc - 0.706f) / 0.001721f;		
+		if (tempC==0) tempC=tempC_raw;  //if tempC still uninitialized, preload its value
+		tempC= (0.99*tempC) + (0.01*tempC_raw);  // implements a 1st order IIR lowpass filter (aka "one-line DSP")
 		pWB->_txSched.temp_in_Celsius=tempC;           
 		DCO._pGPStime->temp_in_Celsius=tempC;
 		
 		adc_select_input(3);  //if setup correctly, ADC3 reads Vsys   // read voltage
-		float volts = 3*(float)adc_read() * conversionFactor;         //times 3 because of onboard voltage divider
-			if (volts < 3.00) { volts += 1.95; }			          //wrap around for overflow, per U4B protocol
-			if (volts > 4.95) { volts -= 1.95; }
+		float volts_raw = 3*(float)adc_read() * conversionFactor;         //times 3 because of onboard voltage divider
+		if (volts==0) volts=volts_raw; //if volts still uninitialized, preload its value
+		volts=	(0.99*volts)+(0.01*volts_raw);	// implements a 1st order IIR lowpass filter (aka "one-line DSP")
 		pWB->_txSched.voltage=volts;
 
  		process_TELEN_data();                          //if needed, this puts data into TELEN variables. You can remove this and set the data yourself as shown in the next two lines
 		//pWB->_txSched.TELEN1_val1=rand() % 630000;   //the values  in TELEN_val1 and TELEN_val2 will get sent as TELEN #1 (extended Telemetry) (a third packet in the U4B protocol)
 		//pWB->_txSched.TELEN1_val2=rand() % 153000;	/ max values are 630k and 153k
-		
-				
+						
 				if(0 == ++tick2 % 10)      //every ~5 sec
 				{
 				if (pWB->_txSched.verbosity>=1) StampPrintf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Satellite count: %d\n", tempU,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count);		
@@ -935,7 +935,7 @@ void datalog_loop()
 				float adc = (float)adc_read() * conversionFactor;
 				float tempf =32+(( 27.0f - (adc - 0.706f) / 0.001721f)*(9.0f/5.0f));						
 				adc_select_input(3);  //if setup correctly, ADC3 reads Vsys   // read voltage
-				float volts = 3*(float)adc_read() * conversionFactor;  
+				volts = 3*(float)adc_read() * conversionFactor;  
 
 				GPS_wait_start_time = get_absolute_time();
 	 
