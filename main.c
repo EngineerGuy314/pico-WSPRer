@@ -111,8 +111,10 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 		DCO._pGPStime->user_setup_menu_active=1;	
 		user_interface();   
 		}
-	InitPicoClock(PLL_SYS_MHZ);			    // Sets the system clock generator	
+		
 	InitPicoPins();				// Sets GPIO pins roles and directions and also ADC for voltage and temperature measurements (NVRAM must be read BEFORE this, otherwise dont know how to map IO)
+	sleep_ms(2);						//when GPS is enabled it makes 3v3 sag momentarily. the rp2040 is less tolerant of this when overclocked. So, changed it to enable GPS, then  pause, and only then enable overclocking (vs other way around as before)
+	InitPicoClock(PLL_SYS_MHZ);			    // Sets the system clock generator	
 	I2C_init();
     printf("\nThe pico-WSPRer version: %s %s\nWSPR beacon init...",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
 

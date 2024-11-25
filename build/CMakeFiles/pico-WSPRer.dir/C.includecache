@@ -20,19 +20,15 @@ pico/stdlib.h
 piodco.h
 -
 
-../WSPRbeacon/thirdparty/WSPRutility.h
+../WSPRbeacon/WSPRbeacon.h
 stdint.h
 -
 string.h
 -
-ctype.h
+TxChannel.h
 -
-nhash.h
-../WSPRbeacon/thirdparty/nhash.h
-
-../WSPRbeacon/thirdparty/maidenhead.h
-
-../WSPRbeacon/thirdparty/nhash.h
+../../debug/logutils.h
+../../debug/logutils.h
 
 ../debug/logutils.h
 
@@ -90,33 +86,93 @@ defines.h
 ../gpstime/GPStime.h
 ../hf-oscillator/gpstime/GPStime.h
 
-/home/rob/pico-WSPRer/WSPRbeacon/WSPRbeacon.c
-WSPRbeacon.h
-/home/rob/pico-WSPRer/WSPRbeacon/WSPRbeacon.h
-WSPRutility.h
--
-maidenhead.h
--
-math.h
--
-pico/sleep.h
-/home/rob/pico-WSPRer/WSPRbeacon/pico/sleep.h
-hardware/rtc.h
-/home/rob/pico-WSPRer/WSPRbeacon/hardware/rtc.h
-hardware/watchdog.h
-/home/rob/pico-WSPRer/WSPRbeacon/hardware/watchdog.h
-pico/multicore.h
-/home/rob/pico-WSPRer/WSPRbeacon/pico/multicore.h
+../protos.h
 
-/home/rob/pico-WSPRer/WSPRbeacon/WSPRbeacon.h
-stdint.h
+../utilities.h
+stdio.h
 -
 string.h
 -
-TxChannel.h
+ctype.h
 -
-../../debug/logutils.h
-/home/rob/debug/logutils.h
+defines.h
+-
+pico/stdlib.h
+../pico/stdlib.h
+hardware/clocks.h
+../hardware/clocks.h
+hardware/gpio.h
+../hardware/gpio.h
+hardware/adc.h
+../hardware/adc.h
+
+/home/rob/pico-WSPRer/debug/logutils.h
+
+/home/rob/pico-WSPRer/hf-oscillator/lib/assert.h
+stdbool.h
+-
+pico/stdlib.h
+/home/rob/pico-WSPRer/hf-oscillator/lib/pico/stdlib.h
+
+/home/rob/pico-WSPRer/main.c
+string.h
+-
+stdio.h
+-
+stdlib.h
+-
+ctype.h
+-
+pico/multicore.h
+/home/rob/pico-WSPRer/pico/multicore.h
+hf-oscillator/lib/assert.h
+/home/rob/pico-WSPRer/hf-oscillator/lib/assert.h
+hardware/flash.h
+/home/rob/pico-WSPRer/hardware/flash.h
+WSPRbeacon.h
+-
+defines.h
+-
+piodco.h
+-
+debug/logutils.h
+/home/rob/pico-WSPRer/debug/logutils.h
+protos.h
+-
+math.h
+-
+utilities.h
+-
+pico/stdlib.h
+/home/rob/pico-WSPRer/pico/stdlib.h
+hardware/watchdog.h
+/home/rob/pico-WSPRer/hardware/watchdog.h
+hardware/uart.h
+/home/rob/pico-WSPRer/hardware/uart.h
+hardware/i2c.h
+/home/rob/pico-WSPRer/hardware/i2c.h
+pico/sleep.h
+/home/rob/pico-WSPRer/pico/sleep.h
+hardware/rtc.h
+/home/rob/pico-WSPRer/hardware/rtc.h
+onewire/onewire_library.h
+/home/rob/pico-WSPRer/onewire/onewire_library.h
+onewire/ow_rom.h
+/home/rob/pico-WSPRer/onewire/ow_rom.h
+onewire/ds18b20.h
+/home/rob/pico-WSPRer/onewire/ds18b20.h
+
+/home/rob/pico-WSPRer/onewire/ds18b20.h
+
+/home/rob/pico-WSPRer/onewire/onewire_library.h
+hardware/pio.h
+/home/rob/pico-WSPRer/onewire/hardware/pio.h
+hardware/clocks.h
+/home/rob/pico-WSPRer/onewire/hardware/clocks.h
+onewire_library.pio.h
+/home/rob/pico-WSPRer/onewire/onewire_library.pio.h
+
+/home/rob/pico-WSPRer/onewire/ow_rom.h
 
 /home/rob/pico-extras/src/rp2_common/pico_sleep/include/pico/sleep.h
 pico.h
@@ -216,6 +272,8 @@ hardware/timer.h
 
 /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/platform_defs.h
 
+/home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/adc.h
+
 /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/addressmap.h
 hardware/platform_defs.h
 /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/hardware/platform_defs.h
@@ -223,6 +281,8 @@ hardware/platform_defs.h
 /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/clocks.h
 
 /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/dreq.h
+
+/home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/i2c.h
 
 /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/intctrl.h
 
@@ -246,11 +306,23 @@ hardware/platform_defs.h
 
 /home/rob/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/watchdog.h
 
+/home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/adc.h
+hardware/address_mapped.h
+/home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/hardware/address_mapped.h
+hardware/regs/adc.h
+/home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/hardware/regs/adc.h
+
 /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/clocks.h
 hardware/address_mapped.h
 /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/hardware/address_mapped.h
 hardware/regs/clocks.h
 /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/hardware/regs/clocks.h
+
+/home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/i2c.h
+hardware/address_mapped.h
+/home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/hardware/address_mapped.h
+hardware/regs/i2c.h
+/home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/hardware/regs/i2c.h
 
 /home/rob/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/interp.h
 hardware/address_mapped.h
@@ -356,6 +428,14 @@ hardware/structs/scb.h
 
 /home/rob/pico-sdk/src/rp2_common/cmsis/include/cmsis/rename_exceptions.h
 
+/home/rob/pico-sdk/src/rp2_common/hardware_adc/include/hardware/adc.h
+pico.h
+/home/rob/pico-sdk/src/rp2_common/hardware_adc/include/hardware/pico.h
+hardware/structs/adc.h
+/home/rob/pico-sdk/src/rp2_common/hardware_adc/include/hardware/hardware/structs/adc.h
+hardware/gpio.h
+/home/rob/pico-sdk/src/rp2_common/hardware_adc/include/hardware/hardware/gpio.h
+
 /home/rob/pico-sdk/src/rp2_common/hardware_base/include/hardware/address_mapped.h
 pico.h
 /home/rob/pico-sdk/src/rp2_common/hardware_base/include/hardware/pico.h
@@ -369,6 +449,10 @@ pico.h
 /home/rob/pico-sdk/src/rp2_common/hardware_clocks/include/hardware/pico.h
 hardware/structs/clocks.h
 /home/rob/pico-sdk/src/rp2_common/hardware_clocks/include/hardware/hardware/structs/clocks.h
+
+/home/rob/pico-sdk/src/rp2_common/hardware_flash/include/hardware/flash.h
+pico.h
+/home/rob/pico-sdk/src/rp2_common/hardware_flash/include/hardware/pico.h
 
 /home/rob/pico-sdk/src/rp2_common/hardware_gpio/include/hardware/gpio.h
 pico.h
@@ -387,6 +471,16 @@ hardware/gpio_coproc.h
 /home/rob/pico-sdk/src/rp2_common/hardware_gpio/include/hardware/gpio_coproc.h
 pico.h
 /home/rob/pico-sdk/src/rp2_common/hardware_gpio/include/hardware/pico.h
+
+/home/rob/pico-sdk/src/rp2_common/hardware_i2c/include/hardware/i2c.h
+pico.h
+/home/rob/pico-sdk/src/rp2_common/hardware_i2c/include/hardware/pico.h
+pico/time.h
+/home/rob/pico-sdk/src/rp2_common/hardware_i2c/include/hardware/pico/time.h
+hardware/structs/i2c.h
+/home/rob/pico-sdk/src/rp2_common/hardware_i2c/include/hardware/hardware/structs/i2c.h
+hardware/regs/dreq.h
+/home/rob/pico-sdk/src/rp2_common/hardware_i2c/include/hardware/hardware/regs/dreq.h
 
 /home/rob/pico-sdk/src/rp2_common/hardware_irq/include/hardware/irq.h
 pico.h
@@ -507,4 +601,8 @@ generated/pico_base/pico/config_autogen.h
 -
 
 generated/pico_base/pico/version.h
+
+onewire_library.pio.h
+hardware/pio.h
+hardware/pio.h
 
