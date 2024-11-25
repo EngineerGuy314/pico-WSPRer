@@ -29,6 +29,7 @@ static absolute_time_t time_of_last_serial_packet;
 static int current_minute;
 static int oneshots[10];
 static int schedule[10];  //array index is minute, (odd minutes are unused) value is -1 for NONE or 1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd, and #5 for extended TELEN
+static int schedule_band[10];  //holds the band number (10, 20, 17, etc...) that will be used for that timeslot
 static int at_least_one_slot_has_elapsed;
 static int at_least_one_first_packet_sent=0;
 static int at_least_one_GPS_fixed_has_been_obtained;
@@ -43,6 +44,10 @@ static uint32_t OLD_GPS_active_status;
 const int8_t valid_dbm[19] =
     {0, 3, 7, 10, 13, 17, 20, 23, 27, 30, 33, 37, 40,
      43, 47, 50, 53, 57, 60};  
+extern char _band_hop[2];         //"extern" is a sneaky and lazy way to get access to global variables in main.c.  shhhh.. don't tell the "professional"  programmers i used it...
+extern uint32_t XMIT_FREQUENCY;
+extern uint32_t XMIT_FREQUENCY_10_METER;
+
 
 static void sleep_callback(void) {
     printf("RTC woke us up\n");
@@ -73,10 +78,11 @@ WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare
     p->_u8_txpower = txpow_dbm;
     p->_pTX = TxChannelInit(682667, 0, pdco);
     assert_(p->_pTX);
-    p->_pTX->_u32_dialfreqhz = dial_freq_hz + shift_freq_hz;
+    p->_pTX->_u32_dialfreqhz = dial_freq_hz + shift_freq_hz;  //THIS GETS OVERWRITTEN LATER ANYWAY
     p->_pTX->_i_tx_gpio = gpio;
  	srand(3333);
 	at_least_one_slot_has_elapsed=0;OLD_GPS_active_status=0;
+	for (int i=0;i < 10;i++) schedule_band[i]=20;  // by default, broadcast on 20 meter band
 	for (int i=0;i < 10;i++) schedule[i]=-1;
 	tester=0;
 	p->_txSched.minutes_since_boot=0;
@@ -101,6 +107,13 @@ else                                       //if we get here, U4B is enabled
 	{
 		schedule[start_minute]=1;          //do 1st U4b packet at selected minute 
 		schedule[(start_minute+2)%10]=2;   //do second U4B packet 2 minutes later
+			if (_band_hop[0]=='1')         //for secret band Hopping, you will do same channel on 10M as you do on 20M, even though its same channel number, the minutes are conveniently offset
+			{
+				schedule[(start_minute+6)%10]=1;          //do 1st U4b packet at selected minute 
+				schedule[(start_minute+8)%10]=2;   //do second U4B packet 2 minutes later
+				schedule_band[(start_minute+6)%10]=10;   //switch to 10 meter frequencies for these slots
+				schedule_band[(start_minute+8)%10]=10;   //switch to 10 meter frequencies for these slots			
+			}
 		if (TELEN_config[0]!='-') schedule[(start_minute+4)%10]=5;  //enable TELEN #1
 		if (TELEN_config[2]!='-') schedule[(start_minute+6)%10]=6;   //enable TELEN #2 (if someone tried to run Zachtek and Both TELENs, start_minute+6)%10 will get overwritten below anywauy)
 
@@ -206,13 +219,18 @@ else
 		{
 			oneshots[current_minute]=1;	
 			if (pctx->_txSched.verbosity>=3) printf("\nStarting TX. current minute: %i Schedule Value (packet type): %i\n",current_minute,schedule[current_minute]);
+			if (schedule_band[current_minute] ==10)
+				pctx->_pTX->_u32_dialfreqhz = XMIT_FREQUENCY_10_METER;
+				else
+				pctx->_pTX->_u32_dialfreqhz = XMIT_FREQUENCY;
+
 			PioDCOStart(pctx->_pTX->_p_oscillator); 
 			transmitter_status=1;
 			WSPRbeaconCreatePacket(pctx, schedule[current_minute] ); //the schedule determines packet type (1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd)
 			sleep_ms(50);
 			WSPRbeaconSendPacket(pctx); 
 			//if (schedule[current_minute]==2) {U4B_second_packet_has_started=1;U4B_second_packet_has_started_at_minute=current_minute;}
-			if (schedule[current_minute]==2) {U4B_second_packet_has_started=1;U4B_second_packet_has_started_at_minute=(current_minute+2)%10;} //wuz, the plus 2 at end is to allow 1 TELEN in low power mode
+			if (schedule[current_minute]==2) {U4B_second_packet_has_started=1;U4B_second_packet_has_started_at_minute=(current_minute+2)%10;} // the plus 2 at end is to allow 1 TELEN in low power mode
 		}
 
 /*				1 - No valid GPS, not transmitting

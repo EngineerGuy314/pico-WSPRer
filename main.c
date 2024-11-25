@@ -47,6 +47,8 @@ char _battery_mode[2];
 char _Klock_speed[4];         
 char _Datalog_mode[2]; 
 char _U4B_chan[4];
+char _band_hop[2];
+
 
 static uint32_t telen_values[4];  //consolodate in an array to make coding easier
 static absolute_time_t LED_sequence_start_time;
@@ -66,6 +68,9 @@ OW one_wire_interface;   //onewire interface
 static float volts=0;
 static float tempC=0;
 PioDco DCO = {0};
+uint32_t XMIT_FREQUENCY;
+uint32_t XMIT_FREQUENCY_10_METER;
+
 
 
 int main()
@@ -118,13 +123,12 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 	I2C_init();
     printf("\nThe pico-WSPRer version: %s %s\nWSPR beacon init...",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
 
-	uint32_t XMIT_FREQUENCY;
 	switch(_lane[0])                                     //following lines set lane frequencies for 20M u4b operation. The center freuency for Zactkep (wspr 3) xmitions is hard set in WSPRBeacon.c to 14097100UL
 		{
-			case '1':XMIT_FREQUENCY=14097020UL;break;
-			case '2':XMIT_FREQUENCY=14097060UL;break;
-			case '3':XMIT_FREQUENCY=14097140UL;break;
-			case '4':XMIT_FREQUENCY=14097180UL;break;
+			case '1':XMIT_FREQUENCY=14097020UL;XMIT_FREQUENCY_10_METER=28126020UL;break;
+			case '2':XMIT_FREQUENCY=14097060UL;XMIT_FREQUENCY_10_METER=28126060UL;break;
+			case '3':XMIT_FREQUENCY=14097140UL;XMIT_FREQUENCY_10_METER=28126140UL;break;
+			case '4':XMIT_FREQUENCY=14097180UL;XMIT_FREQUENCY_10_METER=28126180UL;break;
 			default: XMIT_FREQUENCY=14097100UL;        //in case an invalid lane was read from EEPROM
 		}	
    
@@ -394,7 +398,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
     for(;;)
 	{	
 																 printf(UNDERLINE_ON);printf(BRIGHT);
-		printf("\nEnter the command (X,C,S,U,[I,M,L],V,P,T,B,D,K,F):");printf(UNDERLINE_OFF);printf(NORMAL);	
+		printf("\nEnter the command (X,C,S,U,[I,M,L],V,P,T,B,D,K,F,H):");printf(UNDERLINE_OFF);printf(NORMAL);	
 		c=getchar_timeout_us(60000000);		   //just in case user setup menu was enterred during flight, this will reboot after 60 secs
 		printf("%c\n", c);
 		if (c==PICO_ERROR_TIMEOUT) {printf(CLEAR_SCREEN);printf("\n\n TIMEOUT WAITING FOR INPUT, REBOOTING FOR YOUR OWN GOOD!\n");sleep_ms(100);watchdog_enable(100, 1);for(;;)	{}}
@@ -412,6 +416,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 			case 'V':get_user_input("Verbosity level (0-9): ", _verbosity, sizeof(_verbosity)); write_NVRAM(); break;
 			/*case 'O':get_user_input("Oscillator off (0,1): ", _oscillator, sizeof(_oscillator)); write_NVRAM(); break;*/
 			case 'P':get_user_input("custom Pcb mode (0,1): ", _custom_PCB, sizeof(_custom_PCB)); write_NVRAM(); break;
+			case 'H':get_user_input("band Hop mode (0,1): ", _band_hop, sizeof(_band_hop)); write_NVRAM(); break;
 			case 'T':show_TELEN_msg();get_user_input("TELEN config: ", _TELEN_config, sizeof(_TELEN_config)); convertToUpperCase(_TELEN_config); write_NVRAM(); break;
 			case 'B':get_user_input("Battery mode (0,1): ", _battery_mode, sizeof(_battery_mode)); write_NVRAM(); break;
 			case 'D':get_user_input("Data-log mode (0,1,Wipe,Dump): ", _Datalog_mode, sizeof(_Datalog_mode));
@@ -425,6 +430,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 						break;
 
 			case 'K':get_user_input("Klock speed (default 115): ", _Klock_speed, sizeof(_Klock_speed)); write_NVRAM(); break;
+			
 			case 'F':
 				printf("Fixed Frequency output (antenna tuning mode). Enter frequency (for example 14.097) or 0 for exit.\n\t");
 				char _tuning_freq[7];
@@ -474,7 +480,7 @@ strncpy(_Klock_speed, flash_target_contents+19, 3); _Klock_speed[3]=0; //null te
 PLL_SYS_MHZ =atoi(_Klock_speed); 
 strncpy(_Datalog_mode, flash_target_contents+22, 1);
 strncpy(_U4B_chan, flash_target_contents+23, 3); _U4B_chan[3]=0; //null terminate cause later will use atoi
-
+strncpy(_band_hop, flash_target_contents+26, 1);
  
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -500,6 +506,7 @@ void write_NVRAM(void)
 	strncpy(data_chunk+19,_Klock_speed, 3);
 	strncpy(data_chunk+22,_Datalog_mode, 1);
 	strncpy(data_chunk+23,_U4B_chan, 3);
+	strncpy(data_chunk+26,_band_hop, 1);
 	
 
 	uint32_t ints = save_and_disable_interrupts();
@@ -530,7 +537,7 @@ void check_data_validity_and_set_defaults(void)
 	if ( (atoi(_Klock_speed)<100) || (atoi(_Klock_speed)>300)) {strcpy(_Klock_speed,"115"); write_NVRAM();} 
 	if ( (atoi(_U4B_chan)<0) || (atoi(_U4B_chan)>599)) {strcpy(_U4B_chan,"599"); write_NVRAM();} 
 	if ( (_Datalog_mode[0]!='0') && (_Datalog_mode[0]!='1') && (_Datalog_mode[0]!='D') && (_Datalog_mode[0]!='W')) {_Datalog_mode[0]='0'; write_NVRAM();}
-
+	if ( (_band_hop[0]<'0') || (_band_hop[0]>'1')) {_band_hop[0]='0'; write_NVRAM();} //
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -555,6 +562,7 @@ int result=1;
 	if ( (atoi(_Klock_speed)<100) || (atoi(_Klock_speed)>300)) {result=-1;} 	
 	if ( (_Datalog_mode[0]!='0') && (_Datalog_mode[0]!='1')) {result=-1;}
 	if ( (atoi(_U4B_chan)<0) || (atoi(_U4B_chan)>599)) {result=-1;} 
+	if ( (_band_hop[0]<'0') || (_band_hop[0]>'1')) {result=-1;} 
 
 return result;
 }
@@ -580,7 +588,8 @@ printf("custom Pcb IO mappings:%s\n\t",_custom_PCB);
 printf("TELEN config:%s\n\t",_TELEN_config);
 printf("Klock speed:%sMhz  (default: 133)\n\t",_Klock_speed);
 printf("Datalog mode:%s\n\t",_Datalog_mode);
-printf("Battery (low power) mode:%s\n\n",_battery_mode);
+printf("Battery (low power) mode:%s\n\t",_battery_mode);
+printf("secret band Hopping mode:%s\n\n",_band_hop);
 
 							printf(UNDERLINE_ON);printf(BRIGHT);
 printf("VALID commands: ");printf(UNDERLINE_OFF);printf(NORMAL);
@@ -597,8 +606,8 @@ printf("T: TELEN config\n\t");
 printf("K: Klock speed  (default: 133)\n\t");
 printf("D: Datalog mode (0,1,(W)ipe memory, (D)ump memory) see wiki\n\t");
 printf("B: Battery (low power) mode \n\t");
-printf("F: Frequency output (antenna tuning mode)\n\n");
-
+printf("F: Frequency output (antenna tuning mode)\n\t");
+printf("H: secret band Hopping mode \n\n");
 
 }
 /**
