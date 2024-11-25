@@ -8,7 +8,7 @@ PLEASE SEE THE [WIKI](https://github.com/EngineerGuy314/pico-WSPRer/wiki/pico%E2
 ----------
 click [here](https://github.com/EngineerGuy314/pico-WSPRer/raw/main/build/pico-WSPRer.uf2) to download the pre-compiled firmware (original version)
 
-click [here](https://github.com/EngineerGuy314/pico-WSPRer/raw/multi-band/build/pico-WSPRer.uf2) to download the pre-compiled firmware of the new, multi-band version.
+click [here](https://github.com/EngineerGuy314/pico-WSPRer/raw/multi-band/build/pico-WSPRer.uf2) to download the pre-compiled firmware of the new, multi-band version. (see wiki for info for Overclocking if using bands other than 20M)
 
 Summary
 -------
