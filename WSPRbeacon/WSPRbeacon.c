@@ -357,7 +357,7 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-6.  1: 
         double voltage = pctx->_txSched.voltage;
        // map input presentations onto input radix (numbers within their stated range of possibilities)
         uint8_t tempCNum      = (uint8_t)(tempC - -50) % 90;
-        uint8_t voltageNum    = ((uint8_t)round(((voltage * 100) - 300) / 5) + 20) % 40;
+        uint8_t voltageNum    = ((int16_t)round(((voltage * 100) - 300) / 5) + 20) % 40;
  
 		uint8_t speedKnotsNum = pctx->_pTX->_p_oscillator->_pGPStime->_time_data.sat_count;   //encoding # of sattelites into knots
         uint8_t gpsValidNum   = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;
