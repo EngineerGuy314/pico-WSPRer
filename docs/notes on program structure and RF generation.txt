@@ -1,0 +1,33 @@
+main data structure: 
+WSPRbeaconContext						      (callsign, locator)
+	->TxChannelContext *_pTX;                    (also _pbyte_buffer[256] and dial freq)
+		-> PioDco *_p_oscillator           {i think only this needed for core oscillator)
+			-> PIO _pio;                        (the actuall PIO instance)  
+			->GPStimeContext *_pGPStime;        (buffer for parsing GPS..)
+				-> GPStimeData _time_data;    (lat/lon, _i32_freq_shift_ppb..)
+	->WSPRbeaconSchedule _txSched                 (not much, originally had simple slot info)
+
+***************************************************************
+Main.c uses multicore_launch_core1 (from SDK) to launch Core1Entry (a routine in core1.c)
+
+core1.c
+	->Core1Entry calls PioDCOInit piodco.c to load the dco2.pio assembly language file into the 0th PIO (the Cmake file lists the actual dco2.pio filename, inside that file meta data gives it a logical name by which t is invoked) 
+	->Core1Entry uses the PioDco struct to call loop PioDCOWorker2 (in /piodco.c, as RAM)
+piodco.c		
+	->loops PioDCOWorker2 
+		-- uses pio_sm_put_blocking (SDK) to shovel loop_count to state machine
+	>PioDCOSetFreq sets si32precise_cycles to a (<<24 scaled up) value of required loops, based on clock speed and required frequ
+
+*******************************************
+si32precise_cycles= the exact theoretical number of cycle to loop, scaled by 2^24 )  (if directly unscaled its non-integer)
+i32wc= the actual number of times to iterate the assembly language loop
+i32acc_error= the number of cycles (scaled by 2^24) that were dropped/added on last go. these will get added to the next try.
+**********************************************
+TxChannel.c, 
+	->an ISR (triggerd each WSPR bit cycle) calls PioDCOSetFreq based on dial-freq, modulated with WSPR step-size (~3Hz), and drift correction (_i32_freq_shift_ppb) via PioDCOGetFreqShiftMilliHertz in piodco.c  
+
+*********************
+GPStime.c
+	->GPStimeInit loads my timer_PIO.pio assembly language file into the 2nd PIO (referenced in MakeFile pico_generate_pio_header(pico-WSPRer ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/gpstime/timer_PIO.pio))
+	->Ram based GPStimePPScallback (ISR of the PPS input pin) reads timing value from timer-PIO.pio to create _i32_freq_shift_ppb (frequ correction of onboard xtal)
+     gets used by 
