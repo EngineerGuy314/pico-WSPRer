@@ -11,16 +11,16 @@ WSPRbeaconContext						      (callsign, locator)
 Main.c uses multicore_launch_core1 (from SDK) to launch Core1Entry (a routine in core1.c)
 
 core1.c
-	->Core1Entry calls PioDCOInit piodco.c to load the dco2.pio assembly language file into the 0th PIO (the Cmake file lists the actual dco2.pio filename, inside that file meta data gives it a logical name by which t is invoked) 
+	->Core1Entry calls PioDCOInit piodco.c to load the dco2.pio assembly language file into the 0th PIO (the Cmake file lists the actual 		dco2.pio filename, inside that file meta data gives it a logical name by which t is invoked) 
 	->Core1Entry uses the PioDco struct to call loop PioDCOWorker2 (in /piodco.c, as RAM)
-piodco.c		
+		piodco.c		
 	->loops PioDCOWorker2 
 		-- uses pio_sm_put_blocking (SDK) to shovel loop_count to state machine
 	>PioDCOSetFreq sets si32precise_cycles to a (<<24 scaled up) value of required loops, based on clock speed and required frequ
 
 *******************************************
 si32precise_cycles= the exact theoretical number of cycle to loop, scaled by 2^24 )  (if directly unscaled its non-integer)
-i32wc= the actual number of times to iterate the assembly language loop
+i32wc= the actual number of extra operations per pulse period in the assembly language loop
 i32acc_error= the number of cycles (scaled by 2^24) that were dropped/added on last go. these will get added to the next try.
 **********************************************
 TxChannel.c, 
@@ -30,4 +30,8 @@ TxChannel.c,
 GPStime.c
 	->GPStimeInit loads my timer_PIO.pio assembly language file into the 2nd PIO (referenced in MakeFile pico_generate_pio_header(pico-WSPRer ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/gpstime/timer_PIO.pio))
 	->Ram based GPStimePPScallback (ISR of the PPS input pin) reads timing value from timer-PIO.pio to create _i32_freq_shift_ppb (frequ correction of onboard xtal)
-     gets used by 
+
+*****************************
+dco2.pio
+	- takes a minimum of 8 instructions per output pulse. That is why maximum output frequency is 1/8 of system Klock frequency!
+	- as value of i32wc goes up, the instructions execed per output pulse goes up: 2 X i32wc + 8
