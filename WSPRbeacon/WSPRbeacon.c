@@ -133,19 +133,17 @@ else                                       //if we get here, U4B is enabled
 //*****************************************************************************************************************************
 
 
-
-
 void telem_add_values_to_Big64(WSPRbeaconContext *c)  //get uint32_t val, uint32_t range,  from c
 {											//cycles through value array and for non-zero ranges and packs  'em into Big64
 uint64_t val=0;
 
 int max_len = sizeof(c->telem_vals_and_ranges) / sizeof(c->telem_vals_and_ranges[0]);
 
-for (int i = max_len-1; i > 0; i--) 
-	if (c->telem_vals_and_ranges->range>0)
+for (int i = max_len-1; i >= 0; i--) 
+	if (c->telem_vals_and_ranges[i].range>0)
 	{
-		val *= c->telem_vals_and_ranges->range;
-		val += c->telem_vals_and_ranges->value;	
+		val *= c->telem_vals_and_ranges[i].range;
+		val += c->telem_vals_and_ranges[i].value;	
 	}
 
 c->Big64=val;
@@ -216,7 +214,7 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose, int GPS_PPS_PIN)
 /*************               BELOW FOR TESTing wuz hook *********************************/
 /*                           Code to be Moved to WSPRcreatePacket uneer 4/6 are        */
 
-	pctx->telem_vals_and_ranges[0]=(v_and_r){1,8};
+	pctx->telem_vals_and_ranges[0]=(v_and_r){2,8};
 	pctx->telem_vals_and_ranges[1]=(v_and_r){2,8};
 	pctx->telem_vals_and_ranges[2]=(v_and_r){3,8};
 	pctx->telem_vals_and_ranges[3]=(v_and_r){4,8};
