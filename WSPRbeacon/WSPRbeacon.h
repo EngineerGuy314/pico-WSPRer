@@ -78,6 +78,13 @@ typedef struct
 
 } WSPRbeaconSchedule;
 
+
+typedef struct
+{
+	uint32_t value;
+	uint32_t range;
+} v_and_r;
+
 typedef struct
 {
     uint8_t _pu8_callsign[12];
@@ -86,6 +93,13 @@ typedef struct
     uint8_t _pu8_outbuf[256];
     TxChannelContext *_pTX;
     WSPRbeaconSchedule _txSched;
+	char telem_callsign[7];
+	char telem_4_char_loc[5];
+	uint8_t telem_power;	
+	char telem_chars[8];
+	v_and_r telem_vals_and_ranges[10];        
+	uint64_t Big64;
+	
 } WSPRbeaconContext;
 
 
@@ -103,5 +117,7 @@ char *WSPRbeaconGetLastQTHLocator(const WSPRbeaconContext *pctx);
 uint8_t WSPRbeaconIsGPSsolutionActive(const WSPRbeaconContext *pctx);
 void encode_telen(uint32_t telen_val1,uint32_t telen_val2,char * telen_chars,uint8_t * telen_power, uint8_t packet_type);  
 void encode_telen2(uint32_t telen_val1,uint32_t telen_val2,char * telen_chars,uint8_t * telen_power, uint8_t packet_type);  
-
+void telem_add_values_to_Big64(WSPRbeaconContext *c); 
+void telem_add_header( int slot, WSPRbeaconContext *c);
+void telem_convert_Big64_to_GridLocPower(WSPRbeaconContext *c);
 #endif

@@ -126,9 +126,85 @@ else                                       //if we get here, U4B is enabled
 	at_least_one_GPS_fixed_has_been_obtained=0;
 	transmitter_status=0;
 
+
+
  return p;
 }
 //*****************************************************************************************************************************
+
+
+
+
+void telem_add_values_to_Big64(WSPRbeaconContext *c)  //get uint32_t val, uint32_t range,  from c
+{											//cycles through value array and for non-zero ranges and packs  'em into Big64
+uint64_t val=0;
+
+int max_len = sizeof(c->telem_vals_and_ranges) / sizeof(c->telem_vals_and_ranges[0]);
+
+for (int i = max_len-1; i > 0; i--) 
+	if (c->telem_vals_and_ranges->range>0)
+	{
+		val *= c->telem_vals_and_ranges->range;
+		val += c->telem_vals_and_ranges->value;	
+	}
+
+c->Big64=val;
+}
+
+/////****************************************************************************************
+void telem_add_header( int slot, WSPRbeaconContext *c)
+{
+uint64_t val=c->Big64;
+
+val *=5; 	val+=slot;	 //slot 
+val *=16; 	val+=0;      //type 0=custom
+val *=4; 	val+=0;      //reserved bits
+val *=2; 	val+=0;      //specify extended telemetry      
+
+c->Big64=val;
+}
+
+/////****************************************************************************************
+void telem_convert_Big64_to_GridLocPower(WSPRbeaconContext *c)
+{
+ //does the unpacking of Big64 based on radix's of char destinations
+
+		uint64_t val  = c->Big64;
+
+        uint8_t powerVal = val % 19; val = val / 19;
+        uint8_t g4Val    = val % 10; val = val / 10;
+        uint8_t g3Val    = val % 10; val = val / 10;
+        uint8_t g2Val    = val % 18; val = val / 18;
+        uint8_t g1Val    = val % 18; val = val / 18;
+        char g1 = 'A' + g1Val;
+        char g2 = 'A' + g2Val;
+        char g3 = '0' + g3Val;
+        char g4 = '0' + g4Val;
+		c->telem_4_char_loc[0] = g1; 
+		c->telem_4_char_loc[1] = g2;
+		c->telem_4_char_loc[2] = g3;
+		c->telem_4_char_loc[3] = g4;
+		c->telem_4_char_loc[4] = 0;
+        uint8_t id6Val = val % 26; val = val / 26;
+        uint8_t id5Val = val % 26; val = val / 26;
+        uint8_t id4Val = val % 26; val = val / 26;
+        uint8_t id2Val = val % 36; val = val / 36;
+        char id2 = EncodeBase36(id2Val);
+        char id4 = 'A' + id4Val;
+        char id5 = 'A' + id5Val;
+        char id6 = 'A' + id6Val;
+        c->telem_callsign[0] =  c->_txSched.id13[0];   
+		c->telem_callsign[1] =  id2;
+		c->telem_callsign[2] =  c->_txSched.id13[1];
+		c->telem_callsign[3] =  id4;
+		c->telem_callsign[4] =  id5;
+		c->telem_callsign[5] =  id6;
+		c->telem_callsign[6] =  0;
+		c->telem_power=valid_dbm[powerVal];
+
+}
+
+
 //******************************************************************************************************************************
 /// @brief Arranges WSPR sending in accordance with pre-defined schedule.
 /// @brief It works only if GPS receiver available (for now).
@@ -136,9 +212,26 @@ else                                       //if we get here, U4B is enabled
 /// @return 0 if OK, -1 if NO GPS received available
 int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose, int GPS_PPS_PIN)   // called every half second from Main.c
 {
-	assert_(pctx);                 	
-	uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;  //on if there ever were any serial data received from a GPS unit
-    const uint32_t is_GPS_active = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;  //on if valid 3d fix
+
+/*************               BELOW FOR TESTing wuz hook *********************************/
+/*                           Code to be Moved to WSPRcreatePacket uneer 4/6 are        */
+
+	pctx->telem_vals_and_ranges[0]=(v_and_r){1,8};
+	pctx->telem_vals_and_ranges[1]=(v_and_r){2,8};
+	pctx->telem_vals_and_ranges[2]=(v_and_r){3,8};
+	pctx->telem_vals_and_ranges[3]=(v_and_r){4,8};
+	pctx->telem_vals_and_ranges[4]=(v_and_r){1,2};
+	pctx->telem_vals_and_ranges[5]=(v_and_r){35,50};
+
+
+	telem_add_values_to_Big64(pctx);   //cycles through value array and for non-zero ranges and packs  'em into Big64
+	telem_add_header( 4, pctx);   //slot #
+	telem_convert_Big64_to_GridLocPower(pctx); //does the unpacking of Big64 based on radix's of char destinations
+	wspr_encode(pctx->telem_callsign, pctx->telem_4_char_loc, pctx->telem_power, pctx->_pu8_outbuf, pctx->_txSched.verbosity);   // look in WSPRutility.c for wspr_encode
+
+
+
+
 
    /*for(;;)   //for testing
     {
@@ -151,6 +244,9 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose, int GPS_PPS_PIN)
 	WSPRbeaconCreatePacket(pctx, 6);
 	sleep_ms(2000); 
 	}*/
+                	
+	uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;  //on if there ever were any serial data received from a GPS unit
+    const uint32_t is_GPS_active = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;  //on if valid 3d fix
 
 	pctx->_txSched.minutes_since_boot=floor((to_ms_since_boot(get_absolute_time()) / (uint32_t)60000) );
 
@@ -259,7 +355,7 @@ else
 			rtc_set_datetime(&t);
 			uart_default_tx_wait_blocking();
 			datetime_t alarm_time = t;
-			alarm_time.min += (46-3);	//sleep for 55 minutes. 46 ~= 55 mins X (115Mhz/133Mhz)  //wuz, the -3 is to allow 1 TELEN in low power mode
+			alarm_time.min += (46-3);	//sleep for 55 minutes. 46 ~= 55 mins X (115Mhz/133Mhz)  // the -3 is to allow 1 TELEN in low power mode
 			gpio_set_irq_enabled(GPS_PPS_PIN, GPIO_IRQ_EDGE_RISE, false); //this is needed to disable IRQ callback on PPS
 			multicore_reset_core1();  //this is needed, otherwise causes instant reboot
 			sleep_run_from_dormant_source(DORMANT_SOURCE_ROSC);  //this reduces sleep draw to 2mA! (without this will still sleep, but only at 8mA)
@@ -470,7 +566,7 @@ if (packet_type==4)   //2nd Zachtek (WSPR type 3 message)
 	wspr_encode(add_brackets(_callsign_for_TYPE1), pctx->_pu8_locator, altitude_as_power_fine, pctx->_pu8_outbuf,pctx->_txSched.verbosity);  			
    }
 
-if ((packet_type==5)||(packet_type==6))   //TELEN #1 or #2 extended telemetry, gets sent right after the two U4B packets
+if ((packet_type==5)||(packet_type==6))   //TELEN #1 or #2 extended telemetry, gets sent right after the two U4B packets 
    {	
 
 	if (pctx->_txSched.verbosity>=3) printf("creating TELEN packet 1\n");

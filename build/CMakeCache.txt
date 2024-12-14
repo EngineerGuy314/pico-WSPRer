@@ -21,7 +21,7 @@ CMAKE_ADDR2LINE:FILEPATH=/usr/bin/arm-none-eabi-addr2line
 CMAKE_AR:FILEPATH=/usr/bin/arm-none-eabi-ar
 
 //ASM compiler
-CMAKE_ASM_COMPILER:FILEPATH=/usr/bin/arm-none-eabi-gcc
+CMAKE_ASM_COMPILER:STRING=/usr/bin/arm-none-eabi-gcc
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
@@ -53,8 +53,8 @@ CMAKE_BUILD_TYPE:STRING=
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
 
-//C++ compiler
-CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/arm-none-eabi-g++
+//CXX compiler
+CMAKE_CXX_COMPILER:STRING=/usr/bin/arm-none-eabi-g++
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
@@ -80,7 +80,7 @@ CMAKE_CXX_FLAGS_RELEASE:STRING=-g -O3 -DNDEBUG
 CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 
 //C compiler
-CMAKE_C_COMPILER:FILEPATH=/usr/bin/arm-none-eabi-gcc
+CMAKE_C_COMPILER:STRING=/usr/bin/arm-none-eabi-gcc
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
@@ -125,6 +125,9 @@ CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //Enable/Disable output of compile commands during generation.
 CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=
+
+//Value Computed by CMake.
+CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=/home/rob/pico-WSPRer/build/CMakeFiles/pkgRedirects
 
 //Install path prefix, prepended onto install directories.
 CMAKE_INSTALL_PREFIX:PATH=/usr/local
@@ -227,6 +230,9 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 //Path to a program.
 CMAKE_STRIP:FILEPATH=/usr/bin/arm-none-eabi-strip
 
+//Path to a program.
+CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
+
 //The CMake toolchain file
 CMAKE_TOOLCHAIN_FILE:FILEPATH=/home/rob/pico-sdk/cmake/preload/toolchains/pico_arm_cortex_m0plus_gcc.cmake
 
@@ -239,7 +245,7 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 //Dot tool for use with Doxygen
 DOXYGEN_DOT_EXECUTABLE:FILEPATH=DOXYGEN_DOT_EXECUTABLE-NOTFOUND
 
-//Doxygen documentation generation tool (http://www.doxygen.org)
+//Doxygen documentation generation tool (https://www.doxygen.nl)
 DOXYGEN_EXECUTABLE:FILEPATH=DOXYGEN_EXECUTABLE-NOTFOUND
 
 //Directory under which to collect all populated content
@@ -261,6 +267,9 @@ FETCHCONTENT_UPDATES_DISCONNECTED:BOOL=OFF
 
 //Enables UPDATE_DISCONNECTED behavior just for population of picotool
 FETCHCONTENT_UPDATES_DISCONNECTED_PICOTOOL:BOOL=OFF
+
+//Git command line client
+GIT_EXECUTABLE:FILEPATH=/usr/bin/git
 
 //PICO target board (e.g. pico, pico2)
 PICO_BOARD:STRING=pico
@@ -339,16 +348,25 @@ PIOASM_INSTALL_DIR:PATH=/home/rob/pico-WSPRer/build/pioasm-install
 pico-WSPRer_BINARY_DIR:STATIC=/home/rob/pico-WSPRer/build
 
 //Value Computed by CMake
+pico-WSPRer_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
 pico-WSPRer_SOURCE_DIR:STATIC=/home/rob/pico-WSPRer
 
 //Value Computed by CMake
 pico_extras_BINARY_DIR:STATIC=/home/rob/pico-WSPRer/build/pico_extras
 
 //Value Computed by CMake
+pico_extras_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
 pico_extras_SOURCE_DIR:STATIC=/home/rob/pico-extras
 
 //Value Computed by CMake
 pico_sdk_BINARY_DIR:STATIC=/home/rob/pico-WSPRer/build/pico-sdk
+
+//Value Computed by CMake
+pico_sdk_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
 pico_sdk_SOURCE_DIR:STATIC=/home/rob/pico-sdk
@@ -393,9 +411,9 @@ CMAKE_CACHEFILE_DIR:INTERNAL=/home/rob/pico-WSPRer/build
 //Major version of cmake used to create the current loaded cache
 CMAKE_CACHE_MAJOR_VERSION:INTERNAL=3
 //Minor version of cmake used to create the current loaded cache
-CMAKE_CACHE_MINOR_VERSION:INTERNAL=18
+CMAKE_CACHE_MINOR_VERSION:INTERNAL=28
 //Patch version of cmake used to create the current loaded cache
-CMAKE_CACHE_PATCH_VERSION:INTERNAL=4
+CMAKE_CACHE_PATCH_VERSION:INTERNAL=3
 //ADVANCED property for variable: CMAKE_COLOR_MAKEFILE
 CMAKE_COLOR_MAKEFILE-ADVANCED:INTERNAL=1
 //Path to CMake executable.
@@ -494,7 +512,7 @@ CMAKE_RANLIB-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_READELF
 CMAKE_READELF-ADVANCED:INTERNAL=1
 //Path to CMake installation.
-CMAKE_ROOT:INTERNAL=/usr/share/cmake-3.18
+CMAKE_ROOT:INTERNAL=/usr/share/cmake-3.28
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS
 CMAKE_SHARED_LINKER_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_DEBUG
@@ -521,6 +539,8 @@ CMAKE_STATIC_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_STRIP
 CMAKE_STRIP-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_TAPI
+CMAKE_TAPI-ADVANCED:INTERNAL=1
 //uname command
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
@@ -531,7 +551,9 @@ DOXYGEN_DOT_EXECUTABLE-ADVANCED:INTERNAL=1
 DOXYGEN_EXECUTABLE-ADVANCED:INTERNAL=1
 FAMILY_MCUS:INTERNAL=RP2040
 //Details about finding Python3
-FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[/usr/bin/python3.9][cfound components: Interpreter ][v3.9.2()]
+FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[/usr/bin/python3][cfound components: Interpreter ][v3.12.3()]
+//ADVANCED property for variable: GIT_EXECUTABLE
+GIT_EXECUTABLE-ADVANCED:INTERNAL=1
 PICO_ARM:INTERNAL=1
 PICO_BOOT_STAGE2_DIR:INTERNAL=/home/rob/pico-sdk/src/rp2040/boot_stage2
 PICO_CMAKE_PRELOAD_PLATFORM_DIR:INTERNAL=/home/rob/pico-sdk/cmake/preload/platforms
@@ -555,9 +577,15 @@ PICO_RP2350:INTERNAL=0
 PICO_SDK_TESTS_ENABLED:INTERNAL=
 PICO_TOOLCHAIN_PATH:INTERNAL=
 PICO_TOOLS_DIR:INTERNAL=/home/rob/pico-sdk/tools
+//Compiler reason failure
+_Python3_Compiler_REASON_FAILURE:INTERNAL=
+//Development reason failure
+_Python3_Development_REASON_FAILURE:INTERNAL=
 //Path to a program.
-_Python3_EXECUTABLE:INTERNAL=/usr/bin/python3.9
+_Python3_EXECUTABLE:INTERNAL=/usr/bin/python3
 //Python3 Properties
-_Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;9;2;32;;;/usr/lib/python3.9;/usr/lib/python3.9;/usr/lib/python3.9/site-packages;/usr/lib/python3.9/site-packages
-_Python3_INTERPRETER_SIGNATURE:INTERNAL=4c68ce0cc4d267693d7c5b1e646e8b91
+_Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;12;3;32;64;;;abi3;/usr/lib/python3.12;/usr/lib/python3.12;/usr/local/lib/python3.12/dist-packages;/usr/local/lib/python3.12/dist-packages
+_Python3_INTERPRETER_SIGNATURE:INTERNAL=4c8bfa8951e99fa32e4000a94f8c04a2
+//NumPy reason failure
+_Python3_NumPy_REASON_FAILURE:INTERNAL=
 

@@ -1,31 +1,23 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
 # The set of languages for which implicit dependencies are needed:
 set(CMAKE_DEPENDS_LANGUAGES
-  "CXX"
-  )
-# The set of files for implicit dependencies of each language:
-set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/rob/pico-WSPRer/build/_deps/picotool-src/bintool/bintool.cpp" "/home/rob/pico-WSPRer/build/_deps/picotool-build/bintool/CMakeFiles/bintool.dir/bintool.cpp.o"
-  )
-set(CMAKE_CXX_COMPILER_ID "GNU")
-
-# Preprocessor definitions for this target.
-set(CMAKE_TARGET_DEFINITIONS_CXX
-  "HAS_MBEDTLS=0"
-  "NO_PICO_PLATFORM=1"
   )
 
-# The include file search paths:
-set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/home/rob/pico-WSPRer/build/_deps/picotool-src/bintool"
-  "/home/rob/pico-WSPRer/build/_deps/picotool-src/elf"
-  "/home/rob/pico-WSPRer/build/_deps/picotool-src/errors"
-  "/home/rob/pico-sdk/src/common/boot_picobin_headers/include"
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/rob/pico-WSPRer/build/_deps/picotool-src/bintool/mbedtls_wrapper.c" "bintool/CMakeFiles/bintool.dir/mbedtls_wrapper.c.o" "gcc" "bintool/CMakeFiles/bintool.dir/mbedtls_wrapper.c.o.d"
+  "/home/rob/pico-WSPRer/build/_deps/picotool-src/bintool/bintool.cpp" "bintool/CMakeFiles/bintool.dir/bintool.cpp.o" "gcc" "bintool/CMakeFiles/bintool.dir/bintool.cpp.o.d"
   )
 
-# Targets to which this target links.
-set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/rob/pico-WSPRer/build/_deps/picotool-build/elf/CMakeFiles/elf.dir/DependInfo.cmake"
-  "/home/rob/pico-WSPRer/build/_deps/picotool-build/errors/CMakeFiles/errors.dir/DependInfo.cmake"
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_LINKED_INFO_FILES
+  )
+
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_FORWARD_LINKED_INFO_FILES
   )
 
 # Fortran module output directory.

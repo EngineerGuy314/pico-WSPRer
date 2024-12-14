@@ -11,28 +11,28 @@
 			"file" : "/home/rob/pico-WSPRer/build/_deps/picotool-subbuild/CMakeFiles/picotool-populate-complete.rule"
 		},
 		{
+			"file" : "/home/rob/pico-WSPRer/build/_deps/picotool-subbuild/picotool-populate-prefix/src/picotool-populate-stamp/picotool-populate-build.rule"
+		},
+		{
+			"file" : "/home/rob/pico-WSPRer/build/_deps/picotool-subbuild/picotool-populate-prefix/src/picotool-populate-stamp/picotool-populate-configure.rule"
+		},
+		{
+			"file" : "/home/rob/pico-WSPRer/build/_deps/picotool-subbuild/picotool-populate-prefix/src/picotool-populate-stamp/picotool-populate-download.rule"
+		},
+		{
 			"file" : "/home/rob/pico-WSPRer/build/_deps/picotool-subbuild/picotool-populate-prefix/src/picotool-populate-stamp/picotool-populate-install.rule"
 		},
 		{
 			"file" : "/home/rob/pico-WSPRer/build/_deps/picotool-subbuild/picotool-populate-prefix/src/picotool-populate-stamp/picotool-populate-mkdir.rule"
 		},
 		{
-			"file" : "/home/rob/pico-WSPRer/build/_deps/picotool-subbuild/picotool-populate-prefix/src/picotool-populate-stamp/picotool-populate-download.rule"
-		},
-		{
-			"file" : "/home/rob/pico-WSPRer/build/_deps/picotool-subbuild/picotool-populate-prefix/src/picotool-populate-stamp/picotool-populate-update.rule"
-		},
-		{
 			"file" : "/home/rob/pico-WSPRer/build/_deps/picotool-subbuild/picotool-populate-prefix/src/picotool-populate-stamp/picotool-populate-patch.rule"
 		},
 		{
-			"file" : "/home/rob/pico-WSPRer/build/_deps/picotool-subbuild/picotool-populate-prefix/src/picotool-populate-stamp/picotool-populate-configure.rule"
-		},
-		{
-			"file" : "/home/rob/pico-WSPRer/build/_deps/picotool-subbuild/picotool-populate-prefix/src/picotool-populate-stamp/picotool-populate-build.rule"
-		},
-		{
 			"file" : "/home/rob/pico-WSPRer/build/_deps/picotool-subbuild/picotool-populate-prefix/src/picotool-populate-stamp/picotool-populate-test.rule"
+		},
+		{
+			"file" : "/home/rob/pico-WSPRer/build/_deps/picotool-subbuild/picotool-populate-prefix/src/picotool-populate-stamp/picotool-populate-update.rule"
 		}
 	],
 	"target" : 
