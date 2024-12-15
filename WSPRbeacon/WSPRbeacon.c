@@ -126,14 +126,12 @@ else                                       //if we get here, U4B is enabled
 	at_least_one_GPS_fixed_has_been_obtained=0;
 	transmitter_status=0;
 
-
-
  return p;
 }
 //*****************************************************************************************************************************
 
 
-void telem_add_values_to_Big64(WSPRbeaconContext *c)  //get uint32_t val, uint32_t range,  from c
+void telem_add_values_to_Big64(WSPRbeaconContext *c) 
 {											//cycles through value array and for non-zero ranges and packs  'em into Big64
 uint64_t val=0;
 
@@ -142,8 +140,9 @@ int max_len = sizeof(c->telem_vals_and_ranges) / sizeof(c->telem_vals_and_ranges
 for (int i = max_len-1; i >= 0; i--) 
 	if (c->telem_vals_and_ranges[i].range>0)
 	{
-		val *= c->telem_vals_and_ranges[i].range;
-		val += c->telem_vals_and_ranges[i].value;	
+		c->telem_vals_and_ranges[i].value = c->telem_vals_and_ranges[i].value % c->telem_vals_and_ranges[i].range; //anti-stupid to fix potential overflow of bad values
+		val *= c->telem_vals_and_ranges[i].range;   // shift Big64 by the max range of the value
+		val += c->telem_vals_and_ranges[i].value;	// add the value to Big64
 	}
 
 c->Big64=val;
@@ -154,10 +153,10 @@ void telem_add_header( int slot, WSPRbeaconContext *c)
 {
 uint64_t val=c->Big64;
 
-val *=5; 	val+=slot;	 //slot 
-val *=16; 	val+=0;      //type 0=custom
-val *=4; 	val+=0;      //reserved bits
-val *=2; 	val+=0;      //specify extended telemetry      
+val *=5; 	val+=slot;	 //slot                         5 values: 0-4
+val *=16; 	val+=0;      //type 0=custom                16 values
+val *=4; 	val+=0;      //reserved bits				4 values (2 bits)
+val *=2; 	val+=0;      //specify extended telemetry   2 values (1 bit)   
 
 c->Big64=val;
 }
@@ -165,7 +164,7 @@ c->Big64=val;
 /////****************************************************************************************
 void telem_convert_Big64_to_GridLocPower(WSPRbeaconContext *c)
 {
- //does the unpacking of Big64 based on radix's of char destinations
+ //does the unpacking of Big64 based on the radix's of char destinations
 
 		uint64_t val  = c->Big64;
 
@@ -199,9 +198,7 @@ void telem_convert_Big64_to_GridLocPower(WSPRbeaconContext *c)
 		c->telem_callsign[5] =  id6;
 		c->telem_callsign[6] =  0;
 		c->telem_power=valid_dbm[powerVal];
-
 }
-
 
 //******************************************************************************************************************************
 /// @brief Arranges WSPR sending in accordance with pre-defined schedule.
@@ -211,37 +208,6 @@ void telem_convert_Big64_to_GridLocPower(WSPRbeaconContext *c)
 int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose, int GPS_PPS_PIN)   // called every half second from Main.c
 {
 
-/*************               BELOW FOR TESTing wuz hook *********************************/
-/*                           Code to be Moved to WSPRcreatePacket uneer 4/6 are        */
-
-	pctx->telem_vals_and_ranges[0]=(v_and_r){2,8};
-	pctx->telem_vals_and_ranges[1]=(v_and_r){2,8};
-	pctx->telem_vals_and_ranges[2]=(v_and_r){3,8};
-	pctx->telem_vals_and_ranges[3]=(v_and_r){4,8};
-	pctx->telem_vals_and_ranges[4]=(v_and_r){1,2};
-	pctx->telem_vals_and_ranges[5]=(v_and_r){35,50};
-
-
-	telem_add_values_to_Big64(pctx);   //cycles through value array and for non-zero ranges and packs  'em into Big64
-	telem_add_header( 4, pctx);   //slot #
-	telem_convert_Big64_to_GridLocPower(pctx); //does the unpacking of Big64 based on radix's of char destinations
-	wspr_encode(pctx->telem_callsign, pctx->telem_4_char_loc, pctx->telem_power, pctx->_pu8_outbuf, pctx->_txSched.verbosity);   // look in WSPRutility.c for wspr_encode
-
-
-
-
-
-   /*for(;;)   //for testing
-    {
-	pctx->_txSched.TELEN1_val1=rand() % 630000;
-	pctx->_txSched.TELEN1_val2=rand() % 153000;
-	pctx->_txSched.TELEN2_val1=rand() % 630000;
-	pctx->_txSched.TELEN2_val2=rand() % 153000;
-
-	WSPRbeaconCreatePacket(pctx, 5);
-	WSPRbeaconCreatePacket(pctx, 6);
-	sleep_ms(2000); 
-	}*/
                 	
 	uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;  //on if there ever were any serial data received from a GPS unit
     const uint32_t is_GPS_active = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;  //on if valid 3d fix
@@ -386,7 +352,7 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-6.  1: 
 	altitude_snapshot=pctx->_pTX->_p_oscillator->_pGPStime->_altitude;     //save the value for later when used in 2nd packet
 	at_least_one_first_packet_sent=1;
    }
- if (packet_type==2)   // special encoding for 2nd packet of U4B protocol
+ if (packet_type==2)   // special encoding for 2nd packet of U4B protocol aka "standard" telemetry
    {
 	if (pctx->_txSched.verbosity>=3) printf("creating U4B packet 2 \n");
 	char CallsignU4B[7]; 
@@ -492,9 +458,7 @@ if (packet_type==3)   // WSPR type 1 message (for standalone beacon mode, or 1st
 	uint8_t  power_value=10;  //if just using standalone beacon,  power is reported as 10. If doing Zachtek, this gets overwritten below with rough altitude value
 
 	if (pctx->_txSched.verbosity>=3) printf("creating WSPR type 1 [Zachtek packet 1]\n");
-
-	 
-		
+	
 		if (pctx->_txSched.suffix==253)  //if standalone beacon mode (suffix was enterred as '-' (253)
 		{
 				strcpy(_callsign_for_TYPE1,pctx->_pu8_callsign);  
@@ -511,7 +475,6 @@ if (packet_type==3)   // WSPR type 1 message (for standalone beacon mode, or 1st
 					suffix_as_string[1]=0;
 					strcat(_callsign_for_TYPE1,suffix_as_string);  
 				
-
 			power_value=0;
 			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>900) power_value=3;
 			if (pctx->_pTX->_p_oscillator->_pGPStime->_altitude>2100) power_value=7;
@@ -568,44 +531,15 @@ if ((packet_type==5)||(packet_type==6))   //TELEN #1 or #2 extended telemetry, g
    {	
 
 	if (pctx->_txSched.verbosity>=3) printf("creating TELEN packet 1\n");
-	char _4_char_version_of_locator[5];
-	char _callsign[7];
-	uint32_t telen_val1;
-	uint32_t telen_val2;
-	
-	if (packet_type==5)    //TELEN #1
-		{
-			telen_val1=pctx->_txSched.TELEN1_val1;  //gets values for TELEN from global vars
-			telen_val2=pctx->_txSched.TELEN1_val2;
-			printf("encoding TELEN #1\n");
-		}
-	  else		//TELEN #2
-		{
-			telen_val1=pctx->_txSched.TELEN2_val1;  //gets values for TELEN from global vars
-			telen_val2=pctx->_txSched.TELEN2_val2;
-			printf("encoding TELEN #2\n");
-		}
-				
-	char telen_chars[8];
-	uint8_t telen_power;
 
-		/* i made two ways of encoding telen (encode_telen and encode_telen2). they both produce identical results. the first one I painfully made by reverse engineering results. the 2nd way was after I realized that most of the logic for packet type 2 can be re-used. tbh I don't really understand either way...*/
-	//encode_telen(telen_val1,telen_val2,telen_chars, &telen_power,packet_type); //converts two 32bit ints into 8 characters and one byte to be transmitted
-	encode_telen2(telen_val1,telen_val2,telen_chars, &telen_power,packet_type); //converts two 32bit ints into 8 characters and one byte to be transmitted
+//wuz hook needs work!!!   prolly need to add a dimension to the range/value array for DEXT # (1-3 only cause of my compromise)
 	
-        _callsign[0] =  pctx->_txSched.id13[0];   //callsign: id13[0], telen char0, id13[1], telen char1, telen char2, telen char3
-		_callsign[1] =  telen_chars[0];
-		_callsign[2] =  pctx->_txSched.id13[1];	
-		_callsign[3] =  telen_chars[1];
-		_callsign[4] =  telen_chars[2];
-		_callsign[5] =  telen_chars[3];
-	_4_char_version_of_locator[0]=telen_chars[4];
-	_4_char_version_of_locator[1]=telen_chars[5];
-	_4_char_version_of_locator[2]=telen_chars[6];
-	_4_char_version_of_locator[3]=telen_chars[7];
-	_4_char_version_of_locator[4]=0;  //add null terminator
-
-	wspr_encode(_callsign, _4_char_version_of_locator, telen_power, pctx->_pu8_outbuf, pctx->_txSched.verbosity);   // look in WSPRutility.c for wspr_encode
+//wuz hook needs work!!!   	//and how relate packet_type (which needs to be expanded with at least one more) to change the SLot value below
+	
+	telem_add_values_to_Big64(pctx);   //cycles through value array and for non-zero ranges and packs  'em into Big64
+	telem_add_header( 4, pctx);   //slot #
+	telem_convert_Big64_to_GridLocPower(pctx); //does the unpacking of Big64 based on radix's of char destinations
+	wspr_encode(pctx->telem_callsign, pctx->telem_4_char_loc, pctx->telem_power, pctx->_pu8_outbuf, pctx->_txSched.verbosity);   // look in WSPRutility.c for wspr_encode
    }
 	return 0;
 }
@@ -626,88 +560,6 @@ int WSPRbeaconSendPacket(const WSPRbeaconContext *pctx)
     return 0;
 }
 
-////////////////////////////////////////////////////////////////////
-//******************************************************************************************************************************
-/// @brief encodes data for extended telemetry (TELEN)
-/// @param telen_val1,telen_val2: the values to encode, telen_chars: the output characters, telen_power: output power (in dbm)
-//******************************************************************************************************************************
-void encode_telen(uint32_t telen_val1,uint32_t telen_val2,char * telen_chars,uint8_t * telen_power, uint8_t packet_type)  
-{
-	/* i made two ways of encoding telen (encode_telen and encode_telen2). they both produce identical results. the first one I painfully made by reverse engineering results. the 2nd way was after I realized that most of the logic for packet type 2 can be re-used. tbh I don't really understand either way...*/
-	// TELEN packet  which has value 1 and value 2 (this same routine used for both telen#1 and telen#2). 
-	// first value  gets encoded into the callsign (1st char is alphannumeric, and last three chars are alpha). Full callsign will be ID1, telen_char[0], ID3, telen_CHar[1],  telen_CHar[2], telen_CHar[3]. 
-	// 2nd value gets encoded into GRID and power. grid = telen_CHar[4,5,6,7]. power = telen_power
-	// max val of 1st one ~= 632k (per dave) [19 bits] i had originally thought 651,013 (if first char Z, which ~=35, times 17565(26^3). base 26 used, not base 36, because other chars must be only alpha, not alphanumeric because of Ham callsign conventions)
-	// max val of 2nd one ~= 153k  (per dave) [17 bits] i had thought over 200k....
-
-	uint32_t tem=telen_val1;						
-	double temf=telen_val2;
-	telen_chars[0]= '0'+floor(tem / 17576); tem-=(telen_chars[0]-'0')*17576; if (telen_chars[0] > '9') telen_chars[0]+=7; //shift up from numeric to alpha (there are 7 ascii codes between 9 and A)
-	telen_chars[1]= 'A'+floor(tem / 676); tem-=(telen_chars[1]-'A')*676;
-	telen_chars[2]= 'A'+floor(tem / 26); tem-=(telen_chars[2]-'A')*26;
-	telen_chars[3]= 'A'+tem;
-	telen_chars[4]= 'A'+floor(temf / 8550); temf-=(telen_chars[4]-'A')*8550;   
-	telen_chars[5]= 'A'+floor(temf / 475); temf-=(telen_chars[5]-'A')*475;  
-	telen_chars[6]= '0'+floor(temf / 47.5); temf-=(telen_chars[6]-'0')*47.5;
-	telen_chars[7]= '0'+floor(temf / 4.75); temf-=((telen_chars[7]-'0')*4.75);  
-	int i=round(temf/0.25);  // there are 19 possible dbm values. And 4.75/19=0.25
-
-/* The original (AND BROKEN) way.  you kept thinking of certain bits being resevered for certain functions, but on the decode end they are expecting you to add, not set, so you must play along...
-	i &= ~(1<<0); //clear lowest bit aka gps-sat (always for TELEN #1 and #2)
-	if (packet_type==6) 
-		i |= (1<<1); //set 2nd bit (GPSValid)     for TELEN #2 
-	else
-		i &= ~(1<<1); //clear 2nd bit (GPSValid)  for TELEN #1
-*/
-	if (packet_type==6) i=i+2;   // add 2 (aka the gps-sat bit) for telen #2 only (the new, correct, way...)
-
-	*telen_power = valid_dbm[i]; 
-	printf("(Orig) val1: %d val2: %d the chars: %s the power:(as dBm: %d)\n",telen_val1,telen_val2,telen_chars,*telen_power);
-	telen_chars[8]=0; //null terminate
-}
-//********************************************************************
-void encode_telen2(uint32_t telen_val1,uint32_t telen_val2,char * telen_chars,uint8_t * telen_power, uint8_t packet_type)  
-{
-	/* i made two ways of encoding telen (encode_telen and encode_telen2). they both produce identical results. the first one I painfully made by reverse engineering results. the 2nd way was after I realized that most of the logic for packet type 2 can be re-used. tbh I don't really understand either way...*/
-	// TELEN packet  which has value 1 and value 2 (this same routine used for both telen#1 and telen#2). 
-	// first value  gets encoded into the callsign (1st char is alphannumeric, and last three chars are alpha). Full callsign will be ID1, telen_char[0], ID3, telen_CHar[1],  telen_CHar[2], telen_CHar[3]. 
-	// 2nd value gets encoded into GRID and power. grid = telen_CHar[4,5,6,7]. power = telen_power
-	// max val of 1st one ~= 632k (per dave) [19 bits] i had originally thought 651,013 (if first char Z, which ~=35, times 17565(26^3). base 26 used, not base 36, because other chars must be only alpha, not alphanumeric because of Ham callsign conventions)
-	// max val of 2nd one ~= 153k  (per dave) [17 bits] i had thought over 200k....
-
-        uint32_t val = telen_val1;
-
-		        // extract into altered dynamic base
-        uint8_t id6Val = val % 26; val = val / 26;
-        uint8_t id5Val = val % 26; val = val / 26;
-        uint8_t id4Val = val % 26; val = val / 26;
-        uint8_t id2Val = val % 36; val = val / 36;
-        // convert to encoded CallsignU4B
-        telen_chars[0] = EncodeBase36(id2Val);
-        telen_chars[1] = 'A' + id4Val;
-        telen_chars[2] = 'A' + id5Val;
-        telen_chars[3] = 'A' + id6Val;
-		
-        val = telen_val2*4;  //(bitshift to the left twice to make room for gps bits at end)
-      // unshift big number into output radix values
-        uint8_t powerVal = val % 19; val = val / 19;
-        uint8_t g4Val    = val % 10; val = val / 10;
-        uint8_t g3Val    = val % 10; val = val / 10;
-        uint8_t g2Val    = val % 18; val = val / 18;
-        uint8_t g1Val    = val % 18; val = val / 18;
-        // map output radix to presentation
-        telen_chars[4] = 'A' + g1Val;
-        telen_chars[5] = 'A' + g2Val;
-        telen_chars[6] = '0' + g3Val;
-        telen_chars[7] = '0' + g4Val;
- 		
-	if (packet_type==6) powerVal=powerVal+2;   //identifies it as the 2nd extended TELEN packet.  (this is the GPS-valid bit. note for extended TELEN we did NOT set the gps-sat bit)
-
-	*telen_power=valid_dbm[powerVal];
-
-	printf("(New)val1: %d val2: %d the chars: %s the power:(as dBm: %d)\n",telen_val1,telen_val2,telen_chars,*telen_power);
-	telen_chars[8]=0; //null terminate
-}
 ///////////////////////////////////////////////////////////
 /// @brief Dumps the beacon context to stdio.
 /// @param pctx Ptr to Context.

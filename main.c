@@ -210,10 +210,11 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 		volts=	(0.99*volts)+(0.01*volts_raw);	// implements a 1st order IIR lowpass filter (aka "one-line DSP")
 		pWB->_txSched.voltage=volts;
 
- 		process_TELEN_data();                          //if needed, this puts data into TELEN variables. You can remove this and set the data yourself as shown in the next two lines
-		//pWB->_txSched.TELEN1_val1=rand() % 630000;   //the values  in TELEN_val1 and TELEN_val2 will get sent as TELEN #1 (extended Telemetry) (a third packet in the U4B protocol)
-		//pWB->_txSched.TELEN1_val2=rand() % 153000;	/ max values are 630k and 153k
-						
+ 		process_TELEN_data();                          //if needed, this puts data into DEXT variables. You can remove this and set the data yourself as shown in the next few lines
+			/*pctx->telem_vals_and_ranges[0]=(v_and_r){2,8};  //spec range (inclusive of zero) and value for each 
+			  pctx->telem_vals_and_ranges[1]=(v_and_r){2,3};
+			  pctx->telem_vals_and_ranges[2]=(v_and_r){3,2};
+			   .......   */
 				if(0 == ++tick2 % 10)      //every ~5 sec
 				{
 				if (pWB->_txSched.verbosity>=1) StampPrintf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Satellite count: %d\n", tempU,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count);		
