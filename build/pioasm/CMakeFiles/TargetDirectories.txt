@@ -1,7 +1,0 @@
-/home/rob/pico-WSPRer/build/pioasm/CMakeFiles/pioasm.dir
-/home/rob/pico-WSPRer/build/pioasm/CMakeFiles/edit_cache.dir
-/home/rob/pico-WSPRer/build/pioasm/CMakeFiles/rebuild_cache.dir
-/home/rob/pico-WSPRer/build/pioasm/CMakeFiles/list_install_components.dir
-/home/rob/pico-WSPRer/build/pioasm/CMakeFiles/install.dir
-/home/rob/pico-WSPRer/build/pioasm/CMakeFiles/install/local.dir
-/home/rob/pico-WSPRer/build/pioasm/CMakeFiles/install/strip.dir
