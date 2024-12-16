@@ -1,4 +1,6 @@
 build-dev/
 dox-dev/ 
 .vscode/
+build/*
+!build/pico-WSPRer.uf2
 CMakeCache.txt
