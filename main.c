@@ -248,7 +248,7 @@ TELEN 0,2,3 */
 
 		for (int i=2;i < 5;i++) //i is slot # (2,3,4)
 		{			
-		   switch(_DEXT_config[i])
+		   switch(_DEXT_config[i])   //see end for traquito site scaling
 			{
 				case '-':  break; //do nothing, telen chan is disabled
 				case '0': 			//Minutes Since Boot, Minutes since GPS fix, GPS Valid, Sat Count (max: 1000,1000,1,60)
@@ -307,7 +307,9 @@ void handle_LED(int led_state)
 				2 - Valid GPS, waiting for time to transmitt
 				3 - Valid GPS, transmitting
 				4 - no valid GPS, but (still) transmitting anyway
-			x rapid pulses to indicate mode, followed by pause. 0 is special case, continous rapid blink
+
+				x brief pulses to indicate mode, followed by pause. 0 is special case, continous rapid blink
+				there is also "breathing" to indicate corrupted NVRAM
 			*/
 
 {
@@ -1061,3 +1063,37 @@ void process_chan_num()
 
 	}
 }
+
+/*
+0:
+{ "name": "MinSinceBoot",      "unit": "Count",  "lowValue":   0, "highValue": 1000,    "stepSize": 1 },
+{ "name": "MinSinceGPSValid",    "unit": "Count",  "lowValue":   0, "highValue": 1000,    "stepSize": 1 },
+{ "name": "GPS_Valid",   "unit": "Count",  "lowValue":   0, "highValue": 1,    "stepSize": 1 },
+{ "name": "SatCount",       "unit": "Count",  "lowValue":   0, "highValue": 60,    "stepSize": 1 },
+
+1:
+{ "name": "ADC0",      "unit": "Count",  "lowValue":   0, "highValue": 350,    "stepSize": 1 },
+{ "name": "ADC1",      "unit": "Count",  "lowValue":   0, "highValue": 350,    "stepSize": 1 },
+{ "name": "ADC2",      "unit": "Count",  "lowValue":   0, "highValue": 350,    "stepSize": 1 },
+
+2:
+{ "name": "BusVolts",      "unit": "Count",  "lowValue":   0, "highValue": 900,    "stepSize": 1 },
+{ "name": "DALLAS1",      "unit": "Count",  "lowValue":   0, "highValue": 120,    "stepSize": 1 },
+{ "name": "Dallas1_sign",      "unit": "Count",  "lowValue":   0, "highValue": 1,    "stepSize": 1 },
+{ "name": "SatCount",       "unit": "Count",  "lowValue":   0, "highValue": 60,    "stepSize": 1 },
+
+
+3:
+{ "name": "DALLAS1",      "unit": "Count",  "lowValue":   0, "highValue": 120,    "stepSize": 1 },
+{ "name": "Dallas1_sign",      "unit": "Count",  "lowValue":   0, "highValue": 1,    "stepSize": 1 },
+{ "name": "DALLAS2",      "unit": "Count",  "lowValue":   0, "highValue": 120,    "stepSize": 1 },
+{ "name": "Dallas2_sign",      "unit": "Count",  "lowValue":   0, "highValue": 1,    "stepSize": 1 },
+
+3:
+{ "name": "DALLAS3",      "unit": "Count",  "lowValue":   0, "highValue": 120,    "stepSize": 1 },
+{ "name": "Dallas3_sign",      "unit": "Count",  "lowValue":   0, "highValue": 1,    "stepSize": 1 },
+{ "name": "DALLAS4",      "unit": "Count",  "lowValue":   0, "highValue": 120,    "stepSize": 1 },
+{ "name": "Dallas4_sign",      "unit": "Count",  "lowValue":   0, "highValue": 1,    "stepSize": 1 },
+
+
+*/
