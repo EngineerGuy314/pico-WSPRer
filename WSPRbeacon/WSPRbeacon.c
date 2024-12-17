@@ -65,7 +65,7 @@ static void sleep_callback(void) {
 /// @bug out of schedule transmits if the device is switched on around minute 0  
 WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare, int txpow_dbm,
                                   PioDco *pdco, uint32_t dial_freq_hz, uint32_t shift_freq_hz,
-                                  int gpio,  uint8_t start_minute, uint8_t id13, uint8_t suffix, const char *TELEN_config)
+                                  int gpio,  uint8_t start_minute, uint8_t id13, uint8_t suffix, const char *DEXT_config)
 {
 	assert_(pcallsign);
     assert_(pgridsquare);
@@ -114,8 +114,9 @@ else                                       //if we get here, U4B is enabled
 				schedule_band[(start_minute+6)%10]=10;   //switch to 10 meter frequencies for these slots
 				schedule_band[(start_minute+8)%10]=10;   //switch to 10 meter frequencies for these slots			
 			}
-		if (TELEN_config[0]!='-') schedule[(start_minute+4)%10]=5;  //enable TELEN #1
-		if (TELEN_config[2]!='-') schedule[(start_minute+6)%10]=6;   //enable TELEN #2 (if someone tried to run Zachtek and Both TELENs, start_minute+6)%10 will get overwritten below anywauy)
+		if (DEXT_config[0]!='-') schedule[(start_minute+4)%10]=5;   //enable DEXT slot 2
+		if (DEXT_config[1]!='-') schedule[(start_minute+6)%10]=6;   //enable DEXT slot 3    
+		if (DEXT_config[2]!='-') schedule[(start_minute+8)%10]=7;   //enable DEXT slot 4 
 
 		if (suffix != 253)    // if Suffix enabled, Do zachtek messages 4 mins BEFORE (ie 6 minutes in future) of u4b (because minus (-) after char to decimal conversion is 253)
 			{
@@ -131,18 +132,18 @@ else                                       //if we get here, U4B is enabled
 //*****************************************************************************************************************************
 
 
-void telem_add_values_to_Big64(WSPRbeaconContext *c) 
+void telem_add_values_to_Big64(int slot, WSPRbeaconContext *c) 
 {											//cycles through value array and for non-zero ranges and packs  'em into Big64
 uint64_t val=0;
 
-int max_len = sizeof(c->telem_vals_and_ranges) / sizeof(c->telem_vals_and_ranges[0]);
+int max_len = sizeof(c->telem_vals_and_ranges[0]) / sizeof(c->telem_vals_and_ranges[0][0]);
 
 for (int i = max_len-1; i >= 0; i--) 
-	if (c->telem_vals_and_ranges[i].range>0)
+	if (c->telem_vals_and_ranges[slot][i].range>0)
 	{
-		c->telem_vals_and_ranges[i].value = c->telem_vals_and_ranges[i].value % c->telem_vals_and_ranges[i].range; //anti-stupid to fix potential overflow of bad values
-		val *= c->telem_vals_and_ranges[i].range;   // shift Big64 by the max range of the value
-		val += c->telem_vals_and_ranges[i].value;	// add the value to Big64
+		c->telem_vals_and_ranges[slot][i].value = c->telem_vals_and_ranges[slot][i].value % c->telem_vals_and_ranges[slot][i].range; //anti-stupid to fix potential overflow of bad values
+		val *= c->telem_vals_and_ranges[slot][i].range;   // shift Big64 by the max range of the value
+		val += c->telem_vals_and_ranges[slot][i].value;	// add the value to Big64
 	}
 
 c->Big64=val;
@@ -527,17 +528,17 @@ if (packet_type==4)   //2nd Zachtek (WSPR type 3 message)
 	wspr_encode(add_brackets(_callsign_for_TYPE1), pctx->_pu8_locator, altitude_as_power_fine, pctx->_pu8_outbuf,pctx->_txSched.verbosity);  			
    }
 
-if ((packet_type==5)||(packet_type==6))   //TELEN #1 or #2 extended telemetry, gets sent right after the two U4B packets 
+if ((packet_type==5)||(packet_type==6)||(packet_type==7)) 	 //packet type 5,6,7 corresponds to DEXT slot 2,3,4
    {	
-
-	if (pctx->_txSched.verbosity>=3) printf("creating TELEN packet 1\n");
+	int DEXT_slot=packet_type-3;							 //packet type 5,6,7 corresponds to DEXT slot 2,3,4
+	if (pctx->_txSched.verbosity>=3) printf("creating DEXT packet 1\n");
 
 //wuz hook needs work!!!   prolly need to add a dimension to the range/value array for DEXT # (1-3 only cause of my compromise)
 	
 //wuz hook needs work!!!   	//and how relate packet_type (which needs to be expanded with at least one more) to change the SLot value below
 	
-	telem_add_values_to_Big64(pctx);   //cycles through value array and for non-zero ranges and packs  'em into Big64
-	telem_add_header( 4, pctx);   //slot #
+	telem_add_values_to_Big64(DEXT_slot,pctx);   //cycles through value array and for non-zero ranges and packs  'em into Big64
+	telem_add_header( DEXT_slot, pctx);   //slot #
 	telem_convert_Big64_to_GridLocPower(pctx); //does the unpacking of Big64 based on radix's of char destinations
 	wspr_encode(pctx->telem_callsign, pctx->telem_4_char_loc, pctx->telem_power, pctx->_pu8_outbuf, pctx->_txSched.verbosity);   // look in WSPRutility.c for wspr_encode
    }

@@ -97,7 +97,7 @@ typedef struct
 	char telem_4_char_loc[5];
 	uint8_t telem_power;	
 	char telem_chars[8];
-	v_and_r telem_vals_and_ranges[10];        
+	v_and_r telem_vals_and_ranges[5][10];    //slot and param number
 	uint64_t Big64;
 	
 } WSPRbeaconContext;
@@ -105,7 +105,7 @@ typedef struct
 
 WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare, int txpow_dbm,
                                   PioDco *pdco, uint32_t dial_freq_hz, uint32_t shift_freq_hz,
-                                  int gpio,  uint8_t start_minute,  uint8_t id13 ,  uint8_t suffix,const char *TELEN_config);
+                                  int gpio,  uint8_t start_minute,  uint8_t id13 ,  uint8_t suffix,const char *DEXT_config);
 void WSPRbeaconSetDialFreq(WSPRbeaconContext *pctx, uint32_t freq_hz);
 int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type);
 char* add_brackets(const char * call);
@@ -117,7 +117,7 @@ char *WSPRbeaconGetLastQTHLocator(const WSPRbeaconContext *pctx);
 uint8_t WSPRbeaconIsGPSsolutionActive(const WSPRbeaconContext *pctx);
 void encode_telen(uint32_t telen_val1,uint32_t telen_val2,char * telen_chars,uint8_t * telen_power, uint8_t packet_type);  
 void encode_telen2(uint32_t telen_val1,uint32_t telen_val2,char * telen_chars,uint8_t * telen_power, uint8_t packet_type);  
-void telem_add_values_to_Big64(WSPRbeaconContext *c); 
-void telem_add_header( int slot, WSPRbeaconContext *c);
+void telem_add_values_to_Big64(int slot, WSPRbeaconContext *c); 
+void telem_add_header(int slot, WSPRbeaconContext *c);
 void telem_convert_Big64_to_GridLocPower(WSPRbeaconContext *c);
 #endif

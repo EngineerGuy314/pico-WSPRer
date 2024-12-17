@@ -42,7 +42,7 @@ char _suffix[2];
 char _verbosity[2];
 char _oscillator[2];
 char _custom_PCB[2];   
-char _TELEN_config[5];     
+char _DEXT_config[5];     
 char _battery_mode[2];
 char _Klock_speed[4];         
 char _Datalog_mode[2]; 
@@ -143,7 +143,7 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 		(uint8_t)_start_minute[0]-'0',   /**< convert ASCI digits to ints  */
 		(uint8_t)_id13[0]-'0',   
 		(uint8_t)_suffix[0]-'0',
-		_TELEN_config		
+		_DEXT_config		
         );
     assert_(pWB);
     pWSPR = pWB;  //this lets things outside this routine access the WB context
@@ -211,9 +211,9 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 		pWB->_txSched.voltage=volts;
 
  		process_TELEN_data();                          //if needed, this puts data into DEXT variables. You can remove this and set the data yourself as shown in the next few lines
-			/*pctx->telem_vals_and_ranges[0]=(v_and_r){2,8};  //spec range (inclusive of zero) and value for each 
-			  pctx->telem_vals_and_ranges[1]=(v_and_r){2,3};
-			  pctx->telem_vals_and_ranges[2]=(v_and_r){3,2};
+			/*pctx->telem_vals_and_ranges[2][0]=(v_and_r){2,8};  //[slot], specified range (inclusive of zero) and value for each 
+			  pctx->telem_vals_and_ranges[2][1]=(v_and_r){2,3};
+			  pctx->telem_vals_and_ranges[2][2]=(v_and_r){3,2};
 			   .......   */
 				if(0 == ++tick2 % 10)      //every ~5 sec
 				{
@@ -238,29 +238,56 @@ void process_TELEN_data(void)
 {
 		const float conversionFactor = 3300.0f / (1 << 12);   //3.3 * 1000. the 3.3 is from vref, the 1000 is to convert to mV. the 12 bit shift is because thats resolution of ADC
 
-		for (int i=0;i < 4;i++)
+/* wuz testing  ***************
+TELEN 0,2,3 */
+onewire_values[0]=33.9;
+onewire_values[1]=-33.9;
+onewire_values[2]=11.1;
+/* END testing  ***************
+TELEN 0,2,3 */
+
+		for (int i=2;i < 5;i++) //i is slot # (2,3,4)
 		{			
-		   switch(_TELEN_config[i])
+		   switch(_DEXT_config[i])
 			{
 				case '-':  break; //do nothing, telen chan is disabled
-				case '0': adc_select_input(0); telen_values[i] = round((float)adc_read() * conversionFactor);  		  break;
-				case '1': adc_select_input(1); telen_values[i] = round((float)adc_read() * conversionFactor);  		  break;
-				case '2': adc_select_input(2); telen_values[i] = round((float)adc_read() * conversionFactor); 		  break;
-				case '3': adc_select_input(3); telen_values[i] = round((float)adc_read() * conversionFactor * 3.0f);  break;  //since ADC3 is hardwired to Battery via 3:1 voltage devider, make the conversion here
-				case '4':					   telen_values[i] = pWSPR->_txSched.minutes_since_boot;   				  break; 			
-				case '5': 	 				   telen_values[i] = pWSPR->_txSched.minutes_since_GPS_aquisition;		  break;			
-				case '6': 	if (onewire_values[_TELEN_config[i]-'6']>0)     telen_values[i] = onewire_values[_TELEN_config[i]-'6']*100; else	telen_values[i] = 20000 + (-1*onewire_values[_TELEN_config[i]-'6'])*100;	  break;	
-				case '7': 	if (onewire_values[_TELEN_config[i]-'6']>0)     telen_values[i] = onewire_values[_TELEN_config[i]-'6']*100; else	telen_values[i] = 20000 + (-1*onewire_values[_TELEN_config[i]-'6'])*100;	  break;	
-				case '8': 	if (onewire_values[_TELEN_config[i]-'6']>0)     telen_values[i] = onewire_values[_TELEN_config[i]-'6']*100; else	telen_values[i] = 20000 + (-1*onewire_values[_TELEN_config[i]-'6'])*100;	  break;	
-				case '9': 	if (onewire_values[_TELEN_config[i]-'6']>0)     telen_values[i] = onewire_values[_TELEN_config[i]-'6']*100; else	telen_values[i] = 20000 + (-1*onewire_values[_TELEN_config[i]-'6'])*100;	  break;				
+				case '0': 			//Minutes Since Boot, Minutes since GPS fix, GPS Valid, Sat Count (max: 1000,1000,1,60)
+							pWSPR->telem_vals_and_ranges[i][0]=(v_and_r){pWSPR->_txSched.minutes_since_boot,1001}; 
+							pWSPR->telem_vals_and_ranges[i][1]=(v_and_r){pWSPR->_txSched.minutes_since_GPS_aquisition,1001}; 
+							pWSPR->telem_vals_and_ranges[i][2]=(v_and_r){pWSPR->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active,2}; 
+							pWSPR->telem_vals_and_ranges[i][3]=(v_and_r){pWSPR->_pTX->_p_oscillator->_pGPStime->_time_data.sat_count,61}; 
+							break;
+	
+				case '1': 			//ADC 0, 1, 2 (in tenths) (max: 350, 350, 350)
+							adc_select_input(0); pWSPR->telem_vals_and_ranges[i][0]=(v_and_r){round((float)adc_read() * conversionFactor),351};
+							adc_select_input(1); pWSPR->telem_vals_and_ranges[i][1]=(v_and_r){round((float)adc_read() * conversionFactor),351};
+							adc_select_input(2); pWSPR->telem_vals_and_ranges[i][2]=(v_and_r){round((float)adc_read() * conversionFactor),351};
+							break;
+
+				case '2': 			//bus volts ADC3 (in tenths, scaled), Dallas 1 (and sign), sat count (max: 900,120,1,60)
+							adc_select_input(3); 
+							pWSPR->telem_vals_and_ranges[i][0]=(v_and_r){round((float)adc_read() * conversionFactor*3.0f),901};
+							pWSPR->telem_vals_and_ranges[i][1]=(v_and_r){round(fabs(onewire_values[0])),121}; 					
+							pWSPR->telem_vals_and_ranges[i][2]=(v_and_r){(onewire_values[0]<0),2}; 		//negative sign column					
+							pWSPR->telem_vals_and_ranges[i][3]=(v_and_r){pWSPR->_pTX->_p_oscillator->_pGPStime->_time_data.sat_count,61};
+							break;
+							
+				case '3': 			//Dallas OneWire temp 1, 2 (and signs) (max 120,1,120,1)
+
+							pWSPR->telem_vals_and_ranges[i][0]=(v_and_r){round(fabs(onewire_values[1])),121}; 					
+							pWSPR->telem_vals_and_ranges[i][1]=(v_and_r){(onewire_values[1]<0),2}; 		//negative sign column					
+							pWSPR->telem_vals_and_ranges[i][2]=(v_and_r){round(fabs(onewire_values[2])),121}; 					
+							pWSPR->telem_vals_and_ranges[i][3]=(v_and_r){(onewire_values[2]<0),2}; 		//negative sign column					
+							break;
+				case '4': 			// Dallas OneWire temp 3, 4 (and signs) (max 120,1,120,1)
+
+							pWSPR->telem_vals_and_ranges[i][0]=(v_and_r){round(fabs(onewire_values[3])),121}; 					
+							pWSPR->telem_vals_and_ranges[i][1]=(v_and_r){(onewire_values[3]<0),2}; 		//negative sign column					
+							pWSPR->telem_vals_and_ranges[i][2]=(v_and_r){round(fabs(onewire_values[4])),121}; 					
+							pWSPR->telem_vals_and_ranges[i][3]=(v_and_r){(onewire_values[4]<0),2}; 		//negative sign column					
+							break;
 			}	
 		}
-
-//onewire_values		
-		pWSPR->_txSched.TELEN1_val1=telen_values[0];   // will get sent as TELEN #1 (extended Telemetry) (a third packet in the U4B protocol)
-		pWSPR->_txSched.TELEN1_val2=telen_values[1];	// max values are 630k and 153k for val and val2
-		pWSPR->_txSched.TELEN2_val1=telen_values[2];   //will get sent as TELEN #2 (extended Telemetry) (a 4th packet in the U4B protocol)
-		pWSPR->_txSched.TELEN2_val2=telen_values[3];	// max values are 630k and 153k for val and val2
 
 }
 
@@ -351,21 +378,18 @@ void show_TELEN_msg()
 {
 printf(BRIGHT);
 printf("\n\n\n\n");printf(UNDERLINE_ON);
-printf("TELEN CONFIG INSTRUCTIONS:\n\n");printf(UNDERLINE_OFF);
+printf("DEXT (Doug's EXtended Telemetry) CONFIG INSTRUCTIONS:\n\n");printf(UNDERLINE_OFF);
 printf(NORMAL); 
-printf("* There are 4 possible TELEN values, corresponding to TELEN 1 value 1,\n");
-printf("  TELEN 1 value 2, TELEN 2 value 1 and TELEN 2 value 2.\n");
-printf("* Enter 4 characters in TELEN_config. use a '-' (minus) to disable one \n");
-printf("  or more values.\n* example: '----' disables all telen \n");
-printf("* example: '01--' sets Telen 1 value 1 to type 0, \n  Telen 1 val 2 to type 1,  disables all of TELEN 2 \n"); printf(BRIGHT);printf(UNDERLINE_ON);
-printf("\nTelen Types:\n\n");printf(UNDERLINE_OFF);printf(NORMAL); 
-printf("-: disabled, 0: ADC0, 1: ADC1, 2: ADC2, 3: ADC3,\n");
-printf("4: minutes since boot, 5: minutes since GPS fix aquired \n");
-printf("6-9: OneWire temperature sensors 1 though 4 \n");
-printf("A: custom: OneWire temperature sensor 1 hourly low/high \n");
-printf("B-Z: reserved for Future: I2C devices, other modes etc \n");
-printf("\n(ADC values come through in units of mV)\n");
-printf("See the Wiki for more info.\n\n");
+printf("* There are 3 possible DEXT values, corresponding to DEXT slots 2,3 and 4,\n");
+printf("  (Slots 0 and 1 are used by WSPR Type 1 and U4B Basic Telemetry)\n");
+printf("  DEXT slot 2 type, DEXT slot 3 type and DEXT slot 4 type.\n");
+printf("* Enter 3 characters in DEXT_config. use a '-' (minus) to disable one \n");
+printf("  or more values.\n* example: '---' disables all DEXT \n");
+printf("* example: '01-' sets DEXT 2  to type 0, \n  DEXT 3 to type 1,  disables DEXT slot 4 \n"); printf(BRIGHT);printf(UNDERLINE_ON);
+printf("\nDEXT Types:\n\n");printf(UNDERLINE_OFF);printf(NORMAL); 
+printf("-: disabled, 0: minutes since boot, minutes since GPS fix aquired, GPS valid bit and Sat count \n");
+printf("... many more !... \n");
+printf("See the Wiki for full list and range info.\n\n");
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -418,7 +442,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 			/*case 'O':get_user_input("Oscillator off (0,1): ", _oscillator, sizeof(_oscillator)); write_NVRAM(); break;*/
 			case 'P':get_user_input("custom Pcb mode (0,1): ", _custom_PCB, sizeof(_custom_PCB)); write_NVRAM(); break;
 			case 'H':get_user_input("band Hop mode (0,1): ", _band_hop, sizeof(_band_hop)); write_NVRAM(); break;
-			case 'T':show_TELEN_msg();get_user_input("TELEN config: ", _TELEN_config, sizeof(_TELEN_config)); convertToUpperCase(_TELEN_config); write_NVRAM(); break;
+			case 'T':show_TELEN_msg();get_user_input("Telemetry (dexT) config: ", _DEXT_config, sizeof(_DEXT_config)-1); convertToUpperCase(_DEXT_config); write_NVRAM(); break;
 			case 'B':get_user_input("Battery mode (0,1): ", _battery_mode, sizeof(_battery_mode)); write_NVRAM(); break;
 			case 'D':get_user_input("Data-log mode (0,1,Wipe,Dump): ", _Datalog_mode, sizeof(_Datalog_mode));
 						convertToUpperCase(_Datalog_mode);
@@ -475,7 +499,7 @@ strncpy(_suffix, flash_target_contents+10, 1);
 strncpy(_verbosity, flash_target_contents+11, 1);
 strncpy(_oscillator, flash_target_contents+12, 1);
 strncpy(_custom_PCB, flash_target_contents+13, 1);
-strncpy(_TELEN_config, flash_target_contents+14, 4);
+strncpy(_DEXT_config, flash_target_contents+14, 4); //only needs 3, kept at 4 for historical ease
 strncpy(_battery_mode, flash_target_contents+18, 1);
 strncpy(_Klock_speed, flash_target_contents+19, 3); _Klock_speed[3]=0; //null terminate cause later will use atoi
 PLL_SYS_MHZ =atoi(_Klock_speed); 
@@ -502,7 +526,7 @@ void write_NVRAM(void)
 	strncpy(data_chunk+11,_verbosity, 1);
 	strncpy(data_chunk+12,_oscillator, 1);
 	strncpy(data_chunk+13,_custom_PCB, 1);
-	strncpy(data_chunk+14,_TELEN_config, 4);
+	strncpy(data_chunk+14,_DEXT_config, 4);  //only needs 3, kept at 4 for historical ease
 	strncpy(data_chunk+18,_battery_mode, 1);
 	strncpy(data_chunk+19,_Klock_speed, 3);
 	strncpy(data_chunk+22,_Datalog_mode, 1);
@@ -533,7 +557,7 @@ void check_data_validity_and_set_defaults(void)
 	if ( (_verbosity[0]<'0') || (_verbosity[0]>'9')) {_verbosity[0]='1'; write_NVRAM();} //set default verbosity to 1
 	if ( (_oscillator[0]<'0') || (_oscillator[0]>'1')) {_oscillator[0]='1'; write_NVRAM();} //set default oscillator to switch off after the trasmission
 	if ( (_custom_PCB[0]<'0') || (_custom_PCB[0]>'1')) {_custom_PCB[0]='0'; write_NVRAM();} //set default IO mapping to original Pi Pico configuration
-	if ( (_TELEN_config[0]<'0') || (_TELEN_config[0]>'F')) {strncpy(_TELEN_config,"----",4); write_NVRAM();}
+	if ( (_DEXT_config[0]<'0') || (_DEXT_config[0]>'F')) {strncpy(_DEXT_config,"---",3); write_NVRAM();}
 	if ( (_battery_mode[0]<'0') || (_battery_mode[0]>'1')) {_battery_mode[0]='0'; write_NVRAM();} //
 	if ( (atoi(_Klock_speed)<100) || (atoi(_Klock_speed)>300)) {strcpy(_Klock_speed,"115"); write_NVRAM();} 
 	if ( (atoi(_U4B_chan)<0) || (atoi(_U4B_chan)>599)) {strcpy(_U4B_chan,"599"); write_NVRAM();} 
@@ -558,7 +582,7 @@ int result=1;
 	if ( (_verbosity[0]<'0') || (_verbosity[0]>'9')) {result=-1;} 
 	if ( (_oscillator[0]<'0') || (_oscillator[0]>'1')) {result=-1;} 
 	if ( (_custom_PCB[0]<'0') || (_custom_PCB[0]>'1')) {result=-1;} 
-	if ( ((_TELEN_config[0]<'0') || (_TELEN_config[0]>'F'))&& (_TELEN_config[0]!='-')) {result=-1;}
+	if ( ((_DEXT_config[0]<'0') || (_DEXT_config[0]>'F'))&& (_DEXT_config[0]!='-')) {result=-1;}
 	if ( (_battery_mode[0]<'0') || (_battery_mode[0]>'1')) {result=-1;} 	
 	if ( (atoi(_Klock_speed)<100) || (atoi(_Klock_speed)>300)) {result=-1;} 	
 	if ( (_Datalog_mode[0]!='0') && (_Datalog_mode[0]!='1')) {result=-1;}
@@ -578,7 +602,7 @@ void show_values(void) /* shows current VALUES  AND list of Valid Commands */
 printf("\n\nCurrent values:\n");printf(UNDERLINE_OFF);printf(NORMAL);
 
 printf("\n\tCallsign:%s\n\t",_callsign);
-printf("Suffix:%s\n\t",_suffix);
+printf("Suffix (zachtek):%s\n\t",_suffix);
 printf("U4b channel:%s",_U4B_chan);
 printf(" (Id13:%s",_id13);
 printf(" Start Minute:%s",_start_minute);
@@ -586,7 +610,7 @@ printf(" Lane:%s)\n\t",_lane);
 printf("Verbosity:%s\n\t",_verbosity);
 /*printf("Oscillator Off:%s\n\t",_oscillator);*/
 printf("custom Pcb IO mappings:%s\n\t",_custom_PCB);
-printf("TELEN config:%s\n\t",_TELEN_config);
+printf("DEXT config:%s\n\t",_DEXT_config);
 printf("Klock speed:%sMhz  (default: 133)\n\t",_Klock_speed);
 printf("Datalog mode:%s\n\t",_Datalog_mode);
 printf("Battery (low power) mode:%s\n\t",_battery_mode);
@@ -603,7 +627,7 @@ printf("M: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding
 printf("V: Verbosity level (0 for no messages, 9 for too many) \n\t");
 /*printf("O: Oscillator off after trasmission (default: 1) \n\t");*/
 printf("P: custom Pcb mode IO mappings (0,1)\n\t");
-printf("T: TELEN config\n\t");
+printf("T: Telemetry (dexT) config\n\t");
 printf("K: Klock speed  (default: 133)\n\t");
 printf("D: Datalog mode (0,1,(W)ipe memory, (D)ump memory) see wiki\n\t");
 printf("B: Battery (low power) mode \n\t");
@@ -661,9 +685,9 @@ void InitPicoPins(void)
 
 	dallas_setup();  //configures one-wire interface. Enabled pullup on one-wire gpio. must do this here, in case they want to use analog instead, because then pullup needs to be disabled below.
 
-	for (int i=0;i < 4;i++)   //init ADC(s) as needed for TELEN
+	for (int i=0;i < 3;i++)   //init ADC(s) as needed for TELEN
 		{			
-		   switch(_TELEN_config[i])
+		   switch(_DEXT_config[i])
 			{
 				case '-':  break; //do nothing, telen chan is disabled
 				case '0': gpio_init(26);gpio_set_dir(26, GPIO_IN);gpio_set_pulls(26,0,0);break;
