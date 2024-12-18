@@ -234,17 +234,15 @@ static void sleep_callback(void) {
     printf("RTC woke us up\n");
 }
 
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/
+
 void process_TELEN_data(void)
 {
-		const float conversionFactor = 3300.0f / (1 << 12);   //3.3 * 1000. the 3.3 is from vref, the 1000 is to convert to mV. the 12 bit shift is because thats resolution of ADC
+		const float conversionFactor = 33.0f / (1 << 12);   //. the 3.3 is from vref, the 10 is to convert to volt tenths the 12 bit shift is because thats resolution of ADC
 
-/* wuz testing  ***************
-TELEN 0,2,3 */
-onewire_values[0]=33.9;
-onewire_values[1]=-33.9;
-onewire_values[2]=11.1;
-/* END testing  ***************
-TELEN 0,2,3 */
 
 		for (int i=2;i < 5;i++) //i is slot # (2,3,4)
 		{			
