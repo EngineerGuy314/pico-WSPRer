@@ -136,8 +136,7 @@ void telem_add_values_to_Big64(int slot, WSPRbeaconContext *c)
 {											//cycles through value array and for non-zero ranges and packs  'em into Big64
 uint64_t val=0;
 
-int max_len = sizeof(c->telem_vals_and_ranges[0]) / sizeof(c->telem_vals_and_ranges[0][0]);
-
+int max_len = sizeof(c->telem_vals_and_ranges[0]) / sizeof(c->telem_vals_and_ranges[0][0]);  
 for (int i = max_len-1; i >= 0; i--) 
 	if (c->telem_vals_and_ranges[slot][i].range>0)
 	{
@@ -532,10 +531,6 @@ if ((packet_type==5)||(packet_type==6)||(packet_type==7)) 	 //packet type 5,6,7 
    {	
 	int DEXT_slot=packet_type-3;							 //packet type 5,6,7 corresponds to DEXT slot 2,3,4
 	if (pctx->_txSched.verbosity>=3) printf("creating DEXT packet 1\n");
-
-//wuz hook needs work!!!   prolly need to add a dimension to the range/value array for DEXT # (1-3 only cause of my compromise)
-	
-//wuz hook needs work!!!   	//and how relate packet_type (which needs to be expanded with at least one more) to change the SLot value below
 	
 	telem_add_values_to_Big64(DEXT_slot,pctx);   //cycles through value array and for non-zero ranges and packs  'em into Big64
 	telem_add_header( DEXT_slot, pctx);   //slot #

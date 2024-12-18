@@ -53,9 +53,6 @@ void wspr_encode(const char * call, const char * loc, const int8_t dbm, uint8_t 
 	printf(" THE LoCaToR IS: %s and its length is %i\n",loc,strlen(loc));
   }
 
-
-//wuz hook delete printf below
-	printf("dougetry result: %s %s %d\n",call,loc,dbm);
   // Ensure that the message text conforms to standards
   // --------------------------------------------------
   wspr_message_prep(call_, loc_, dbm_);

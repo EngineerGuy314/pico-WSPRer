@@ -248,7 +248,7 @@ TELEN 0,2,3 */
 
 		for (int i=2;i < 5;i++) //i is slot # (2,3,4)
 		{			
-		   switch(_DEXT_config[i])   //see end for traquito site scaling
+		   switch(_DEXT_config[i-2])   //see end for traquito site scaling  
 			{
 				case '-':  break; //do nothing, telen chan is disabled
 				case '0': 			//Minutes Since Boot, Minutes since GPS fix, GPS Valid, Sat Count (max: 1000,1000,1,60)
@@ -266,7 +266,7 @@ TELEN 0,2,3 */
 
 				case '2': 			//bus volts ADC3 (in tenths, scaled), Dallas 1 (and sign), sat count (max: 900,120,1,60)
 							adc_select_input(3); 
-							pWSPR->telem_vals_and_ranges[i][0]=(v_and_r){round((float)adc_read() * conversionFactor*3.0f),901};
+							pWSPR->telem_vals_and_ranges[i][0]=(v_and_r){round((float)adc_read() * conversionFactor * 3.0f * 10),901};
 							pWSPR->telem_vals_and_ranges[i][1]=(v_and_r){round(fabs(onewire_values[0])),121}; 					
 							pWSPR->telem_vals_and_ranges[i][2]=(v_and_r){(onewire_values[0]<0),2}; 		//negative sign column					
 							pWSPR->telem_vals_and_ranges[i][3]=(v_and_r){pWSPR->_pTX->_p_oscillator->_pGPStime->_time_data.sat_count,61};
