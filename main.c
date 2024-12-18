@@ -262,7 +262,7 @@ void process_TELEN_data(void)
 							adc_select_input(2); pWSPR->telem_vals_and_ranges[i][2]=(v_and_r){round((float)adc_read() * conversionFactor),351};
 							break;
 
-				case '2': 			//bus volts ADC3 (in tenths, scaled), Dallas 1 (and sign), sat count (max: 900,120,1,60)
+				case '2': 			//bus volts ADC3 (in hundreth, scaled), Dallas 1 (and sign), sat count (max: 900,120,1,60)
 							adc_select_input(3); 
 							pWSPR->telem_vals_and_ranges[i][0]=(v_and_r){round((float)adc_read() * conversionFactor * 3.0f * 10),901};
 							pWSPR->telem_vals_and_ranges[i][1]=(v_and_r){round(fabs(onewire_values[0])),121}; 					
