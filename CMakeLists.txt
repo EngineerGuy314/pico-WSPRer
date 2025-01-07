@@ -24,12 +24,11 @@ project(pico-WSPRer C CXX ASM)
 
 pico_sdk_init()
 add_executable(pico-WSPRer)
-pico_generate_pio_header(pico-WSPRer ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/piodco/dco2.pio)# These Lines are what invoke the assembler that compiles the .pio programs
-pico_generate_pio_header(pico-WSPRer ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/gpstime/timer_PIO.pio)
+pico_generate_pio_header(pico-WSPRer ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/gpstime/timer_PIO.pio)# These Lines are what invoke the assembler that compiles the .pio programs
 pico_generate_pio_header(pico-WSPRer ${CMAKE_CURRENT_LIST_DIR}/onewire/onewire_library.pio) 
 target_sources(pico-WSPRer PUBLIC
 	           ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/lib/assert.c   
-               ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/piodco/piodco.c
+               ${CMAKE_CURRENT_LIST_DIR}/pico-fractional-pll/pico_fractional_pll.c
                ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/gpstime/GPStime.c
                ${CMAKE_CURRENT_LIST_DIR}/TxChannel/TxChannel.c
                ${CMAKE_CURRENT_LIST_DIR}/WSPRbeacon/thirdparty/WSPRutility.c
@@ -39,7 +38,6 @@ target_sources(pico-WSPRer PUBLIC
                ${CMAKE_CURRENT_LIST_DIR}/debug/logutils.c
                ${CMAKE_CURRENT_LIST_DIR}/onewire/onewire_library.c  
                ${CMAKE_CURRENT_LIST_DIR}/utilities.c
-               ${CMAKE_CURRENT_LIST_DIR}/core1.c
                ${CMAKE_CURRENT_LIST_DIR}/main.c
               )
 
@@ -52,7 +50,7 @@ pico_enable_stdio_usb(pico-WSPRer 1)
 # Add the standard include files to the build
 target_include_directories(pico-WSPRer PRIVATE
                            ${CMAKE_CURRENT_LIST_DIR}
-                           ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/piodco
+                           ${CMAKE_CURRENT_LIST_DIR}/pico-fractional-pll
                            ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/debug
                            ${CMAKE_CURRENT_LIST_DIR}/TxChannel
                            ${CMAKE_CURRENT_LIST_DIR}/WSPRbeacon
@@ -72,6 +70,9 @@ target_link_libraries(pico-WSPRer
 					  hardware_sync
 					  hardware_i2c
 					  hardware_sleep
+				      hardware_exception
+					  hardware_pwm
+					  hardware_irq
                      )
 
 pico_add_extra_outputs(pico-WSPRer)

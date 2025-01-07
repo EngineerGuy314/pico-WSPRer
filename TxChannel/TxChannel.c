@@ -47,7 +47,9 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+
 #include "TxChannel.h"
+#include "pico_fractional_pll.h"
 
 static TxChannelContext *spTX = NULL;
 
@@ -72,8 +74,7 @@ static void RAM (TxChannelISR)(void)
                                          (uint64_t)(spTX->_u32_dialfreqhz * 1000LL));
             //compensate freqency shift using last symbol frequency
 
-        PioDCOSetFreq(pDCO, spTX->_u32_dialfreqhz, 
-                      (uint32_t)byte * WSPR_FREQ_STEP_MILHZ - 2 * i32_compensation_millis);
+pico_fractional_pll_set_freq_f((float)spTX->_u32_dialfreqhz + (float)byte * 12000.f / 8192.f - (float)i32_compensation_millis / 1000.f);
             //set the current symbol frequency
     }
 
@@ -159,4 +160,30 @@ int TxChannelPop(TxChannelContext *pctx, uint8_t *pdst)
 void TxChannelClear(TxChannelContext *pctx)
 {
     pctx->_ix_input = pctx->_ix_output = 0;
+}
+int32_t PioDCOGetFreqShiftMilliHertz(const PioDco *pdco, uint64_t u64_desired_frq_millihz)
+{
+    assert_(pdco);
+    if(!pdco->_pGPStime)
+    {
+        return 0U;
+    }
+
+    static int64_t i64_last_correction = 0;
+    const int64_t dt = pdco->_pGPStime->_time_data._i32_freq_shift_ppb; /* Parts per billion. */   //Used here
+    if(dt)
+    {
+        i64_last_correction = dt;
+    }
+
+    int32_t i32ret_millis;
+    if(i64_last_correction)
+    {
+        int64_t i64corr_coeff = (u64_desired_frq_millihz + 500000LL) / 1000000LL;
+        i32ret_millis = (i64_last_correction * i64corr_coeff + 50000LL) / 1000000LL;
+
+        return i32ret_millis;
+    }
+
+    return 0U;
 }

@@ -16,7 +16,6 @@
 #include "hardware/flash.h"
 #include <WSPRbeacon.h>
 #include <defines.h>
-#include <piodco.h>
 #include "debug/logutils.h"
 #include <protos.h>
 #include <math.h>
@@ -30,6 +29,7 @@
 #include "onewire/onewire_library.h"    // onewire library functions
 #include "onewire/ow_rom.h"             // onewire ROM command codes
 #include "onewire/ds18b20.h"            // ds18b20 function codes
+#include "pico_fractional_pll.h"
 
 
 WSPRbeaconContext *pWSPR;
@@ -53,7 +53,7 @@ char _band_hop[2];
 static uint32_t telen_values[4];  //consolodate in an array to make coding easier
 static absolute_time_t LED_sequence_start_time;
 static int GPS_PPS_PIN;     //these get set based on values in defines.h, and also if custom PCB selected in user menu
-static int RFOUT_PIN;
+int RFOUT_PIN;            //will be fixed at 21 to use Kazu's fraction-pll
 static int GPS_ENABLE_PIN;
 int PLL_SYS_MHZ;
 uint gpio_for_onewire;
@@ -117,9 +117,9 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 		user_interface();   
 		}
 		
-	InitPicoPins();				// Sets GPIO pins roles and directions and also ADC for voltage and temperature measurements (NVRAM must be read BEFORE this, otherwise dont know how to map IO)
-	sleep_ms(2);						//when GPS is enabled it makes 3v3 sag momentarily. the rp2040 is less tolerant of this when overclocked. So, changed it to enable GPS, then  pause, and only then enable overclocking (vs other way around as before)
-	InitPicoClock(PLL_SYS_MHZ);			    // Sets the system clock generator	
+	InitPicoPins();			// Sets GPIO pins roles and directions and also ADC for voltage and temperature measurements (NVRAM must be read BEFORE this, otherwise dont know how to map IO)
+	sleep_ms(2);			// when GPS is enabled it makes 3v3 sag momentarily. the rp2040 is less tolerant of this when overclocked. So, changed it to enable GPS, then  pause, and only then enable overclocking (vs other way around as before)
+	set_sys_clock_48mhz();	// deinit pll_sys and only use pll_usb
 	I2C_init();
     printf("\nThe pico-WSPRer version: %s %s\nWSPR beacon init...",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
 
@@ -154,9 +154,6 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 	pWB->_txSched.oscillatorOff=(uint8_t)_oscillator[0]-'0';
 	pWB->_txSched.low_power_mode=(uint8_t)_battery_mode[0]-'0';
 	strcpy(pWB->_txSched.id13,_id13);
-
-	multicore_launch_core1(Core1Entry);    
-    StampPrintf("RF oscillator initialized.");
 	int uart_number=(uint8_t)_custom_PCB[0]-'0';  //custom PCB uses Uart 1 if selected, otherwise uart 0
 	DCO._pGPStime = GPStimeInit(uart_number, 9600, GPS_PPS_PIN, PLL_SYS_MHZ); //the 0 defines uart0, so the RX is GPIO 1 (pin 2 on pico). TX to GPS module not needed
     assert_(DCO._pGPStime);
@@ -362,7 +359,8 @@ printf("\n\n\n\n\n\n\n\n\n\n\n\n");
 printf("================================================================================\n\n");printf(UNDERLINE_ON);
 printf("Pico-WSPRer (pico whisper-er) by KC3LBR,  version: %s %s\n\n",__DATE__ ,__TIME__);printf(UNDERLINE_OFF);
 printf("Instructions and source: https://github.com/EngineerGuy314/pico-WSPRer\n");
-printf("Forked from: https://github.com/RPiks/pico-WSPR-tx\n");
+printf("Originally forked from : https://github.com/RPiks/pico-WSPR-tx\n");
+printf("RF Gen code by: Kaduhi https://github.com/kaduhi/pico-fractional-pll\n");
 printf("Additional functions, fixes and documention by https://github.com/serych\n\n");
 printf("Multi-band support added by Kevin AD6Z\n\n");	
 printf("Consult https://traquito.github.io/channelmap/ to find an open channel \nand make note of id13 (column headers), minute and lane (frequency)\n");
@@ -454,7 +452,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 							write_NVRAM(); 
 						break;
 
-			case 'K':get_user_input("Klock speed (default 115): ", _Klock_speed, sizeof(_Klock_speed)); write_NVRAM(); break;
+			case 'K':get_user_input("Klock speed - DEPRECATED!: ", _Klock_speed, sizeof(_Klock_speed)); write_NVRAM(); break;
 			
 			case 'F':
 				printf("Fixed Frequency output (antenna tuning mode). Enter frequency (for example 14.097) or 0 for exit.\n\t");
@@ -502,7 +500,7 @@ strncpy(_custom_PCB, flash_target_contents+13, 1);
 strncpy(_DEXT_config, flash_target_contents+14, 4); //only needs 3, kept at 4 for historical ease
 strncpy(_battery_mode, flash_target_contents+18, 1);
 strncpy(_Klock_speed, flash_target_contents+19, 3); _Klock_speed[3]=0; //null terminate cause later will use atoi
-PLL_SYS_MHZ =atoi(_Klock_speed); 
+PLL_SYS_MHZ =48;   //hardcoded for Kazu PLL method //atoi(_Klock_speed); 
 strncpy(_Datalog_mode, flash_target_contents+22, 1);
 strncpy(_U4B_chan, flash_target_contents+23, 3); _U4B_chan[3]=0; //null terminate cause later will use atoi
 strncpy(_band_hop, flash_target_contents+26, 1);
@@ -598,7 +596,9 @@ return result;
  */
 void show_values(void) /* shows current VALUES  AND list of Valid Commands */
 {
-								printf(CLEAR_SCREEN);printf(UNDERLINE_ON);printf(BRIGHT);
+printf(CLEAR_SCREEN);
+printf("Pico-WSPRer (pico whisper-er) by KC3LBR,  version: %s %s\n\n",__DATE__ ,__TIME__);
+printf(UNDERLINE_ON);printf(BRIGHT);
 printf("\n\nCurrent values:\n");printf(UNDERLINE_OFF);printf(NORMAL);
 
 printf("\n\tCallsign:%s\n\t",_callsign);
@@ -611,7 +611,7 @@ printf("Verbosity:%s\n\t",_verbosity);
 /*printf("Oscillator Off:%s\n\t",_oscillator);*/
 printf("custom Pcb IO mappings:%s\n\t",_custom_PCB);
 printf("DEXT config:%s\n\t",_DEXT_config);
-printf("Klock speed:%sMhz  (default: 133)\n\t",_Klock_speed);
+printf("Klock speed -DEPRECATED! :%sMhz  (default: 133)\n\t",_Klock_speed);
 printf("Datalog mode:%s\n\t",_Datalog_mode);
 printf("Battery (low power) mode:%s\n\t",_battery_mode);
 printf("secret band Hopping mode:%s\n\n",_band_hop);
@@ -1031,7 +1031,7 @@ void go_to_sleep()
 			//alarm_time.sec += 15;
 
 			gpio_set_irq_enabled(GPS_PPS_PIN, GPIO_IRQ_EDGE_RISE, false); //this is needed to disable IRQ callback on PPS
-			multicore_reset_core1();  //this is needed, otherwise causes instant reboot
+			pico_fractional_pll_deinit();  //this is (was?) needed, otherwise causes instant reboot
 			sleep_run_from_dormant_source(DORMANT_SOURCE_ROSC);  //this reduces sleep draw to 2mA! (without this will still sleep, but only at 8mA)
 			sleep_goto_sleep_until(&alarm_time, &sleep_callback);	//blocks here during sleep perfiod
 			{watchdog_enable(100, 1);for(;;)	{} }  //recovering from sleep is messy, so this makes it reboot to get a fresh start

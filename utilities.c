@@ -13,7 +13,6 @@
 #include "hardware/clocks.h"
 #include "hardware/gpio.h"
 #include "hardware/adc.h"   
-#include <piodco.h>
 #include "TxChannel.h"
 
 
@@ -55,7 +54,7 @@ void get_user_input(const char *prompt, char *input_variable, int max_length) {
     printf("\n");
 }
 
-/// @brief Initializes Pi pico clock.
+/*                                              -- hardcoded at 48Mhz for Kazu's PLL
 void InitPicoClock(int PLL_SYS_MHZ)
 {
     const uint32_t clkhz = PLL_SYS_MHZ * 1000000L;
@@ -69,6 +68,6 @@ void InitPicoClock(int PLL_SYS_MHZ)
                     PLL_SYS_MHZ * MHZ);
 					
 }
-
+*/
 
 
