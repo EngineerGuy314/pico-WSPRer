@@ -117,9 +117,8 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 		user_interface();   
 		}
 		
+	set_sys_clock_48mhz();	// deinit pll_sys and only use pll_usb        -Jan 2025 found that this MUST be done *before* enabling Dallas sensor stuff
 	InitPicoPins();			// Sets GPIO pins roles and directions and also ADC for voltage and temperature measurements (NVRAM must be read BEFORE this, otherwise dont know how to map IO)
-	sleep_ms(2);			// when GPS is enabled it makes 3v3 sag momentarily. the rp2040 is less tolerant of this when overclocked. So, changed it to enable GPS, then  pause, and only then enable overclocking (vs other way around as before)
-	set_sys_clock_48mhz();	// deinit pll_sys and only use pll_usb
 	I2C_init();
     printf("\nThe pico-WSPRer version: %s %s\nWSPR beacon init...",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
 
@@ -687,14 +686,17 @@ void InitPicoPins(void)
 
 	for (int i=0;i < 3;i++)   //init ADC(s) as needed for TELEN
 		{			
-		   switch(_DEXT_config[i])
+/* 
+			removed (temporarily) Jane 2025 because 0 1 and 2 are used for custome DEXT messages, NOT actual ADC channel reads. ADC chan initiation needs to be done if/when you use a DEXt that includes analog. I dont think thats implemented yet
+
+		 switch(_DEXT_config[i])
 			{
 				case '-':  break; //do nothing, telen chan is disabled
 				case '0': gpio_init(26);gpio_set_dir(26, GPIO_IN);gpio_set_pulls(26,0,0);break;
 				case '1': gpio_init(27);gpio_set_dir(27, GPIO_IN);gpio_set_pulls(27,0,0);break;
 				case '2': gpio_init(28);gpio_set_dir(28, GPIO_IN);gpio_set_pulls(28,0,0);break; 
 			}
-			
+			*/
 		}
 	
 	gpio_init(PICO_VSYS_PIN);  		//Prepare ADC 3 to read Vsys
@@ -776,7 +778,7 @@ void onewire_read()
 						if (temp!=-1)
 						onewire_values[i]= 32.0 + ((temp / 16.0)*1.8);
 						else printf("\nOneWire device read failure!! re-using previous value\n");
-						//printf ("\t%d: %f", i,onewire_values[i]);
+						printf ("\t%d: %f", i,onewire_values[i]);
 					}
 					  // start temperature conversion in parallel on all devices so they will be ready for the next time i try to read them
 					  // (see ds18b20 datasheet)
