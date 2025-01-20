@@ -778,7 +778,7 @@ void onewire_read()
 						if (temp!=-1)
 						onewire_values[i]= 32.0 + ((temp / 16.0)*1.8);
 						else printf("\nOneWire device read failure!! re-using previous value\n");
-						printf ("\t%d: %f", i,onewire_values[i]);
+						//printf ("\t%d: %f", i,onewire_values[i]);
 					}
 					  // start temperature conversion in parallel on all devices so they will be ready for the next time i try to read them
 					  // (see ds18b20 datasheet)
