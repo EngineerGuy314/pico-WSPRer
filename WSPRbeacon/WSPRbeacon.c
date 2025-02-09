@@ -302,7 +302,7 @@ else
 			pico_fractional_pll_enable_output(true);
 			transmitter_status=1;
 			WSPRbeaconCreatePacket(pctx, schedule[current_minute] ); //the schedule determines packet type (1-4 for U4B 1st msg,U4B 2nd msg,Zachtek 1st, Zachtek 2nd)
-			sleep_ms(50);
+			sleep_ms(1000); //technically your supposed to wait 1 second after minute to begin TX
 			WSPRbeaconSendPacket(pctx); 
 			//if (schedule[current_minute]==2) {U4B_second_packet_has_started=1;U4B_second_packet_has_started_at_minute=current_minute;}
 			if (schedule[current_minute]==2) {U4B_second_packet_has_started=1;U4B_second_packet_has_started_at_minute=(current_minute+2)%10;} // the plus 2 at end is to allow 1 TELEN in low power mode

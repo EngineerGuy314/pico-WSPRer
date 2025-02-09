@@ -91,7 +91,7 @@ void wspr_message_prep(char * call, char * loc, int8_t dbm)
 		if(call[i] != '/' && call[i] != '<' && call[i] != '>')
 		{
 			call[i] = toupper(call[i]);
-			if(!(isdigit(call[i]) || isupper(call[i])))
+			if(!((isdigit(call[i]) || isupper(call[i])) || (isupper(call[i])==0)))  //changed Feb 9, 2025 -  previous code was changing the null terminator to a space, wheich then included potential garbage from unitialized space (similar to a non null-terminated string). if this garbage included a / then subsequent code would encode as a type 3 wspr message and screw up telemtry big time intermittently.  this was contributing to non 100% spot reception on previous flights! (i also added parenthesis to clarify the strange C order of operator presendce regarding ! )
 			{
 				call[i] = ' ';
 			}
