@@ -90,7 +90,7 @@ WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare
 	p->_txSched.minutes_since_GPS_aquisition=99999; minute_OF_GPS_aquisition=0;
 	/* Following code sets packet types for each timeslot. 1:U4B 1st msg, 2: U4B 2nd msg, 3: WSPR1 or Zachtek 1st, 4:Zachtek 2nd,  5:extended TELEN #1 6:extended TELEN #2  */
 	
-	if (id13==253)              //if U4B protocol disabled ('--' enterred for Id13),  we will ONLY do Type 1 [and Type3 (zachtek)] at the specified minute
+	if (id13==253)   //if U4B protocol disabled ('--' enterred for Id13),  we will ONLY do Type 1 [and Type3 (zachtek)] at the specified minute
 	{
 		
 		if (suffix != 253)
@@ -132,9 +132,8 @@ else                                       //if we get here, U4B is enabled
 }
 //*****************************************************************************************************************************
 
-
-void telem_add_values_to_Big64(int slot, WSPRbeaconContext *c) 
-{											//cycles through value array and for non-zero ranges and packs  'em into Big64
+void telem_add_values_to_Big64(int slot, WSPRbeaconContext *c) //for DEXT, cycles through value/range array and for non-zero ranges packs  'em into Big64
+{							
 uint64_t val=0;
 
 int max_len = sizeof(c->telem_vals_and_ranges[0]) / sizeof(c->telem_vals_and_ranges[0][0]);  
@@ -164,41 +163,22 @@ c->Big64=val;
 
 /////****************************************************************************************
 void telem_convert_Big64_to_GridLocPower(WSPRbeaconContext *c)
-{
- //does the unpacking of Big64 based on the radix's of char destinations
+{  		//does the unpacking of Big64 into grid callsign and power based on the radix's of char destinations
 
 		uint64_t val  = c->Big64;
-
-        uint8_t powerVal = val % 19; val = val / 19;
-        uint8_t g4Val    = val % 10; val = val / 10;
-        uint8_t g3Val    = val % 10; val = val / 10;
-        uint8_t g2Val    = val % 18; val = val / 18;
-        uint8_t g1Val    = val % 18; val = val / 18;
-        char g1 = 'A' + g1Val;
-        char g2 = 'A' + g2Val;
-        char g3 = '0' + g3Val;
-        char g4 = '0' + g4Val;
-		c->telem_4_char_loc[0] = g1; 
-		c->telem_4_char_loc[1] = g2;
-		c->telem_4_char_loc[2] = g3;
-		c->telem_4_char_loc[3] = g4;
+        c->telem_power         =valid_dbm[val % 19];val = val / 19;     //valid_dbm() converts from discrete to feasible power levels
+        c->telem_4_char_loc[3] = '0' +  val % 10; 	val = val / 10;
+        c->telem_4_char_loc[2] = '0' +  val % 10; 	val = val / 10;
+        c->telem_4_char_loc[1] = 'A' +  val % 18; 	val = val / 18;
+		c->telem_4_char_loc[0] = 'A' +  val % 18; 	val = val / 18;
 		c->telem_4_char_loc[4] = 0;
-        uint8_t id6Val = val % 26; val = val / 26;
-        uint8_t id5Val = val % 26; val = val / 26;
-        uint8_t id4Val = val % 26; val = val / 26;
-        uint8_t id2Val = val % 36; val = val / 36;
-        char id2 = EncodeBase36(id2Val);
-        char id4 = 'A' + id4Val;
-        char id5 = 'A' + id5Val;
-        char id6 = 'A' + id6Val;
-        c->telem_callsign[0] =  c->_txSched.id13[0];   
-		c->telem_callsign[1] =  id2;
-		c->telem_callsign[2] =  c->_txSched.id13[1];
-		c->telem_callsign[3] =  id4;
-		c->telem_callsign[4] =  id5;
-		c->telem_callsign[5] =  id6;
-		c->telem_callsign[6] =  0;
-		c->telem_power=valid_dbm[powerVal];
+		c->telem_callsign[6]   = 0;
+        c->telem_callsign[5]   = 'A' + val % 26; val = val / 26;
+        c->telem_callsign[4]   = 'A' + val % 26; val = val / 26;
+        c->telem_callsign[3]   = 'A' + val % 26; val = val / 26;
+		c->telem_callsign[2]   = c->_txSched.id13[1];     //fixed, based on reserved callsign
+        c->telem_callsign[1]   = EncodeBase36(val % 36); val = val / 36;
+        c->telem_callsign[0]   = c->_txSched.id13[0];     //fixed, based on reserved callsign        
 }
 
 //******************************************************************************************************************************
@@ -208,8 +188,7 @@ void telem_convert_Big64_to_GridLocPower(WSPRbeaconContext *c)
 /// @return 0 if OK, -1 if NO GPS received available
 int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose, int GPS_PPS_PIN)   // called every half second from Main.c
 {
-
-                	
+              	
 	uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;  //on if there ever were any serial data received from a GPS unit
     const uint32_t is_GPS_active = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;  //on if valid 3d fix
 
@@ -269,6 +248,8 @@ else
 
 		current_minute = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_last_digit_minutes - '0';  //convert from char to int
 	
+		int solar_angle=calc_solar_angle(pctx->_pTX->_p_oscillator->_pGPStime->_time_data.hour,pctx->_pTX->_p_oscillator->_pGPStime->_time_data.minute,pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lat_100k, pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lon_100k);
+
 	if (schedule[current_minute]==-1)        //if the current minute is an odd minute or a non-scheduled minute
 	{
 		for (int i=0;i < 10;i++) oneshots[i]=0;
@@ -423,8 +404,8 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-6.  1: 
 			pctx->_txSched->id13
 			pctx->_txSched->voltage
 */	
-/* outputs :	char CallsignU4B[6]; 
-				char Grid_U4B[7]; 
+/* outputs :	char CallsignU4B[6];     (callsign contains fixed id13, and encodes gridchars56 and altitude 
+ 				char Grid_U4B[7];        (grid and power contain voltage, knots  and temperature (and some bits)
 				uint8_t  power_U4B;
 				*/
         // parse input presentations
@@ -678,3 +659,12 @@ void WSPRbeaconSetDialFreq(WSPRbeaconContext *pctx, uint32_t freq_hz)
 /// @brief Constructs a new WSPR packet using the data available.
 /// @param pctx Context
 /// @return 0 if OK.
+//******************************************************************************************************************************
+int calc_solar_angle(int hour, int min, int64_t int_lat, int64_t int_lon)
+{
+  double lat = 1e-7 * (double)int_lat;
+  double lon = 1e-7 * (double)int_lon;
+  
+  //printf(" utc hour: %i minute: %i lat: %f lon: %f\n",hour,min,lat,lon);
+
+}

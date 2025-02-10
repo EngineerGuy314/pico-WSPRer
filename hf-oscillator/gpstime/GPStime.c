@@ -171,9 +171,14 @@ int parse_GPS_data(GPStimeContext *pg)
             }
         }		
 		pg->_time_data._u8_last_digit_minutes= *(prmc + u8ixcollector[0] + 3);
+		char first_digit_minute=*(prmc + u8ixcollector[0] + 2);		
 		pg->_time_data._u8_last_digit_hour= *(prmc + u8ixcollector[0] + 1);		
+		char first_digit_hour = *(prmc + u8ixcollector[0]);			
+		pg->_time_data.minute= 10*(first_digit_minute-'0')+ (pg->_time_data._u8_last_digit_minutes-'0');
+		pg->_time_data.hour =10*(first_digit_hour-'0')+ (pg->_time_data._u8_last_digit_hour-'0');		
 		strncpy(pg->_time_data._full_time_string, (const char *)prmc + u8ixcollector[0], 6);pg->_time_data._full_time_string[6]=0;
 		
+		//printf(" utc hour: %i minute: %i\n",pg->_time_data.hour,pg->_time_data.minute);
 		
         pg->_time_data._u8_is_solution_active = (prmc[u8ixcollector[5]]>48);   //numeric 0 for no fix, 1 2 or 3 for various fix types //printf("char is: %c\n",prmc[u8ixcollector[5]]);
 		pg->_time_data.sat_count = atoi((const char *)prmc + u8ixcollector[6]); 

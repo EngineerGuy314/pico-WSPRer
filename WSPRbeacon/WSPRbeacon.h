@@ -120,4 +120,5 @@ void encode_telen2(uint32_t telen_val1,uint32_t telen_val2,char * telen_chars,ui
 void telem_add_values_to_Big64(int slot, WSPRbeaconContext *c); 
 void telem_add_header(int slot, WSPRbeaconContext *c);
 void telem_convert_Big64_to_GridLocPower(WSPRbeaconContext *c);
+int calc_solar_angle(int hour, int min, int64_t int_lat, int64_t int_lon);
 #endif
