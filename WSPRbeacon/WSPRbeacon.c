@@ -309,6 +309,7 @@ else
 
 		if ((pctx->_txSched.low_power_mode)&&(U4B_second_packet_has_started)&&(current_minute==((U4B_second_packet_has_started_at_minute+2)%10))) //time to sleep to save battery power
 		{
+			/* removing for now because 1) sleep doesnt work with new PLL setup and 2) updated pico-extras caused issues
 			datetime_t t = {.year  = 2020,.month = 01,.day= 01, .dotw= 1,.hour=1,.min= 1,.sec = 00};
 			// Start the RTC
 			rtc_init();
@@ -320,7 +321,7 @@ else
 			pico_fractional_pll_deinit();  //this is needed?, otherwise causes instant reboot
 			sleep_run_from_dormant_source(DORMANT_SOURCE_ROSC);  //this reduces sleep draw to 2mA! (without this will still sleep, but only at 8mA)
 			sleep_goto_sleep_until(&alarm_time, &sleep_callback);	//blocks here during sleep perfiod
-			{watchdog_enable(100, 1);for(;;)	{} }  //recovering from sleep is messy, this makes it reboot to get a fresh start
+			{watchdog_enable(100, 1);for(;;)	{} }  //recovering from sleep is messy, this makes it reboot to get a fresh start  */
 		}
    
    return 0;

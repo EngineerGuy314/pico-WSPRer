@@ -1023,6 +1023,8 @@ printf("\n\nrebooting...");watchdog_enable(100, 1);for(;;)	{}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void go_to_sleep()
 {
+			/*
+			removing for now because 1) sleep doesnt work with new PLL setup and 2) updated pico-extras caused issues
 			datetime_t t = {.year  = 2020,.month = 01,.day= 01, .dotw= 1,.hour=1,.min= 1,.sec = 00};			
 			rtc_init(); // Start the RTC
 			rtc_set_datetime(&t);
@@ -1037,6 +1039,7 @@ void go_to_sleep()
 			sleep_run_from_dormant_source(DORMANT_SOURCE_ROSC);  //this reduces sleep draw to 2mA! (without this will still sleep, but only at 8mA)
 			sleep_goto_sleep_until(&alarm_time, &sleep_callback);	//blocks here during sleep perfiod
 			{watchdog_enable(100, 1);for(;;)	{} }  //recovering from sleep is messy, so this makes it reboot to get a fresh start
+			*/
 }
 ////////////////////////////////////
 void process_chan_num()
