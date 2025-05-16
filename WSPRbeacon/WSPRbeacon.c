@@ -604,9 +604,9 @@ char *WSPRbeaconGetLastQTHLocator(WSPRbeaconContext *pctx)
     char ten_char_grid[10];
     double lat = 1e-7 * (double)pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lat_100k;  //Roman's original code used 1e-5 instead (bug)
     double lon = 1e-7 * (double)pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lon_100k;  //Roman's original code used 1e-5 instead (bug)
-    lon+=(double)0.3 + (0.03*(double)pctx->_txSched.minutes_since_boot);
+/*    lon+=(double)0.3 + (0.03*(double)pctx->_txSched.minutes_since_boot);
 	lon+=(double)1.2;
-	lon+=(double)0.01*(double)pctx->_txSched.minutes_since_boot;  //DEBUGGING to simulate motion
+	lon+=(double)0.01*(double)pctx->_txSched.minutes_since_boot;  //DEBUGGING to simulate motion     */
 
 	snprintf(ten_char_grid,11,get_mh(lat, lon, 10));
 	pctx->grid7=ten_char_grid[6];
