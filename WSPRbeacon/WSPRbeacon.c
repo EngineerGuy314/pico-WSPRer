@@ -584,7 +584,7 @@ void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx)  //called ~ every 20 s
     StampPrintf("ppb:%lld", pGPS->_time_data._i32_freq_shift_ppb); 
 
 	StampPrintf("LED Mode: %d",pctx->_txSched.led_mode);
-	StampPrintf("Grid: %s",(char *)WSPRbeaconGetLastQTHLocator(pctx));
+	//StampPrintf("Grid: %s",(char *)WSPRbeaconGetLastQTHLocator(pctx));
 	StampPrintf("lat: %lli",pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lat_100k);
 	StampPrintf("lon: %lli",pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lon_100k);
 	StampPrintf("altitude: %f",pctx->_pTX->_p_oscillator->_pGPStime->_altitude);	   
@@ -595,18 +595,25 @@ void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx)  //called ~ every 20 s
 /// @param pctx Ptr to WSPR beacon context.
 /// @return ptr to string of QTH locator (static duration object inside get_mh).
 /// @remark It uses third-party project https://github.com/sp6q/maidenhead .
-char *WSPRbeaconGetLastQTHLocator(const WSPRbeaconContext *pctx)
+char *WSPRbeaconGetLastQTHLocator(WSPRbeaconContext *pctx)
 {
     assert_(pctx);
     assert_(pctx->_pTX);
     assert_(pctx->_pTX->_p_oscillator);
     assert_(pctx->_pTX->_p_oscillator->_pGPStime);
-    
+    char ten_char_grid[10];
     double lat = 1e-7 * (double)pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lat_100k;  //Roman's original code used 1e-5 instead (bug)
     double lon = 1e-7 * (double)pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lon_100k;  //Roman's original code used 1e-5 instead (bug)
-    /*lon+=(double)0.3 + (0.03*(double)pctx->_txSched.minutes_since_boot);
+    lon+=(double)0.3 + (0.03*(double)pctx->_txSched.minutes_since_boot);
 	lon+=(double)1.2;
-	lon+=(double)0.01*(double)pctx->_txSched.minutes_since_boot;  *///DEBUGGING to simulate motion
+	lon+=(double)0.01*(double)pctx->_txSched.minutes_since_boot;  //DEBUGGING to simulate motion
+
+	snprintf(ten_char_grid,11,get_mh(lat, lon, 10));
+	pctx->grid7=ten_char_grid[6];
+	pctx->grid8=ten_char_grid[7];
+	pctx->grid9=ten_char_grid[8];
+	pctx->grid10=ten_char_grid[9];
+//	printf("chars 6 through 10: %d %d %d %d\n",pctx->grid7,pctx->grid8,pctx->grid9,pctx->grid10);
 	return get_mh(lat, lon, 6);
 }
 

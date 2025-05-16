@@ -170,7 +170,7 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 		
 		if(WSPRbeaconIsGPSsolutionActive(pWB))
         {
-            const char *pgps_qth = WSPRbeaconGetLastQTHLocator(pWB);  //GET MAIDENHEAD       - this code in original fork wasnt working due to error in WSPRbeacon.c
+            char *pgps_qth = WSPRbeaconGetLastQTHLocator(pWB);  //GET MAIDENHEAD       - this code in original fork wasnt working due to error in WSPRbeacon.c
             if(pgps_qth)
             {
                 strncpy(pWB->_pu8_locator, pgps_qth, 6);     //does full 6 char maidenhead 				
@@ -279,6 +279,16 @@ void process_TELEN_data(void)
 							pWSPR->telem_vals_and_ranges[i][1]=(v_and_r){(onewire_values[3]<0),2}; 		//negative sign column					
 							pWSPR->telem_vals_and_ranges[i][2]=(v_and_r){round(fabs(onewire_values[4])),121}; 					
 							pWSPR->telem_vals_and_ranges[i][3]=(v_and_r){(onewire_values[4]<0),2}; 		//negative sign column					
+							break;
+				case '5': 			//(must be used in first DEXT slot) sends additional 4 chars of Maidenhead 
+		
+							pWSPR->telem_vals_and_ranges[i][0 ]=(v_and_r){pWSPR->grid7 ,10}; 
+							pWSPR->telem_vals_and_ranges[i][1 ]=(v_and_r){pWSPR->grid8 ,10}; 
+							pWSPR->telem_vals_and_ranges[i][2 ]=(v_and_r){pWSPR->grid9 ,24}; 
+							pWSPR->telem_vals_and_ranges[i][3 ]=(v_and_r){ pWSPR->grid10,24}; 
+							pWSPR->telem_vals_and_ranges[i][4]=(v_and_r){(int)round(pWSPR->_txSched.minutes_since_boot/10.0),101}; 
+							pWSPR->telem_vals_and_ranges[i][5]=(v_and_r){(int)round(pWSPR->_txSched.minutes_since_GPS_aquisition/10.0),101}; 			
+							
 							break;
 			}	
 		}

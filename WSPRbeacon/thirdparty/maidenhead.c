@@ -17,8 +17,8 @@ char letterize(int x) {
 
 char* get_mh(double lat, double lon, int size) {
     static char locator[11];
-    double LON_F[]={20,2.0,0.0833333333,0.008333,0.0003472083333333333}; /*KC3LBR 07/23/24   increased resolution of 1/12 constant to prevent problems*/
-    double LAT_F[]={10,1.0,0.0416666667,0.004166,0.0001735833333333333}; /*KC3LBR 07/23/24   increased resolution of 1/24 constant to prevent problems*/
+    double LON_F[]={20,2.0,0.0833333333,0.008333333,0.0003472222222222}; /*KC3LBR 07/23/24   increased resolution of 1/12 constant to prevent problems*/
+    double LAT_F[]={10,1.0,0.0416666667,0.004166666,0.0001736111111111}; /*KC3LBR 07/23/24   increased resolution of 1/24 constant to prevent problems*/
     int i;
     lon += 180;
     lat += 90;

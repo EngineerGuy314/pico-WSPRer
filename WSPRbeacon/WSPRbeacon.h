@@ -99,6 +99,10 @@ typedef struct
 	char telem_chars[8];
 	v_and_r telem_vals_and_ranges[5][10];    //slot and param number
 	uint64_t Big64;
+	uint8_t grid7;
+	uint8_t grid8;
+	uint8_t grid9;
+	uint8_t grid10;
 	
 } WSPRbeaconContext;
 
@@ -113,7 +117,7 @@ int WSPRbeaconSendPacket(const WSPRbeaconContext *pctx);
 char EncodeBase36(uint8_t val);
 int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose, int GPS_PPS_PIN);
 void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx);
-char *WSPRbeaconGetLastQTHLocator(const WSPRbeaconContext *pctx);
+char *WSPRbeaconGetLastQTHLocator(WSPRbeaconContext *pctx);
 uint8_t WSPRbeaconIsGPSsolutionActive(const WSPRbeaconContext *pctx);
 void encode_telen(uint32_t telen_val1,uint32_t telen_val2,char * telen_chars,uint8_t * telen_power, uint8_t packet_type);  
 void encode_telen2(uint32_t telen_val1,uint32_t telen_val2,char * telen_chars,uint8_t * telen_power, uint8_t packet_type);  
