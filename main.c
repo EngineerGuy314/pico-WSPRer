@@ -288,6 +288,14 @@ void process_TELEN_data(void)
 							pWSPR->telem_vals_and_ranges[i][3 ]=(v_and_r){ pWSPR->grid10,24}; 
 							pWSPR->telem_vals_and_ranges[i][4]=(v_and_r){(int)round(pWSPR->_txSched.minutes_since_boot/10.0),101}; 
 							pWSPR->telem_vals_and_ranges[i][5]=(v_and_r){(int)round(pWSPR->_txSched.minutes_since_GPS_aquisition/10.0),101}; 			
+							break;
+							
+				case '6': 			//idle and xmit volts, some low res times            
+		
+							pWSPR->telem_vals_and_ranges[i][0 ]=(v_and_r){ (int)round(100*pWSPR->_txSched.voltage_at_idle) ,501}; 
+							pWSPR->telem_vals_and_ranges[i][1 ]=(v_and_r){ (int)round(100*pWSPR->_txSched.voltage_at_xmit) ,501}; 
+							pWSPR->telem_vals_and_ranges[i][2]=(v_and_r){(int)round(pWSPR->_txSched.minutes_since_boot/10.0),61}; 
+							pWSPR->telem_vals_and_ranges[i][3]=(v_and_r){(int)round(pWSPR->_txSched.minutes_since_GPS_aquisition/20.0),61}; 			
 							
 							break;
 			}	

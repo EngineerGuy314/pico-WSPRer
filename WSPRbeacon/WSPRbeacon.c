@@ -88,6 +88,7 @@ WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare
 	tester=0;
 	p->_txSched.minutes_since_boot=0;
 	p->_txSched.minutes_since_GPS_aquisition=99999; minute_OF_GPS_aquisition=0;
+	
 	/* Following code sets packet types for each timeslot. 1:U4B 1st msg, 2: U4B 2nd msg, 3: WSPR1 or Zachtek 1st, 4:Zachtek 2nd,  5:extended TELEN #1 6:extended TELEN #2  */
 	
 	if (id13==253)   //if U4B protocol disabled ('--' enterred for Id13),  we will ONLY do Type 1 [and Type3 (zachtek)] at the specified minute
@@ -323,6 +324,12 @@ else
 			sleep_goto_sleep_until(&alarm_time, &sleep_callback);	//blocks here during sleep perfiod
 			{watchdog_enable(100, 1);for(;;)	{} }  //recovering from sleep is messy, this makes it reboot to get a fresh start  */
 		}
+   
+		if (transmitter_status==0)            //when not xmitting, constantly (re)sets idle voltage. If xmitting is on
+		pctx->_txSched.voltage_at_idle=pctx->_txSched.voltage;
+
+		if ((transmitter_status==1)&&(schedule[current_minute]==1))   //if transmitting, AND if doing the 1st packet, (re)sets XMIT voltage. so the voltage that DEXT sends will have been recorded right at the end of the 1st packet
+		pctx->_txSched.voltage_at_xmit=pctx->_txSched.voltage;
    
    return 0;
 }

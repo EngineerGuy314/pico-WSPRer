@@ -67,6 +67,8 @@ typedef struct
     int8_t temp_in_Celsius;
 	int8_t verbosity;
     double voltage;
+    double voltage_at_idle;
+    double voltage_at_xmit;
     int8_t oscillatorOff;
 	uint32_t TELEN1_val1;
 	uint32_t TELEN1_val2;
