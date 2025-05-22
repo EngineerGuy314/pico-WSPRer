@@ -124,13 +124,16 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 	I2C_init();
     printf("\nThe pico-WSPRer version: %s %s\nWSPR beacon init...",__DATE__ ,__TIME__);	//messages are sent to USB serial port, 115200 baud
 
-	switch(_lane[0])                                     //following lines set lane frequencies for 20M u4b operation. The center freuency for Zactkep (wspr 3) xmitions is hard set in WSPRBeacon.c to 14097100UL
+
+	int band_as_int=_band[0]-'A';   
+	XMIT_FREQUENCY=freqs[band_as_int];
+	switch(_lane[0])                             //following lines set lane frequencies for u4b operation. The center freuency for Zactkep (wspr 3) xmitions is hard set in WSPRBeacon.c to 14097100UL
 		{
-			case '1':XMIT_FREQUENCY=14097020UL;XMIT_FREQUENCY_10_METER=28126020UL;break;
-			case '2':XMIT_FREQUENCY=14097060UL;XMIT_FREQUENCY_10_METER=28126060UL;break;
-			case '3':XMIT_FREQUENCY=14097140UL;XMIT_FREQUENCY_10_METER=28126140UL;break;
-			case '4':XMIT_FREQUENCY=14097180UL;XMIT_FREQUENCY_10_METER=28126180UL;break;
-			default: XMIT_FREQUENCY=14097100UL;        //in case an invalid lane was read from EEPROM
+			case '1':XMIT_FREQUENCY-=80;break;
+			case '2':XMIT_FREQUENCY-=40;break;
+			case '3':XMIT_FREQUENCY+=40;break;
+			case '4':XMIT_FREQUENCY+=80;break;
+			 
 		}	
    
 	 WSPRbeaconContext *pWB = WSPRbeaconInit(
@@ -638,7 +641,7 @@ void show_values(void) /* shows current VALUES  AND list of Valid Commands */
 {
 check_data_validity_and_set_defaults(); //added may 2025, will this cause problems? with fresh out of box pico?
 
-int band_as_int=_band[0]-'A';
+int band_as_int=_band[0]-'A';       
 printf(CLEAR_SCREEN);
 printf("Pico-WSPRer (pico whisper-er) by KC3LBR,  version: %s %s\n\n",__DATE__ ,__TIME__);
 printf(UNDERLINE_ON);printf(BRIGHT);
