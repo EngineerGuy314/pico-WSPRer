@@ -6,7 +6,7 @@
 
 PLEASE SEE THE [WIKI](https://github.com/EngineerGuy314/pico-WSPRer/wiki/pico%E2%80%90WSPRer-(aka-Cheapest-Tracker-in-the-World%E2%84%A2)) FOR SIGNIFICANTLY MORE DETAILED INFORMATION.
 ----------
-click [here](https://github.com/EngineerGuy314/pico-WSPRer/raw/main/build/pico-WSPRer.uf2) to download the pre-compiled firmware (newest version, NOW INCLUDES MULTI-BAND)
+click [here](https://github.com/EngineerGuy314/pico-WSPRer/raw/main/build/pico-WSPRer.uf2) to download the pre-compiled firmware (newest version, NOW INCLUDES MULTI-BAND, 6M through 40M)
 
 Summary
 -------

@@ -386,7 +386,7 @@ printf("RF Gen code by: Kaduhi https://github.com/kaduhi/pico-fractional-pll\n")
 printf("Additional functions, fixes and documention by https://github.com/serych\n");
 printf("Consult https://traquito.github.io/channelmap/ to find and reserve an open channel \n\n");printf(BRIGHT);printf(UNDERLINE_ON);
 printf("BAND ENUMERATION:\n");printf(UNDERLINE_OFF);
-printf("(default is 'H' 20 Meter) A:LF,B:MF,C:160,D:80,E:60,F:40,G:30,H:20,I:17,J:15,K:12,L:10,M:6,N:2 \n");
+printf("(default is 'H' 20 Meter) F:40,G:30,H:20,I:17,J:15,K:12,L:10,M:6 \n");
 printf(" The only officially tested band is 20Meter ('H') !! all others are use at your own risk \n\n");
 printf("---WARNING!--- For bands other than H (20M) and L (10M) you may need to use a different U4B channel to get the starting minute you want!!\n");
 printf("---WARNING!--- if using a custom PCB you must change custom-Pcb-mode to 1 !!!!\n\n");
@@ -461,7 +461,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 			case 'C':get_user_input("Enter callsign: ",_callsign,sizeof(_callsign)); convertToUpperCase(_callsign); write_NVRAM(); break;
 			case 'S':get_user_input("Enter single digit numeric suffix: ", _suffix, sizeof(_suffix)); convertToUpperCase(_suffix); write_NVRAM(); break;
 			case 'U':get_user_input("Enter U4B channel: ", _U4B_chan, sizeof(_U4B_chan)); process_chan_num(); write_NVRAM(); break;
-			case 'B':get_user_input("Band (A-N): ", _band, sizeof(_band));   convertToUpperCase(_band); write_NVRAM(); break;
+			case 'B':get_user_input("Band (F-M): ", _band, sizeof(_band));   convertToUpperCase(_band); write_NVRAM(); break;
 /*			case 'I':get_user_input("Enter id13: ", _id13,sizeof(_id13)); convertToUpperCase(_id13); write_NVRAM(); break; //still possible but not listed or recommended
 			case 'M':get_user_input("Enter starting Minute: ", _start_minute, sizeof(_start_minute)); write_NVRAM(); break; //still possible but not listed or recommended. i suppose needed for when to start standalone beacon or Zachtek
 			case 'L':get_user_input("Enter Lane (1,2,3,4): ", _lane, sizeof(_lane)); write_NVRAM(); break; //still possible but not listed or recommended 
@@ -593,7 +593,7 @@ void check_data_validity_and_set_defaults(void)
 	if ( (atoi(_U4B_chan)<0) || (atoi(_U4B_chan)>599)) {strcpy(_U4B_chan,"599"); write_NVRAM();} 
 	if ( (_Datalog_mode[0]!='0') && (_Datalog_mode[0]!='1') && (_Datalog_mode[0]!='D') && (_Datalog_mode[0]!='W')) {_Datalog_mode[0]='0'; write_NVRAM();}
 	if ( (_band_hop[0]<'0') || (_band_hop[0]>'1')) {_band_hop[0]='0'; write_NVRAM();} //
-	if ( (_band[0]<'A') || (_band[0]>'N')) {_band[0]='H'; write_NVRAM();} //
+	if ( (_band[0]<'F') || (_band[0]>'M')) {_band[0]='H'; write_NVRAM();} //
 
 //certain modes have been hidden. following lines make sure they are not accidentally enabled from data corruption
 _oscillator[0]='1';
@@ -627,7 +627,7 @@ int result=1;
 	if ( (_Datalog_mode[0]!='0') && (_Datalog_mode[0]!='1')) {result=-1;}
 	if ( (atoi(_U4B_chan)<0) || (atoi(_U4B_chan)>599)) {result=-1;} 
 	if ( (_band_hop[0]<'0') || (_band_hop[0]>'1')) {result=-1;} 
-	if ( (_band[0]<'A') || (_band[0]>'N')) {result=-1;} 
+	if ( (_band[0]<'F') || (_band[0]>'M')) {result=-1;} 
 
 
 return result;
@@ -669,7 +669,7 @@ printf("VALID commands: ");printf(UNDERLINE_OFF);printf(NORMAL);
 printf("\n\n\tX: eXit configuraiton and reboot\n\tC: change Callsign (6 char max)\n\t");
 printf("S: change Suffix ( for WSPR3/Zachtek) use '-' to disable WSPR3\n\t");
 printf("U: change U4b channel # (0-599)\n\t");
-printf("B: change Band (A-N) default 20M is H\n\t");
+printf("B: change Band (F-M) default 20M is H\n\t");
 /*printf("I: change Id13 (two alpha numeric chars, ie Q8) use '--' to disable U4B\n\t");
 printf("M: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\t");*/ //it is still possible to directly change these, but its not shown
 printf("V: Verbosity level (0 for no messages, 9 for too many) \n\t");
