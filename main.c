@@ -48,6 +48,7 @@ char _Klock_speed[4];
 char _Datalog_mode[2]; 
 char _U4B_chan[4];
 char _band_hop[2];
+char _band[2];
 
 
 static uint32_t telen_values[4];  //consolodate in an array to make coding easier
@@ -69,8 +70,9 @@ static float volts=0;
 static float tempC=0;
 PioDco DCO = {0};
 uint32_t XMIT_FREQUENCY;
-uint32_t XMIT_FREQUENCY_10_METER;
-
+uint32_t XMIT_FREQUENCY_10_METER;  //deprecated
+const uint32_t freqs[14] =   							//A:LF,B:MF,C:160,D:80,E:60,F:40,G:30,H:20,I:17,J:15,K:12,L:10,M:6,N:2 
+    {137500,475700,1838100,3570100,5288700,7040100,10140200,14097100,18106100,21096100,24926100,28126100,50294500,144490500}; 
 
 
 int main()
@@ -374,19 +376,24 @@ printf(CURSOR_HOME);
 printf(BRIGHT);
 printf("\n\n\n\n\n\n\n\n\n\n\n\n");
 printf("================================================================================\n\n");printf(UNDERLINE_ON);
-printf("Pico-WSPRer (pico whisper-er) by KC3LBR,  version: %s %s\n\n",__DATE__ ,__TIME__);printf(UNDERLINE_OFF);
+printf("Pico-WSPRer (pico whisper-er) by KC3LBR,  version: %s %s\n\n",__DATE__ ,__TIME__);printf(UNDERLINE_OFF);printf(NORMAL); 
 printf("Instructions and source: https://github.com/EngineerGuy314/pico-WSPRer\n");
 printf("Originally forked from : https://github.com/RPiks/pico-WSPR-tx\n");
 printf("RF Gen code by: Kaduhi https://github.com/kaduhi/pico-fractional-pll\n");
-printf("Additional functions, fixes and documention by https://github.com/serych\n\n");
-printf("Multi-band support added by Kevin AD6Z\n\n");	
-printf("Consult https://traquito.github.io/channelmap/ to find an open channel \nand make note of id13 (column headers), minute and lane (frequency)\n");
-printf("---WARNING!--- if using a custom PCB you must change custom-Pcb-mode to 1 !!!!\n");
+printf("Additional functions, fixes and documention by https://github.com/serych\n");
+printf("Consult https://traquito.github.io/channelmap/ to find and reserve an open channel \n\n");printf(BRIGHT);printf(UNDERLINE_ON);
+printf("BAND ENUMERATION:\n");printf(UNDERLINE_OFF);
+printf("(default is 'H' 20 Meter) A:LF,B:MF,C:160,D:80,E:60,F:40,G:30,H:20,I:17,J:15,K:12,L:10,M:6,N:2 \n");
+printf(" The only officially tested band is 20Meter ('H') !! all others are use at your own risk \n\n");
+printf("---WARNING!--- For bands other than H (20M) and L (10M) you may need to use a different U4B channel to get the starting minute you want!!\n");
+printf("---WARNING!--- if using a custom PCB you must change custom-Pcb-mode to 1 !!!!\n\n");
+
 printf("\n================================================================================\n");
 
 printf(RED);printf("press anykey to continue");printf(NORMAL); 
 char c=getchar_timeout_us(60000000);	//wait 
 printf(CLEAR_SCREEN);
+
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 void show_TELEN_msg()
@@ -433,12 +440,13 @@ sleep_ms(100);
 gpio_put(LED_PIN, 1); //LED on.	
 
 display_intro();
+printf(CLEAR_SCREEN);
 show_values();          /* shows current VALUES  AND list of Valid Commands */
 
     for(;;)
 	{	
 																 printf(UNDERLINE_ON);printf(BRIGHT);
-		printf("\nEnter the command (X,C,S,U,[I,M,L],V,P,T,B,D,K,F,H):");printf(UNDERLINE_OFF);printf(NORMAL);	
+		printf("\nEnter the command (X,C,S,U,B,V,P,T,B,F):");printf(UNDERLINE_OFF);printf(NORMAL);	
 		c=getchar_timeout_us(60000000);		   //just in case user setup menu was enterred during flight, this will reboot after 60 secs
 		printf("%c\n", c);
 		if (c==PICO_ERROR_TIMEOUT) {printf(CLEAR_SCREEN);printf("\n\n TIMEOUT WAITING FOR INPUT, REBOOTING FOR YOUR OWN GOOD!\n");sleep_ms(100);watchdog_enable(100, 1);for(;;)	{}}
@@ -450,16 +458,18 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 			case 'C':get_user_input("Enter callsign: ",_callsign,sizeof(_callsign)); convertToUpperCase(_callsign); write_NVRAM(); break;
 			case 'S':get_user_input("Enter single digit numeric suffix: ", _suffix, sizeof(_suffix)); convertToUpperCase(_suffix); write_NVRAM(); break;
 			case 'U':get_user_input("Enter U4B channel: ", _U4B_chan, sizeof(_U4B_chan)); process_chan_num(); write_NVRAM(); break;
-			case 'I':get_user_input("Enter id13: ", _id13,sizeof(_id13)); convertToUpperCase(_id13); write_NVRAM(); break; //still possible but not listed or recommended
+			case 'B':get_user_input("Band (A-N): ", _band, sizeof(_band));   convertToUpperCase(_band); write_NVRAM(); break;
+/*			case 'I':get_user_input("Enter id13: ", _id13,sizeof(_id13)); convertToUpperCase(_id13); write_NVRAM(); break; //still possible but not listed or recommended
 			case 'M':get_user_input("Enter starting Minute: ", _start_minute, sizeof(_start_minute)); write_NVRAM(); break; //still possible but not listed or recommended. i suppose needed for when to start standalone beacon or Zachtek
-			case 'L':get_user_input("Enter Lane (1,2,3,4): ", _lane, sizeof(_lane)); write_NVRAM(); break; //still possible but not listed or recommended
+			case 'L':get_user_input("Enter Lane (1,2,3,4): ", _lane, sizeof(_lane)); write_NVRAM(); break; //still possible but not listed or recommended 
+*/
 			case 'V':get_user_input("Verbosity level (0-9): ", _verbosity, sizeof(_verbosity)); write_NVRAM(); break;
 			/*case 'O':get_user_input("Oscillator off (0,1): ", _oscillator, sizeof(_oscillator)); write_NVRAM(); break;*/
 			case 'P':get_user_input("custom Pcb mode (0,1): ", _custom_PCB, sizeof(_custom_PCB)); write_NVRAM(); break;
-			case 'H':get_user_input("band Hop mode (0,1): ", _band_hop, sizeof(_band_hop)); write_NVRAM(); break;
+			//case 'H':get_user_input("band Hop mode (0,1): ", _band_hop, sizeof(_band_hop)); write_NVRAM(); break;
 			case 'T':show_TELEN_msg();get_user_input("Telemetry (dexT) config: ", _DEXT_config, sizeof(_DEXT_config)-1); convertToUpperCase(_DEXT_config); write_NVRAM(); break;
-			case 'B':get_user_input("Battery mode (0,1): ", _battery_mode, sizeof(_battery_mode)); write_NVRAM(); break;
-			case 'D':get_user_input("Data-log mode (0,1,Wipe,Dump): ", _Datalog_mode, sizeof(_Datalog_mode));
+			//case 'B':get_user_input("Battery mode (0,1): ", _battery_mode, sizeof(_battery_mode)); write_NVRAM(); break;
+			/*case 'D':get_user_input("Data-log mode (0,1,Wipe,Dump): ", _Datalog_mode, sizeof(_Datalog_mode));
 						convertToUpperCase(_Datalog_mode);
 						if ((_Datalog_mode[0]=='D') || (_Datalog_mode[0]=='W') ) 
 								{
@@ -467,9 +477,9 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 									_Datalog_mode[0]='0';
 								}						 
 							write_NVRAM(); 
-						break;
+						break;*/
 
-			case 'K':get_user_input("Klock speed - DEPRECATED!: ", _Klock_speed, sizeof(_Klock_speed)); write_NVRAM(); break;
+			//case 'K':get_user_input("Klock speed - DEPRECATED!: ", _Klock_speed, sizeof(_Klock_speed)); write_NVRAM(); break;
 			
 			case 'F':
 				printf("Fixed Frequency output (antenna tuning mode). Enter frequency (for example 14.097) or 0 for exit.\n\t");
@@ -477,7 +487,7 @@ show_values();          /* shows current VALUES  AND list of Valid Commands */
 				float frequency;
 				while(1)
 				{
-					get_user_input("Frequency to generate (MHz): ", _tuning_freq, sizeof(_tuning_freq));  //blocking until next input
+					get_user_input("Frequency to generate (MHz): (flakey! use at your own risk!) ", _tuning_freq, sizeof(_tuning_freq));  //blocking until next input
 					frequency = atof(_tuning_freq);
 					if (!frequency) {break;}
 					printf("Generating %.3f MHz\n", frequency);
@@ -521,6 +531,7 @@ PLL_SYS_MHZ =48;   //hardcoded for Kazu PLL method //atoi(_Klock_speed);
 strncpy(_Datalog_mode, flash_target_contents+22, 1);
 strncpy(_U4B_chan, flash_target_contents+23, 3); _U4B_chan[3]=0; //null terminate cause later will use atoi
 strncpy(_band_hop, flash_target_contents+26, 1);
+strncpy(_band, flash_target_contents+27, 1);
  
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -547,6 +558,7 @@ void write_NVRAM(void)
 	strncpy(data_chunk+22,_Datalog_mode, 1);
 	strncpy(data_chunk+23,_U4B_chan, 3);
 	strncpy(data_chunk+26,_band_hop, 1);
+	strncpy(data_chunk+27,_band, 1);
 	
 
 	uint32_t ints = save_and_disable_interrupts();
@@ -578,6 +590,15 @@ void check_data_validity_and_set_defaults(void)
 	if ( (atoi(_U4B_chan)<0) || (atoi(_U4B_chan)>599)) {strcpy(_U4B_chan,"599"); write_NVRAM();} 
 	if ( (_Datalog_mode[0]!='0') && (_Datalog_mode[0]!='1') && (_Datalog_mode[0]!='D') && (_Datalog_mode[0]!='W')) {_Datalog_mode[0]='0'; write_NVRAM();}
 	if ( (_band_hop[0]<'0') || (_band_hop[0]>'1')) {_band_hop[0]='0'; write_NVRAM();} //
+	if ( (_band[0]<'A') || (_band[0]>'N')) {_band[0]='H'; write_NVRAM();} //
+
+//certain modes have been hidden. following lines make sure they are not accidentally enabled from data corruption
+_oscillator[0]='1';
+_battery_mode[0]='0';
+strcpy(_Klock_speed,"115");
+_Datalog_mode[0]='0';
+_band_hop[0]='0'; 
+
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -603,6 +624,8 @@ int result=1;
 	if ( (_Datalog_mode[0]!='0') && (_Datalog_mode[0]!='1')) {result=-1;}
 	if ( (atoi(_U4B_chan)<0) || (atoi(_U4B_chan)>599)) {result=-1;} 
 	if ( (_band_hop[0]<'0') || (_band_hop[0]>'1')) {result=-1;} 
+	if ( (_band[0]<'A') || (_band[0]>'N')) {result=-1;} 
+
 
 return result;
 }
@@ -613,25 +636,29 @@ return result;
  */
 void show_values(void) /* shows current VALUES  AND list of Valid Commands */
 {
+check_data_validity_and_set_defaults(); //added may 2025, will this cause problems? with fresh out of box pico?
+
+int band_as_int=_band[0]-'A';
 printf(CLEAR_SCREEN);
 printf("Pico-WSPRer (pico whisper-er) by KC3LBR,  version: %s %s\n\n",__DATE__ ,__TIME__);
 printf(UNDERLINE_ON);printf(BRIGHT);
 printf("\n\nCurrent values:\n");printf(UNDERLINE_OFF);printf(NORMAL);
 
 printf("\n\tCallsign:%s\n\t",_callsign);
-printf("Suffix (zachtek):%s\n\t",_suffix);
+printf("Suffix (zachtek):%s   (please set to '-' if unused)\n\t",_suffix);
 printf("U4b channel:%s",_U4B_chan);
 printf(" (Id13:%s",_id13);
 printf(" Start Minute:%s",_start_minute);
 printf(" Lane:%s)\n\t",_lane);
+printf("Band:%s (%d Hz)\n\t",_band,freqs[band_as_int]);
 printf("Verbosity:%s\n\t",_verbosity);
 /*printf("Oscillator Off:%s\n\t",_oscillator);*/
 printf("custom Pcb IO mappings:%s\n\t",_custom_PCB);
-printf("DEXT config:%s\n\t",_DEXT_config);
-printf("Klock speed -DEPRECATED! :%sMhz  (default: 133)\n\t",_Klock_speed);
+printf("Telemetry config:%s   (please set to '---' if unused)\n",_DEXT_config);
+/*printf("Klock speed -DEPRECATED! :%sMhz  (default: 133)\n\t",_Klock_speed);
 printf("Datalog mode:%s\n\t",_Datalog_mode);
 printf("Battery (low power) mode:%s\n\t",_battery_mode);
-printf("secret band Hopping mode:%s\n\n",_band_hop);
+printf("secret band Hopping mode:%s\n\n",_band_hop);*/
 
 							printf(UNDERLINE_ON);printf(BRIGHT);
 printf("VALID commands: ");printf(UNDERLINE_OFF);printf(NORMAL);
@@ -639,17 +666,18 @@ printf("VALID commands: ");printf(UNDERLINE_OFF);printf(NORMAL);
 printf("\n\n\tX: eXit configuraiton and reboot\n\tC: change Callsign (6 char max)\n\t");
 printf("S: change Suffix ( for WSPR3/Zachtek) use '-' to disable WSPR3\n\t");
 printf("U: change U4b channel # (0-599)\n\t");
+printf("B: change Band (A-N) default 20M is H\n\t");
 /*printf("I: change Id13 (two alpha numeric chars, ie Q8) use '--' to disable U4B\n\t");
 printf("M: change starting Minute (0,2,4,6,8)\n\tL: Lane (1,2,3,4) corresponding to 4 frequencies in 20M band\n\t");*/ //it is still possible to directly change these, but its not shown
 printf("V: Verbosity level (0 for no messages, 9 for too many) \n\t");
 /*printf("O: Oscillator off after trasmission (default: 1) \n\t");*/
 printf("P: custom Pcb mode IO mappings (0,1)\n\t");
 printf("T: Telemetry (dexT) config\n\t");
-printf("K: Klock speed  (default: 133)\n\t");
-printf("D: Datalog mode (0,1,(W)ipe memory, (D)ump memory) see wiki\n\t");
-printf("B: Battery (low power) mode \n\t");
+//printf("K: Klock speed  (default: 133)\n\t");
+//printf("D: Datalog mode (0,1,(W)ipe memory, (D)ump memory) see wiki\n\t");
+//printf("B: Battery (low power) mode \n\t");
 printf("F: Frequency output (antenna tuning mode)\n\t");
-printf("H: secret band Hopping mode \n\n");
+//printf("H: secret band Hopping mode \n\n");
 
 }
 /**
