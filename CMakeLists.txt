@@ -21,7 +21,7 @@ if (PICO_SDK_VERSION_STRING VERSION_LESS "1.4.0")
 endif()
 
 project(pico-WSPRer C CXX ASM)
-
+add_definitions(-DPICO_XOSC_STARTUP_DELAY_MULTIPLIER=64)  #fixes problem with slow XOSC startup causing failure to boot- Thanks Kazu!
 pico_sdk_init()
 add_executable(pico-WSPRer)
 pico_generate_pio_header(pico-WSPRer ${CMAKE_CURRENT_LIST_DIR}/hf-oscillator/gpstime/timer_PIO.pio)# These Lines are what invoke the assembler that compiles the .pio programs
