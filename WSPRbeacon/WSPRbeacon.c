@@ -17,6 +17,10 @@
 
 static char grid5;
 static char grid6;
+static char grid7;
+static char grid8;
+static char grid9;
+static char grid10;
 static float altitude_snapshot;
 static int rf_pin;
 static int U4B_second_packet_has_started = 0;
@@ -192,7 +196,6 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose, int GPS_PPS_PIN)
               	
 	uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;  //on if there ever were any serial data received from a GPS unit
     const uint32_t is_GPS_active = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;  //on if valid 3d fix
-
 	pctx->_txSched.minutes_since_boot=floor((to_ms_since_boot(get_absolute_time()) / (uint32_t)60000) );
 
 	if (OLD_GPS_active_status!=is_GPS_active) //GPS status has changed
@@ -352,7 +355,12 @@ int WSPRbeaconCreatePacket(WSPRbeaconContext *pctx,int packet_type)  //1-6.  1: 
 	_4_char_version_of_locator[4]=0;  //add null terminator
 	wspr_encode(pctx->_pu8_callsign, _4_char_version_of_locator, pctx->_u8_txpower, pctx->_pu8_outbuf, pctx->_txSched.verbosity);   // look in WSPRutility.c for wspr_encode
 	grid5 = pctx->_pu8_locator[4];  //record the values of grid chars 5 and 6 now, but they won't be used until packet type 2 is created
-    grid6 = pctx->_pu8_locator[5];
+    grid6 = pctx->_pu8_locator[5];		
+	pctx->grid7=grid7; //also record snapshot of chars 7 through 10 for extended telem
+	pctx->grid8=grid8;
+	pctx->grid9=grid9;
+	pctx->grid10=grid10;
+	printf("Saved Grid for Xmit: %s%c%c%c%c%c%c lat/lon: %lld %lld\n", _4_char_version_of_locator,grid5,grid6,grid7,grid8,grid9,grid10,pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lat_100k,pctx->_pTX->_p_oscillator->_pGPStime->_time_data._i64_lon_100k);
 	altitude_snapshot=pctx->_pTX->_p_oscillator->_pGPStime->_altitude;     //save the value for later when used in 2nd packet
 	at_least_one_first_packet_sent=1;
    }
@@ -602,7 +610,7 @@ void WSPRbeaconDumpContext(const WSPRbeaconContext *pctx)  //called ~ every 20 s
 /// @param pctx Ptr to WSPR beacon context.
 /// @return ptr to string of QTH locator (static duration object inside get_mh).
 /// @remark It uses third-party project https://github.com/sp6q/maidenhead .
-char *WSPRbeaconGetLastQTHLocator(WSPRbeaconContext *pctx)
+char *WSPRbeaconGetLastQTHLocator(WSPRbeaconContext *pctx)                   //called every second or so
 {
     assert_(pctx);
     assert_(pctx->_pTX);
@@ -616,10 +624,10 @@ char *WSPRbeaconGetLastQTHLocator(WSPRbeaconContext *pctx)
 	lon+=(double)0.01*(double)pctx->_txSched.minutes_since_boot;  //DEBUGGING to simulate motion     */
 
 	snprintf(ten_char_grid,11,get_mh(lat, lon, 10));
-	pctx->grid7=ten_char_grid[6];
-	pctx->grid8=ten_char_grid[7];
-	pctx->grid9=ten_char_grid[8];
-	pctx->grid10=ten_char_grid[9];
+	grid7=ten_char_grid[6];
+	grid8=ten_char_grid[7];
+	grid9=ten_char_grid[8];
+	grid10=ten_char_grid[9];
 //	printf("chars 6 through 10: %d %d %d %d\n",pctx->grid7,pctx->grid8,pctx->grid9,pctx->grid10);
 	return get_mh(lat, lon, 6);
 }
