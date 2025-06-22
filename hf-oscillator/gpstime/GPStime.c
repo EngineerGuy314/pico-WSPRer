@@ -219,6 +219,10 @@ int parse_GPS_data(GPStimeContext *pg)
 			f = (float)atof((char *)prmc+u8ixcollector[8]);  
 			pg->_altitude=f;    	
 			//pg->_altitude=12500;     //FORCING A SPECIFIC ALTITUDE for debugging		
+		
+		  //printf("GPS Latitude:%lld Longtitude:%lld\n", pg->_time_data._i64_lat_100k, pg->_time_data._i64_lon_100k);
+		
+		
 		}
     }
 
