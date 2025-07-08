@@ -42,6 +42,7 @@ static uint8_t _callsign_for_TYPE1[12];
 static 	uint8_t  altitude_as_power_fine;
 static uint32_t previous_msg_count;
 static absolute_time_t GPS_aquisiion_time;
+static absolute_time_t GPS_loss_time;
 static uint32_t minute_OF_GPS_aquisition;
 static int tikk;
 static int tester;
@@ -197,18 +198,34 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose, int GPS_PPS_PIN)
 	uint32_t is_GPS_available = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u32_nmea_gprmc_count;  //on if there ever were any serial data received from a GPS unit
     const uint32_t is_GPS_active = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;  //on if valid 3d fix
 	pctx->_txSched.minutes_since_boot=floor((to_ms_since_boot(get_absolute_time()) / (uint32_t)60000) );
-
+	
+	printf("secs since aquistion %d secs since loss %d \n",pctx->_txSched.seconds_since_GPS_aquisition,pctx->_txSched.seconds_since_GPS_loss);
 	if (OLD_GPS_active_status!=is_GPS_active) //GPS status has changed
 	{
+		printf(" ONESHOT FIRED!! GPs active value: %d\n",is_GPS_active);
 		OLD_GPS_active_status=is_GPS_active; //make it a oneshot
 		if (is_GPS_active) minute_OF_GPS_aquisition = pctx->_txSched.minutes_since_boot;   //it changed, and is now ON so save time it last went on				
+
+		if (is_GPS_active)                         
+			GPS_aquisiion_time=get_absolute_time(); 
+		else
+			GPS_loss_time=get_absolute_time(); 
+
 	}
 
 if (is_GPS_active)
+{
 	pctx->_txSched.minutes_since_GPS_aquisition = pctx->_txSched.minutes_since_boot-minute_OF_GPS_aquisition; //current time minus time it last went on is MINUTES since on
+	pctx->_txSched.seconds_since_GPS_aquisition=floor(absolute_time_diff_us(GPS_aquisiion_time, get_absolute_time()) / (int64_t)1000000);
+	pctx->_txSched.seconds_since_GPS_loss=0;
+}
 else
-	pctx->_txSched.minutes_since_GPS_aquisition = (pctx->_txSched.minutes_since_boot-minute_OF_GPS_aquisition); //9xxx will indicatte no GPS, but the xxx will still show time since last aquisition
+{
+	pctx->_txSched.minutes_since_GPS_aquisition = 0;  //fixed july 2025. until now, if gps was locked, then lost, the mins since GPS lock kept going up! (you would still see sat-count=0, *if* you were looking at it
+	pctx->_txSched.seconds_since_GPS_aquisition=0;
+	pctx->_txSched.seconds_since_GPS_loss=floor(absolute_time_diff_us(GPS_loss_time, get_absolute_time()) / (int64_t)1000000);
 
+}
 
 		 if(is_GPS_active) at_least_one_GPS_fixed_has_been_obtained=1;
 		 if (pctx->_txSched.force_xmit_for_testing) {            

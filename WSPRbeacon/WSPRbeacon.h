@@ -76,6 +76,8 @@ typedef struct
 	uint32_t TELEN2_val2;
 	uint32_t minutes_since_boot;
 	uint32_t minutes_since_GPS_aquisition;
+	uint32_t seconds_since_GPS_aquisition;
+	uint32_t seconds_since_GPS_loss;
 	uint8_t low_power_mode;
 
 } WSPRbeaconSchedule;

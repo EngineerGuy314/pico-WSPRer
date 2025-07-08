@@ -304,9 +304,17 @@ void process_TELEN_data(void)
 							pWSPR->telem_vals_and_ranges[i][3]=(v_and_r){(int)round(pWSPR->_txSched.minutes_since_GPS_aquisition/20.0),61}; 			
 							
 							break;
+
+				case '7': 			//high res GPS lock/loss times
+
+							pWSPR->telem_vals_and_ranges[i][0]=(v_and_r){pWSPR->_txSched.seconds_since_GPS_aquisition,3601}; 
+							pWSPR->telem_vals_and_ranges[i][1]=(v_and_r){pWSPR->_txSched.seconds_since_GPS_loss,3601}; 
+							pWSPR->telem_vals_and_ranges[i][2]=(v_and_r){(int)round(pWSPR->_txSched.minutes_since_boot/10.0),37}; 									
+							
+							break;
+
 			}	
 		}
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1148,5 +1156,11 @@ void process_chan_num()
 { "name": "DALLAS4",      "unit": "Count",  "lowValue":   0, "highValue": 120,    "stepSize": 1 },
 { "name": "Dallas4_sign",      "unit": "Count",  "lowValue":   0, "highValue": 1,    "stepSize": 1 },
 
+
+
+7:
+{ "name": "since_lock",     "unit": "secs",   "lowValue":   0,    "highValue": 3600,    "stepSize": 1   },
+{ "name": "since_loss",      "unit": "secs",    "lowValue":   0,    "highValue":    3600,    "stepSize":  1   },
+{ "name": "since_boot_tens",      "unit": "mins",    "lowValue":   0,    "highValue":    36,    "stepSize":  1   },
 
 */
