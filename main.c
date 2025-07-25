@@ -219,7 +219,7 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
 				if(0 == ++tick2 % 10)      //every ~5 sec
 				{
 				if (pWB->_txSched.verbosity>=1) StampPrintf("Temp: %0.1f  Volts: %0.1f  Altitude: %0.0f  Satellite count: %d\n", tempU,volts,DCO._pGPStime->_altitude ,DCO._pGPStime->_time_data.sat_count);		
-				if (pWB->_txSched.verbosity>=3) printf("TELEN Vals 1 through 4:  %d %d %d %d\n",telen_values[0],telen_values[1],telen_values[2],telen_values[3]);
+				//if (pWB->_txSched.verbosity>=3) printf("TELEN Vals 1 through 4:  %d %d %d %d\n",telen_values[0],telen_values[1],telen_values[2],telen_values[3]);
 				}
 		
 		for (int i=0;i < 10;i++) //orig code had a 900mS pause here. I only pause a total of 500ms, and spend it polling the time to handle LED state

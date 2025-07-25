@@ -199,7 +199,7 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose, int GPS_PPS_PIN)
     const uint32_t is_GPS_active = pctx->_pTX->_p_oscillator->_pGPStime->_time_data._u8_is_solution_active;  //on if valid 3d fix
 	pctx->_txSched.minutes_since_boot=floor((to_ms_since_boot(get_absolute_time()) / (uint32_t)60000) );
 	
-	printf("secs since aquistion %d secs since loss %d \n",pctx->_txSched.seconds_since_GPS_aquisition,pctx->_txSched.seconds_since_GPS_loss);
+	//printf("secs since aquistion %d secs since loss %d \n",pctx->_txSched.seconds_since_GPS_aquisition,pctx->_txSched.seconds_since_GPS_loss);
 	if (OLD_GPS_active_status!=is_GPS_active) //GPS status has changed
 	{
 		printf(" ONESHOT FIRED!! GPs active value: %d\n",is_GPS_active);
