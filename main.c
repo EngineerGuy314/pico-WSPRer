@@ -1175,4 +1175,4 @@ void process_chan_num()
 { "name": "seconds_for_1st_aquisition","unit": "Count","lowValue":   0, "highValue": 1800,    "stepSize": 1 },
 { "name": "Vbus",   "unit": "mV",  "lowValue":   0, "highValue": 900,    "stepSize": 1 },
 
-*/
+ */
