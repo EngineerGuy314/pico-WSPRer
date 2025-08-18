@@ -78,6 +78,8 @@ typedef struct
 	uint32_t minutes_since_GPS_aquisition;
 	uint32_t seconds_since_GPS_aquisition;
 	uint32_t seconds_since_GPS_loss;
+	uint32_t seconds_it_took_FIRST_GPS_lock;
+	uint32_t max_sats_seen_today;
 	uint8_t low_power_mode;
 
 } WSPRbeaconSchedule;

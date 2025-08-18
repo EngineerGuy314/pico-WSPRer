@@ -181,7 +181,10 @@ if (check_data_validity()==-1)  //if data was bad, breathe LED for 10 seconds an
                 strncpy(pWB->_pu8_locator, pgps_qth, 6);     //does full 6 char maidenhead 				
 //		        strcpy(pWB->_pu8_locator,"AA1ABC");          //DEBUGGING TO FORCE LOCATOR VALUE				
             }
-        }        
+ 
+		if (pWSPR->_pTX->_p_oscillator->_pGPStime->_time_data.sat_count > pWSPR->_txSched.max_sats_seen_today) pWSPR->_txSched.max_sats_seen_today=pWSPR->_pTX->_p_oscillator->_pGPStime->_time_data.sat_count;
+
+ }        
         WSPRbeaconTxScheduler(pWB, YES, GPS_PPS_PIN);   
                 
 		if (pWB->_txSched.verbosity>=5)
@@ -313,6 +316,10 @@ void process_TELEN_data(void)
 							
 							break;
 
+				case '8': 			//some things   (58-)
+							pWSPR->telem_vals_and_ranges[i][0]=(v_and_r){pWSPR->_txSched.max_sats_seen_today,61}; 
+							pWSPR->telem_vals_and_ranges[i][1]=(v_and_r){pWSPR->_txSched.seconds_it_took_FIRST_GPS_lock,1801}; 
+							pWSPR->telem_vals_and_ranges[i][2]=(v_and_r){round((float)adc_read() * conversionFactor * 3.0f * 10),901}; 									
 			}	
 		}
 }
@@ -1162,5 +1169,10 @@ void process_chan_num()
 { "name": "since_lock",     "unit": "secs",   "lowValue":   0,    "highValue": 3600,    "stepSize": 1   },
 { "name": "since_loss",      "unit": "secs",    "lowValue":   0,    "highValue":    3600,    "stepSize":  1   },
 { "name": "since_boot_tens",      "unit": "mins",    "lowValue":   0,    "highValue":    36,    "stepSize":  1   },
+
+8:
+{ "name": "most_sats_seen_today",      "unit": "Count",  "lowValue":   0, "highValue": 60,    "stepSize": 1 },
+{ "name": "seconds_for_1st_aquisition","unit": "Count","lowValue":   0, "highValue": 1800,    "stepSize": 1 },
+{ "name": "Vbus",   "unit": "mV",  "lowValue":   0, "highValue": 900,    "stepSize": 1 },
 
 */

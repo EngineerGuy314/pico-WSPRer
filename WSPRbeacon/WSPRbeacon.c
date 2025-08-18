@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////////////////////////
-//  Majority of code forked from work by
+//  Much of the code forked from work by
 //  Roman Piksaykin [piksaykin@gmail.com], R2BDY
 //  https://www.qrz.com/db/r2bdy
 //  PROJECT PAGE
@@ -93,7 +93,8 @@ WSPRbeaconContext *WSPRbeaconInit(const char *pcallsign, const char *pgridsquare
 	tester=0;
 	p->_txSched.minutes_since_boot=0;
 	p->_txSched.minutes_since_GPS_aquisition=99999; minute_OF_GPS_aquisition=0;
-	
+	p->_txSched.seconds_it_took_FIRST_GPS_lock=1800;
+	p->_txSched.max_sats_seen_today=0;
 	/* Following code sets packet types for each timeslot. 1:U4B 1st msg, 2: U4B 2nd msg, 3: WSPR1 or Zachtek 1st, 4:Zachtek 2nd,  5:extended TELEN #1 6:extended TELEN #2  */
 	
 	if (id13==253)   //if U4B protocol disabled ('--' enterred for Id13),  we will ONLY do Type 1 [and Type3 (zachtek)] at the specified minute
@@ -202,7 +203,6 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose, int GPS_PPS_PIN)
 	//printf("secs since aquistion %d secs since loss %d \n",pctx->_txSched.seconds_since_GPS_aquisition,pctx->_txSched.seconds_since_GPS_loss);
 	if (OLD_GPS_active_status!=is_GPS_active) //GPS status has changed
 	{
-		printf(" ONESHOT FIRED!! GPs active value: %d\n",is_GPS_active);
 		OLD_GPS_active_status=is_GPS_active; //make it a oneshot
 		if (is_GPS_active) minute_OF_GPS_aquisition = pctx->_txSched.minutes_since_boot;   //it changed, and is now ON so save time it last went on				
 
@@ -210,7 +210,6 @@ int WSPRbeaconTxScheduler(WSPRbeaconContext *pctx, int verbose, int GPS_PPS_PIN)
 			GPS_aquisiion_time=get_absolute_time(); 
 		else
 			GPS_loss_time=get_absolute_time(); 
-
 	}
 
 if (is_GPS_active)
@@ -218,6 +217,7 @@ if (is_GPS_active)
 	pctx->_txSched.minutes_since_GPS_aquisition = pctx->_txSched.minutes_since_boot-minute_OF_GPS_aquisition; //current time minus time it last went on is MINUTES since on
 	pctx->_txSched.seconds_since_GPS_aquisition=floor(absolute_time_diff_us(GPS_aquisiion_time, get_absolute_time()) / (int64_t)1000000);
 	pctx->_txSched.seconds_since_GPS_loss=0;
+	if (pctx->_txSched.seconds_it_took_FIRST_GPS_lock==1800) pctx->_txSched.seconds_it_took_FIRST_GPS_lock=floor((get_absolute_time()) / (int64_t)1000000);
 }
 else
 {
