@@ -11,6 +11,8 @@ click [here](https://github.com/EngineerGuy314/pico-WSPRer/raw/main/build/pico-W
 Summary
 -------
 
+**--UPDATE August 2025--** There will probably be no further updates to this project. I am now focusing on my [JAWBONE](https://github.com/EngineerGuy314/JAWBONE) tracker. It utilizes a MS5351, like most other trackers. This provides much greater performance and is no longer reliant on a strong GPS signal for stability. Unfortunately, it is no longer practical to construct the JAWBONE out of a Raspberry Pi Pico. It is still based on a RP2040, but on a custom PCB.
+
 Extremely low-cost Raspberry Pi Pico based WSPR beacon for tracking GPS position and other telemetry from  High Altitude Balloons (HAB), specifically "pico balloons".
 
 Tracker uses the RP2040 microntoller in the Raspberry Pi to directly generate a 20mW RF signal using software trickery. No RF oscillator, TCXO, transmitter or amplifier is needed.
