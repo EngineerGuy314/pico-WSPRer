@@ -1125,11 +1125,11 @@ void process_chan_num()
 		int txSlot = atoi(_U4B_chan) % 5;
 		
 		_start_minute[0] = '0' + (2*((txSlot+14)%5));
-		
-			
-
 
 	}
+
+	if (_U4B_chan[0]=='-') _id13[0]='-'; // 103025 should re-allow beacon only mode when enterring --- for U4b chann (since direct Id13 entry no longer allowed)
+
 }
 
 /*
