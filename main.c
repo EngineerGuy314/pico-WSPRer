@@ -319,7 +319,19 @@ void process_TELEN_data(void)
 				case '8': 			//some things   (58-)
 							pWSPR->telem_vals_and_ranges[i][0]=(v_and_r){pWSPR->_txSched.max_sats_seen_today,61}; 
 							pWSPR->telem_vals_and_ranges[i][1]=(v_and_r){pWSPR->_txSched.seconds_it_took_FIRST_GPS_lock,1801}; 
-							pWSPR->telem_vals_and_ranges[i][2]=(v_and_r){round((float)adc_read() * conversionFactor * 3.0f * 10),901}; 									
+							pWSPR->telem_vals_and_ranges[i][2]=(v_and_r){round((float)adc_read() * conversionFactor * 3.0f * 10),901}; 			
+
+							break;							
+
+				case '9': 			//same as 5 but re-arranged for WSPRTV native positioning // 6/29/26
+							pWSPR->telem_vals_and_ranges[i][1 ]=(v_and_r){pWSPR->grid7-'0' ,10}; 
+							pWSPR->telem_vals_and_ranges[i][3 ]=(v_and_r){pWSPR->grid8 -'0',10};
+							pWSPR->telem_vals_and_ranges[i][0 ]=(v_and_r){pWSPR->grid9 -'A',24}; 
+							pWSPR->telem_vals_and_ranges[i][2 ]=(v_and_r){pWSPR->grid10-'A',24}; 
+							pWSPR->telem_vals_and_ranges[i][4]=(v_and_r){(int)round(pWSPR->_txSched.minutes_since_boot/10.0),101}; 
+							pWSPR->telem_vals_and_ranges[i][5]=(v_and_r){(int)round(pWSPR->_txSched.minutes_since_GPS_aquisition/10.0),101}; 			
+							
+
 			}	
 		}
 }
